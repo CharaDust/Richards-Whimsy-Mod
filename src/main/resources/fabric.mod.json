@@ -1,0 +1,40 @@
+{
+	"schemaVersion": 1,
+	"id": "richards-whimsy-mod",
+	"version": "${version}",
+	"name": "Richard's Whimsy Mod",
+	"description": "This is an example description! Tell everyone what your mod is about!",
+	"authors": [
+		"Richard_Ki"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "MIT",
+	"icon": "assets/richards-whimsy-mod/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"com.rcdmake.whimsy.RichardsWhimsyMod"
+		],
+		"client": [
+			"com.rcdmake.whimsy.RichardsWhimsyModClient"
+		],
+		"fabric-datagen": [
+			"com.rcdmake.whimsy.RichardsWhimsyModDataGenerator"
+		]
+	},
+	"mixins": [
+		"richards-whimsy-mod.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.15.9",
+		"minecraft": "~1.20.4",
+		"java": ">=17",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}

@@ -1,0 +1,12 @@
+{
+  "itemGroup.whimsy_group_item": "Whimsy Items",
+  "item.richards-whimsy-mod.gem_amethyst": "Amethyst",
+  "item.richards-whimsy-mod.gem_sapphire": "Sapphire",
+  "item.richards-whimsy-mod.gem_emerald": "Canutillos",
+  "item.richards-whimsy-mod.gem_ruby": "Ruby",
+  "item.richards-whimsy-mod.gem_diamond": "'Adamant'",
+  "item.richards-whimsy-mod.crystallized_honey": "Crystallized Honey(WIP)",
+  "itemGroup.whimsy_group_block": "Whimsy Blocks",
+  "block.richards-whimsy-mod.static_cobblestone": "Static Cobblestone",
+  "block.richards-whimsy-mod.packed_planks": "Packed Planks"
+}
