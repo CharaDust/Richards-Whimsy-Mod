@@ -8,5 +8,12 @@
   "item.richards-whimsy-mod.crystallized_honey": "Crystallized Honey(WIP)",
   "itemGroup.whimsy_group_block": "Whimsy Blocks",
   "block.richards-whimsy-mod.static_cobblestone": "Static Cobblestone",
-  "block.richards-whimsy-mod.packed_planks": "Packed Planks"
+  "block.richards-whimsy-mod.packed_planks": "Packed Planks",
+  "block.richards-whimsy-mod.rock": "Smooth Slate",
+  "block.richards-whimsy-mod.slate": "Slate",
+  "block.richards-whimsy-mod.mineral_soil": "Mineral Soil",
+  "itemGroup.whimsy_group_dev": "Whimsy DEV",
+  "item.richards-whimsy-mod.dev_item_normal": "Normal Item",
+  "block.richards-whimsy-mod.dev_block_normal": "Normal Block",
+  "block.richards-whimsy-mod.dev_block_vector_fix_side_u": "Normal Block"
 }

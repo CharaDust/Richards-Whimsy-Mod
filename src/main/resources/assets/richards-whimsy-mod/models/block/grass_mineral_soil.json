@@ -1,0 +1,8 @@
+{
+  "parent": "block/cube_bottom_top",
+  "textures": {
+    "bottom": "richards-whimsy-mod:block/mineral_soil",
+    "side": "richards-whimsy-mod:block/grass_mineral_soil_sidevct",
+    "top": "richards-whimsy-mod:block/grass_mineral_soil_top"
+  }
+}

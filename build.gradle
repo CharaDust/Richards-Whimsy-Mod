@@ -31,7 +31,10 @@ dependencies {
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	// 示例：确保将版本号替换为当前的Fabric API版本
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-	
+	// lookup-api
+//	modImplementation "net.fabricmc.fabric-api:fabric-lookup-api-v1:${project.fabric_version}"
+//	include "net.fabricmc.fabric-api:fabric-lookup-api-v1:${project.fabric_version}"
+
 }
 
 processResources {

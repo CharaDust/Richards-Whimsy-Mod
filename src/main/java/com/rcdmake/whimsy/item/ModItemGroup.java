@@ -2,6 +2,7 @@
 package com.rcdmake.whimsy.item;
 
 import com.rcdmake.whimsy.RichardsWhimsyMod;
+import com.rcdmake.whimsy.block.DEVBlocks;
 import com.rcdmake.whimsy.block.ModBlocks;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.block.Blocks;
@@ -47,7 +48,28 @@ public class ModItemGroup {
                         // 其他方块
                         entries.add(ModBlocks.STATIC_COBBLESTONE);
                         entries.add(ModBlocks.PACKED_PLANKS);
-                        entries.add(Blocks.DIAMOND_BLOCK);
+                        // 自然方块
+                        entries.add(ModBlocks.ROCK);
+                        entries.add(ModBlocks.SLATE);
+                        entries.add(ModBlocks.MINERAL_SOIL);
+                        entries.add(ModBlocks.GRASS_MINERAL_SOIL);
+
+                    }).build());
+
+    // 创建一个物品标签页框架
+    public static final ItemGroup WHIMSY_DEV = Registry.register(Registries.ITEM_GROUP,
+            // 设置标签页id，id需要保持唯一，否则会崩溃
+            new Identifier(RichardsWhimsyMod.MOD_ID,"whimsy_group_dev"),
+            // 设置标签页键名，具体名字去语言文件设置
+            FabricItemGroup.builder().displayName(Text.translatable("itemGroup.whimsy_group_dev"))
+                    // 设置标签页图标
+                    .icon(()-> new ItemStack(DEVItems.DEV_ITEM_NORMAL)).entries((displayContext,entries)->{
+
+                        // 在此处添加物品...
+                        // 开发物品
+                        entries.add(DEVItems.DEV_ITEM_NORMAL);
+                        entries.add(DEVBlocks.DEV_BLOCK_NORMAL);
+                        entries.add(DEVBlocks.DEV_BLOCK_VECTOR_FIX_SIDE_U);
 
                     }).build());
 

@@ -8,5 +8,13 @@
   "item.richards-whimsy-mod.crystallized_honey": "结晶蜜(开发中)",
   "itemGroup.whimsy_group_block": "奇思妙想方块",
   "block.richards-whimsy-mod.static_cobblestone": "固石",
-  "block.richards-whimsy-mod.packed_planks": "包装木材"
+  "block.richards-whimsy-mod.packed_planks": "包装木材",
+  "block.richards-whimsy-mod.rock": "平滑板岩",
+  "block.richards-whimsy-mod.slate": "板岩",
+  "block.richards-whimsy-mod.mineral_soil": "矿质土",
+  "itemGroup.whimsy_group_dev": "奇思妙想开发物品",
+  "item.richards-whimsy-mod.dev_item_normal": "一般物品",
+  "block.richards-whimsy-mod.dev_block_normal": "一般方块",
+  "block.richards-whimsy-mod.dev_block_vector_fix_side_u": "固定向上方块"
+
 }

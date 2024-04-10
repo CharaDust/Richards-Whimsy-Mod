@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "flower=false": {
+      "model": "richards-whimsy-mod:block/grass_mineral_soil"
+    },
+    "flower=true": {
+      "model": "richards-whimsy-mod:block/grass_mineral_soil_flower"
+    }
+  }
+}

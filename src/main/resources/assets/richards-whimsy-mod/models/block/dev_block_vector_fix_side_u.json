@@ -1,0 +1,8 @@
+{
+  "parent": "block/cube_bottom_top",
+  "textures": {
+    "bottom": "richards-whimsy-mod:block/dev_cube_bottom",
+    "side": "richards-whimsy-mod:block/dev_cube_sidevct",
+    "top": "richards-whimsy-mod:block/dev_cube_top"
+  }
+}

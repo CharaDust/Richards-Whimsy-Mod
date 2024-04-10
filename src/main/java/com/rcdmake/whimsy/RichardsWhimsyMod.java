@@ -1,10 +1,18 @@
 package com.rcdmake.whimsy;
 
+import com.rcdmake.whimsy.block.ConfigBlockSettings;
+import com.rcdmake.whimsy.block.DEVBlocks;
 import com.rcdmake.whimsy.block.ModBlocks;
+import com.rcdmake.whimsy.item.DEVItems;
 import com.rcdmake.whimsy.item.ModItemGroup;
 import com.rcdmake.whimsy.item.ModItems;
 import net.fabricmc.api.ModInitializer;
 
+import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.minecraft.item.BlockItem;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
+import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,6 +26,7 @@ public class RichardsWhimsyMod implements ModInitializer {
 	public static final String MOD_ID = "richards-whimsy-mod";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
+
 	@Override
 	public void onInitialize() {
 		// This code runs as soon as Minecraft is in a mod-load-ready state.
@@ -26,11 +35,20 @@ public class RichardsWhimsyMod implements ModInitializer {
 
 		LOGGER.info("Hello Fabric world!");
 		// 每一次写一个文件都要在此处引用，格式为`类名.方法名`，写完后记得import
+		// 初始化 DEVItems
+		DEVBlocks.registerDEVBlocks();
+		// 初始化 DEVItems
+		DEVItems.registerDEVItems();
 		// 初始化 ModBlocks
 		ModBlocks.registerModBlocks();
 		// 初始化 ModItems
 		ModItems.registerModItems();
 		// 初始化 ModItemGroup
 		ModItemGroup.registerModItemGroup();
+		// 初始化 ConfigBlockSettings
+		ConfigBlockSettings.registerConfigBlockSettings();
+
+		Registry.register(Registries.BLOCK, new Identifier("richards-whimsy-mod", "chargeable_block"), ConfigBlockSettings.CHARGEABLE_BLOCK);
+		Registry.register(Registries.ITEM, new Identifier("tutorial", "chargeable_block"), new BlockItem(ConfigBlockSettings.CHARGEABLE_BLOCK, new FabricItemSettings()));
 	}
 }
