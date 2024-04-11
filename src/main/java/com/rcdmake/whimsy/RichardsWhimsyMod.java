@@ -1,6 +1,6 @@
 package com.rcdmake.whimsy;
 
-import com.rcdmake.whimsy.block.ConfigBlockSettings;
+import com.rcdmake.whimsy.block.Chargeableblock;
 import com.rcdmake.whimsy.block.DEVBlocks;
 import com.rcdmake.whimsy.block.ModBlocks;
 import com.rcdmake.whimsy.item.DEVItems;
@@ -8,11 +8,6 @@ import com.rcdmake.whimsy.item.ModItemGroup;
 import com.rcdmake.whimsy.item.ModItems;
 import net.fabricmc.api.ModInitializer;
 
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
-import net.minecraft.item.BlockItem;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,6 +24,9 @@ public class RichardsWhimsyMod implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
+		// 这些代码会在 Minecraft mod加载阶段运行
+		// 然而，一些文件（例如资源文件）可能不会初始化
+		// 请谨慎行事
 		// This code runs as soon as Minecraft is in a mod-load-ready state.
 		// However, some things (like resources) may still be uninitialized.
 		// Proceed with mild caution.
@@ -45,10 +43,8 @@ public class RichardsWhimsyMod implements ModInitializer {
 		ModItems.registerModItems();
 		// 初始化 ModItemGroup
 		ModItemGroup.registerModItemGroup();
-		// 初始化 ConfigBlockSettings
-		ConfigBlockSettings.registerConfigBlockSettings();
+		// 初始化 Chargeableblock
+		Chargeableblock.registerConfigBlockSettings();
 
-		Registry.register(Registries.BLOCK, new Identifier("richards-whimsy-mod", "chargeable_block"), ConfigBlockSettings.CHARGEABLE_BLOCK);
-		Registry.register(Registries.ITEM, new Identifier("tutorial", "chargeable_block"), new BlockItem(ConfigBlockSettings.CHARGEABLE_BLOCK, new FabricItemSettings()));
 	}
 }
