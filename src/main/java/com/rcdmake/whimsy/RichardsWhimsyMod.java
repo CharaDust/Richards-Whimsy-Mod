@@ -1,6 +1,6 @@
 package com.rcdmake.whimsy;
 
-import com.rcdmake.whimsy.block.Chargeableblock;
+import com.rcdmake.whimsy.block.DEVMultiStateBlocks;
 import com.rcdmake.whimsy.block.DEVBlocks;
 import com.rcdmake.whimsy.block.ModBlocks;
 import com.rcdmake.whimsy.item.DEVItems;
@@ -43,8 +43,8 @@ public class RichardsWhimsyMod implements ModInitializer {
 		ModItems.registerModItems();
 		// 初始化 ModItemGroup
 		ModItemGroup.registerModItemGroup();
-		// 初始化 Chargeableblock
-		Chargeableblock.registerConfigBlockSettings();
+		// 初始化 DEVMultiStateBlocks
+		DEVMultiStateBlocks.registerConfigBlockSettings();
 
 	}
 }
