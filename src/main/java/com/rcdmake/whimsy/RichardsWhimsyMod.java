@@ -1,8 +1,13 @@
 package com.rcdmake.whimsy;
 
-import com.rcdmake.whimsy.block.DEVMultiStateBlocks;
-import com.rcdmake.whimsy.block.DEVBlocks;
+import com.rcdmake.whimsy.ItemGroup.BHR_General;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Rocks;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Soils;
+import com.rcdmake.whimsy.block.ConfigBuild.EasyRegisterBlockAndBlockitem;
+import com.rcdmake.whimsy.block.ClassDEV.DEV_StateBoolean;
+import com.rcdmake.whimsy.block.ClassDEV.DEVBlocks;
 import com.rcdmake.whimsy.block.ModBlocks;
+import com.rcdmake.whimsy.item.ClassBlockHeadRebon.BHR_OtherItems;
 import com.rcdmake.whimsy.item.DEVItems;
 import com.rcdmake.whimsy.item.ModItemGroup;
 import com.rcdmake.whimsy.item.ModItems;
@@ -34,17 +39,26 @@ public class RichardsWhimsyMod implements ModInitializer {
 		LOGGER.info("Hello Fabric world!");
 		// 每一次写一个文件都要在此处引用，格式为`类名.方法名`，写完后记得import
 		// 初始化 DEVItems
-		DEVBlocks.registerDEVBlocks();
+		DEVBlocks.register();
 		// 初始化 DEVItems
 		DEVItems.registerDEVItems();
 		// 初始化 ModBlocks
-		ModBlocks.registerModBlocks();
+		ModBlocks.register();
 		// 初始化 ModItems
 		ModItems.registerModItems();
 		// 初始化 ModItemGroup
-		ModItemGroup.registerModItemGroup();
-		// 初始化 DEVMultiStateBlocks
-		DEVMultiStateBlocks.registerConfigBlockSettings();
+		ModItemGroup.register();
+		// 初始化 DEV_StateBoolean
+		DEV_StateBoolean.register();
+
+		// 初始化 轻松构建工具
+		EasyRegisterBlockAndBlockitem.register();
+
+		// 初始化 BHR 分支内容
+		BHR_Rocks.OnInit();
+		BHR_Soils.OnInit();
+		BHR_General.OnInit();
+		BHR_OtherItems.OnInit();
 
 	}
 }

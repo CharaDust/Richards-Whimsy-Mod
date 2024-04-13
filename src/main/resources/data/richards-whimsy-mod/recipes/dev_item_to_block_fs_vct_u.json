@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "# #",
+    "# #",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "richards-whimsy-mod:dev_item_normal"
+    }
+  },
+  "result": {
+    "item": "richards-whimsy-mod:dev_block_vector_fix_side_u",
+    "count": 1
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "grass_cover=false": {
+      "model": "richards-whimsy-mod:block/mineral_soil_flint_ore"
+    },
+    "grass_cover=true": {
+      "model": "richards-whimsy-mod:block/mineral_soil_flint_ore_grass"
+    }
+  }
+}

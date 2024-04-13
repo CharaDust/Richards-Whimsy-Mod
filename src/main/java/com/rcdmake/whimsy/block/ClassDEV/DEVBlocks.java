@@ -1,17 +1,14 @@
-package com.rcdmake.whimsy.block;
+package com.rcdmake.whimsy.block.ClassDEV;
 
 import com.rcdmake.whimsy.RichardsWhimsyMod;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
-import net.minecraft.state.StateManager;
-import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.util.Identifier;
 
 public class DEVBlocks {
@@ -24,9 +21,9 @@ public class DEVBlocks {
     public static final Block DEV_BLOCK_VECTOR_FIX_SIDE_U = registerBlocks("dev_block_vector_fix_side_u",
             new Block(FabricBlockSettings.copyOf(Blocks.STONE)));
 
-    // 添加 DEV_BLOCK_STATE_BOOLEAN(开发_布尔状态方块)
-    public static final Block DEV_BLOCK_STATE_BOOLEAN = registerBlocks("dev_block_state_boolean",
-            new Block(FabricBlockSettings.copyOf(Blocks.STONE)));
+//    // 添加 DEV_BLOCK_STATE_BOOLEAN(开发_布尔状态方块)
+//    public static final Block DEV_BLOCK_STATE_BOOLEAN = registerBlocks("dev_block_state_boolean",
+//            new Block(FabricBlockSettings.copyOf(Blocks.STONE)));
 
     // 方块注册方法，如果不注册方块物品的话会没有物品形式（如：细雪，发光的红石矿石）
     private static Block registerBlocks(String name, Block block) {
@@ -41,6 +38,6 @@ public class DEVBlocks {
     }
 
     // 初始化方法，每一次建立一个文件/初始化方法都需要在主类引用一下
-    public static void registerDEVBlocks() {
+    public static void register() {
     }
 }

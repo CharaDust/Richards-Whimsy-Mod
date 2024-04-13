@@ -1,0 +1,8 @@
+{
+    "replace": false,
+    "values": [
+        "richards-whimsy-mod:mineral_soil",
+        "richards-whimsy-mod:mineral_soil_flint_ore",
+        "richards-whimsy-mod:mineral_soil_clay_ore"
+    ]
+}

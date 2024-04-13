@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {"item": "richards-whimsy-mod:dev_item_normal"},
+    {"item": "richards-whimsy-mod:dev_item_normal"},
+    {"item": "richards-whimsy-mod:dev_item_normal"},
+    {"item": "richards-whimsy-mod:dev_item_normal"},
+    {"item": "richards-whimsy-mod:dev_item_normal"},
+    {"item": "richards-whimsy-mod:dev_item_normal"},
+    {"item": "richards-whimsy-mod:dev_item_normal"},
+    {"item": "richards-whimsy-mod:dev_item_normal"},
+    {"item": "richards-whimsy-mod:dev_item_normal"}
+  ],
+  "result": {
+    "item": "richards-whimsy-mod:dev_block_normal",
+    "count": 1
+  }
+}

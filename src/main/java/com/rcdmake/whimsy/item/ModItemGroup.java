@@ -2,10 +2,9 @@
 package com.rcdmake.whimsy.item;
 
 import com.rcdmake.whimsy.RichardsWhimsyMod;
-import com.rcdmake.whimsy.block.DEVBlocks;
+import com.rcdmake.whimsy.block.ClassDEV.DEVBlocks;
 import com.rcdmake.whimsy.block.ModBlocks;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
-import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -49,10 +48,8 @@ public class ModItemGroup {
                         entries.add(ModBlocks.STATIC_COBBLESTONE);
                         entries.add(ModBlocks.PACKED_PLANKS);
                         // 自然方块
-                        entries.add(ModBlocks.ROCK);
+//                        entries.add(ModBlocks.ROCK);
                         entries.add(ModBlocks.SLATE);
-                        entries.add(ModBlocks.MINERAL_SOIL);
-                        entries.add(ModBlocks.GRASS_MINERAL_SOIL);
 
                     }).build());
 
@@ -74,7 +71,7 @@ public class ModItemGroup {
                     }).build());
 
     // 初始化方法，每一次建立一个文件/初始化方法都需要在主类引用一下
-    public static void registerModItemGroup() {
+    public static void register() {
 
     }
 

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "key": {
+    "#": {
+      "item": "richards-whimsy-mod:mineral_soil"
+    }
+  },
+  "result": {
+    "item": "minecraft:dirt",
+    "count": 7
+  }
+}

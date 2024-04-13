@@ -1,7 +1,10 @@
 {
   "variants": {
-    "": {
+    "grass_cover=false": {
       "model": "richards-whimsy-mod:block/mineral_soil"
+    },
+    "grass_cover=true": {
+      "model": "richards-whimsy-mod:block/mineral_soil_grass"
     }
   }
 }

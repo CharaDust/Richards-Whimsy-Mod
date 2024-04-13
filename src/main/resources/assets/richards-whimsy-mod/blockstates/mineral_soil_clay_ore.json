@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "grass_cover=false": {
+      "model": "richards-whimsy-mod:block/mineral_soil_clay_ore"
+    },
+    "grass_cover=true": {
+      "model": "richards-whimsy-mod:block/mineral_soil_clay_ore_grass"
+    }
+  }
+}

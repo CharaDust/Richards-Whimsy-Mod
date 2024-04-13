@@ -9,12 +9,23 @@
   "itemGroup.whimsy_group_block": "奇思妙想方块",
   "block.richards-whimsy-mod.static_cobblestone": "固石",
   "block.richards-whimsy-mod.packed_planks": "包装木材",
-  "block.richards-whimsy-mod.rock": "平滑板岩",
   "block.richards-whimsy-mod.slate": "板岩",
-  "block.richards-whimsy-mod.mineral_soil": "矿质土",
   "itemGroup.whimsy_group_dev": "奇思妙想开发物品",
   "item.richards-whimsy-mod.dev_item_normal": "一般物品",
   "block.richards-whimsy-mod.dev_block_normal": "一般方块",
-  "block.richards-whimsy-mod.dev_block_vector_fix_side_u": "固定向上方块"
-
+  "block.richards-whimsy-mod.dev_block_vector_fix_side_u": "固定向上方块",
+  "itemGroup.bhr_general": "方块愚者：重生",
+  "block.richards-whimsy-mod.rock": "切面板岩",
+  "block.richards-whimsy-mod.rock_unknown_ore": "切面板岩未知矿石",
+  "block.richards-whimsy-mod.rock_copper_ore": "切面板岩铜矿石",
+  "block.richards-whimsy-mod.rock_iron_ore": "切面板岩铁矿石",
+  "block.richards-whimsy-mod.rock_tin_ore": "切面板岩锡矿石",
+  "block.richards-whimsy-mod.rock_coal_ore": "切面板岩煤矿石",
+  "block.richards-whimsy-mod.rock_gold_ore": "切面板岩金矿石",
+  "block.richards-whimsy-mod.rock_titanium_ore": "切面板岩钛矿石",
+  "block.richards-whimsy-mod.rock_platinum_ore": "切面板岩铂矿石",
+  "block.richards-whimsy-mod.mineral_soil": "红壤",
+  "block.richards-whimsy-mod.mineral_soil_unknown_ore": "红壤未知矿土",
+  "block.richards-whimsy-mod.mineral_soil_flint_ore": "红壤燧石矿土",
+  "block.richards-whimsy-mod.mineral_soil_clay_ore": "红壤粘土矿土"
 }
