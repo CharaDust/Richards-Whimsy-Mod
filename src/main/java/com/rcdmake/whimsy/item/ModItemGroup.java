@@ -2,8 +2,9 @@
 package com.rcdmake.whimsy.item;
 
 import com.rcdmake.whimsy.RichardsWhimsyMod;
-import com.rcdmake.whimsy.block.ClassDEV.DEVBlocks;
+import com.rcdmake.whimsy.block.ClassDEV.*;
 import com.rcdmake.whimsy.block.ModBlocks;
+import com.rcdmake.whimsy.item.ClassDEV.DEVItems;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -65,8 +66,13 @@ public class ModItemGroup {
                         // 在此处添加物品...
                         // 开发物品
                         entries.add(DEVItems.DEV_ITEM_NORMAL);
-                        entries.add(DEVBlocks.DEV_BLOCK_NORMAL);
-                        entries.add(DEVBlocks.DEV_BLOCK_VECTOR_FIX_SIDE_U);
+                        entries.add(DEV_Blocks.DEV_BLOCK_NORMAL);
+                        entries.add(DEV_Blocks.DEV_BLOCK_VECTOR_FIX_SIDE_U);
+                        entries.add(DEV_StateBoolean.DEV_BLOCK_STATE_BOOLEAN);
+                        entries.add(DEV_StateInt.DEV_BLOCK_STATE_INT);
+                        entries.add(DEV_StateEnum.DEV_BLOCK_STATE_ENUM);
+                        entries.add(DEV_StateEnumAxis.DEV_BLOCK_STATE_AXIS);
+                        entries.add(DEV_GhostBlock.DEV_BLOCK_GHOST);
 
                     }).build());
 

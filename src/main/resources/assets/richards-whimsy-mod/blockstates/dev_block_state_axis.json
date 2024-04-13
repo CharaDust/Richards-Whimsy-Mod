@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "richards-whimsy-mod:block/dev_block_state_axis_x",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "richards-whimsy-mod:block/dev_block_state_axis_y"
+    },
+    "axis=z": {
+      "model": "richards-whimsy-mod:block/dev_block_state_axis_z",
+      "x": 90
+    }
+  }
+}

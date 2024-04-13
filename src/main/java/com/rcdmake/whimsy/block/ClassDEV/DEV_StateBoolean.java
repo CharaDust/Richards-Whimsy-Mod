@@ -13,8 +13,6 @@ import net.minecraft.util.Identifier;
 
 public class DEV_StateBoolean extends Block {
 
-    // 一个多状态方块的例子
-
     // 添加一个 DEV_BOOLEAN(开发_布尔值) 方块状态
     public static final BooleanProperty DEV_BOOLEAN = BooleanProperty.of("dev_boolean");
     // 创建方块，使用构造函数类型
@@ -38,7 +36,7 @@ public class DEV_StateBoolean extends Block {
         setDefaultState(getDefaultState().with(DEV_BOOLEAN, false));
     }
     // 初始化方法，每一次建立一个文件/初始化方法都需要在主类引用一下，方法内部写上希望在初始化阶段就运行的代码
-    public static void register() {
+    public static void OnInit() {
         regInit_Block_and_BlockItem(DEV_BLOCK_STATE_BOOLEAN, "dev_block_state_boolean");
     }
 }

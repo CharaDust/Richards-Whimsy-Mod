@@ -1,4 +1,4 @@
-package com.rcdmake.whimsy.item;
+package com.rcdmake.whimsy.item.ClassDEV;
 
 import com.rcdmake.whimsy.RichardsWhimsyMod;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;

@@ -11,7 +11,7 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 
-public class DEVBlocks {
+public class DEV_Blocks {
 
     // 添加 DEV_BLOCK_NORMAL(开发_普通方块) 方块及其方块物品
     public static final Block DEV_BLOCK_NORMAL = registerBlocks("dev_block_normal",
@@ -38,6 +38,6 @@ public class DEVBlocks {
     }
 
     // 初始化方法，每一次建立一个文件/初始化方法都需要在主类引用一下
-    public static void register() {
+    public static void OnInit() {
     }
 }

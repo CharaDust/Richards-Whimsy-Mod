@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "dev_enum=dev_in": {
+      "model": "richards-whimsy-mod:block/dev_block_state_enum_in"
+    },
+    "dev_enum=dev_out": {
+      "model": "richards-whimsy-mod:block/dev_block_state_enum_out"
+    },
+    "dev_enum=dev_def": {
+      "model": "richards-whimsy-mod:block/dev_block_state_enum_def"
+    }
+  }
+}

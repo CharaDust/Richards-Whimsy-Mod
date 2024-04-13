@@ -1,0 +1,6 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "richards-whimsy-mod:block/dev/dev_cube_ghost"
+  }
+}
