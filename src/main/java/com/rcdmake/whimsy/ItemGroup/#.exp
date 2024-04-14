@@ -1,0 +1,17 @@
+/*
+
+    // 创建一个物品标签页框架
+    public static final ItemGroup CUSTOM_ITEM_GROUP_NAME = Registry.register(Registries.ITEM_GROUP,
+            // 设置标签页id，id需要保持唯一，否则会崩溃
+            new Identifier(RichardsWhimsyMod.MOD_ID,"custom_item_group_name"),
+            // 设置标签页键名，具体名字去语言文件设置
+            FabricItemGroup.builder().displayName(Text.translatable("itemGroup.custom_item_group_name"))
+                    // 设置标签页图标
+                    .icon(()-> new ItemStack(Items.DIAMOND)).entries((displayContext,entries)->{
+
+                    // 在此处添加物品... entries.add();
+
+                    }).build());
+
+
+ */

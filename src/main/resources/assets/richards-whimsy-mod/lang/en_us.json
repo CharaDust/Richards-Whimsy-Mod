@@ -6,10 +6,14 @@
   "item.richards-whimsy-mod.gem_ruby": "Ruby",
   "item.richards-whimsy-mod.gem_diamond": "'Adamant'",
   "item.richards-whimsy-mod.crystallized_honey": "Crystallized Honey(WIP)",
+  "item.richards-whimsy-mod.wi_prospector": "Prospector",
+
   "itemGroup.whimsy_group_block": "Whimsy Blocks",
   "block.richards-whimsy-mod.static_cobblestone": "Static Cobblestone",
   "block.richards-whimsy-mod.packed_planks": "Packed Planks",
+  "block.richards-whimsy-mod.wi_aerogel": "Aerogel",
   "block.richards-whimsy-mod.slate": "Slate",
+
   "itemGroup.whimsy_group_dev": "Whimsy DEV",
   "item.richards-whimsy-mod.dev_item_normal": "Normal Item",
   "block.richards-whimsy-mod.dev_block_normal": "Normal Block",
@@ -19,6 +23,7 @@
   "block.richards-whimsy-mod.dev_block_state_enum": "Enum Block",
   "block.richards-whimsy-mod.dev_block_state_axis": "Axis Block",
   "block.richards-whimsy-mod.dev_block_ghost": "Ghost block",
+
   "itemGroup.bhr_general": "BlockHeads: Reborn",
   "block.richards-whimsy-mod.rock": "Faceted Slate",
   "block.richards-whimsy-mod.rock_unknown_ore": "Faceted Slate Unknown Ore",
@@ -32,5 +37,11 @@
   "block.richards-whimsy-mod.mineral_soil": "Mineral Soil",
   "block.richards-whimsy-mod.mineral_soil_unknown_ore": "Mineral Soil Unknown Ore",
   "block.richards-whimsy-mod.mineral_soil_flint_ore": "Mineral Soil Flint Ore",
-  "block.richards-whimsy-mod.mineral_soil_clay_ore": "Mineral Soil Clay Ore"
+  "block.richards-whimsy-mod.mineral_soil_clay_ore": "Mineral Soil Clay Ore",
+
+  "itemGroup.rdt_general": "Random Things: sequel?",
+  "block.richards-whimsy-mod.rdt_super_lubricent_ice": "Super Lubricent Ice",
+
+
+  "end_of_this_list": "-"
 }

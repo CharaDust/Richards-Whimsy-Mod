@@ -6,10 +6,14 @@
   "item.richards-whimsy-mod.gem_ruby": "红刚玉",
   "item.richards-whimsy-mod.gem_diamond": "宝石钻石",
   "item.richards-whimsy-mod.crystallized_honey": "结晶蜜(开发中)",
+  "item.richards-whimsy-mod.wi_prospector": "探矿器",
+
   "itemGroup.whimsy_group_block": "奇思妙想方块",
   "block.richards-whimsy-mod.static_cobblestone": "固石",
   "block.richards-whimsy-mod.packed_planks": "包装木材",
+  "block.richards-whimsy-mod.wi_aerogel": "气凝胶",
   "block.richards-whimsy-mod.slate": "板岩",
+
   "itemGroup.whimsy_group_dev": "奇思妙想开发物品",
   "item.richards-whimsy-mod.dev_item_normal": "一般物品",
   "block.richards-whimsy-mod.dev_block_normal": "一般方块",
@@ -19,6 +23,7 @@
   "block.richards-whimsy-mod.dev_block_state_enum": "枚举方块",
   "block.richards-whimsy-mod.dev_block_state_axis": "轴方块",
   "block.richards-whimsy-mod.dev_block_ghost": "幽灵方块",
+
   "itemGroup.bhr_general": "方块愚者：重生",
   "block.richards-whimsy-mod.rock": "切面板岩",
   "block.richards-whimsy-mod.rock_unknown_ore": "切面板岩未知矿石",
@@ -32,5 +37,11 @@
   "block.richards-whimsy-mod.mineral_soil": "红壤",
   "block.richards-whimsy-mod.mineral_soil_unknown_ore": "红壤未知矿土",
   "block.richards-whimsy-mod.mineral_soil_flint_ore": "红壤燧石矿土",
-  "block.richards-whimsy-mod.mineral_soil_clay_ore": "红壤粘土矿土"
+  "block.richards-whimsy-mod.mineral_soil_clay_ore": "红壤粘土矿土",
+
+  "itemGroup.rdt_general": "随意作品：续集？",
+  "block.richards-whimsy-mod.rdt_super_lubricent_ice": "超级超级滑滑冰",
+
+
+  "end_of_this_list": "-"
 }

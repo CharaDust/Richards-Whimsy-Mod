@@ -1,13 +1,16 @@
 package com.rcdmake.whimsy;
 
 import com.rcdmake.whimsy.ItemGroup.BHR_General;
+import com.rcdmake.whimsy.ItemGroup.RDT_General;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Rocks;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Soils;
 import com.rcdmake.whimsy.block.ClassDEV.*;
-import com.rcdmake.whimsy.block.ConfigBuild.EasyRegisterBlockAndBlockitem;
+import com.rcdmake.whimsy.block.ClassRandomThings.RDT_SuperLubricentIce;
+import com.rcdmake.whimsy.block.ClassWhimsyIdea.WI_Aerogel;
 import com.rcdmake.whimsy.block.ModBlocks;
 import com.rcdmake.whimsy.item.ClassBlockHeadRebon.BHR_OtherItems;
 import com.rcdmake.whimsy.item.ClassDEV.DEVItems;
+import com.rcdmake.whimsy.item.ClassWhimsyIdea.WI_Prospector;
 import com.rcdmake.whimsy.item.ModItemGroup;
 import com.rcdmake.whimsy.item.ModItems;
 import net.fabricmc.api.ModInitializer;
@@ -44,9 +47,6 @@ public class RichardsWhimsyMod implements ModInitializer {
 		// 初始化 ModItemGroup
 		ModItemGroup.register();
 
-		// 初始化 轻松构建工具
-		EasyRegisterBlockAndBlockitem.register();
-
 		// 初始化 DEV 分支内容
 		DEV_StateBoolean.OnInit();
 		DEV_StateInt.OnInit();
@@ -61,6 +61,14 @@ public class RichardsWhimsyMod implements ModInitializer {
 		BHR_Soils.OnInit();
 		BHR_General.OnInit();
 		BHR_OtherItems.OnInit();
+
+		// 初始化 WI 分支内容
+		WI_Aerogel.OnInit();
+		WI_Prospector.OnInit();
+
+		// 初始化 RDT 分支内容
+		RDT_SuperLubricentIce.OnInit();
+		RDT_General.OnInit();
 
 	}
 }

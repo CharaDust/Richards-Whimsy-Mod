@@ -1,0 +1,6 @@
+{
+    "parent": "block/cube_all",
+    "textures": {
+      "all": "richards-whimsy-mod:block/rdt/super_lubricent_ice"
+    }
+  }

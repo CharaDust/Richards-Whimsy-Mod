@@ -1,38 +1,49 @@
-package com.rcdmake.whimsy.block.ClassDEV;
+package com.rcdmake.whimsy.block.ClassWhimsyIdea;
 
 import com.rcdmake.whimsy.RichardsWhimsyMod;
-import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import com.rcdmake.whimsy.block.ClassDEV.DEV_GhostBlock;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.ShapeContext;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.VertexFormat;
-import net.minecraft.client.render.VertexFormats;
+import net.minecraft.entity.Entity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
+import net.minecraft.world.World;
 
-public class DEV_GhostBlock extends Block {
+public class WI_Aerogel extends Block {
 
     // 创建方块，使用构造函数类型
-    public static final Block DEV_BLOCK_GHOST = new DEV_GhostBlock(FabricBlockSettings.copyOf(Blocks.GLASS)
+    public static final Block WI_AEROGEL = new WI_Aerogel(FabricBlockSettings.create()
+            // 硬度，爆炸抗性
+            .strength(0.3f, 15.533f)
+            // 声音组
+            .sounds(BlockSoundGroup.SNOW)
+            // 非不透明（不阻挡光线）
             .nonOpaque()
+            // 生成生物：：非
             .allowsSpawning(Blocks::never)
+            // 完全固态方块：：非
             .solidBlock(Blocks::never)
+            // 窒息伤害：非
             .suffocates(Blocks::never)
+            // 阻挡视线：非
             .blockVision(Blocks::never)
+            // 无碰撞
             .noCollision()
     );
 
-    public DEV_GhostBlock(Settings settings) {
+    public WI_Aerogel(Settings settings) {
         super(settings);
     }
 
@@ -42,13 +53,19 @@ public class DEV_GhostBlock extends Block {
 //        return VoxelShapes.empty();
 //    }
 
-    // 以下内容照搬玻璃的源文件
-    // 返回一个空的体积形状，表示方块不对相机产生碰撞效果，相机可以无障碍穿过此方块
-    @Override
-    public VoxelShape getCameraCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        return VoxelShapes.empty();
+
+
+    // 方块以及方块物品注册方法简化写法
+    private static void register_Block_and_BlockItem(String path, Block block){
+        Registry.register(Registries.BLOCK, new Identifier(RichardsWhimsyMod.MOD_ID, path), block);
+        Registry.register(Registries.ITEM, new Identifier(RichardsWhimsyMod.MOD_ID, path), new BlockItem(block, new FabricItemSettings()));
     }
 
+    // 重写 onEntityCollision 方法，使实体位于方块内时减速
+    @Override
+    public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
+        entity.slowMovement(state, new Vec3d(1, 1f, 1));
+    }
     // 控制方块的光照表现。在Minecraft中，环境光遮蔽级别通常介于 0.0(完全遮蔽光线) 到 1.0(不遮蔽光线)
     @Override
     public float getAmbientOcclusionLightLevel(BlockState state, BlockView world, BlockPos pos) {
@@ -61,19 +78,7 @@ public class DEV_GhostBlock extends Block {
         return true;
     }
 
-//    // 此方法返回一个布尔值，指示是否应考虑与此方块的碰撞。返回false表示实体不会与此方块发生碰撞检测
-//    @Override
-//    public boolean canCollide(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-//        return false;
-//    }
-
-    // 方块以及方块物品注册方法简化写法
-    private static void register_Block_and_BlockItem(String path, Block block) {
-        Registry.register(Registries.BLOCK, new Identifier(RichardsWhimsyMod.MOD_ID, path), block);
-        Registry.register(Registries.ITEM, new Identifier(RichardsWhimsyMod.MOD_ID, path), new BlockItem(block, new FabricItemSettings()));
-    }
-
-    public static void OnInit() {
-        register_Block_and_BlockItem("dev_block_ghost", DEV_BLOCK_GHOST);
+    public static void OnInit(){
+        register_Block_and_BlockItem("wi_aerogel", WI_AEROGEL);
     }
 }

@@ -3,8 +3,10 @@ package com.rcdmake.whimsy.item;
 
 import com.rcdmake.whimsy.RichardsWhimsyMod;
 import com.rcdmake.whimsy.block.ClassDEV.*;
+import com.rcdmake.whimsy.block.ClassWhimsyIdea.WI_Aerogel;
 import com.rcdmake.whimsy.block.ModBlocks;
 import com.rcdmake.whimsy.item.ClassDEV.DEVItems;
+import com.rcdmake.whimsy.item.ClassWhimsyIdea.WI_Prospector;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -32,6 +34,7 @@ public class ModItemGroup {
                         entries.add(ModItems.GEM_DIAMOND);
                         // 其他物品
                         entries.add(ModItems.CRYSTALLIZED_HONEY);
+                        entries.add(WI_Prospector.WI_PROSPECTOR);
                         entries.add(Items.BOOK);
 
                     }).build());
@@ -45,9 +48,10 @@ public class ModItemGroup {
                     // 设置标签页图标
                     .icon(()-> new ItemStack(ModBlocks.PACKED_PLANKS)).entries((displayContext,entries)->{
                         // 在此处添加物品...
-                        // 其他方块
+                        // 方块
                         entries.add(ModBlocks.STATIC_COBBLESTONE);
                         entries.add(ModBlocks.PACKED_PLANKS);
+                        entries.add(WI_Aerogel.WI_AEROGEL);
                         // 自然方块
 //                        entries.add(ModBlocks.ROCK);
                         entries.add(ModBlocks.SLATE);
@@ -83,20 +87,3 @@ public class ModItemGroup {
 
 }
 
-/*
-
-    // 创建一个物品标签页框架
-    public static final ItemGroup CUSTOM_ITEM_GROUP_NAME = Registry.register(Registries.ITEM_GROUP,
-            // 设置标签页id，id需要保持唯一，否则会崩溃
-            new Identifier(RichardsWhimsyMod.MOD_ID,"custom_item_group_name"),
-            // 设置标签页键名，具体名字去语言文件设置
-            FabricItemGroup.builder().displayName(Text.translatable("itemGroup.custom_item_group_name"))
-                    // 设置标签页图标
-                    .icon(()-> new ItemStack(Items.DIAMOND)).entries((displayContext,entries)->{
-
-                    // 在此处添加物品...
-
-                    }).build());
-
-
- */
