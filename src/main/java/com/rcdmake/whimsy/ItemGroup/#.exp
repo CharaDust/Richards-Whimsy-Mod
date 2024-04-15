@@ -6,12 +6,11 @@
             new Identifier(RichardsWhimsyMod.MOD_ID,"custom_item_group_name"),
             // 设置标签页键名，具体名字去语言文件设置
             FabricItemGroup.builder().displayName(Text.translatable("itemGroup.custom_item_group_name"))
-                    // 设置标签页图标
+                    // 设置标签页图标，默认为钻石
                     .icon(()-> new ItemStack(Items.DIAMOND)).entries((displayContext,entries)->{
 
                     // 在此处添加物品... entries.add();
 
                     }).build());
-
 
  */

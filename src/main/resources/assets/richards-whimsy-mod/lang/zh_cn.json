@@ -13,6 +13,7 @@
   "block.richards-whimsy-mod.packed_planks": "包装木材",
   "block.richards-whimsy-mod.wi_aerogel": "气凝胶",
   "block.richards-whimsy-mod.slate": "板岩",
+  "block.richards-whimsy-mod.wi_static_liquid_water": "固化水方块",
 
   "itemGroup.whimsy_group_dev": "奇思妙想开发物品",
   "item.richards-whimsy-mod.dev_item_normal": "一般物品",
@@ -41,6 +42,8 @@
 
   "itemGroup.rdt_general": "随意作品：续集？",
   "block.richards-whimsy-mod.rdt_super_lubricent_ice": "超级超级滑滑冰",
+  "block.richards-whimsy-mod.rdt_lapis_glass": "青金石玻璃",
+  "block.richards-whimsy-mod.rdt_quartz_glass": "石英玻璃",
 
 
   "end_of_this_list": "-"

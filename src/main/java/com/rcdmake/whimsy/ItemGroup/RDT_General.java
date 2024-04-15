@@ -2,6 +2,8 @@ package com.rcdmake.whimsy.ItemGroup;
 
 import com.rcdmake.whimsy.RichardsWhimsyMod;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Soils;
+import com.rcdmake.whimsy.block.ClassRandomThings.RDT_GlassLapis;
+import com.rcdmake.whimsy.block.ClassRandomThings.RDT_GlassQuartz;
 import com.rcdmake.whimsy.block.ClassRandomThings.RDT_SuperLubricentIce;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.item.ItemGroup;
@@ -24,7 +26,8 @@ public class RDT_General {
 
                         // 在此处添加物品... entries.add();
                         entries.add(RDT_SuperLubricentIce.RDT_SUPER_LUBRICENTICE);
-
+                        entries.add(RDT_GlassLapis.RDT_LAPIS_GLASS);
+                        entries.add(RDT_GlassQuartz.RDT_QUARTZ_GLASS);
 
                     }).build());
     public static void OnInit() {

@@ -2,6 +2,7 @@ package com.rcdmake.whimsy;
 
 // 客户端初始化
 import com.rcdmake.whimsy.block.ClassDEV.RenderType.DEV_ClientRenderInit;
+import com.rcdmake.whimsy.block.ClassRandomThings.RenderType.RDT_ClientRenderInit;
 import com.rcdmake.whimsy.block.ClassWhimsyIdea.RenderType.WI_ClientRenderInit;
 import net.fabricmc.api.ClientModInitializer;
 
@@ -13,6 +14,9 @@ public class RichardsWhimsyModClient implements ClientModInitializer {
 
         // 初始化 WI 分支内容
         WI_ClientRenderInit.OnInit();
+
+        // 初始化 RDT 分支内容
+        RDT_ClientRenderInit.OnInit();
 
     }
 }

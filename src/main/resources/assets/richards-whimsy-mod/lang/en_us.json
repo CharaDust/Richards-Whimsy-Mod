@@ -13,6 +13,7 @@
   "block.richards-whimsy-mod.packed_planks": "Packed Planks",
   "block.richards-whimsy-mod.wi_aerogel": "Aerogel",
   "block.richards-whimsy-mod.slate": "Slate",
+  "block.richards-whimsy-mod.wi_static_liquid_water": "Static Water Block",
 
   "itemGroup.whimsy_group_dev": "Whimsy DEV",
   "item.richards-whimsy-mod.dev_item_normal": "Normal Item",
@@ -41,6 +42,8 @@
 
   "itemGroup.rdt_general": "Random Things: sequel?",
   "block.richards-whimsy-mod.rdt_super_lubricent_ice": "Super Lubricent Ice",
+  "block.richards-whimsy-mod.rdt_lapis_glass": "Lapis Glass",
+  "block.richards-whimsy-mod.rdt_quartz_glass": "Quartz Glass",
 
 
   "end_of_this_list": "-"
