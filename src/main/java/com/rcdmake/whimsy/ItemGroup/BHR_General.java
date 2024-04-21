@@ -3,12 +3,13 @@ package com.rcdmake.whimsy.ItemGroup;
 import com.rcdmake.whimsy.RichardsWhimsyMod;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Rocks;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Soils;
-import com.rcdmake.whimsy.block.ModBlocks;
+import com.rcdmake.whimsy.item.ClassBlockHeadRebon.BHR_FoodLime;
+import com.rcdmake.whimsy.item.ClassBlockHeadRebon.BHR_FoodOther;
+import com.rcdmake.whimsy.item.ClassBlockHeadRebon.BHR_FuelEmber;
 import com.rcdmake.whimsy.item.ClassBlockHeadRebon.BHR_OtherItems;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.text.Text;
@@ -24,7 +25,8 @@ public class BHR_General {
                     // 设置标签页图标
                     .icon(()-> new ItemStack(BHR_OtherItems.BLOCKHEADS_ICON)).entries((displayContext, entries)->{
 
-                        // 在此处添加物品...
+                        // 在此处添加物品... entries.add();
+                        // 方块与矿物
                         entries.add(BHR_Rocks.ROCK);
                         entries.add(BHR_Rocks.ROCK_COPPER_ORE);
                         entries.add(BHR_Rocks.ROCK_IRON_ORE);
@@ -38,6 +40,17 @@ public class BHR_General {
                         entries.add(BHR_Soils.MINERAL_SOIL_FLINT_ORE);
                         entries.add(BHR_Soils.MINERAL_SOIL_CLAY_ORE);
                         entries.add(BHR_Soils.MINERAL_SOIL_UNKNOWN_ORE);
+
+                        // 燃料
+                        entries.add(BHR_FuelEmber.BHR_EMBER);
+
+                        // 食物
+                        entries.add(BHR_FoodOther.BHR_CHERRY);
+                        entries.add(BHR_FoodOther.BHR_COCONUT);
+                        entries.add(BHR_FoodOther.BHR_COFFEE_CHERRY);
+                        entries.add(BHR_FoodOther.BHR_MANGO);
+                        entries.add(BHR_FoodOther.BHR_ORANGE);
+                        entries.add(BHR_FoodLime.BHR_LIME);
 
 
                     }).build());

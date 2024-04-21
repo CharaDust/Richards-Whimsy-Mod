@@ -15,7 +15,8 @@ public class RDT_SuperLubricentIce extends Block {
 
     // 创建方块，使用构造函数类型
     public static final Block RDT_SUPER_LUBRICENTICE = new RDT_SuperLubricentIce(FabricBlockSettings.copyOf(Blocks.BLUE_ICE)
-            .slipperiness(1f)
+            // 保留地面速度比例 = 0.91 x value；对于普通方块而言，value = 0.6
+            .slipperiness(1.0989f)
     );
 
     // 方块以及方块物品注册方法简化写法

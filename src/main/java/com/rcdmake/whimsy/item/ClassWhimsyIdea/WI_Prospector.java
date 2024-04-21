@@ -1,6 +1,7 @@
 package com.rcdmake.whimsy.item.ClassWhimsyIdea;
 
 import com.rcdmake.whimsy.RichardsWhimsyMod;
+import com.rcdmake.whimsy.tag.ClassLegacy.LGC_VanillaOre;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -59,7 +60,7 @@ public class WI_Prospector extends Item {
     }
 
     private boolean isOre(BlockState state){
-        return state.isOf(Blocks.IRON_ORE);
+        return state.isIn(LGC_VanillaOre.Blocks.LGC_VANILLAORE);
     }
     // 发送坐标消息
     private void outputMessage(BlockPos blockPos, PlayerEntity playerEntity, Block block){

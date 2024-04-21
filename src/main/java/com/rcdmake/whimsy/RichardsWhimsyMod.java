@@ -11,6 +11,9 @@ import com.rcdmake.whimsy.block.ClassRandomThings.RDT_SuperLubricentIce;
 import com.rcdmake.whimsy.block.ClassWhimsyIdea.WI_Aerogel;
 import com.rcdmake.whimsy.block.ClassWhimsyIdea.WI_StaticLiquidWater;
 import com.rcdmake.whimsy.block.ModBlocks;
+import com.rcdmake.whimsy.item.ClassBlockHeadRebon.BHR_FoodLime;
+import com.rcdmake.whimsy.item.ClassBlockHeadRebon.BHR_FoodOther;
+import com.rcdmake.whimsy.item.ClassBlockHeadRebon.BHR_FuelEmber;
 import com.rcdmake.whimsy.item.ClassBlockHeadRebon.BHR_OtherItems;
 import com.rcdmake.whimsy.item.ClassDEV.DEVItems;
 import com.rcdmake.whimsy.item.ClassWhimsyIdea.WI_Prospector;
@@ -64,13 +67,16 @@ public class RichardsWhimsyMod implements ModInitializer {
 		BHR_Soils.OnInit();
 		BHR_General.OnInit();
 		BHR_OtherItems.OnInit();
+		BHR_FoodOther.OnInit();
+		BHR_FoodLime.OnInit();
+		BHR_FuelEmber.OnInit();
 
 		// 初始化 WI 分支内容
 		WI_Aerogel.OnInit();
 		WI_StaticLiquidWater.OnInit();
 		WI_Prospector.OnInit();
 
-		// 初始化 RDT_GlassLapis 分支内容
+		// 初始化 RDT 分支内容
 		RDT_SuperLubricentIce.OnInit();
 		RDT_GlassLapis.OnInit();
 		RDT_GlassQuartz.OnInit();
