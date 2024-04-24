@@ -11,6 +11,7 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
@@ -53,6 +54,15 @@ public class RDT_GlassQuartz extends Block {
     @Override
     public boolean isTransparent(BlockState state, BlockView world, BlockPos pos) {
         return true;
+    }
+
+    // 边面可见度：当两个相同方块连接时，贴合的面不可见
+    @Override
+    public boolean isSideInvisible(BlockState state, BlockState stateFrom, Direction direction) {
+        if (stateFrom.isOf(this)) {
+            return true;
+        }
+        return super.isSideInvisible(state, stateFrom, direction);
     }
 
     public static void OnInit(){

@@ -16,6 +16,7 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
@@ -27,6 +28,7 @@ public class DEV_GhostBlock extends Block {
             .nonOpaque()
             .allowsSpawning(Blocks::never)
             .solidBlock(Blocks::never)
+            // 窒息
             .suffocates(Blocks::never)
             .blockVision(Blocks::never)
             .noCollision()
@@ -66,6 +68,15 @@ public class DEV_GhostBlock extends Block {
 //    public boolean canCollide(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
 //        return false;
 //    }
+
+    // 边面可见度：当两个相同方块连接时，贴合的面不可见
+    @Override
+    public boolean isSideInvisible(BlockState state, BlockState stateFrom, Direction direction) {
+        if (stateFrom.isOf(this)) {
+            return true;
+        }
+        return super.isSideInvisible(state, stateFrom, direction);
+    }
 
     // 方块以及方块物品注册方法简化写法
     private static void register_Block_and_BlockItem(String path, Block block) {

@@ -21,10 +21,6 @@ public class DEV_Blocks {
     public static final Block DEV_BLOCK_VECTOR_FIX_SIDE_U = registerBlocks("dev_block_vector_fix_side_u",
             new Block(FabricBlockSettings.copyOf(Blocks.STONE)));
 
-//    // 添加 DEV_BLOCK_STATE_BOOLEAN(开发_布尔状态方块)
-//    public static final Block DEV_BLOCK_STATE_BOOLEAN = registerBlocks("dev_block_state_boolean",
-//            new Block(FabricBlockSettings.copyOf(Blocks.STONE)));
-
     // 方块注册方法，如果不注册方块物品的话会没有物品形式（如：细雪，发光的红石矿石）
     private static Block registerBlocks(String name, Block block) {
         // 调用下面的方法注册方块物品

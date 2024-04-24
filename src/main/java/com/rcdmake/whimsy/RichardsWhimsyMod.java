@@ -5,9 +5,9 @@ import com.rcdmake.whimsy.ItemGroup.RDT_General;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Rocks;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Soils;
 import com.rcdmake.whimsy.block.ClassDEV.*;
-import com.rcdmake.whimsy.block.ClassRandomThings.RDT_GlassLapis;
-import com.rcdmake.whimsy.block.ClassRandomThings.RDT_GlassQuartz;
-import com.rcdmake.whimsy.block.ClassRandomThings.RDT_SuperLubricentIce;
+import com.rcdmake.whimsy.block.ClassDEV.BlockEntity.DEV_SimpleWorker;
+import com.rcdmake.whimsy.block.ClassDEV.BlockEntity.Entity.DEV_SimpleWorker_E;
+import com.rcdmake.whimsy.block.ClassRandomThings.*;
 import com.rcdmake.whimsy.block.ClassWhimsyIdea.WI_Aerogel;
 import com.rcdmake.whimsy.block.ClassWhimsyIdea.WI_StaticLiquidWater;
 import com.rcdmake.whimsy.block.ModBlocks;
@@ -19,6 +19,8 @@ import com.rcdmake.whimsy.item.ClassDEV.DEVItems;
 import com.rcdmake.whimsy.item.ClassWhimsyIdea.WI_Prospector;
 import com.rcdmake.whimsy.item.ModItemGroup;
 import com.rcdmake.whimsy.item.ModItems;
+import com.rcdmake.whimsy.screen.ClassDEV.DEV_SimpleWorker_S;
+import com.rcdmake.whimsy.screen.ClassDEV.Handler.DEV_SimpleWorker_SH;
 import net.fabricmc.api.ModInitializer;
 
 import org.slf4j.Logger;
@@ -62,6 +64,10 @@ public class RichardsWhimsyMod implements ModInitializer {
 		DEV_GhostBlock.OnInit();
 		DEVItems.registerDEVItems();
 
+		DEV_SimpleWorker.OnInit();
+		DEV_SimpleWorker_E.OnInit();
+		DEV_SimpleWorker_SH.OnInit();
+
 		// 初始化 BHR 分支内容
 		BHR_Rocks.OnInit();
 		BHR_Soils.OnInit();
@@ -80,7 +86,9 @@ public class RichardsWhimsyMod implements ModInitializer {
 		RDT_SuperLubricentIce.OnInit();
 		RDT_GlassLapis.OnInit();
 		RDT_GlassQuartz.OnInit();
+		RDT_GlassSugar.OnInit();
 		RDT_General.OnInit();
+		RDT_StepBlock.OnInit();
 
 	}
 }

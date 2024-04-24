@@ -11,6 +11,7 @@ public class RichardsWhimsyModClient implements ClientModInitializer {
     public void onInitializeClient(){
         // 初始化 DEV 分支内容
         DEV_ClientRenderInit.OnInit();
+        DEV_ClientRenderInit.OnInit();
 
         // 初始化 WI 分支内容
         WI_ClientRenderInit.OnInit();
