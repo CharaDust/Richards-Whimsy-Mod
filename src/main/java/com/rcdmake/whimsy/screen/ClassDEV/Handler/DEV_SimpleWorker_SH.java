@@ -143,7 +143,7 @@ public class DEV_SimpleWorker_SH extends ScreenHandler {
     }
 
     // 创建屏幕处理器
-    public static final ScreenHandlerType DEV_SIMPLE_WORKER_H =
+    public static final ScreenHandlerType<DEV_SimpleWorker_SH> DEV_SIMPLE_WORKER_H =
             Registry.register(Registries.SCREEN_HANDLER, new Identifier(RichardsWhimsyMod.MOD_ID, "dev_simple_worker"),
                     new ExtendedScreenHandlerType<>(DEV_SimpleWorker_SH::new));
     // OnInit

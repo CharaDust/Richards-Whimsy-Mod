@@ -13,6 +13,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
@@ -71,7 +72,14 @@ public class DEV_SimpleWorker extends BlockWithEntity implements BlockEntityProv
 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit){
+        if (!world.isClient) {
+            NamedScreenHandlerFactory screenHandlerFactory = (DEV_SimpleWorker_E) world.getBlockEntity(pos);
 
+            if (screenHandlerFactory != null) {
+                // 打开一个处理好的屏幕
+                player.openHandledScreen(screenHandlerFactory);
+            }
+        }
         // 执行成功
         return ActionResult.SUCCESS;
     }
