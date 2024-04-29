@@ -6,7 +6,7 @@ import net.minecraft.client.render.RenderLayer;
 
 
 public class DEV_ClientRenderInit {
-    public static void OnInit(){
+    public static void OnInitClient(){
         BlockRenderLayerMap.INSTANCE.putBlock(DEV_GhostBlock.DEV_BLOCK_GHOST, RenderLayer.getTranslucent());
     }
 }

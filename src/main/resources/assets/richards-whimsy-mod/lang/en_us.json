@@ -24,6 +24,8 @@
   "block.richards-whimsy-mod.dev_block_state_enum": "Enum Block",
   "block.richards-whimsy-mod.dev_block_state_axis": "Axis Block",
   "block.richards-whimsy-mod.dev_block_ghost": "Ghost block",
+  "block.richards-whimsy-mod.dev_block_entity_int": "Simple Ticker Block",
+  "block.richards-whimsy-mod.dev_block_simple_worker": "Simple Worker",
 
   "itemGroup.bhr_general": "BlockHeads: Reborn",
   "block.richards-whimsy-mod.rock": "Faceted Slate",

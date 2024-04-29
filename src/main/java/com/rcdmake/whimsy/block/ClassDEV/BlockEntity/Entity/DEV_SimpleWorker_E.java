@@ -4,6 +4,7 @@ import com.rcdmake.whimsy.RichardsWhimsyMod;
 import com.rcdmake.whimsy.block.ClassDEV.BlockEntity.DEV_SimpleWorker;
 import com.rcdmake.whimsy.block.ClassDEV.DEV_StateEnum;
 import com.rcdmake.whimsy.block.ClassDEV.DEV_StateEnumAxis;
+import com.rcdmake.whimsy.recipe.ClassDEV.DEV_SimpleWorker_R;
 import com.rcdmake.whimsy.screen.ClassDEV.Handler.DEV_SimpleWorker_SH;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
@@ -13,10 +14,12 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
+import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.screen.PropertyDelegate;
@@ -28,6 +31,8 @@ import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Optional;
 
 // 调用了 @Juzz 的物品栏接口
 public class DEV_SimpleWorker_E extends BlockEntity implements ExtendedScreenHandlerFactory, ImplementedInventory {
@@ -189,6 +194,8 @@ public class DEV_SimpleWorker_E extends BlockEntity implements ExtendedScreenHan
         // 如果你需要将一个方块作为物品来使用，需要在其后面加上.asItem()
         boolean hasInput = getStack(INPUT_SLOT_INDEX).getItem() == DEV_StateEnum.DEV_BLOCK_STATE_ENUM.asItem();
 
+
+        // 临时配方旧写法
         return hasInput && canInsertAmountIntoOutputSlot(result) && canInsertItemIntoOutputSlot(result.getItem());
     }
 
@@ -209,7 +216,8 @@ public class DEV_SimpleWorker_E extends BlockEntity implements ExtendedScreenHan
 
     // 创建方块实体
     public static final BlockEntityType DEV_SIMPLE_WORKER_ENTITY =
-            Registry.register(Registries.BLOCK_ENTITY_TYPE, new Identifier(RichardsWhimsyMod.MOD_ID,"dev_simple_worker_entity"),
+            Registry.register(Registries.BLOCK_ENTITY_TYPE,
+                    new Identifier(RichardsWhimsyMod.MOD_ID,"dev_simple_worker_entity"),
                     FabricBlockEntityTypeBuilder.create(DEV_SimpleWorker_E::new, DEV_SimpleWorker.DEV_SIMPLE_WORKER).build(null));
 
     public static void OnInit(){}

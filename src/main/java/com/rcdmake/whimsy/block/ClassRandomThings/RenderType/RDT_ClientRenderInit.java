@@ -23,7 +23,7 @@ public class RDT_ClientRenderInit {
 //        BlockEntityRendererRegistry.register(entityType, costomRenderer::new);
 //    }
 
-    public static void OnInit(){
+    public static void OnInitClient(){
 
         // CutOut 渲染模式
         SetRenderLayer_3(RDT_GlassLapis.RDT_LAPIS_GLASS);

@@ -6,7 +6,7 @@ import net.minecraft.client.render.RenderLayer;
 
 
 public class WI_ClientRenderInit {
-    public static void OnInit(){
+    public static void OnInitClient(){
         BlockRenderLayerMap.INSTANCE.putBlock(WI_Aerogel.WI_AEROGEL, RenderLayer.getTranslucent());
     }
 }

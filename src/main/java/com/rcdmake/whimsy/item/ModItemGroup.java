@@ -58,27 +58,7 @@ public class ModItemGroup {
 
                     }).build());
 
-    // 创建一个物品标签页框架
-    public static final ItemGroup WHIMSY_DEV = Registry.register(Registries.ITEM_GROUP,
-            // 设置标签页id，id需要保持唯一，否则会崩溃
-            new Identifier(RichardsWhimsyMod.MOD_ID,"whimsy_group_dev"),
-            // 设置标签页键名，具体名字去语言文件设置
-            FabricItemGroup.builder().displayName(Text.translatable("itemGroup.whimsy_group_dev"))
-                    // 设置标签页图标
-                    .icon(()-> new ItemStack(DEVItems.DEV_ITEM_NORMAL)).entries((displayContext,entries)->{
 
-                        // 在此处添加物品...
-                        // 开发物品
-                        entries.add(DEVItems.DEV_ITEM_NORMAL);
-                        entries.add(DEV_Blocks.DEV_BLOCK_NORMAL);
-                        entries.add(DEV_Blocks.DEV_BLOCK_VECTOR_FIX_SIDE_U);
-                        entries.add(DEV_StateBoolean.DEV_BLOCK_STATE_BOOLEAN);
-                        entries.add(DEV_StateInt.DEV_BLOCK_STATE_INT);
-                        entries.add(DEV_StateEnum.DEV_BLOCK_STATE_ENUM);
-                        entries.add(DEV_StateEnumAxis.DEV_BLOCK_STATE_AXIS);
-                        entries.add(DEV_GhostBlock.DEV_BLOCK_GHOST);
-
-                    }).build());
 
     // 初始化方法，每一次建立一个文件/初始化方法都需要在主类引用一下
     public static void register() {

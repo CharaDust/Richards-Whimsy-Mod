@@ -24,6 +24,8 @@
   "block.richards-whimsy-mod.dev_block_state_enum": "枚举方块",
   "block.richards-whimsy-mod.dev_block_state_axis": "轴方块",
   "block.richards-whimsy-mod.dev_block_ghost": "幽灵方块",
+  "block.richards-whimsy-mod.dev_block_entity_int": "简易计时方块",
+  "block.richards-whimsy-mod.dev_block_simple_worker": "简易工作方块",
 
   "itemGroup.bhr_general": "方块愚者：重生",
   "block.richards-whimsy-mod.rock": "切面板岩",

@@ -1,11 +1,14 @@
 package com.rcdmake.whimsy;
 
 import com.rcdmake.whimsy.ItemGroup.BHR_General;
+import com.rcdmake.whimsy.ItemGroup.DEV_General;
 import com.rcdmake.whimsy.ItemGroup.RDT_General;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Rocks;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Soils;
 import com.rcdmake.whimsy.block.ClassDEV.*;
+import com.rcdmake.whimsy.block.ClassDEV.BlockEntity.DEV_EntityInt;
 import com.rcdmake.whimsy.block.ClassDEV.BlockEntity.DEV_SimpleWorker;
+import com.rcdmake.whimsy.block.ClassDEV.BlockEntity.Entity.DEV_EntityInt_E;
 import com.rcdmake.whimsy.block.ClassDEV.BlockEntity.Entity.DEV_SimpleWorker_E;
 import com.rcdmake.whimsy.block.ClassRandomThings.*;
 import com.rcdmake.whimsy.block.ClassWhimsyIdea.WI_Aerogel;
@@ -19,6 +22,7 @@ import com.rcdmake.whimsy.item.ClassDEV.DEVItems;
 import com.rcdmake.whimsy.item.ClassWhimsyIdea.WI_Prospector;
 import com.rcdmake.whimsy.item.ModItemGroup;
 import com.rcdmake.whimsy.item.ModItems;
+import com.rcdmake.whimsy.recipe.ClassDEV.DEV_SimpleWorker_R;
 import com.rcdmake.whimsy.screen.ClassDEV.DEV_SimpleWorker_S;
 import com.rcdmake.whimsy.screen.ClassDEV.Handler.DEV_SimpleWorker_SH;
 import net.fabricmc.api.ModInitializer;
@@ -56,6 +60,7 @@ public class RichardsWhimsyMod implements ModInitializer {
 		ModItemGroup.register();
 
 		// 初始化 DEV 分支内容
+		DEV_General.OnInit();
 		DEV_StateBoolean.OnInit();
 		DEV_StateInt.OnInit();
 		DEV_StateEnum.OnInit();
@@ -67,6 +72,10 @@ public class RichardsWhimsyMod implements ModInitializer {
 		DEV_SimpleWorker.OnInit();
 		DEV_SimpleWorker_E.OnInit();
 		DEV_SimpleWorker_SH.OnInit();
+		DEV_SimpleWorker_R.OnInit();
+
+		DEV_EntityInt.OnInit();
+		DEV_EntityInt_E.OnInit();
 
 		// 初始化 BHR 分支内容
 		BHR_Rocks.OnInit();

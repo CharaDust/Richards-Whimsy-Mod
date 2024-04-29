@@ -11,14 +11,14 @@ public class RichardsWhimsyModClient implements ClientModInitializer {
     @Override
     public void onInitializeClient(){
         // 初始化 DEV 分支内容
-        DEV_ClientRenderInit.OnInit();
-        DEV_ScreenRenderInit.OnInit();
+        DEV_ClientRenderInit.OnInitClient();
+        DEV_ScreenRenderInit.OnInitClient();
 
         // 初始化 WI 分支内容
-        WI_ClientRenderInit.OnInit();
+        WI_ClientRenderInit.OnInitClient();
 
         // 初始化 RDT 分支内容
-        RDT_ClientRenderInit.OnInit();
+        RDT_ClientRenderInit.OnInitClient();
 
     }
 }

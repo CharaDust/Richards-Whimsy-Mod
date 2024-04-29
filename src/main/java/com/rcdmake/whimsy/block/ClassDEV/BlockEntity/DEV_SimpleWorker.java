@@ -60,19 +60,24 @@ public class DEV_SimpleWorker extends BlockWithEntity implements BlockEntityProv
     // 方块实体被替换时行为（如掉落物品等）
     @Override
     public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean isMoving) {
-        super.onStateReplaced(state, world, pos, newState, isMoving);
+        // 方块是否被真的替换
         if (state.getBlock() != newState.getBlock()) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
+            // 被替换的方块是否是本文件里的方块实体
             if (blockEntity instanceof DEV_SimpleWorker_E) {
+                // 散落物品
                 ItemScatterer.spawn(world, pos, (DEV_SimpleWorker_E)blockEntity);
+                // 更新比较器的读数
                 world.updateComparators(pos, this);
             }
+            super.onStateReplaced(state, world, pos, newState, isMoving);
         }
     }
 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit){
         if (!world.isClient) {
+            // 定义一个处理好的屏幕
             NamedScreenHandlerFactory screenHandlerFactory = (DEV_SimpleWorker_E) world.getBlockEntity(pos);
 
             if (screenHandlerFactory != null) {

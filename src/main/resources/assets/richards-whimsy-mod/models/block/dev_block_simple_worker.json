@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_column",
+  "textures": {
+    "end": "richards-whimsy-mod:block/dev/dev_simple_worker_endaxis",
+    "side": "richards-whimsy-mod:block/dev/dev_simple_worker_sideaxis"
+  }
+}
