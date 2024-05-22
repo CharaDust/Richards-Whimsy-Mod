@@ -3,6 +3,7 @@ package com.rcdmake.whimsy;
 import com.rcdmake.whimsy.ItemGroup.BHR_General;
 import com.rcdmake.whimsy.ItemGroup.DEV_General;
 import com.rcdmake.whimsy.ItemGroup.RDT_General;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Gems;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Rocks;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Soils;
 import com.rcdmake.whimsy.block.ClassDEV.*;
@@ -14,16 +15,12 @@ import com.rcdmake.whimsy.block.ClassRandomThings.*;
 import com.rcdmake.whimsy.block.ClassWhimsyIdea.WI_Aerogel;
 import com.rcdmake.whimsy.block.ClassWhimsyIdea.WI_StaticLiquidWater;
 import com.rcdmake.whimsy.block.ModBlocks;
-import com.rcdmake.whimsy.item.ClassBlockHeadRebon.BHR_FoodLime;
-import com.rcdmake.whimsy.item.ClassBlockHeadRebon.BHR_FoodOther;
-import com.rcdmake.whimsy.item.ClassBlockHeadRebon.BHR_FuelEmber;
-import com.rcdmake.whimsy.item.ClassBlockHeadRebon.BHR_OtherItems;
+import com.rcdmake.whimsy.item.ClassBlockHeadRebon.*;
 import com.rcdmake.whimsy.item.ClassDEV.DEVItems;
 import com.rcdmake.whimsy.item.ClassWhimsyIdea.WI_Prospector;
 import com.rcdmake.whimsy.item.ModItemGroup;
 import com.rcdmake.whimsy.item.ModItems;
 import com.rcdmake.whimsy.recipe.ClassDEV.DEV_SimpleWorker_R;
-import com.rcdmake.whimsy.screen.ClassDEV.DEV_SimpleWorker_S;
 import com.rcdmake.whimsy.screen.ClassDEV.Handler.DEV_SimpleWorker_SH;
 import net.fabricmc.api.ModInitializer;
 
@@ -85,6 +82,7 @@ public class RichardsWhimsyMod implements ModInitializer {
 		BHR_FoodOther.OnInit();
 		BHR_FoodLime.OnInit();
 		BHR_FuelEmber.OnInit();
+		BHR_Gems.OnInit();
 
 		// 初始化 WI 分支内容
 		WI_Aerogel.OnInit();
@@ -98,6 +96,7 @@ public class RichardsWhimsyMod implements ModInitializer {
 		RDT_GlassSugar.OnInit();
 		RDT_General.OnInit();
 		RDT_StepBlock.OnInit();
+		RDT_LuminousBlocks.OnInit();
 
 	}
 }

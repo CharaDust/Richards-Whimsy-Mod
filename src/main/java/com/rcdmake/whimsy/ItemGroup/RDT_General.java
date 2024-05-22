@@ -28,6 +28,8 @@ public class RDT_General {
                         entries.add(RDT_GlassSugar.RDT_SUGAR_GLASS);
                         entries.add(RDT_StepBlock.RDT_STEP_BLOCK);
 
+                        entries.add(RDT_LuminousBlocks.RDT_LUMINOUS_BLOCK_RED);
+
                     }).build());
     public static void OnInit() {
 

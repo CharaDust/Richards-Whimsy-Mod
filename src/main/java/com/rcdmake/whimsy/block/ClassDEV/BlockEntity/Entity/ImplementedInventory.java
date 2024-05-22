@@ -27,6 +27,9 @@ public interface ImplementedInventory extends SidedInventory{
     /**
      * Gets the item list of this inventory.
      * Must return the same instance every time it's called.
+     * <br>
+     * 从此物品栏中检索物品。
+     * 每次被调用时必须返回相同实例。
      *
      * @return the item list
      */
@@ -34,6 +37,8 @@ public interface ImplementedInventory extends SidedInventory{
 
     /**
      * Creates an inventory from the item list.
+     * <br>
+     * 从物品列表创建物品栏。
      *
      * @param items the item list
      * @return a new inventory
@@ -44,6 +49,8 @@ public interface ImplementedInventory extends SidedInventory{
 
     /**
      * Creates a new inventory with the size.
+     * <br>
+     * 根据指定的尺寸创建新的物品栏。
      *
      * @param size the inventory size
      * @return a new inventory
@@ -106,6 +113,8 @@ public interface ImplementedInventory extends SidedInventory{
 
     /**
      * Returns the inventory size.
+     * <br>
+     * 返回物品栏的大小。
      *
      * <p>The default implementation returns the size of {@link #getItems()}.
      *
@@ -117,6 +126,8 @@ public interface ImplementedInventory extends SidedInventory{
     }
 
     /**
+     * <br>
+     * 检查物品栏是否为空。
      * @return true if this inventory has only empty stacks, false otherwise
      */
     @Override
@@ -133,6 +144,8 @@ public interface ImplementedInventory extends SidedInventory{
 
     /**
      * Gets the item in the slot.
+     * <br>
+     * 检索槽位中的物品。
      *
      * @param slot the slot
      * @return the item in the slot
@@ -144,6 +157,8 @@ public interface ImplementedInventory extends SidedInventory{
 
     /**
      * Takes a stack of the size from the slot.
+     * <br>
+     * 从物品栏槽位移除物品。
      *
      * <p>(default implementation) If there are less items in the slot than what are requested,
      * takes all items in that slot.
@@ -164,6 +179,8 @@ public interface ImplementedInventory extends SidedInventory{
 
     /**
      * Removes the current stack in the {@code slot} and returns it.
+     * <br>
+     * 从物品栏槽位移除所有物品。
      *
      * <p>The default implementation uses {@link Inventories#removeStack(List, int)}
      *
@@ -177,6 +194,8 @@ public interface ImplementedInventory extends SidedInventory{
 
     /**
      * Replaces the current stack in the {@code slot} with the provided stack.
+     * <br>
+     * 将物品栏槽位中的当前物品堆替换为提供的物品堆。
      *
      * <p>If the stack is too big for this inventory ({@link Inventory#getMaxCountPerStack()}),
      * it gets resized to this inventory's maximum amount.
@@ -194,6 +213,8 @@ public interface ImplementedInventory extends SidedInventory{
     }
 
     /**
+     * <br>
+     * 清除物品栏。
      * Clears {@linkplain #getItems() the item list}}.
      */
     @Override
@@ -201,6 +222,10 @@ public interface ImplementedInventory extends SidedInventory{
         getItems().clear();
     }
 
+    /**
+     * 将方块状态标记为脏。
+     * 更改物品栏之后必须调用，所以游戏正确地储存物品栏内容并提取邻近方块物品栏改变。
+     * */
     @Override
     default void markDirty() {
         // Override if you want behavior.

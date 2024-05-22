@@ -6,6 +6,7 @@ import com.rcdmake.whimsy.block.ClassRandomThings.RenderType.RDT_ClientRenderIni
 import com.rcdmake.whimsy.block.ClassWhimsyIdea.RenderType.WI_ClientRenderInit;
 import com.rcdmake.whimsy.screen.ClassDEV.Render.DEV_ScreenRenderInit;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 
 public class RichardsWhimsyModClient implements ClientModInitializer {
     @Override

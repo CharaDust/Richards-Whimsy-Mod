@@ -159,7 +159,7 @@ public class DEV_SimpleWorker_E extends BlockEntity implements ExtendedScreenHan
             }
         }else { // 如果被占用，则重置工作进度
             this.resetProgress();
-            markDirty(world1, pos, state1);
+            markDirty(world1,pos,state1);
         }
     }
 
