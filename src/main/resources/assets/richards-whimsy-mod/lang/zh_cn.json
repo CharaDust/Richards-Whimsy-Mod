@@ -41,6 +41,11 @@
   "block.richards-whimsy-mod.mineral_soil_unknown_ore": "红壤未知矿土",
   "block.richards-whimsy-mod.mineral_soil_flint_ore": "红壤燧石矿土",
   "block.richards-whimsy-mod.mineral_soil_clay_ore": "红壤粘土矿土",
+  "block.richards-whimsy-mod.bhr_gem_amethyst": "三方紫晶",
+  "block.richards-whimsy-mod.bhr_gem_sapphire": "蓝宝石",
+  "block.richards-whimsy-mod.bhr_gem_emerald": "祖母绿",
+  "block.richards-whimsy-mod.bhr_gem_ruby": "红刚玉",
+  "block.richards-whimsy-mod.bhr_gem_diamond": "宝石钻石",
   "item.richards-whimsy-mod.bhr_ember": "余烬",
   "item.richards-whimsy-mod.bhr_cherry": "樱桃",
   "item.richards-whimsy-mod.bhr_coconut": "椰子",
@@ -51,6 +56,12 @@
   "item.richards-whimsy-mod.bhr_prickly_pear": "赤果",
   "item.richards-whimsy-mod.bhr_lime": "石灰酸橙",
   "tooltip.richards-whimsy-mod.fuel_1": "燃料等级：1",
+  "tooltip.richards-whimsy-mod.bhr_gem_blessing_1": "宝石祝福：三方紫晶",
+  "tooltip.richards-whimsy-mod.bhr_gem_blessing_2": "宝石祝福：蓝宝石",
+  "tooltip.richards-whimsy-mod.bhr_gem_blessing_3": "宝石祝福：祖母绿",
+  "tooltip.richards-whimsy-mod.bhr_gem_blessing_4": "宝石祝福：红刚玉",
+  "tooltip.richards-whimsy-mod.bhr_gem_blessing_5": "宝石祝福：宝石钻石",
+  "tooltip.richards-whimsy-mod.bhr_gem_blessing_0": "宝石祝福：未知",
 
   "itemGroup.rdt_general": "随意作品：续集？",
   "block.richards-whimsy-mod.rdt_super_lubricent_ice": "超级超级滑滑冰",
@@ -59,6 +70,8 @@
   "block.richards-whimsy-mod.rdt_sugar_glass": "糖玻璃",
   "block.richards-whimsy-mod.rdt_step_block": "垫脚方块",
   "block.richards-whimsy-mod.rdt_luminous_block_red": "红色鲁米诺方块",
+  "block.richards-whimsy-mod.rdt_luminous_block_green": "绿色鲁米诺方块",
+  "block.richards-whimsy-mod.rdt_luminous_block_blue": "蓝色鲁米诺方块",
 
 
   "end_of_this_list": "-"

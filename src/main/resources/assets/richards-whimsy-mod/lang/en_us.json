@@ -41,6 +41,11 @@
   "block.richards-whimsy-mod.mineral_soil_unknown_ore": "Mineral Soil Unknown Ore",
   "block.richards-whimsy-mod.mineral_soil_flint_ore": "Mineral Soil Flint Ore",
   "block.richards-whimsy-mod.mineral_soil_clay_ore": "Mineral Soil Clay Ore",
+  "block.richards-whimsy-mod.bhr_gem_amethyst": "Amethyst",
+  "block.richards-whimsy-mod.bhr_gem_sapphire": "Sapphire",
+  "block.richards-whimsy-mod.bhr_gem_emerald": "Canutillos",
+  "block.richards-whimsy-mod.bhr_gem_ruby": "Ruby",
+  "block.richards-whimsy-mod.bhr_gem_diamond": "'Adamant'",
   "item.richards-whimsy-mod.bhr_ember": "Ember",
   "item.richards-whimsy-mod.bhr_cherry": "Charry",
   "item.richards-whimsy-mod.bhr_coconut": "Coconut",
@@ -51,6 +56,12 @@
   "item.richards-whimsy-mod.bhr_prickly_pear": "Prickly Pear",
   "item.richards-whimsy-mod.bhr_lime": "Lime Limes",
   "tooltip.richards-whimsy-mod.fuel_1": "Fuel Level: 1",
+  "tooltip.richards-whimsy-mod.bhr_gem_blessing_1": "Gem Blessing: Amethyst",
+  "tooltip.richards-whimsy-mod.bhr_gem_blessing_2": "Gem Blessing: Sapphire",
+  "tooltip.richards-whimsy-mod.bhr_gem_blessing_3": "Gem Blessing: Canutillos",
+  "tooltip.richards-whimsy-mod.bhr_gem_blessing_4": "Gem Blessing: Ruby",
+  "tooltip.richards-whimsy-mod.bhr_gem_blessing_5": "Gem Blessing: Adamant",
+  "tooltip.richards-whimsy-mod.bhr_gem_blessing_0": "Gem Blessing: Unknown",
 
   "itemGroup.rdt_general": "Random Things: sequel?",
   "block.richards-whimsy-mod.rdt_super_lubricent_ice": "Super Lubricent Ice",
@@ -59,6 +70,8 @@
   "block.richards-whimsy-mod.rdt_sugar_glass": "Sugar Glass",
   "block.richards-whimsy-mod.rdt_step_block": "Step Block",
   "block.richards-whimsy-mod.rdt_luminous_block_red": "Red Luminous Block",
+  "block.richards-whimsy-mod.rdt_luminous_block_green": "Green Luminous Block",
+  "block.richards-whimsy-mod.rdt_luminous_block_blue": "Blue Luminous Block",
 
 
   "end_of_this_list": "-"

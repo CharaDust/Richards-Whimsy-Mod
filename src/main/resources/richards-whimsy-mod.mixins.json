@@ -3,7 +3,8 @@
   "package": "com.rcdmake.whimsy.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "RichardsWhimsyModMixin"
+    "RichardsWhimsyModMixin",
+    "ClassBlockHeadsReborn.BHR_GemBlessingAmethystMixin"
   ],
   "injectors": {
     "defaultRequire": 1

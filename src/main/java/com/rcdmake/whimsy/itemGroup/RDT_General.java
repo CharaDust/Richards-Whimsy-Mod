@@ -1,7 +1,8 @@
-package com.rcdmake.whimsy.ItemGroup;
+package com.rcdmake.whimsy.itemGroup;
 
 import com.rcdmake.whimsy.RichardsWhimsyMod;
 import com.rcdmake.whimsy.block.ClassRandomThings.*;
+import com.rcdmake.whimsy.block.ClassRandomThings.BlockEntity.RDT_BlockBreaker;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -27,8 +28,11 @@ public class RDT_General {
                         entries.add(RDT_GlassQuartz.RDT_QUARTZ_GLASS);
                         entries.add(RDT_GlassSugar.RDT_SUGAR_GLASS);
                         entries.add(RDT_StepBlock.RDT_STEP_BLOCK);
+                        entries.add(RDT_BlockBreaker.RDT_BLOCK_BREAKER);
 
                         entries.add(RDT_LuminousBlocks.RDT_LUMINOUS_BLOCK_RED);
+                        entries.add(RDT_LuminousBlocks.RDT_LUMINOUS_BLOCK_GREEN);
+                        entries.add(RDT_LuminousBlocks.RDT_LUMINOUS_BLOCK_BLUE);
 
                     }).build());
     public static void OnInit() {

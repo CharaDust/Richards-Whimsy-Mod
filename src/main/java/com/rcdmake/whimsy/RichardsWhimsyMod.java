@@ -1,8 +1,11 @@
 package com.rcdmake.whimsy;
 
-import com.rcdmake.whimsy.ItemGroup.BHR_General;
-import com.rcdmake.whimsy.ItemGroup.DEV_General;
-import com.rcdmake.whimsy.ItemGroup.RDT_General;
+import com.rcdmake.whimsy.block.ClassRandomThings.BlockEntity.RDT_BlockBreaker;
+import com.rcdmake.whimsy.function.ClassBlockHeadsReborn.NBT.Handler.BHR_GemBlessingToolTip;
+import com.rcdmake.whimsy.itemGroup.BHR_General;
+import com.rcdmake.whimsy.itemGroup.DEV_General;
+import com.rcdmake.whimsy.itemGroup.RDT_General;
+import com.rcdmake.whimsy.itemGroup.WI_General;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Gems;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Rocks;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Soils;
@@ -18,6 +21,7 @@ import com.rcdmake.whimsy.block.ModBlocks;
 import com.rcdmake.whimsy.item.ClassBlockHeadRebon.*;
 import com.rcdmake.whimsy.item.ClassDEV.DEVItems;
 import com.rcdmake.whimsy.item.ClassWhimsyIdea.WI_Prospector;
+import com.rcdmake.whimsy.item.ClassWhimsyIdea.WI_ShaderDevRed;
 import com.rcdmake.whimsy.item.ModItemGroup;
 import com.rcdmake.whimsy.item.ModItems;
 import com.rcdmake.whimsy.recipe.ClassDEV.DEV_SimpleWorker_R;
@@ -84,10 +88,16 @@ public class RichardsWhimsyMod implements ModInitializer {
 		BHR_FuelEmber.OnInit();
 		BHR_Gems.OnInit();
 
+		BHR_GemBlessTest.OnInit();
+		//BHR_TestNBTHandler.OnInit();
+		BHR_GemBlessingToolTip.OnInit();
+
 		// 初始化 WI 分支内容
+		WI_General.OnInit();
 		WI_Aerogel.OnInit();
 		WI_StaticLiquidWater.OnInit();
 		WI_Prospector.OnInit();
+		WI_ShaderDevRed.OnInit();
 
 		// 初始化 RDT 分支内容
 		RDT_SuperLubricentIce.OnInit();
@@ -97,6 +107,7 @@ public class RichardsWhimsyMod implements ModInitializer {
 		RDT_General.OnInit();
 		RDT_StepBlock.OnInit();
 		RDT_LuminousBlocks.OnInit();
+		RDT_BlockBreaker.OnInit();
 
 	}
 }

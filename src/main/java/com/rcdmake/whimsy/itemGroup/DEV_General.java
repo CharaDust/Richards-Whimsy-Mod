@@ -1,4 +1,4 @@
-package com.rcdmake.whimsy.ItemGroup;
+package com.rcdmake.whimsy.itemGroup;
 
 import com.rcdmake.whimsy.RichardsWhimsyMod;
 import com.rcdmake.whimsy.block.ClassDEV.*;

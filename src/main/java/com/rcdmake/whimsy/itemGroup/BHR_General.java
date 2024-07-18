@@ -1,4 +1,4 @@
-package com.rcdmake.whimsy.ItemGroup;
+package com.rcdmake.whimsy.itemGroup;
 
 import com.rcdmake.whimsy.RichardsWhimsyMod;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Gems;
@@ -42,7 +42,12 @@ public class BHR_General {
                         entries.add(BHR_Soils.MINERAL_SOIL_CLAY_ORE);
                         entries.add(BHR_Soils.MINERAL_SOIL_UNKNOWN_ORE);
 
+                        // 宝石
                         entries.add(BHR_Gems.BHR_GEM_AMETHYST);
+                        entries.add(BHR_Gems.BHR_GEM_SAPPHIRE);
+                        entries.add(BHR_Gems.BHR_GEM_EMERALD);
+                        entries.add(BHR_Gems.BHR_GEM_RUBY);
+                        entries.add(BHR_Gems.BHR_GEM_DIAMOND);
 
                         // 燃料
                         entries.add(BHR_FuelEmber.BHR_EMBER);

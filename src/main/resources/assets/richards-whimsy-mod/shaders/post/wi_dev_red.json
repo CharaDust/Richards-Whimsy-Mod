@@ -1,0 +1,10 @@
+{
+    "targets":["minecraft:final"],
+    "passes":[{
+        "name":"wi_dev_red",
+        "intarget": "minecraft:main",
+        "outtarget": "minecraft:final",
+        "auxtargets": [],
+        "uniforms": []
+    }]
+}

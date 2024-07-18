@@ -1,58 +1,58 @@
 {
   "variants": {
     "face=ceiling,facing=east": {
-      "model": "richards-whimsy-mod:block/bhr_gem_amethyst",
+      "model": "richards-whimsy-mod:block/bhr_gem_diamond",
       "x": 180,
       "y": 270
     },
     "face=ceiling,facing=north": {
-      "model": "richards-whimsy-mod:block/bhr_gem_amethyst",
+      "model": "richards-whimsy-mod:block/bhr_gem_diamond",
       "x": 180,
       "y": 180
     },
     "face=ceiling,facing=south": {
-      "model": "richards-whimsy-mod:block/bhr_gem_amethyst",
+      "model": "richards-whimsy-mod:block/bhr_gem_diamond",
       "x": 180
     },
     "face=ceiling,facing=west": {
-      "model": "richards-whimsy-mod:block/bhr_gem_amethyst",
+      "model": "richards-whimsy-mod:block/bhr_gem_diamond",
       "x": 180,
       "y": 90
     },
     "face=floor,facing=east": {
-      "model": "richards-whimsy-mod:block/bhr_gem_amethyst",
+      "model": "richards-whimsy-mod:block/bhr_gem_diamond",
       "y": 90
     },
     "face=floor,facing=north": {
-      "model": "richards-whimsy-mod:block/bhr_gem_amethyst"
+      "model": "richards-whimsy-mod:block/bhr_gem_diamond"
     },
     "face=floor,facing=south": {
-      "model": "richards-whimsy-mod:block/bhr_gem_amethyst",
+      "model": "richards-whimsy-mod:block/bhr_gem_diamond",
       "y": 180
     },
     "face=floor,facing=west": {
-      "model": "richards-whimsy-mod:block/bhr_gem_amethyst",
+      "model": "richards-whimsy-mod:block/bhr_gem_diamond",
       "y": 270
     },
     "face=wall,facing=east": {
-      "model": "richards-whimsy-mod:block/bhr_gem_amethyst",
+      "model": "richards-whimsy-mod:block/bhr_gem_diamond",
       "x": 270,
       "y": 90,
       "z": 180
     },
     "face=wall,facing=north": {
-      "model": "richards-whimsy-mod:block/bhr_gem_amethyst",
+      "model": "richards-whimsy-mod:block/bhr_gem_diamond",
       "x": 270,
       "z": 180
     },
     "face=wall,facing=south": {
-      "model": "richards-whimsy-mod:block/bhr_gem_amethyst",
+      "model": "richards-whimsy-mod:block/bhr_gem_diamond",
       "x": 270,
       "y": 180,
       "z": 180
     },
     "face=wall,facing=west": {
-      "model": "richards-whimsy-mod:block/bhr_gem_amethyst",
+      "model": "richards-whimsy-mod:block/bhr_gem_diamond",
       "x": 270,
       "y": 270,
       "z": 180

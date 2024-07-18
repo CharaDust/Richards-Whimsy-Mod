@@ -23,7 +23,7 @@ public class WI_Prospector extends Item {
 
     // 物品注册方法
     private static Item registerItems(String name, Item item) {
-        return Registry.register(Registries.ITEM, new Identifier(RichardsWhimsyMod.MOD_ID, name),item);
+        return Registry.register(Registries.ITEM, new Identifier(RichardsWhimsyMod.MOD_ID, name), item);
     }
 
     // 作用在方块上时

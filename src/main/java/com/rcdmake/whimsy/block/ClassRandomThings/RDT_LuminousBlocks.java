@@ -21,7 +21,21 @@ public class RDT_LuminousBlocks extends Block {
     }
 
     // 创建方块，使用构造函数类型
-    public static final Block RDT_LUMINOUS_BLOCK_RED = new RDT_LuminousBlocks(FabricBlockSettings.copyOf(Blocks.GLASS).nonOpaque());
+    public static final Block RDT_LUMINOUS_BLOCK_RED = new RDT_LuminousBlocks(FabricBlockSettings.copyOf(Blocks.GLASS)
+            .nonOpaque()
+            .luminance(state -> 1)
+            .emissiveLighting(Blocks::always)
+    );
+    public static final Block RDT_LUMINOUS_BLOCK_GREEN = new RDT_LuminousBlocks(FabricBlockSettings.copyOf(Blocks.GLASS)
+            .nonOpaque()
+            .luminance(state -> 1)
+            .emissiveLighting(Blocks::always)
+    );
+    public static final Block RDT_LUMINOUS_BLOCK_BLUE = new RDT_LuminousBlocks(FabricBlockSettings.copyOf(Blocks.GLASS)
+            .nonOpaque()
+            .luminance(state -> 1)
+            .emissiveLighting(Blocks::always)
+    );
     // 方块以及方块物品注册方法简化写法
     private static void register_Block_and_BlockItem(String path, Block block){
         Registry.register(Registries.BLOCK, new Identifier(RichardsWhimsyMod.MOD_ID, path), block);
@@ -30,6 +44,9 @@ public class RDT_LuminousBlocks extends Block {
 
     public static void OnInit(){
         register_Block_and_BlockItem("rdt_luminous_block_red", RDT_LUMINOUS_BLOCK_RED);
+        register_Block_and_BlockItem("rdt_luminous_block_green", RDT_LUMINOUS_BLOCK_GREEN);
+        register_Block_and_BlockItem("rdt_luminous_block_blue", RDT_LUMINOUS_BLOCK_BLUE);
+
     }
     public static void OnInitC(){
     }

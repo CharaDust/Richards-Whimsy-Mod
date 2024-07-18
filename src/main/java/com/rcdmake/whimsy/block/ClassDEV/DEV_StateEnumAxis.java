@@ -30,6 +30,8 @@ public class DEV_StateEnumAxis extends Block {
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         builder.add(AXIS);
     }
+
+    // 方块放置朝向逻辑
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
         return this.getDefaultState().with(AXIS, ctx.getSide().getAxis());
