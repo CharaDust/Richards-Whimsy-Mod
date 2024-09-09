@@ -1,0 +1,49 @@
+# Project: dataGen
+# Makefile created by Red Panda C++ 2.1
+
+CPP      = g++.exe
+CC       = gcc.exe
+WINDRES  = windres.exe
+RES      = dataGen_private.res
+OBJ      = sorce/state/read_csv.o state_base.o sorce/state/write_state.o main.o sorce/state/run.o lib_util_rawjson.o $(RES)
+LINKOBJ  = sorce/state/read_csv.o state_base.o sorce/state/write_state.o main.o sorce/state/run.o lib_util_rawjson.o $(RES)
+CLEANOBJ  =  sorce\state\read_csv.o state_base.o sorce\state\write_state.o main.o sorce\state\run.o lib_util_rawjson.o dataGen_private.res dataGen.exe
+LIBS     = 
+INCS     =   -I"C:/Personal/Project/IntellijIDEA/MinecraftMod/richards-whimsy-mod-template-1.20.4/src/main/cpp/dataGen"
+CXXINCS  =   -I"C:/Personal/Project/IntellijIDEA/MinecraftMod/richards-whimsy-mod-template-1.20.4/src/main/cpp/dataGen"
+BIN      = dataGen.exe
+CXXFLAGS = $(CXXINCS)  -g3 -pipe -Wall -D__DEBUG__
+CFLAGS   = $(INCS)  -g3 -pipe -Wall -D__DEBUG__
+RM       = del /q /f
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before $(BIN) all-after
+
+clean: clean-custom
+	${RM} $(CLEANOBJ) > NUL 2>&1
+
+$(BIN): $(OBJ)
+	$(CPP) $(LINKOBJ) -o $(BIN) $(LIBS)
+
+sorce/state/read_csv.o: sorce/state/read_csv.cpp
+	$(CPP) -c C:/Personal/Project/IntellijIDEA/MinecraftMod/richards-whimsy-mod-template-1.20.4/src/main/cpp/dataGen/sorce/state/read_csv.cpp -o sorce/state/read_csv.o $(CXXFLAGS) 
+
+state_base.o: state_base.cpp
+	$(CPP) -c C:/Personal/Project/IntellijIDEA/MinecraftMod/richards-whimsy-mod-template-1.20.4/src/main/cpp/dataGen/state_base.cpp -o state_base.o $(CXXFLAGS) 
+
+sorce/state/write_state.o: sorce/state/write_state.cpp
+	$(CPP) -c C:/Personal/Project/IntellijIDEA/MinecraftMod/richards-whimsy-mod-template-1.20.4/src/main/cpp/dataGen/sorce/state/write_state.cpp -o sorce/state/write_state.o $(CXXFLAGS) 
+
+main.o: main.cpp
+	$(CPP) -c C:/Personal/Project/IntellijIDEA/MinecraftMod/richards-whimsy-mod-template-1.20.4/src/main/cpp/dataGen/main.cpp -o main.o $(CXXFLAGS) 
+
+sorce/state/run.o: sorce/state/run.cpp
+	$(CPP) -c C:/Personal/Project/IntellijIDEA/MinecraftMod/richards-whimsy-mod-template-1.20.4/src/main/cpp/dataGen/sorce/state/run.cpp -o sorce/state/run.o $(CXXFLAGS) 
+
+lib_util_rawjson.o: lib_util_rawjson.cpp
+	$(CPP) -c C:/Personal/Project/IntellijIDEA/MinecraftMod/richards-whimsy-mod-template-1.20.4/src/main/cpp/dataGen/lib_util_rawjson.cpp -o lib_util_rawjson.o $(CXXFLAGS) 
+
+dataGen_private.res: dataGen_private.rc 
+	$(WINDRES) -i dataGen_private.rc --input-format=rc -o dataGen_private.res -O coff 
+

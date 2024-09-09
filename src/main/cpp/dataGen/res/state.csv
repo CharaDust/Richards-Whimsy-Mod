@@ -1,0 +1,13 @@
+group,name,mode
+dev,block_entity_int,base
+dev,block_ghost,base
+dev,block_normal,base
+dev,block_simple_worker,base
+dev,block_vector_fix_side_u,base
+rdt,lapis_glass,base
+rdt,luminous_block_blue,base
+rdt,luminous_block_green,base
+rdt,luminous_block_red,base
+rdt,quartz_glass,base
+rdt,step_block,base
+null,,

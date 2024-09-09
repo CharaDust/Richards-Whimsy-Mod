@@ -1,5 +1,6 @@
 {
   "itemGroup.whimsy_group_item": "奇思妙想物品",
+  "itemGroup.whimsy_group_block": "奇思妙想方块",
   "item.richards-whimsy-mod.bhr_gem_amethyst": "三方紫晶",
   "item.richards-whimsy-mod.gem_sapphire": "蓝宝石",
   "item.richards-whimsy-mod.gem_emerald": "祖母绿",
@@ -7,13 +8,13 @@
   "item.richards-whimsy-mod.gem_diamond": "宝石钻石",
   "item.richards-whimsy-mod.crystallized_honey": "结晶蜜(开发中)",
   "item.richards-whimsy-mod.wi_prospector": "探矿器",
-
-  "itemGroup.whimsy_group_block": "奇思妙想方块",
   "block.richards-whimsy-mod.static_cobblestone": "固石",
   "block.richards-whimsy-mod.packed_planks": "包装木材",
   "block.richards-whimsy-mod.wi_aerogel": "气凝胶",
   "block.richards-whimsy-mod.slate": "板岩",
   "block.richards-whimsy-mod.wi_static_liquid_water": "固化水方块",
+  "effect.richards-whimsy-mod.wi_bio_toxicity": "生物毒性",
+  "effect.richards-whimsy-mod.wi_radioactive": "电离辐射",
 
   "itemGroup.whimsy_group_dev": "奇思妙想开发物品",
   "item.richards-whimsy-mod.dev_item_normal": "一般物品",
@@ -72,6 +73,8 @@
   "block.richards-whimsy-mod.rdt_luminous_block_red": "红色鲁米诺方块",
   "block.richards-whimsy-mod.rdt_luminous_block_green": "绿色鲁米诺方块",
   "block.richards-whimsy-mod.rdt_luminous_block_blue": "蓝色鲁米诺方块",
+  "effect.richards-whimsy-mod.rdt_fire_imbue": "火焰灌注",
+  "effect.richards-whimsy-mod.rdt_poison_imbue": "毒性灌注",
 
 
   "end_of_this_list": "-"

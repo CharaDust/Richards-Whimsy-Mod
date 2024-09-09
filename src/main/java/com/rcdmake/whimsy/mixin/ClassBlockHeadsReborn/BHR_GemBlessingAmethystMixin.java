@@ -35,13 +35,25 @@ public abstract class BHR_GemBlessingAmethystMixin extends LivingEntity {
     // 对 PlayerEntity.class 中的 getBlockBreakingSpeed 方法进行修改
     @Inject(method = "getBlockBreakingSpeed", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/entity/player/PlayerEntity;getMainHandStack()Lnet/minecraft/item/ItemStack;", shift = At.Shift.AFTER), cancellable = true)
     private void injectGemBlessing(BlockState block, CallbackInfoReturnable<Float> cir) {
+        /*
+         getBlockBreakingSpeed 方法的原文如此：
+        float f = this.inventory.getBlockBreakingSpeed(block);
+        if (f > 1.0f) {
+            int i = EnchantmentHelper.getEfficiency(this);
+            ItemStack itemStack = this.getMainHandStack();
+            <插入点>
+            if (i > 0 && !itemStack.isEmpty()) {
+                f += (float)(i * i + 1);
+            }
+        }
+        * */
         PlayerEntity player = (PlayerEntity) (Object) this;
         ItemStack itemStack = player.getMainHandStack();
         Float f = cir.getReturnValue();
         f = this.inventory.getBlockBreakingSpeed(block);
-        // Check if the return value is null and handle accordingly
+        // 如果没有获取到 f 值，则将其重置为 1.0
         if (f == null) {
-            f = 1.0f; // Default to 1.0f if return value is null
+            f = 1.0f;
         }
 
         if (itemStack.hasNbt()) {

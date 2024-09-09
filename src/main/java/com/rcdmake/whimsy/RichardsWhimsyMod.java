@@ -2,6 +2,13 @@ package com.rcdmake.whimsy;
 
 import com.rcdmake.whimsy.block.ClassRandomThings.BlockEntity.RDT_BlockBreaker;
 import com.rcdmake.whimsy.function.ClassBlockHeadsReborn.NBT.Handler.BHR_GemBlessingToolTip;
+import com.rcdmake.whimsy.function.ClassRandomThings.Effect.Handler.RDT_ImbueAttackEventHandler;
+import com.rcdmake.whimsy.function.ClassRandomThings.Effect.RDT_EffectFireImbue;
+import com.rcdmake.whimsy.function.ClassRandomThings.Effect.RDT_EffectPoisonImbue;
+import com.rcdmake.whimsy.function.ClassWhimsyIdea.Handler.WI_RadioactiveAttackEventHandler;
+import com.rcdmake.whimsy.function.ClassWhimsyIdea.Handler.WI_ToxicAttackEventHandler;
+import com.rcdmake.whimsy.function.ClassWhimsyIdea.WI_EffectBioToxicity;
+import com.rcdmake.whimsy.function.ClassWhimsyIdea.WI_EffectRadioactive;
 import com.rcdmake.whimsy.itemGroup.BHR_General;
 import com.rcdmake.whimsy.itemGroup.DEV_General;
 import com.rcdmake.whimsy.itemGroup.RDT_General;
@@ -52,6 +59,7 @@ public class RichardsWhimsyMod implements ModInitializer {
 		// Proceed with mild caution.
 
 		LOGGER.info("Hello Fabric world!");
+		System.out.println("Initializing a lot of Whimsy Ideas...");
 		// 每一次写一个文件都要在此处引用，格式为`类名.方法名`，写完后记得import
 		// 初始化 ModBlocks
 		ModBlocks.register();
@@ -99,6 +107,12 @@ public class RichardsWhimsyMod implements ModInitializer {
 		WI_Prospector.OnInit();
 		WI_ShaderDevRed.OnInit();
 
+		WI_EffectBioToxicity.OnInit();
+		WI_EffectRadioactive.OnInit();
+		WI_ToxicAttackEventHandler.OnInit();
+		WI_RadioactiveAttackEventHandler.OnInit();
+
+
 		// 初始化 RDT 分支内容
 		RDT_SuperLubricentIce.OnInit();
 		RDT_GlassLapis.OnInit();
@@ -109,5 +123,11 @@ public class RichardsWhimsyMod implements ModInitializer {
 		RDT_LuminousBlocks.OnInit();
 		RDT_BlockBreaker.OnInit();
 
+		RDT_EffectFireImbue.OnInit();
+		RDT_EffectPoisonImbue.OnInit();
+		RDT_ImbueAttackEventHandler.OnInit();
+
+
+		System.out.println("Breaking your Computer(LOL, Just Kidding)...");
 	}
 }

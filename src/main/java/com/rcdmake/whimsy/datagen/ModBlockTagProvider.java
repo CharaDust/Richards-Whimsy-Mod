@@ -30,8 +30,10 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
                 .forceAddTag(BlockTags.REDSTONE_ORES)
                 .forceAddTag(BlockTags.COPPER_ORES)
                 .forceAddTag(BlockTags.EMERALD_ORES);
+
         // 编辑原版标签
         getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE);
+
         // 编辑Fabric自带标签
         getOrCreateTagBuilder(TagKey.of(RegistryKeys.BLOCK,
                 new Identifier("fabric", "needs_tool_level_4")

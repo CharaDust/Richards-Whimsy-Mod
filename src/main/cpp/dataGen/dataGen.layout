@@ -1,0 +1,112 @@
+[
+    {
+        "caretX": 1,
+        "caretY": 1,
+        "filename": "C:/Personal/Project/IntellijIDEA/MinecraftMod/richards-whimsy-mod-template-1.20.4/src/main/cpp/dataGen/main.cpp",
+        "focused": false,
+        "isOpen": true,
+        "leftChar": 1,
+        "order": 0,
+        "topLine": 1
+    },
+    {
+        "caretX": 1,
+        "caretY": 1,
+        "filename": "C:/Personal/Project/IntellijIDEA/MinecraftMod/richards-whimsy-mod-template-1.20.4/src/main/cpp/dataGen/sorce/state/read_csv.h",
+        "focused": false,
+        "isOpen": true,
+        "leftChar": 1,
+        "order": 4,
+        "topLine": 1
+    },
+    {
+        "caretX": 57,
+        "caretY": 11,
+        "filename": "C:/Personal/Project/IntellijIDEA/MinecraftMod/richards-whimsy-mod-template-1.20.4/src/main/cpp/dataGen/state_base.h",
+        "focused": false,
+        "isOpen": true,
+        "leftChar": 1,
+        "order": 5,
+        "topLine": 1
+    },
+    {
+        "caretX": 2,
+        "caretY": 32,
+        "filename": "C:/Personal/Project/IntellijIDEA/MinecraftMod/richards-whimsy-mod-template-1.20.4/src/main/cpp/dataGen/lib_util_rawjson.cpp",
+        "focused": false,
+        "isOpen": true,
+        "leftChar": 1,
+        "order": 8,
+        "topLine": 10
+    },
+    {
+        "caretX": 1,
+        "caretY": 1,
+        "filename": "C:/Personal/Project/IntellijIDEA/MinecraftMod/richards-whimsy-mod-template-1.20.4/src/main/cpp/dataGen/lib_util_files.cpp",
+        "focused": false,
+        "isOpen": true,
+        "leftChar": 1,
+        "order": 10,
+        "topLine": 1
+    },
+    {
+        "caretX": 1,
+        "caretY": 43,
+        "filename": "C:/Personal/Project/IntellijIDEA/MinecraftMod/richards-whimsy-mod-template-1.20.4/src/main/cpp/dataGen/sorce/state/read_csv.cpp",
+        "focused": false,
+        "isOpen": true,
+        "leftChar": 1,
+        "order": 3,
+        "topLine": 35
+    },
+    {
+        "caretX": 17,
+        "caretY": 4,
+        "filename": "C:/Personal/Project/IntellijIDEA/MinecraftMod/richards-whimsy-mod-template-1.20.4/src/main/cpp/dataGen/lib_util_rawjson.h",
+        "focused": false,
+        "isOpen": true,
+        "leftChar": 1,
+        "order": 7,
+        "topLine": 1
+    },
+    {
+        "caretX": 1,
+        "caretY": 1,
+        "filename": "C:/Personal/Project/IntellijIDEA/MinecraftMod/richards-whimsy-mod-template-1.20.4/src/main/cpp/dataGen/lib_util_files.h",
+        "focused": false,
+        "isOpen": true,
+        "leftChar": 1,
+        "order": 9,
+        "topLine": 1
+    },
+    {
+        "caretX": 62,
+        "caretY": 27,
+        "filename": "C:/Personal/Project/IntellijIDEA/MinecraftMod/richards-whimsy-mod-template-1.20.4/src/main/cpp/dataGen/state_base.cpp",
+        "focused": false,
+        "isOpen": true,
+        "leftChar": 1,
+        "order": 6,
+        "topLine": 17
+    },
+    {
+        "caretX": 3,
+        "caretY": 61,
+        "filename": "C:/Personal/Project/IntellijIDEA/MinecraftMod/richards-whimsy-mod-template-1.20.4/src/main/cpp/dataGen/sorce/state/run.cpp",
+        "focused": true,
+        "isOpen": true,
+        "leftChar": 1,
+        "order": 2,
+        "topLine": 13
+    },
+    {
+        "caretX": 1,
+        "caretY": 1,
+        "filename": "C:/Personal/Project/IntellijIDEA/MinecraftMod/richards-whimsy-mod-template-1.20.4/src/main/cpp/dataGen/sorce/state/write_state.cpp",
+        "focused": false,
+        "isOpen": true,
+        "leftChar": 1,
+        "order": 1,
+        "topLine": 1
+    }
+]

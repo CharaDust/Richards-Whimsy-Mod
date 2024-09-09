@@ -10,7 +10,12 @@ int line = 0, deal_type = 0;
 
 int main(){
 	FILE *readin = NULL, *readrec = NULL;
-	readin = fopen("../src/reglist.csv", "r");
+	readin = fopen("../../src/reglist.csv", "r");
+	if (readin == NULL) 
+	{  
+		perror("Error opening file");  
+		return -1;  
+	}  
 	readrec = readin;
 	// Main Loop
 	while(1){
