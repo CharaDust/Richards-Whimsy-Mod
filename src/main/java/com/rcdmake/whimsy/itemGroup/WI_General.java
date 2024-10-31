@@ -2,6 +2,7 @@ package com.rcdmake.whimsy.itemGroup;
 
 import com.rcdmake.whimsy.RichardsWhimsyMod;
 import com.rcdmake.whimsy.block.ClassWhimsyIdea.WI_Aerogel;
+import com.rcdmake.whimsy.block.ClassWhimsyIdea.WI_SugarBlock;
 import com.rcdmake.whimsy.block.ModBlocks;
 import com.rcdmake.whimsy.item.ClassWhimsyIdea.WI_Prospector;
 import com.rcdmake.whimsy.item.ClassWhimsyIdea.WI_ShaderDevRed;
@@ -30,6 +31,7 @@ public class WI_General {
                         entries.add(ModBlocks.STATIC_COBBLESTONE);
                         entries.add(ModBlocks.PACKED_PLANKS);
                         entries.add(WI_Aerogel.WI_AEROGEL);
+                        entries.add(WI_SugarBlock.WI_SUGARBLOCK);
                         // 自然方块
 //                        entries.add(ModBlocks.ROCK);
                         entries.add(ModBlocks.SLATE);

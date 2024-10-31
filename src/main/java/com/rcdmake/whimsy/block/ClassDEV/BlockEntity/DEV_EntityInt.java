@@ -85,7 +85,7 @@ public class DEV_EntityInt extends BlockWithEntity implements BlockEntityProvide
                 (world1, pos, state1, be) -> ((DEV_EntityInt_E) be).tick(world1, pos, state1, be));
     }
 
-    // 点击事件
+    // 右键点击事件
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit){
         if (!world.isClient) {
