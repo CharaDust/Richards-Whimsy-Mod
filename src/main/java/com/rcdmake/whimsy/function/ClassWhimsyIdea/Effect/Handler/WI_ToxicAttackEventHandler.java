@@ -1,8 +1,7 @@
-package com.rcdmake.whimsy.function.ClassWhimsyIdea.Handler;
+package com.rcdmake.whimsy.function.ClassWhimsyIdea.Effect.Handler;
 
-import com.rcdmake.whimsy.function.ClassRandomThings.Effect.RDT_EffectPoisonImbue;
-import com.rcdmake.whimsy.function.ClassWhimsyIdea.WI_EffectBioToxicity;
-import com.rcdmake.whimsy.function.ClassWhimsyIdea.WI_EffectRadioactive;
+import com.rcdmake.whimsy.function.ClassWhimsyIdea.Effect.WI_EffectBioToxicity;
+import com.rcdmake.whimsy.function.ClassWhimsyIdea.Effect.WI_EffectRadioactive;
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
 import net.minecraft.entity.AreaEffectCloudEntity;
 import net.minecraft.entity.LivingEntity;

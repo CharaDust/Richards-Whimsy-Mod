@@ -1,22 +1,12 @@
-package com.rcdmake.whimsy.function.ClassWhimsyIdea.Handler;
+package com.rcdmake.whimsy.function.ClassWhimsyIdea.Effect.Handler;
 
-import com.rcdmake.whimsy.function.ClassWhimsyIdea.WI_EffectRadioactive;
+import com.rcdmake.whimsy.function.ClassWhimsyIdea.Effect.WI_EffectRadioactive;
 import net.fabricmc.fabric.api.entity.event.v1.ServerEntityCombatEvents;
-import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
-import net.minecraft.client.session.report.ReporterEnvironment;
 import net.minecraft.entity.AreaEffectCloudEntity;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.hit.EntityHitResult;
-import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 
 public class WI_RadioactiveAttackEventHandler {
     // 获取生物特定药水效果的剩余时间

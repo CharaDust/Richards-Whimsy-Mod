@@ -4,7 +4,8 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "RichardsWhimsyModMixin",
-    "ClassBlockHeadsReborn.BHR_GemBlessingAmethystMixin"
+    "ClassBlockHeadsReborn.BHR_GemBlessingAmethystMixin",
+    "ClassBlockHeadsReborn.BHR_Compost4CropMixin"
   ],
   "injectors": {
     "defaultRequire": 1

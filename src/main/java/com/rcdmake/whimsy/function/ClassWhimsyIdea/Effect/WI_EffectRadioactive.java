@@ -1,4 +1,4 @@
-package com.rcdmake.whimsy.function.ClassWhimsyIdea;
+package com.rcdmake.whimsy.function.ClassWhimsyIdea.Effect;
 
 import com.rcdmake.whimsy.RichardsWhimsyMod;
 import net.minecraft.entity.LivingEntity;

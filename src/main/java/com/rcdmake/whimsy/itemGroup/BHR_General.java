@@ -1,6 +1,7 @@
 package com.rcdmake.whimsy.itemGroup;
 
 import com.rcdmake.whimsy.RichardsWhimsyMod;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Compost;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Gems;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Rocks;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Soils;
@@ -41,6 +42,7 @@ public class BHR_General {
                         entries.add(BHR_Soils.MINERAL_SOIL_FLINT_ORE);
                         entries.add(BHR_Soils.MINERAL_SOIL_CLAY_ORE);
                         entries.add(BHR_Soils.MINERAL_SOIL_UNKNOWN_ORE);
+                        entries.add(BHR_Compost.BHR_COMPOST);
 
                         // 宝石
                         entries.add(BHR_Gems.BHR_GEM_AMETHYST);

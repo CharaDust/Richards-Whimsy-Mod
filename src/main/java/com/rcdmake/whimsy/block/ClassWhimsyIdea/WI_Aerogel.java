@@ -31,13 +31,13 @@ public class WI_Aerogel extends Block {
             .sounds(BlockSoundGroup.SNOW)
             // 非不透明（不阻挡光线）
             .nonOpaque()
-            // 生成生物：：非
+            // 生成生物：:非
             .allowsSpawning(Blocks::never)
-            // 完全固态方块：：非
+            // 完全固态方块：:非
             .solidBlock(Blocks::never)
-            // 窒息伤害：非
+            // 窒息伤害：:非
             .suffocates(Blocks::never)
-            // 阻挡视线：非
+            // 阻挡视线：:非
             .blockVision(Blocks::never)
             // 无碰撞
             .noCollision()

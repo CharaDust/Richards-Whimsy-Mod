@@ -1,15 +1,16 @@
 package com.rcdmake.whimsy;
 
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Compost;
 import com.rcdmake.whimsy.block.ClassRandomThings.BlockEntity.RDT_BlockBreaker;
 import com.rcdmake.whimsy.block.ClassWhimsyIdea.WI_SugarBlock;
 import com.rcdmake.whimsy.function.ClassBlockHeadsReborn.NBT.Handler.BHR_GemBlessingToolTip;
 import com.rcdmake.whimsy.function.ClassRandomThings.Effect.Handler.RDT_ImbueAttackEventHandler;
 import com.rcdmake.whimsy.function.ClassRandomThings.Effect.RDT_EffectFireImbue;
 import com.rcdmake.whimsy.function.ClassRandomThings.Effect.RDT_EffectPoisonImbue;
-import com.rcdmake.whimsy.function.ClassWhimsyIdea.Handler.WI_RadioactiveAttackEventHandler;
-import com.rcdmake.whimsy.function.ClassWhimsyIdea.Handler.WI_ToxicAttackEventHandler;
-import com.rcdmake.whimsy.function.ClassWhimsyIdea.WI_EffectBioToxicity;
-import com.rcdmake.whimsy.function.ClassWhimsyIdea.WI_EffectRadioactive;
+import com.rcdmake.whimsy.function.ClassWhimsyIdea.Effect.Handler.WI_RadioactiveAttackEventHandler;
+import com.rcdmake.whimsy.function.ClassWhimsyIdea.Effect.Handler.WI_ToxicAttackEventHandler;
+import com.rcdmake.whimsy.function.ClassWhimsyIdea.Effect.WI_EffectBioToxicity;
+import com.rcdmake.whimsy.function.ClassWhimsyIdea.Effect.WI_EffectRadioactive;
 import com.rcdmake.whimsy.itemGroup.BHR_General;
 import com.rcdmake.whimsy.itemGroup.DEV_General;
 import com.rcdmake.whimsy.itemGroup.RDT_General;
@@ -96,6 +97,7 @@ public class RichardsWhimsyMod implements ModInitializer {
 		BHR_FoodLime.OnInit();
 		BHR_FuelEmber.OnInit();
 		BHR_Gems.OnInit();
+		BHR_Compost.OnInit();
 
 		BHR_GemBlessTest.OnInit();
 		//BHR_TestNBTHandler.OnInit();
