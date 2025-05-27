@@ -32,6 +32,7 @@ public class DEV_General {
                         entries.add(DEV_StateInt.DEV_BLOCK_STATE_INT);
                         entries.add(DEV_StateEnum.DEV_BLOCK_STATE_ENUM);
                         entries.add(DEV_StateEnumAxis.DEV_BLOCK_STATE_AXIS);
+                        entries.add(DEV_StateEnumFace.DEV_BLOCK_STATE_FACE);
                         entries.add(DEV_GhostBlock.DEV_BLOCK_GHOST);
                         entries.add(DEV_EntityInt.DEV_ENTITY_INT);
                         entries.add(DEV_SimpleWorker.DEV_SIMPLE_WORKER);

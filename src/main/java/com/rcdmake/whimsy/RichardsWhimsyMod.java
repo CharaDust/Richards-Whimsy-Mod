@@ -76,6 +76,7 @@ public class RichardsWhimsyMod implements ModInitializer {
 		DEV_StateInt.OnInit();
 		DEV_StateEnum.OnInit();
 		DEV_StateEnumAxis.OnInit();
+		DEV_StateEnumFace.OnInit();
 		DEV_Blocks.OnInit();
 		DEV_GhostBlock.OnInit();
 		DEVItems.registerDEVItems();

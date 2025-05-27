@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "richards-whimsy-mod:block/dev_block_state_face_u"
+    },
+    "facing=down": {
+      "model": "richards-whimsy-mod:block/dev_block_state_face_d"
+    },
+    "facing=north": {
+      "model": "richards-whimsy-mod:block/dev_block_state_face_n"
+    },
+    "facing=south": {
+      "model": "richards-whimsy-mod:block/dev_block_state_face_s"
+    },
+    "facing=west": {
+      "model": "richards-whimsy-mod:block/dev_block_state_face_w"
+    },
+    "facing=east": {
+      "model": "richards-whimsy-mod:block/dev_block_state_face_e"
+    }
+  }
+}
