@@ -1,6 +1,6 @@
 package com.rcdmake.whimsy;
 
-import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Compost;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.*;
 import com.rcdmake.whimsy.block.ClassRandomThings.BlockEntity.RDT_BlockBreaker;
 import com.rcdmake.whimsy.block.ClassWhimsyIdea.WI_SugarBlock;
 import com.rcdmake.whimsy.function.ClassBlockHeadsReborn.NBT.Handler.BHR_GemBlessingToolTip;
@@ -15,9 +15,6 @@ import com.rcdmake.whimsy.itemGroup.BHR_General;
 import com.rcdmake.whimsy.itemGroup.DEV_General;
 import com.rcdmake.whimsy.itemGroup.RDT_General;
 import com.rcdmake.whimsy.itemGroup.WI_General;
-import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Gems;
-import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Rocks;
-import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Soils;
 import com.rcdmake.whimsy.block.ClassDEV.*;
 import com.rcdmake.whimsy.block.ClassDEV.BlockEntity.DEV_EntityInt;
 import com.rcdmake.whimsy.block.ClassDEV.BlockEntity.DEV_SimpleWorker;
@@ -90,6 +87,7 @@ public class RichardsWhimsyMod implements ModInitializer {
 		DEV_EntityInt_E.OnInit();
 
 		// 初始化 BHR 分支内容
+		BHR__NormalBlocks.OnInit();
 		BHR_Rocks.OnInit();
 		BHR_Soils.OnInit();
 		BHR_General.OnInit();

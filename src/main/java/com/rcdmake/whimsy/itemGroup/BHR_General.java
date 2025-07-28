@@ -1,10 +1,7 @@
 package com.rcdmake.whimsy.itemGroup;
 
 import com.rcdmake.whimsy.RichardsWhimsyMod;
-import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Compost;
-import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Gems;
-import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Rocks;
-import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Soils;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.*;
 import com.rcdmake.whimsy.item.ClassBlockHeadRebon.BHR_FoodLime;
 import com.rcdmake.whimsy.item.ClassBlockHeadRebon.BHR_FoodOther;
 import com.rcdmake.whimsy.item.ClassBlockHeadRebon.BHR_FuelEmber;
@@ -42,6 +39,12 @@ public class BHR_General {
                         entries.add(BHR_Soils.MINERAL_SOIL_FLINT_ORE);
                         entries.add(BHR_Soils.MINERAL_SOIL_CLAY_ORE);
                         entries.add(BHR_Soils.MINERAL_SOIL_UNKNOWN_ORE);
+                        entries.add(BHR__NormalBlocks.BHR_LIMESTONE);
+                        entries.add(BHR__NormalBlocks.BHR_LIMESTONE_BRICK);
+                        entries.add(BHR__NormalBlocks.BHR_LIMESTONE_OIL_ORE);
+                        entries.add(BHR__NormalBlocks.BHR_MARBLE);
+                        entries.add(BHR__NormalBlocks.BHR_POLISHED_MARBLE);
+                        entries.add(BHR__NormalBlocks.BHR_BEACH_SAND);
                         entries.add(BHR_Compost.BHR_COMPOST);
 
                         // 宝石

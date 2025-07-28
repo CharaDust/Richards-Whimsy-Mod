@@ -27,8 +27,6 @@ public class BHR_Compost extends Block {
         Registry.register(Registries.ITEM, new Identifier(RichardsWhimsyMod.MOD_ID, path), new BlockItem(block, new FabricItemSettings()));
     }
 
-
-
     // OnInit
     public static void OnInit(){
         register_Block_and_BlockItem("bhr_compost", BHR_COMPOST);
