@@ -1,44 +1,56 @@
-# Whimsy Mod
-奇思妙想模组
+# 奇思妙想模组 / Whimsy Mod
+这是一个由随机灵感驱动的简单模组，一切为了欢乐。~~什么杂七杂八的东西都会往这里写。~~  
+A simple mod fueled by random sparks of inspiration—pure fun, nothing else.
 
-这是一个由随机灵感驱动的简单模组，一切只为欢乐。~~什么杂七杂八的东西都会往这里写。~~
-## 项目特性
+## 项目特性 / Features
 - 作者系 Java 语言与 Minecraft Mod 开发初学者，几乎每段代码会保留有详细的注释
+- As a Java and Minecraft Modding novice, I've added detailed comments to nearly every code segment for learning reference.
 - 该模组包含多个开发主题，一些方块与物品在注册时的内部名称会带有各个主题的简称前缀
+- The mod includes various development themes, with blocks/items using abbreviated theme prefixes in their internal registry names.
 - 为避免出现不稳定情况~~而变成屎山~~，该模组的测试版代码耦合性较低（文件关联性低），几乎每一个用途的方块或物品大多都是单独的一个 Java 类
+- To ensure stability, the beta version minimizes code interdependence—most functional blocks/items are isolated in independent Java classes.
 
 ## 计划内容
 
-### 方块愚者 · 重生（#`BHR_`）
-复刻一款在 2018 年停更的移动平台2.5D独立沙盒游戏《The BlockHeads》
+### 方块愚者 · 重生 / The Blockheads: Reborn（#`BHR_`）
+复刻一款在 2019 年最后更新的移动平台2.5D独立沙盒游戏《The BlockHeads》  
+Recreate *The BlockHeads* — a 2.5D indie sandbox game last updated in 2019 for mobile platforms.  
 参考此处wiki链接 [[1]](https://wiki.floofyplasma.com/wiki/Main_Page)  
-- 游戏机制
-+ [ ] 多任务栈系统
-+ [ ] 兑换式合成系统（类似于原主机版和携带版的 MATTIS）
-+ [ ] 合成任务列表
-+ [ ] 多种熔炉的燃料热值系统
-+ [ ] 便携的可升级的传送门
-+ [ ] 数值系统
-+ [ ] 环境舒适度（光照、天气）
-+ [ ] 快乐值（由精力、饥饿、环境影响，并作用于移动速度与挖掘速度）
-+ [ ] 第二层生命值（背水一战）
-+ [ ] ...
-- 游戏特性
-+ [x] 宝石（2024/7/18）
-+ [x] 宝石祝福（2024/7/17）
-+ [x] 石灰酸橙（2024/4/18）
-+ [ ] 自然方块
-+ [x] 堆肥块（兼容原版农作物）（2024/11/21）
-+ [ ] 其他方块镶嵌的矿物
-+ [ ] ~~粗旷（官方已实现）~~
-+ [ ] 睡觉来回复精力值
-+ [ ] 地域精英 - 洞穴傀儡
-+ [ ] ...
+Refer to this wiki link [[1]](https://wiki.floofyplasma.com/wiki/Main_Page)  
+  
+**游戏机制 / Gameplay Systems**
+| 项目 / Name                 | 基本实现 / Started |
+| ------------------------- | -------------- |
+| 多任务队列系统 / Queue System    |                |
+| 兑换式合成系统 / MATTIS          |                |
+| 合成任务列表 / Craft Tasks List |                |
+| 熔炼合成燃料热值 / Fuel System    |                |
+| 精力值 / Energy Bar          |                |
+| 环境值 / Environment Bar     |                |
+| 快乐值 / Happy Bar           |                |
+| 濒死生命值                     |                |
+| 冥想奖励 / Mediate Bonus      |                |
+| ...                       |                |
 
-### 饭后柠檬茶（#`WI_`）
+**游戏特性 / Game Features**
+| 项目 / Name            | 基本实现 / Started | 战利品表 / Loot Table | 合成配方 / Recipes | 可获得性 / Obtainability |
+| -------------------- | -------------- | ----------- | ------------- | -------------------- |
+| 宝石 / Gem             | 2024/7/18      |             |               |                      |
+| 宝石祝福 / Gem Blessing  |                |             |               |                      |
+| 石灰酸橙 / Lime Lime     | 2024/4/18      |             |               |                      |
+| 堆肥块 / Compost        | 2024/11/21     |             |               |                      |
+| 其他方块镶嵌的矿物 / Ores     |                |             |               |                      |
+| 传送门 / Portal         |                |             |               |                      |
+| 简单方块 / Simple Blocks |                |             |               |                      |
+| 洞穴傀儡 / Cave Troll    |                |             |               |                      |
+| ...                  |                |             |               |                      |
+
+### 饭后柠檬茶 / Lemon Tea After Dinner（#`WI_`）
 实现 2011 ~ 2024 年 记忆中与朋友茶前饭后分享的奇妙想法  
-~~可恶，有一些居然被官方做出来啦~~
-- 流光忆庭的忆质库
+Recollecting Those Wonderful Ideas Shared Over Tea with Friends (2011-2024)  
+~~可恶，有一些居然被官方做出来啦~~  
+  
+**流光忆庭的忆质库 / Memory Zone**
 + [ ] 柠檬茶
 + [ ] 泥沼（液体）
 + [ ] 开水（液体）
