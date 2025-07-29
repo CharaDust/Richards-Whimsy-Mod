@@ -43,7 +43,7 @@ public class WI_SugarBlock extends Block {
             // 测试消息
 //            player.sendMessage(Text.literal("I ate it..."));
             // 恢复饥饿值
-            player.getHungerManager().add(4, 0.3F);
+            player.getHungerManager().add(1, 0.1F);
             // 播放吃的声音
             world.playSound(null, pos, SoundEvents.ENTITY_GENERIC_EAT, SoundCategory.PLAYERS, 1.0F, 1.0F);
             // 增加统计数据（可选）

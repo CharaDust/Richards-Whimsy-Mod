@@ -30,6 +30,10 @@ public class RDT_General {
                         entries.add(RDT_StepBlock.RDT_STEP_BLOCK);
                         entries.add(RDT_BlockBreaker.RDT_BLOCK_BREAKER);
 
+                        // 树木
+                        entries.add(RDT_TreeLogSpectre.RDT_SPECTRE_LOG);
+
+                        // 鲁米诺方块
                         entries.add(RDT_LuminousBlocks.RDT_LUMINOUS_BLOCK_RED);
                         entries.add(RDT_LuminousBlocks.RDT_LUMINOUS_BLOCK_GREEN);
                         entries.add(RDT_LuminousBlocks.RDT_LUMINOUS_BLOCK_BLUE);

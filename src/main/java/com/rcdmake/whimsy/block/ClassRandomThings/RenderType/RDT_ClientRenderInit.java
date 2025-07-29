@@ -1,10 +1,7 @@
 package com.rcdmake.whimsy.block.ClassRandomThings.RenderType;
 
 import com.rcdmake.whimsy.block.ClassDEV.DEV_GhostBlock;
-import com.rcdmake.whimsy.block.ClassRandomThings.RDT_GlassLapis;
-import com.rcdmake.whimsy.block.ClassRandomThings.RDT_GlassQuartz;
-import com.rcdmake.whimsy.block.ClassRandomThings.RDT_GlassSugar;
-import com.rcdmake.whimsy.block.ClassRandomThings.RDT_StepBlock;
+import com.rcdmake.whimsy.block.ClassRandomThings.*;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.impl.blockrenderlayer.BlockRenderLayerMapImpl;
@@ -16,7 +13,10 @@ public class RDT_ClientRenderInit {
     public static void SetRenderLayer_3(Block block){
 //        BlockRenderLayerMapImpl.INSTANCE.putBlock(block, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(block, RenderLayer.getCutout());
-
+    }
+    public static void SetRenderLayer_2(Block block){
+//        BlockRenderLayerMapImpl.INSTANCE.putBlock(block, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(block, RenderLayer.getTranslucent());
     }
 
 //    public static void SetCustomEntityRander(BlockEntityType entityType,Object costomRenderer){
@@ -30,6 +30,7 @@ public class RDT_ClientRenderInit {
         SetRenderLayer_3(RDT_GlassQuartz.RDT_QUARTZ_GLASS);
         SetRenderLayer_3(RDT_GlassSugar.RDT_SUGAR_GLASS);
         SetRenderLayer_3(RDT_StepBlock.RDT_STEP_BLOCK);
+        SetRenderLayer_2(RDT_TreeLogSpectre.RDT_SPECTRE_LOG);
 
         // 自定义渲染器
     }

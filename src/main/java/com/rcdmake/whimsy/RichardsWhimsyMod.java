@@ -97,6 +97,7 @@ public class RichardsWhimsyMod implements ModInitializer {
 		BHR_FuelEmber.OnInit();
 		BHR_Gems.OnInit();
 		BHR_Compost.OnInit();
+		BHR_TreeLogPine.OnInit();
 
 		BHR_GemBlessTest.OnInit();
 		//BHR_TestNBTHandler.OnInit();
@@ -125,6 +126,7 @@ public class RichardsWhimsyMod implements ModInitializer {
 		RDT_StepBlock.OnInit();
 		RDT_LuminousBlocks.OnInit();
 		RDT_BlockBreaker.OnInit();
+		RDT_TreeLogSpectre.OnInit();
 
 		RDT_EffectFireImbue.OnInit();
 		RDT_EffectPoisonImbue.OnInit();

@@ -13,7 +13,7 @@ import net.minecraft.util.Identifier;
 
 public class DEV_StateBoolean extends Block {
 
-    // 添加一个 DEV_BOOLEAN(开发_布尔值) 方块状态
+    // 添加一个 DEV_BOOLEAN(开发_布尔值) 方块状态，注意一定要先添加这个
     public static final BooleanProperty DEV_BOOLEAN = BooleanProperty.of("dev_boolean");
     // 创建方块，使用构造函数类型
     public static final Block DEV_BLOCK_STATE_BOOLEAN  = new DEV_StateBoolean(FabricBlockSettings.copyOf(Blocks.STONE));

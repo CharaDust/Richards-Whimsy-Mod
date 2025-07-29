@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "richards-whimsy-mod:block/rdt_spectre_log",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "richards-whimsy-mod:block/rdt_spectre_log"
+    },
+    "axis=z": {
+      "model": "richards-whimsy-mod:block/rdt_spectre_log",
+      "x": 90
+    }
+  }
+}

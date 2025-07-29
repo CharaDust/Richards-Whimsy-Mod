@@ -1,4 +1,4 @@
-package com.rcdmake.whimsy.block.ClassDEV;
+package com.rcdmake.whimsy.block.ClassBlockHeadsRebon;
 
 import com.rcdmake.whimsy.RichardsWhimsyMod;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
@@ -10,27 +10,30 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
-import net.minecraft.scoreboard.ScoreboardCriterion;
 import net.minecraft.state.StateManager;
-import net.minecraft.state.property.Properties;
+import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 
 import static net.minecraft.state.property.Properties.AXIS;
 
-public class DEV_StateEnumAxis extends Block {
+public class BHR_TreeLogPine extends Block {
+    // 添加一个 BHR_DECAYED(枯萎) 方块状态
+    public static final BooleanProperty BHR_DECAYED = BooleanProperty.of("bhr_decayed");
+
+    public BHR_TreeLogPine(Settings settings) {
+        super(settings);
+        setDefaultState(getDefaultState().with(AXIS, Direction.Axis.X).with(BHR_DECAYED, false));
+    }
 
     // 创建方块，使用构造函数类型
-    public static final Block DEV_BLOCK_STATE_AXIS  = new DEV_StateEnumAxis(FabricBlockSettings.copyOf(Blocks.STONE));
-    public DEV_StateEnumAxis(Settings settings) {
-        super(settings);
-        setDefaultState(getDefaultState().with(AXIS, Direction.Axis.X));
-    }
+    public static final Block BHR_PINE_LOG = new BHR_TreeLogPine(FabricBlockSettings.copyOf(Blocks.OAK_LOG));
+
 
     // 添加方块状态
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(AXIS);
+        builder.add(AXIS, BHR_DECAYED);
     }
 
     // 方块放置朝向逻辑
@@ -44,7 +47,9 @@ public class DEV_StateEnumAxis extends Block {
         Registry.register(Registries.BLOCK, new Identifier(RichardsWhimsyMod.MOD_ID, path), block);
         Registry.register(Registries.ITEM, new Identifier(RichardsWhimsyMod.MOD_ID, path), new BlockItem(block, new FabricItemSettings()));
     }
+
+    // OnInit
     public static void OnInit(){
-        register_Block_and_BlockItem("dev_block_state_axis", DEV_BLOCK_STATE_AXIS);
+        register_Block_and_BlockItem("bhr_pine_log", BHR_PINE_LOG);
     }
 }

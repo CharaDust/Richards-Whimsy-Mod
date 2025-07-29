@@ -45,6 +45,11 @@ public class BHR_General {
                         entries.add(BHR__NormalBlocks.BHR_MARBLE);
                         entries.add(BHR__NormalBlocks.BHR_POLISHED_MARBLE);
                         entries.add(BHR__NormalBlocks.BHR_BEACH_SAND);
+
+                        // 树木
+                        entries.add(BHR_TreeLogPine.BHR_PINE_LOG);
+
+                        // 其他方块
                         entries.add(BHR_Compost.BHR_COMPOST);
 
                         // 宝石

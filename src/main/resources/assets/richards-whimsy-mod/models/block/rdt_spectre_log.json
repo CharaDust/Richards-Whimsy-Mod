@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_column",
+  "textures": {
+    "end": "richards-whimsy-mod:block/rdt/spectre_trsp_log_end",
+    "side": "richards-whimsy-mod:block/rdt/spectre_trsp_log_side"
+  }
+}
