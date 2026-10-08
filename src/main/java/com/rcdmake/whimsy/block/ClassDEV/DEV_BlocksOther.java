@@ -37,18 +37,49 @@ import java.util.Map;
  * 现在由 {@code LangEntrySupport.addBlockAndItem(builder, 方块, 名字)} 一个方块一次调用同时写
  * 「方块」与「方块物品」两条键，列表本身就多余了（26.2 的「方块物品要单独写一条翻译」
  * 这条事实已记进 {@code LangEntrySupport} 的类注释）。
+ *
+ * <h2>范式 V1 契约栏（层 0）</h2>
+ * <ul>
+ *   <li><b>注册名</b> {@code dev_block_normal} / {@code dev_block_vector_fix_side_u}
+ *       　<b>模块</b> DEV　<b>父级</b> 石头（两个方块都是）</li>
+ *   <li><b>一个类两个方块</b>：层 2 并列两个字段 —— 它们不是「换色变体」，而是两个独立方块
+ *       恰好属性相同，所以层 4 刻意各留一条工厂（将来任一个要改属性时不必拆类）</li>
+ *   <li><b>启用的可选层</b>：无（只有强制的层 2 / 4 / 5 / 12）</li>
+ *   <li><b>跳过的可选层</b>：层 1 常量、层 3 状态属性（都是单状态）、层 6 家族、层 7 codec、
+ *       层 8 生命周期、层 9 交互与判定、层 10 形状与外观、层 11 预留区、层 C 客户端、层 M Mixin</li>
+ *   <li><b>能力阶梯</b>：停在第 0/1 级「继承 + 声明」（{@code new Block(...)} + 复制石头属性，无覆写）</li>
+ *   <li><b>登记点</b>：①☑ 主类 {@code OnInit()}　②☑ <b>本类的 {@code blockStateModels()}</b> 就是
+ *       这个登记点的载体（两个方块都是单状态，交给 datagen）　③☒ 物品模型无例外
+ *       　④☑ 中英 {@code DEV_LangEntries}　⑤☑ {@code DEV_CreativeTabs}　⑥☑ 贴图 / 模型
+ *       　⑦☐ 配方与战利品表（wiki：获取方式「无」）</li>
+ * </ul>
  */
 public class DEV_BlocksOther {
 
-	/** 一般方块 {@code dev_block_normal}。 */
+	/** 一般方块 {@code dev_block_normal}（层 2）。 */
 	public static Block DEV_BLOCK_NORMAL;
-	/** 固定向上方块 {@code dev_block_vector_fix_side_u}。 */
+	/** 固定向上方块 {@code dev_block_vector_fix_side_u}（层 2）。 */
 	public static Block DEV_BLOCK_VECTOR_FIX_SIDE_U;
 
 	/**
-	 * 方块状态数据生成的声明：方块 → 模型路径后缀（空串 = 沿用 {@code block/<方块id>}）。
+	 * 一般方块的属性（层 4）：wiki「构造」表逐行都是「父级」→ 完整复制石头。
+	 * <p>与 {@link #vectorFixSideUProperties()} 目前内容相同，但<b>刻意各留一条</b>：
+	 * 它们是两个独立方块（wiki 也是逐方块列表），将来任一个要单独调属性时不必拆类。
+	 */
+	public static BlockBehaviour.Properties normalBlockProperties() {
+		return BlockBehaviour.Properties.ofFullCopy(Blocks.STONE);
+	}
+
+	/** 固定向上方块的属性（层 4）：同样复制石头（朝向由模型写死，属性上无方向）。 */
+	public static BlockBehaviour.Properties vectorFixSideUProperties() {
+		return BlockBehaviour.Properties.ofFullCopy(Blocks.STONE);
+	}
+
+	/**
+	 * 方块状态数据生成的声明（登记点②的载体，不属于方块本体）：方块 → 模型路径后缀
+	 * （空串 = 沿用 {@code block/<方块id>}）。
 	 *
-	 * <p>本类两个方块都是**单方块状态**（无属性），模型与方块同名，
+	 * <p>本类两个方块都是<b>单方块状态</b>（无属性），模型与方块同名，
 	 * 所以 blockstate 可以完全由 datagen 生成，不需要手写。
 	 * 多状态方块不要往这里加 —— 它们的 variants 写法各异，仍需手写。
 	 *
@@ -63,7 +94,7 @@ public class DEV_BlocksOther {
 	}
 
 	/**
-	 * 初始化：构造并注册本类的全部方块及其方块物品。
+	 * 初始化（层 12）：构造并注册本类的全部方块及其方块物品。
 	 * <p>主类只需要调用这一条。
 	 *
 	 * <p>方块在这里才构造并把 id 写进 Properties：{@code Properties.setId} 是方块
@@ -71,11 +102,11 @@ public class DEV_BlocksOther {
 	 */
 	public static void OnInit() {
 		DEV_BLOCK_NORMAL = ModRegister.registerBlockWithItem("dev_block_normal",
-				new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)
+				new Block(normalBlockProperties()
 						.setId(ModRegister.blockKey("dev_block_normal"))));
 
 		DEV_BLOCK_VECTOR_FIX_SIDE_U = ModRegister.registerBlockWithItem("dev_block_vector_fix_side_u",
-				new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)
+				new Block(vectorFixSideUProperties()
 						.setId(ModRegister.blockKey("dev_block_vector_fix_side_u"))));
 	}
 }

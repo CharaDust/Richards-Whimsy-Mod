@@ -62,14 +62,22 @@ import net.minecraft.world.phys.shapes.VoxelShape;
  * 栅栏门之所以不被冲，就是被 {@code DoorBlock} 那一条<b>特权白名单</b>放过了；
  * 模组方块进不去这个名单。
  *
- * <p><b>而转机在于 {@code blocksMotion()} 读的并不是碰撞形状</b>：
+ * <p><b>而转机在于 {@code blocksMotion()} 读的并不直接是碰撞形状</b>：
  * <pre>{@code
  * BlockStateBase.blocksMotion()
  *   → isSolid()
- *   → 字段 legacySolid
+ *   → 字段 legacySolid = calculateSolid()          // 26.2 逐字节读过
+ *
+ * calculateSolid()：
+ *   forceSolidOn  ? true                           // ← 本方块走这一支
+ * : forceSolidOff ? false
+ * : 无形状缓存（dynamicShape 的方块） ? false
+ * : 缓存下来的 collisionShape 为空 ? false
+ * : 形状够大 ? true : false
  * }</pre>
- * {@code legacySolid} 由 {@code Properties.forceSolidOn()} / {@code forceSolidOff()}
- * 设置，与 {@code getCollisionShape} 无关。于是：
+ * 即：两个开关都<b>没写</b>时，{@code legacySolid} 会由「状态创建时缓存下来的碰撞形状」反推
+ * （青金石玻璃「被水冲掉」踩的就是这个坑，实测见 {@code RDT_GlassLapis} 类注释）；
+ * 但只要写了 {@code forceSolidOn()}，结果就<b>与形状无关</b>、恒为 true。于是：
  * <b>空碰撞形状（实体穿过）＋ {@code forceSolidOn()}（{@code blocksMotion()==true}，
  * 水不来占）可以兼得</b> —— 见 {@link #ghostProperties()}。
  *
@@ -82,22 +90,34 @@ import net.minecraft.world.phys.shapes.VoxelShape;
  *   <tr><td>{@code getShape} / {@code getBlockSupportShape} 给完整箱</td><td>❌ 仍被冲</td></tr>
  *   <tr><td>{@code neighborChanged} + {@code Orientation} 拦水</td><td>❌ NPE（该参数可为 null）且时机在替换之后</td></tr>
  * </table>
+ *
+ * <h2>范式 V1 契约栏（层 0）</h2>
+ * <ul>
+ *   <li><b>注册名</b> {@code dev_block_ghost}　<b>模块</b> DEV　<b>父级</b> 玻璃（额外 {@code forceSolidOn()}）</li>
+ *   <li><b>启用的可选层</b>：层 9 交互与判定（{@code isPathfindable}、{@code canBeReplaced}）、
+ *       层 10 形状与外观（{@code getShadeBrightness} / {@code propagatesSkylightDown} / {@code skipRendering}）</li>
+ *   <li><b>跳过的可选层</b>：层 1 常量、层 3 状态属性（单状态）、层 6 家族、层 7 codec、层 8 生命周期、
+ *       层 11 预留区、层 C 客户端、层 M Mixin</li>
+ *   <li><b>能力阶梯</b>：停在第 2 级「覆写本类方法」—— 「实体穿过但水冲不掉」由 {@code noCollision()} +
+ *       {@code forceSolidOn()}（层 4 声明）解决，<b>没有</b>动 Mixin；上面那张「已排除的走法」表
+ *       就是阶梯逐级试下来的记录</li>
+ *   <li><b>登记点</b>：①☑ 主类 {@code OnInit()}　②☑ {@code BlockStateGenerator.collectAll()}（单状态）
+ *       　③☒ 物品模型无例外　④☑ 中英 {@code DEV_LangEntries}　⑤☑ {@code DEV_CreativeTabs}
+ *       　⑥☑ 贴图 / 模型　⑦☐ 配方与战利品表（wiki：获取方式「无」）</li>
+ * </ul>
  */
 public class DEV_GhostBlock extends Block {
 
+	/** 方块本体（层 2），在 {@link #OnInit()} 里赋值。 */
 	public static Block DEV_BLOCK_GHOST;
 
-	public DEV_GhostBlock(BlockBehaviour.Properties properties) {
-		super(properties);
-	}
-
-	/** 不窒息、不阻挡视野：「无」语义用 {@code (state, level, pos) -> false} 表达。 */
+	/** 不窒息、不阻挡视野：「无」语义用 {@code (state, level, pos) -> false} 表达（层 4 的谓词助手）。 */
 	private static boolean never(BlockState state, BlockGetter level, BlockPos pos) {
 		return false;
 	}
 
 	/**
-	 * 幽灵方块的属性。
+	 * 幽灵方块的属性（层 4）。
 	 *
 	 * <p><b>关键组合：{@code noCollision()} + {@code forceSolidOn()}</b>
 	 *
@@ -118,9 +138,9 @@ public class DEV_GhostBlock extends Block {
 	 * ... (LADDER / SUGAR_CANE / BUBBLE_COLUMN / 传送门 / STRUCTURE_VOID)
 	 * return false;
 	 * }</pre>
-	 * 而 {@code BlockStateBase.blocksMotion()} 读的是
-	 * {@code isSolid()} → 字段 {@code legacySolid}，<b>不是碰撞形状</b>。
-	 * 所以只要 {@code legacySolid} 为 true，水就不会来占 —— 与碰撞形状无关。
+	 * 而 {@code BlockStateBase.blocksMotion()} 读的是 {@code isSolid()} → 字段 {@code legacySolid}
+	 * （它的完整算法见类注释）。写了 {@code forceSolidOn()} 之后结果就与形状无关，恒为 true，
+	 * 所以水不会来占。
 	 */
 	public static BlockBehaviour.Properties ghostProperties() {
 		return BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS)
@@ -133,19 +153,43 @@ public class DEV_GhostBlock extends Block {
 				.forceSolidOn();
 	}
 
-	/** 环境光遮蔽：1.0 = 完全不遮蔽（旧 {@code getAmbientOcclusionLightLevel}）。 */
+	/**
+	 * 构造器（层 5；运行时排在属性工厂之后）：只做装配，没有别的逻辑。
+	 * <p>属性来自上面的 {@link #ghostProperties()} —— 它是本构造器实参的来源。
+	 */
+	public DEV_GhostBlock(BlockBehaviour.Properties properties) {
+		super(properties);
+	}
+
+	/** 水不参与寻路（旧方法恒返回 false，这里保持同样语义，层 9）。 */
+	@Override
+	protected boolean isPathfindable(BlockState state, PathComputationType type) {
+		return false;
+	}
+
+	/**
+	 * 流体替换：一律不允许（层 9）。
+	 * <p>这是与上面的形状声明<b>互补</b>的保险 —— 形状判定挡住「水能否流入」，
+	 * 本方法挡住「流体直接替换本方块」。两者都在，才不依赖单一机制。
+	 */
+	@Override
+	protected boolean canBeReplaced(BlockState state, Fluid fluid) {
+		return false;
+	}
+
+	/** 环境光遮蔽：1.0 = 完全不遮蔽（旧 {@code getAmbientOcclusionLightLevel}，层 10）。 */
 	@Override
 	protected float getShadeBrightness(BlockState state, BlockGetter level, BlockPos pos) {
 		return 1.0F;
 	}
 
-	/** 让天光透过去（旧 {@code isTransparent} 的等价物）。 */
+	/** 让天光透过去（旧 {@code isTransparent} 的等价物，层 10）。 */
 	@Override
 	protected boolean propagatesSkylightDown(BlockState state) {
 		return true;
 	}
 
-	/** 相邻的两个同类方块贴合面不渲染（旧 {@code isSideInvisible}）。 */
+	/** 相邻的两个同类方块贴合面不渲染（旧 {@code isSideInvisible}，层 10）。 */
 	@Override
 	protected boolean skipRendering(BlockState state, BlockState neighbor, Direction direction) {
 		if (neighbor.getBlock() == this) {
@@ -154,22 +198,7 @@ public class DEV_GhostBlock extends Block {
 		return super.skipRendering(state, neighbor, direction);
 	}
 
-	/** 水不参与寻路（旧方法恒返回 false，这里保持同样语义）。 */
-	@Override
-	protected boolean isPathfindable(BlockState state, PathComputationType type) {
-		return false;
-	}
-
-	/**
-	 * 流体替换：一律不允许。
-	 * <p>这是与上一条<b>互补</b>的保险 —— 形状判定挡住「水能否流入」，
-	 * 本方法挡住「流体直接替换本方块」。两者都在，才不依赖单一机制。
-	 */
-	@Override
-	protected boolean canBeReplaced(BlockState state, Fluid fluid) {
-		return false;
-	}
-
+	/** 注册（层 12）。 */
 	public static void OnInit() {
 		DEV_BLOCK_GHOST = ModRegister.registerBlockWithItem("dev_block_ghost",
 				new DEV_GhostBlock(ghostProperties()
