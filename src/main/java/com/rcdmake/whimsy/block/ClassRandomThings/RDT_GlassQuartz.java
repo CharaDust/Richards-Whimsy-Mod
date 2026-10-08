@@ -32,19 +32,60 @@ import net.minecraft.world.phys.shapes.VoxelShape;
  * <p>顺带记一笔：本方块这一版<b>没有</b>出现青金石玻璃那种「被水冲掉」的问题，原因是它的兜底分支
  * （非实体上下文）返回的是完整箱 —— 于是引擎缓存下来的碰撞形状不为空，{@code legacySolid} 自然为 true。
  * 这正是 {@link RDT_GlassLapis} 那个坑的反证。
+ *
+ * <h2>1.20.4 (Yarn) → 26.2 官方名对照</h2>
+ * <table border="1">
+ *   <caption>本方块涉及的改名（与青金石玻璃同一套）</caption>
+ *   <tr><th>Yarn（旧）</th><th>26.2 官方名</th><th>说明</th></tr>
+ *   <tr><td>{@code FabricBlockSettings.copyOf(Blocks.GLASS)}</td>
+ *       <td>{@code BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS)}</td><td>「父级 = 玻璃」</td></tr>
+ *   <tr><td>{@code getCollisionShape(..., ShapeContext)} / {@code EntityShapeContext}</td>
+ *       <td>{@code getCollisionShape(..., CollisionContext)} / {@code EntityCollisionContext}</td>
+ *       <td>碰撞上下文与实体上下文一起改名，方法名与语义不变</td></tr>
+ *   <tr><td>{@code VoxelShapes.fullCube()} / {@code VoxelShapes.empty()}</td>
+ *       <td>{@code Shapes.block()} / {@code Shapes.empty()}</td><td>形状工厂</td></tr>
+ *   <tr><td>{@code getAmbientOcclusionLightLevel} = 1.0f / {@code isTransparent} / {@code isSideInvisible}</td>
+ *       <td>{@code getShadeBrightness} = 1.0F / {@code propagatesSkylightDown} / {@code skipRendering}</td>
+ *       <td>同其它 WI / RDT 方块</td></tr>
+ *   <tr><td>{@code BlockRenderLayerMap}（镂空）</td><td><b>已删除</b></td>
+ *       <td>26.1 起由贴图自动判定：{@code rdt/glass_quartz.png} 只有全透 / 全不透两档 → 镂空</td></tr>
+ * </table>
+ *
+ * <h2>范式 V1 契约栏（层 0）</h2>
+ * <ul>
+ *   <li><b>注册名</b> {@code rdt_quartz_glass}　<b>模块</b> RDT　<b>父级</b> 玻璃</li>
+ *   <li><b>启用的可选层</b>：层 9 交互与判定（{@code getCollisionShape} 按实体区分、{@code canBeReplaced}）、
+ *       层 10 形状与外观（{@code getShadeBrightness} / {@code propagatesSkylightDown} / {@code skipRendering}）</li>
+ *   <li><b>跳过的可选层</b>：层 1 常量、层 3 状态属性（单状态）、层 6 家族、层 7 codec、层 8 生命周期、
+ *       层 11 预留区、层 C 客户端、层 M Mixin（本方块也没用到 {@code forceSolidOn()}：兜底是完整箱）</li>
+ *   <li><b>能力阶梯</b>：停在第 2 级「覆写本类方法」</li>
+ *   <li><b>登记点</b>：①☑ 主类 {@code OnInit()}　②☑ {@code BlockStateGenerator.collectAll()}（单状态）
+ *       　③☒ 物品模型无例外　④☑ 中英 {@code RDT_LangEntries}　⑤☑ {@code RDT_CreativeTabs}
+ *       　⑥☑ 贴图 / 模型　⑦☐ 配方与战利品表（wiki：获取方式「无」）</li>
+ * </ul>
  */
 public class RDT_GlassQuartz extends Block {
 
 	/** 方块本体，在 {@link #OnInit()} 里赋值。 */
 	public static Block RDT_QUARTZ_GLASS;
 
+	/** 石英玻璃的属性：完整复制玻璃（碰撞开关保持为 true，理由见 {@link RDT_GlassLapis}）。 */
+	public static BlockBehaviour.Properties quartzGlassProperties() {
+		return BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS);
+	}
+
+	/**
+	 * 构造器（层 5；运行时排在属性工厂之后）：只做装配，没有别的逻辑。
+	 * <p>属性来自上面的 {@link #quartzGlassProperties()} —— 它是本构造器实参的来源。
+	 */
 	public RDT_GlassQuartz(BlockBehaviour.Properties properties) {
 		super(properties);
 	}
 
-	/** 石英玻璃的属性：完整复制玻璃（碰撞开关保持为 true，理由见 {@link RDT_GlassLapis}）。 */
-	public static BlockBehaviour.Properties quartzGlassProperties() {
-		return BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS);
+	/** 流体一律不可替换本方块：水流冲不掉它（第二道保险，理由见 {@link RDT_GlassLapis}）。 */
+	@Override
+	protected boolean canBeReplaced(BlockState state, Fluid fluid) {
+		return false;
 	}
 
 	/**
@@ -84,12 +125,6 @@ public class RDT_GlassQuartz extends Block {
 			return true;
 		}
 		return super.skipRendering(state, neighbor, direction);
-	}
-
-	/** 流体一律不可替换本方块：水流冲不掉它（第二道保险，理由见 {@link RDT_GlassLapis}）。 */
-	@Override
-	protected boolean canBeReplaced(BlockState state, Fluid fluid) {
-		return false;
 	}
 
 	public static void OnInit() {

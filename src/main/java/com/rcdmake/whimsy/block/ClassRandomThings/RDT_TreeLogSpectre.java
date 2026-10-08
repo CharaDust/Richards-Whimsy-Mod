@@ -23,10 +23,10 @@ import net.minecraft.world.phys.Vec3;
  * <ul>
  *   <li>父级：橡木原木；窒息 ✗、<b>碰撞「无」</b>、光线阻挡 ✗、表面生成生物 ✗，其余「父级」
  *       （其中概念性固体保持「父级」= 仍视为固体）</li>
- *   <li>引燃几率 / 烧毁几率 / 地图颜色 三行带星号：wiki 注明「应该需要比普通原木要高」/
- *       「待定，该方块为淡蓝色」—— 均<b>未实现</b>，本阶段沿用父级</li>
+ *   <li>引燃几率 / 烧毁几率：wiki 带星号（「应该需要比普通原木要高」）→ <b>已实现 30 / 60</b>；
+ *       地图颜色仍带星号（「待定，该方块为淡蓝色」）—— <b>未实现</b>，沿用父级</li>
  *   <li>渲染：依据纹理 Alpha 通道透明（半透明档）</li>
- *   <li>改写方法：位于方块内时减速（xyz 各乘 0.8，按 {@code WI_Aerogel} 的写法实现）、环境光遮蔽为 0、
+ *   <li>改写方法：位于方块内时减速（xyz 各乘 0.85，按 {@code WI_Aerogel} 的写法实现）、环境光遮蔽为 0、
  *       返回透明方块状态、放置时轴向取决于贴合面（类似原木）</li>
  *   <li>方块状态：{@code AXIS}（多状态，故 blockstate JSON 由旧项目沿用，不走 datagen）</li>
  *   <li>获取方式：合适工具是斧、破坏后掉落自身（战利品表按全项目既定决定暂不生成）</li>
@@ -73,6 +73,25 @@ import net.minecraft.world.phys.Vec3;
  * 而且它与「实体穿过」并不冲突，因为后者读的是形状、不是这个字段。
  * 本类另外覆写 {@link #canBeReplaced(BlockState, Fluid)} 返回 {@code false} 作第二道保险
  * （与 {@code DEV_GhostBlock} 同一套做法，那次是花了大量时间才定位到的）。
+ *
+ * <h2>范式 V1 契约栏（层 0）</h2>
+ * <ul>
+ *   <li><b>注册名</b> {@code rdt_spectre_log}　<b>模块</b> RDT　<b>父级</b> 橡木原木
+ *       （<b>层 6 家族</b>：继承原版 {@code RotatedPillarBlock}，AXIS 状态与放置逻辑白拿）</li>
+ *   <li><b>启用的可选层</b>：层 1 规格常量（{@code INSIDE_DRAG} / {@code IGNITE_ODDS} / {@code BURN_ODDS}）、
+ *       层 3 状态属性（{@code AXIS}，由父类提供）、层 8 生命周期（构造器里的 {@code registerDefaultState}）、
+ *       层 9 交互与判定（{@code entityInside} 减速、{@code canBeReplaced}）、
+ *       层 10 形状与外观（{@code getShadeBrightness} / {@code propagatesSkylightDown} / {@code skipRendering}）、
+ *       层 12 额外注册表（{@code FlammableBlockRegistry}）</li>
+ *   <li><b>跳过的可选层</b>：层 7 codec（父类 {@code RotatedPillarBlock} 已提供）、层 11 预留区、
+ *       层 C 客户端（半透明由贴图自动判定）</li>
+ *   <li><b>能力阶梯</b>：用到第 0 级（继承家族类）、第 1 级（属性声明）、第 2 级（覆写）、
+ *       第 3 级（可燃性登记表）—— 最高停在<b>第 3 级</b>，<b>没有</b>动 Mixin</li>
+ *   <li><b>登记点</b>：①☑ 主类 {@code OnInit()}　②☑ <b>手写</b> {@code blockstates/rdt_spectre_log.json}
+ *       （{@code AXIS} 是多状态，datagen 不生成、也不在 {@code collectAll()} 里声明）
+ *       　③☒ 物品模型无例外　④☑ 中英 {@code RDT_LangEntries}　⑤☑ {@code RDT_CreativeTabs}
+ *       　⑥☑ 贴图 / 模型　⑦☐ 配方与战利品表（wiki：合适工具斧、战利品表暂缓）</li>
+ * </ul>
  */
 public class RDT_TreeLogSpectre extends RotatedPillarBlock {
 
@@ -92,12 +111,6 @@ public class RDT_TreeLogSpectre extends RotatedPillarBlock {
 	/** 方块本体，在 {@link #OnInit()} 里赋值。 */
 	public static Block RDT_SPECTRE_LOG;
 
-	public RDT_TreeLogSpectre(BlockBehaviour.Properties properties) {
-		super(properties);
-		// 旧代码的默认轴是 X（放置时会被原版 RotatedPillarBlock 的放置逻辑覆盖成贴合面的轴）
-		registerDefaultState(defaultBlockState().setValue(AXIS, Direction.Axis.X));
-	}
-
 	/** 通灵原木的属性（wiki「构造」表逐行落地）。 */
 	public static BlockBehaviour.Properties spectreLogProperties() {
 		return BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LOG)
@@ -112,6 +125,36 @@ public class RDT_TreeLogSpectre extends RotatedPillarBlock {
 				// 但「概念性固体」保持父级（true）：水流不会来占（旧 Yarn 的 .solid()）
 				.forceSolidOn();
 		// 视野阻挡：wiki 写「父级」，故不覆写（引擎默认谓词生效）
+	}
+
+	/**
+	 * 构造器（层 5；运行时排在属性工厂之后）：装配 + 给状态初值。
+	 * <p>属性来自上面的 {@link #spectreLogProperties()}；{@code registerDefaultState} 只能写在
+	 * {@code super(...)} 之后（状态模式已在 {@code super} 内部定死）。
+	 */
+	public RDT_TreeLogSpectre(BlockBehaviour.Properties properties) {
+		super(properties);
+		// 旧代码的默认轴是 X（放置时会被原版 RotatedPillarBlock 的放置逻辑覆盖成贴合面的轴）
+		registerDefaultState(defaultBlockState().setValue(AXIS, Direction.Axis.X));
+	}
+
+	/**
+	 * 方块内减速（旧 wiki 曾标「未实现」，现已实现）。
+	 * <p>与 {@code WI_Aerogel} 同一套写法：26.2 的方块内减速覆写点是
+	 * {@code entityInside(BlockState, Level, BlockPos, Entity, InsideBlockEffectApplier, boolean)}，
+	 * 直接调 {@code entity.makeStuckInBlock(state, vec)}（旧 Yarn 是 {@code slowMovement}）。
+	 * 乘数见 {@link #INSIDE_DRAG}：三个方向各保留绝大部分速度，即「无窒息但稍有阻力地穿过」。
+	 */
+	@Override
+	protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity,
+			InsideBlockEffectApplier effectApplier, boolean inside) {
+		entity.makeStuckInBlock(state, INSIDE_DRAG);
+	}
+
+	/** 流体一律不可替换本方块：水流冲不掉它（第二道保险，理由见类注释）。 */
+	@Override
+	protected boolean canBeReplaced(BlockState state, Fluid fluid) {
+		return false;
 	}
 
 	/** 环境光遮蔽：旧代码 0.9f。 */
@@ -133,25 +176,6 @@ public class RDT_TreeLogSpectre extends RotatedPillarBlock {
 			return true;
 		}
 		return super.skipRendering(state, neighbor, direction);
-	}
-
-	/** 流体一律不可替换本方块：水流冲不掉它（第二道保险，理由见类注释）。 */
-	@Override
-	protected boolean canBeReplaced(BlockState state, Fluid fluid) {
-		return false;
-	}
-
-	/**
-	 * 方块内减速（旧 wiki 曾标「未实现」，现已实现）。
-	 * <p>与 {@code WI_Aerogel} 同一套写法：26.2 的方块内减速覆写点是
-	 * {@code entityInside(BlockState, Level, BlockPos, Entity, InsideBlockEffectApplier, boolean)}，
-	 * 直接调 {@code entity.makeStuckInBlock(state, vec)}（旧 Yarn 是 {@code slowMovement}）。
-	 * 乘数见 {@link #INSIDE_DRAG}：三个方向各保留绝大部分速度，即「无窒息但稍有阻力地穿过」。
-	 */
-	@Override
-	protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity,
-			InsideBlockEffectApplier effectApplier, boolean inside) {
-		entity.makeStuckInBlock(state, INSIDE_DRAG);
 	}
 
 	/**

@@ -29,7 +29,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
  * 所以本类：
  * <ol>
  *   <li>属性写 {@code friction(1.0F)} —— 原版允许的最滑档位（缺省即「无阻力」的封顶值）；</li>
- *   <li>真正的「零衰减」由 {@code com.rcdmake.whimsy.mixin.ClassRandomThings.RDT_SuperLubricentIceFrictionMixin}
+ *   <li>真正的「零衰减」由 {@code com.rcdmake.whimsy.mixin.RDT_SuperLubricentIceFrictionMixin}
  *       在那唯一的调用点补上那 9%（该 Mixin 里写了完整推导与风险说明）。</li>
  * </ol>
  *
@@ -44,6 +44,22 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
  *
  * <p>地图颜色：wiki 写「父级*（待定，该方块为蓝绿色）」，本阶段沿用蓝冰的地图色，
  * 待你给出确切值再改（贴图本身已是蓝绿色）。
+ *
+ * <h2>范式 V1 契约栏（层 0）</h2>
+ * <ul>
+ *   <li><b>注册名</b> {@code rdt_super_lubricent_ice}　<b>模块</b> RDT　<b>父级</b> 蓝冰</li>
+ *   <li><b>启用的可选层</b>：层 1 规格常量（{@code FRICTION}）、<b>层 M 定制 Mixin</b>
+ *       （{@code com.rcdmake.whimsy.mixin.RDT_SuperLubricentIceFrictionMixin}）</li>
+ *   <li><b>跳过的可选层</b>：层 3 状态属性（单状态）、层 6 家族、层 7 codec、层 8 生命周期、
+ *       层 9 交互与判定、层 10 形状与外观（常规渲染）、层 11 预留区、层 C 客户端</li>
+ *   <li><b>能力阶梯</b>：<b>停在第 5 级「Mixin」</b> —— 这是全项目目前唯一用到第 5 级的地方。
+ *       前四级都试过：属性 {@code friction} 能做的最多到 {@code computeModifiedFriction} 的 clamp 上限
+ *       1.0（每 Tick 仍掉 9%），方块侧再没有别的声明或覆写点可补，只能在那唯一调用点改写（推导见上）</li>
+ *   <li><b>登记点</b>：①☑ 主类 {@code OnInit()}　②☑ {@code BlockStateGenerator.collectAll()}（单状态）
+ *       　③☒ 物品模型无例外　④☑ 中英 {@code RDT_LangEntries}　⑤☑ {@code RDT_CreativeTabs}
+ *       　⑥☑ 贴图 / 模型　⑦☐ 配方与战利品表（wiki：获取方式「无」）
+ *       　<b>⑧☑ Mixin 三处登记</b>（Mixin 类 + {@code richards-whimsy-mod.mixins.json} + {@code fabric.mod.json}）</li>
+ * </ul>
  */
 public class RDT_SuperLubricentIce extends Block {
 
@@ -57,14 +73,18 @@ public class RDT_SuperLubricentIce extends Block {
 	/** 方块本体，在 {@link #OnInit()} 里赋值。 */
 	public static Block RDT_SUPER_LUBRICENT_ICE;
 
-	public RDT_SuperLubricentIce(BlockBehaviour.Properties properties) {
-		super(properties);
-	}
-
 	/** 超级滑滑冰的属性：复制蓝冰 + 表面阻力系数取 26.2 的封顶值。 */
 	public static BlockBehaviour.Properties superLubricentIceProperties() {
 		return BlockBehaviour.Properties.ofFullCopy(Blocks.BLUE_ICE)
 				.friction(FRICTION);
+	}
+
+	/**
+	 * 构造器（层 5；运行时排在属性工厂之后）：只做装配，没有别的逻辑。
+	 * <p>属性来自上面的 {@link #superLubricentIceProperties()} —— 它是本构造器实参的来源。
+	 */
+	public RDT_SuperLubricentIce(BlockBehaviour.Properties properties) {
+		super(properties);
 	}
 
 	public static void OnInit() {

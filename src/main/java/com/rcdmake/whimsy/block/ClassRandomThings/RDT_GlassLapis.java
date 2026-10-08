@@ -81,20 +81,46 @@ import net.minecraft.world.phys.shapes.VoxelShape;
  *   石英玻璃         motion=true  shape=block   ← 兜底是完整箱，所以一直没事
  *   幽灵方块         motion=true  shape=empty   ← 靠 forceSolidOn 救回来
  * </pre>
+ *
+ * <h2>范式 V1 契约栏（层 0）</h2>
+ * <ul>
+ *   <li><b>注册名</b> {@code rdt_lapis_glass}　<b>模块</b> RDT　<b>父级</b> 玻璃（额外 {@code forceSolidOn()}）</li>
+ *   <li><b>启用的可选层</b>：层 9 交互与判定（{@code getCollisionShape} 按实体区分、{@code canBeReplaced}）、
+ *       层 10 形状与外观（{@code getShadeBrightness} / {@code propagatesSkylightDown} / {@code skipRendering}）</li>
+ *   <li><b>跳过的可选层</b>：层 1 常量、层 3 状态属性（单状态）、层 6 家族、层 7 codec、层 8 生命周期、
+ *       层 11 预留区、层 C 客户端、层 M Mixin</li>
+ *   <li><b>能力阶梯</b>：停在第 2 级「覆写本类方法」—— 「实体能穿过但水冲不掉」由 {@code forceSolidOn()}
+ *       （层 4 声明）+ 形状兜底回落父级（层 9 覆写）解决，<b>没有</b>动 Mixin</li>
+ *   <li><b>硬约束的落地位置</b>：非实体上下文的形状兜底就是 {@link #getCollisionShape} 的最后一行
+ *       {@code return super.getCollisionShape(...)} —— 「不被水冲掉 + 能贴告示牌」全挂在这一行上，改不得</li>
+ *   <li><b>登记点</b>：①☑ 主类 {@code OnInit()}　②☑ {@code BlockStateGenerator.collectAll()}（单状态）
+ *       　③☒ 物品模型无例外　④☑ 中英 {@code RDT_LangEntries}　⑤☑ {@code RDT_CreativeTabs}
+ *       　⑥☑ 贴图 / 模型　⑦☐ 配方与战利品表（wiki：获取方式「无」）</li>
+ * </ul>
  */
 public class RDT_GlassLapis extends Block {
 
 	/** 方块本体，在 {@link #OnInit()} 里赋值。 */
 	public static Block RDT_LAPIS_GLASS;
 
-	public RDT_GlassLapis(BlockBehaviour.Properties properties) {
-		super(properties);
-	}
-
 	/** 青金石玻璃的属性：完整复制玻璃 + 把「概念性固体」钉死为 true（理由见类注释）。 */
 	public static BlockBehaviour.Properties lapisGlassProperties() {
 		return BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS)
 				.forceSolidOn();
+	}
+
+	/**
+	 * 构造器（层 5；运行时排在属性工厂之后）：只做装配，没有别的逻辑。
+	 * <p>属性来自上面的 {@link #lapisGlassProperties()} —— 它是本构造器实参的来源。
+	 */
+	public RDT_GlassLapis(BlockBehaviour.Properties properties) {
+		super(properties);
+	}
+
+	/** 流体一律不可替换本方块：水流冲不掉它（第二道保险，理由见类注释）。 */
+	@Override
+	protected boolean canBeReplaced(BlockState state, Fluid fluid) {
+		return false;
 	}
 
 	/**
@@ -141,12 +167,6 @@ public class RDT_GlassLapis extends Block {
 			return true;
 		}
 		return super.skipRendering(state, neighbor, direction);
-	}
-
-	/** 流体一律不可替换本方块：水流冲不掉它（第二道保险，理由见类注释）。 */
-	@Override
-	protected boolean canBeReplaced(BlockState state, Fluid fluid) {
-		return false;
 	}
 
 	public static void OnInit() {

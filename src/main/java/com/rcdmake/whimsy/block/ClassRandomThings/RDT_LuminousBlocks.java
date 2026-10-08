@@ -59,6 +59,24 @@ import net.minecraft.world.level.material.MapColor;
  *
  * <p>三个方块除了贴图之外完全一致，所以共用同一条属性构造与同一个注册方法 —— 这正是「一种方块的不同颜色」
  * 那个被开发约定允许的例外。
+ *
+ * <h2>范式 V1 契约栏（层 0）</h2>
+ * <ul>
+ *   <li><b>注册名</b> {@code rdt_luminous_block_red} / {@code _green} / {@code _blue}
+ *       　<b>模块</b> RDT　<b>父级</b> 玻璃（硬度改 0.5）</li>
+ *   <li><b>一个类三个方块</b>：层 2 并列三个字段（同一行为的换色版本，开发约定的允许例外）；
+ *       它们的属性、行为、渲染完全共用一条路径</li>
+ *   <li><b>启用的可选层</b>：层 4 属性工厂（{@code destroyTime} / {@code noOcclusion} /
+ *       {@code emissiveRendering}）—— 纯声明，<b>一个覆写点都没有</b></li>
+ *   <li><b>跳过的可选层</b>：层 1 常量、层 3 状态属性（单状态）、层 6 家族、层 7 codec、层 8 生命周期、
+ *       层 9 交互与判定、层 10 形状与外观、层 11 预留区、层 C 客户端、层 M Mixin</li>
+ *   <li><b>能力阶梯</b>：停在第 1 级「声明」—— 「始终渲染为纯色」由属性 {@code emissiveRendering} +
+ *       模型侧的 {@code ambientocclusion:false} / {@code shade:false} 解决，<b>不需要</b>颜色提供器、也不需要 Mixin</li>
+ *   <li><b>登记点</b>：①☑ 主类 {@code OnInit()}　②☑ {@code BlockStateGenerator.collectAll()}（三个都单状态）
+ *       　③☒ 物品模型无例外　④☑ 中英 {@code RDT_LangEntries}（三条）　⑤☑ {@code RDT_CreativeTabs}
+ *       　⑥☑ 贴图 / 模型（模型是手写的扁平 {@code elements}，六面带 {@code cullface}）
+ *       　⑦☐ 配方与战利品表（wiki：获取方式「无」）</li>
+ * </ul>
  */
 public class RDT_LuminousBlocks extends Block {
 
@@ -69,11 +87,10 @@ public class RDT_LuminousBlocks extends Block {
 	/** 蓝色鲁米诺方块 {@code rdt_luminous_block_blue}。 */
 	public static Block RDT_LUMINOUS_BLOCK_BLUE;
 
-	public RDT_LuminousBlocks(BlockBehaviour.Properties properties) {
-		super(properties);
-	}
-
-	/** 鲁米诺方块的属性（wiki「构造」表逐行落地 + 纯色渲染所需的 emissive）。 */
+	/**
+	 * 鲁米诺方块的属性（wiki「构造」表逐行落地 + 纯色渲染所需的 emissive）。
+	 * <p>三个方块共用这一条 —— 换色只在贴图上体现。
+	 */
 	public static BlockBehaviour.Properties luminousProperties() {
 		return BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS)
 				// 硬度 0.5（爆炸抗性保持父级玻璃的值）
@@ -84,6 +101,14 @@ public class RDT_LuminousBlocks extends Block {
 				// 参数类型是 Predicate<BlockState>（单参），所以这里用 lambda 而不是 Blocks::always（三参谓词）
 				.emissiveRendering(state -> true);
 		// 亮度：wiki 写 0（不实际发光），故不设 lightLevel
+	}
+
+	/**
+	 * 构造器（层 5；运行时排在属性工厂之后）：只做装配，没有别的逻辑。
+	 * <p>属性来自上面的 {@link #luminousProperties()} —— 三个方块共用它。
+	 */
+	public RDT_LuminousBlocks(BlockBehaviour.Properties properties) {
+		super(properties);
 	}
 
 	public static void OnInit() {

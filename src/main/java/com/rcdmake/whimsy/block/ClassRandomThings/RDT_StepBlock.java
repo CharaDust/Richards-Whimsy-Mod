@@ -59,6 +59,22 @@ import net.minecraft.world.level.material.PushReaction;
  * 旧代码写了 {@code strength(0.5f)}（硬度与爆炸抗性都成 0.5），而 wiki 的「硬度 / 爆炸抗性」两行都是
  * <b>「默认」</b>，所以本阶段不设 {@code strength}（硬度走引擎默认值）。
  * 如果你要的是旧代码那个 0.5，改回 {@code .strength(0.5F)} 即可。
+ *
+ * <h2>范式 V1 契约栏（层 0）</h2>
+ * <ul>
+ *   <li><b>注册名</b> {@code rdt_step_block}　<b>模块</b> RDT　<b>父级</b> 无（全新属性）</li>
+ *   <li><b>启用的可选层</b>：层 1 规格常量（{@code BREAK_DELAY_TICKS}）、层 8 状态模式与生命周期
+ *       （{@code setPlacedBy} 排刻 / {@code tick} 自毁）、层 10 形状与外观（{@code getShadeBrightness} /
+ *       {@code propagatesSkylightDown}）</li>
+ *   <li><b>跳过的可选层</b>：层 3 状态属性（单状态）、层 6 家族、层 7 codec、层 9 交互与判定、
+ *       层 11 预留区、层 C 客户端、层 M Mixin</li>
+ *   <li><b>能力阶梯</b>：停在第 2 级「覆写本类方法」—— 「放下 200 Tick 后自毁」用生命周期覆写点就够，
+ *       不需要方块实体、也不需要计划刻以外的机制；「活塞一推就碎」是第 1 级声明
+ *       （{@code pushReaction(DESTROY)}）</li>
+ *   <li><b>登记点</b>：①☑ 主类 {@code OnInit()}　②☑ {@code BlockStateGenerator.collectAll()}（单状态）
+ *       　③☒ 物品模型无例外　④☑ 中英 {@code RDT_LangEntries}　⑤☑ {@code RDT_CreativeTabs}
+ *       　⑥☑ 贴图 / 模型　⑦☐ 配方与战利品表（wiki：获取方式「无」）</li>
+ * </ul>
  */
 public class RDT_StepBlock extends Block {
 
@@ -67,10 +83,6 @@ public class RDT_StepBlock extends Block {
 
 	/** 方块本体，在 {@link #OnInit()} 里赋值。 */
 	public static Block RDT_STEP_BLOCK;
-
-	public RDT_StepBlock(BlockBehaviour.Properties properties) {
-		super(properties);
-	}
 
 	/** 垫脚方块的属性（wiki「构造」表逐行落地）。 */
 	public static BlockBehaviour.Properties stepBlockProperties() {
@@ -88,6 +100,14 @@ public class RDT_StepBlock extends Block {
 				.forceSolidOff()
 				// 光线阻挡：否
 				.noOcclusion();
+	}
+
+	/**
+	 * 构造器（层 5；运行时排在属性工厂之后）：只做装配，没有别的逻辑。
+	 * <p>属性来自上面的 {@link #stepBlockProperties()} —— 它是本构造器实参的来源。
+	 */
+	public RDT_StepBlock(BlockBehaviour.Properties properties) {
+		super(properties);
 	}
 
 	/**
