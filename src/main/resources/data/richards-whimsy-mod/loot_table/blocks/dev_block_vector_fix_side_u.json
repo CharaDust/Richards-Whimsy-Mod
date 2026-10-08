@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "richards-whimsy-mod:dev_block_vector_fix_side_u"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ]
+}

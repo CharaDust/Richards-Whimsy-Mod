@@ -1,41 +1,45 @@
 package com.rcdmake.whimsy.block.ClassDEV;
 
-import com.rcdmake.whimsy.RichardsWhimsyMod;
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.item.BlockItem;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.state.StateManager;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Direction;
+import com.rcdmake.whimsy.ModRegister;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
-import static net.minecraft.state.property.Properties.FACING;
+/**
+ * 开发_朝向方块（{@code dev_block_state_face}）—— 由旧项目 {@code DEV_StateEnumFace} 迁来。
+ *
+ * <p><b>多方块状态</b>：朝向属性 {@code facing}（6 个方向）。
+ * blockstate 由人工手写，本类不在 {@code blockStateModels()} 里声明。
+ *
+ * <p>注意：本类**没有**覆写放置逻辑（旧代码也没有），所以默认恒为
+ * {@code NORTH}；需要「放置时按玩家朝向」的话得自己加
+ * {@code getStateForPlacement}。
+ *
+ * <p>改名对照：{@code Properties.FACING} → {@code BlockStateProperties.FACING}；
+ * {@code AbstractBlock.Settings} → {@code BlockBehaviour.Properties}。
+ */
+public class DEV_StateEnumFace extends Block {
 
-public class DEV_StateEnumFace extends Block{
+	public static Block DEV_BLOCK_STATE_FACE;
 
-    // 创建方块，使用构造函数类型
-    public static final Block DEV_BLOCK_STATE_FACE = new DEV_StateEnumFace(FabricBlockSettings.copyOf(Blocks.STONE));
-    public DEV_StateEnumFace(AbstractBlock.Settings settings) {
-        super(settings);
-        setDefaultState(getDefaultState().with(FACING, Direction.NORTH));
-    }
-    @Override
-    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(FACING);
-    }
+	public DEV_StateEnumFace(BlockBehaviour.Properties properties) {
+		super(properties);
+		registerDefaultState(defaultBlockState()
+				.setValue(BlockStateProperties.FACING, Direction.NORTH));
+	}
 
-    // 方块以及方块物品注册方法简化写法
-    private static void register_Block_and_BlockItem(String path, Block block){
-        Registry.register(Registries.BLOCK, new Identifier(RichardsWhimsyMod.MOD_ID, path), block);
-        Registry.register(Registries.ITEM, new Identifier(RichardsWhimsyMod.MOD_ID, path), new BlockItem(block, new FabricItemSettings()));
-    }
-    public static void OnInit(){
-        register_Block_and_BlockItem("dev_block_state_face", DEV_BLOCK_STATE_FACE);
-    }
+	@Override
+	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+		builder.add(BlockStateProperties.FACING);
+	}
 
+	public static void OnInit() {
+		DEV_BLOCK_STATE_FACE = ModRegister.registerBlockWithItem("dev_block_state_face",
+				new DEV_StateEnumFace(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)
+						.setId(ModRegister.blockKey("dev_block_state_face"))));
+	}
 }

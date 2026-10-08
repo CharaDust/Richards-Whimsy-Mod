@@ -1,138 +1,101 @@
 package com.rcdmake.whimsy;
 
-import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.*;
-import com.rcdmake.whimsy.block.ClassRandomThings.BlockEntity.RDT_BlockBreaker;
-import com.rcdmake.whimsy.block.ClassWhimsyIdea.WI_SugarBlock;
-import com.rcdmake.whimsy.function.ClassBlockHeadsReborn.NBT.Handler.BHR_GemBlessingToolTip;
-import com.rcdmake.whimsy.function.ClassRandomThings.Effect.Handler.RDT_ImbueAttackEventHandler;
-import com.rcdmake.whimsy.function.ClassRandomThings.Effect.RDT_EffectFireImbue;
-import com.rcdmake.whimsy.function.ClassRandomThings.Effect.RDT_EffectPoisonImbue;
-import com.rcdmake.whimsy.function.ClassWhimsyIdea.Effect.Handler.WI_RadioactiveAttackEventHandler;
-import com.rcdmake.whimsy.function.ClassWhimsyIdea.Effect.Handler.WI_ToxicAttackEventHandler;
-import com.rcdmake.whimsy.function.ClassWhimsyIdea.Effect.WI_EffectBioToxicity;
-import com.rcdmake.whimsy.function.ClassWhimsyIdea.Effect.WI_EffectRadioactive;
-import com.rcdmake.whimsy.itemGroup.BHR_General;
-import com.rcdmake.whimsy.itemGroup.DEV_General;
-import com.rcdmake.whimsy.itemGroup.RDT_General;
-import com.rcdmake.whimsy.itemGroup.WI_General;
-import com.rcdmake.whimsy.block.ClassDEV.*;
-import com.rcdmake.whimsy.block.ClassDEV.BlockEntity.DEV_EntityInt;
-import com.rcdmake.whimsy.block.ClassDEV.BlockEntity.DEV_SimpleWorker;
-import com.rcdmake.whimsy.block.ClassDEV.BlockEntity.Entity.DEV_EntityInt_E;
-import com.rcdmake.whimsy.block.ClassDEV.BlockEntity.Entity.DEV_SimpleWorker_E;
-import com.rcdmake.whimsy.block.ClassRandomThings.*;
+import com.rcdmake.whimsy.block.ClassDEV.DEV_BlocksOther;
+import com.rcdmake.whimsy.block.ClassDEV.DEV_GhostBlock;
+import com.rcdmake.whimsy.block.ClassDEV.DEV_StateBoolean;
+import com.rcdmake.whimsy.block.ClassDEV.DEV_StateEnum;
+import com.rcdmake.whimsy.block.ClassDEV.DEV_StateEnumAxis;
+import com.rcdmake.whimsy.block.ClassDEV.DEV_StateEnumFace;
+import com.rcdmake.whimsy.block.ClassDEV.DEV_StateInt;
+import com.rcdmake.whimsy.block.ClassRandomThings.RDT_GlassLapis;
+import com.rcdmake.whimsy.block.ClassRandomThings.RDT_GlassQuartz;
+import com.rcdmake.whimsy.block.ClassRandomThings.RDT_LuminousBlocks;
+import com.rcdmake.whimsy.block.ClassRandomThings.RDT_StepBlock;
+import com.rcdmake.whimsy.block.ClassRandomThings.RDT_SuperLubricentIce;
+import com.rcdmake.whimsy.block.ClassRandomThings.RDT_TreeLogSpectre;
 import com.rcdmake.whimsy.block.ClassWhimsyIdea.WI_Aerogel;
+import com.rcdmake.whimsy.block.ClassWhimsyIdea.WI_GlassSugar;
+import com.rcdmake.whimsy.block.ClassWhimsyIdea.WI_PackedPlanks;
+import com.rcdmake.whimsy.block.ClassWhimsyIdea.WI_StaticCobblestone;
 import com.rcdmake.whimsy.block.ClassWhimsyIdea.WI_StaticLiquidWater;
-import com.rcdmake.whimsy.block.ModBlocks;
-import com.rcdmake.whimsy.item.ClassBlockHeadRebon.*;
-import com.rcdmake.whimsy.item.ClassDEV.DEVItems;
-import com.rcdmake.whimsy.item.ClassWhimsyIdea.WI_Prospector;
-import com.rcdmake.whimsy.item.ClassWhimsyIdea.WI_ShaderDevRed;
-import com.rcdmake.whimsy.item.ModItemGroup;
-import com.rcdmake.whimsy.item.ModItems;
-import com.rcdmake.whimsy.recipe.ClassDEV.DEV_SimpleWorker_R;
-import com.rcdmake.whimsy.screen.ClassDEV.Handler.DEV_SimpleWorker_SH;
+import com.rcdmake.whimsy.block.ClassWhimsyIdea.WI_SugarBlock;
+import com.rcdmake.whimsy.item.ClassDEV.DEV_ItemsOther;
 import net.fabricmc.api.ModInitializer;
-
+import net.minecraft.resources.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * 模组主入口（双端）。
+ *
+ * <p>职责：把各分支类的 {@code OnInit()} 串起来。每个类自己负责注册自己那一批
+ * 方块/物品（项目约定：单方块、单物品各自独立成类，主类只写一条初始化调用）。
+ *
+ * <p>26.2 迁移说明：
+ * <ul>
+ *   <li>主入口只做双端通用的事。任何引用客户端专用类（Screen / GuiGraphics 等）的逻辑
+ *       必须放进 {@link RichardsWhimsyModClient}，否则专用服务端加载主类时会 ClassNotFound。</li>
+ *   <li>顺序：先方块、后物品、最后创造模式物品栏——物品栏要引用前两者的产物。</li>
+ * </ul>
+ */
 public class RichardsWhimsyMod implements ModInitializer {
-	// 此记录器用于将文本写入控制台和日志文件。
-	// 最佳做法是使用您的 mod ID 作为记录器的名称。
-	// 这样一来，哪个模组写了信息、警告和错误就很清楚了。
-	// This logger is used to write text to the console and the log file.
-	// It is considered best practice to use your mod id as the logger's name.
-	// That way, it's clear which mod wrote info, warnings, and errors.
-	public static final String MOD_ID = "richards-whimsy-mod";
-    public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
+	/** 模组 id，须与 fabric.mod.json 的 id 一致（必须全小写）。 */
+	public static final String MOD_ID = "richards-whimsy-mod";
+
+	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
 	@Override
 	public void onInitialize() {
-		// 这些代码会在 Minecraft mod加载阶段运行
-		// 然而，一些文件（例如资源文件）可能不会初始化
-		// 请谨慎行事
-		// This code runs as soon as Minecraft is in a mod-load-ready state.
-		// However, some things (like resources) may still be uninitialized.
-		// Proceed with mild caution.
+		LOGGER.info("[{}] 正在初始化（Minecraft 26.2 / Fabric）", MOD_ID);
 
-		LOGGER.info("Hello Fabric world!");
-		System.out.println("Initializing a lot of Whimsy Ideas...");
-		// 每一次写一个文件都要在此处引用，格式为`类名.方法名`，写完后记得import
-		// 初始化 ModBlocks
-		ModBlocks.register();
-		// 初始化 ModItems
-		ModItems.registerModItems();
-		// 初始化 ModItemGroup
-		ModItemGroup.register();
-
-		// 初始化 DEV 分支内容
-		DEV_General.OnInit();
+		// --- 方块 ---
+		DEV_BlocksOther.OnInit();
 		DEV_StateBoolean.OnInit();
 		DEV_StateInt.OnInit();
 		DEV_StateEnum.OnInit();
 		DEV_StateEnumAxis.OnInit();
 		DEV_StateEnumFace.OnInit();
-		DEV_Blocks.OnInit();
 		DEV_GhostBlock.OnInit();
-		DEVItems.registerDEVItems();
 
-		DEV_SimpleWorker.OnInit();
-		DEV_SimpleWorker_E.OnInit();
-		DEV_SimpleWorker_SH.OnInit();
-		DEV_SimpleWorker_R.OnInit();
-
-		DEV_EntityInt.OnInit();
-		DEV_EntityInt_E.OnInit();
-
-		// 初始化 BHR 分支内容
-		BHR__NormalBlocks.OnInit();
-		BHR_Rocks.OnInit();
-		BHR_Soils.OnInit();
-		BHR_General.OnInit();
-		BHR_OtherItems.OnInit();
-		BHR_FoodOther.OnInit();
-		BHR_FoodLime.OnInit();
-		BHR_FuelEmber.OnInit();
-		BHR_Gems.OnInit();
-		BHR_Compost.OnInit();
-		BHR_TreeLogPine.OnInit();
-
-		BHR_GemBlessTest.OnInit();
-		//BHR_TestNBTHandler.OnInit();
-		BHR_GemBlessingToolTip.OnInit();
-
-		// 初始化 WI 分支内容
-		WI_General.OnInit();
+		// --- 方块（奇思妙想 WI，由 1.20.4 迁移而来） ---
 		WI_Aerogel.OnInit();
 		WI_SugarBlock.OnInit();
 		WI_StaticLiquidWater.OnInit();
-		WI_Prospector.OnInit();
-		WI_ShaderDevRed.OnInit();
+		WI_StaticCobblestone.OnInit();
+		WI_PackedPlanks.OnInit();
+		WI_GlassSugar.OnInit();
 
-		WI_EffectBioToxicity.OnInit();
-		WI_EffectRadioactive.OnInit();
-		WI_ToxicAttackEventHandler.OnInit();
-		WI_RadioactiveAttackEventHandler.OnInit();
-
-
-		// 初始化 RDT 分支内容
+		// --- 方块（随意物件 RDT，由 1.20.4 迁移而来） ---
 		RDT_SuperLubricentIce.OnInit();
 		RDT_GlassLapis.OnInit();
 		RDT_GlassQuartz.OnInit();
-		RDT_GlassSugar.OnInit();
-		RDT_General.OnInit();
 		RDT_StepBlock.OnInit();
-		RDT_LuminousBlocks.OnInit();
-		RDT_BlockBreaker.OnInit();
 		RDT_TreeLogSpectre.OnInit();
+		RDT_LuminousBlocks.OnInit();
 
-		RDT_EffectFireImbue.OnInit();
-		RDT_EffectPoisonImbue.OnInit();
-		RDT_ImbueAttackEventHandler.OnInit();
+		// --- 物品 ---
+		DEV_ItemsOther.OnInit();
 
+		// --- 创造模式物品栏 ---
+		// 必须最后：它直接引用上面注册好的方块与物品的静态字段，此刻那些字段才非 null；
+		// 提前调用会让标签页里的内容全是 null（空页）或直接抛 NPE。
+		ModCreativeTabs.OnInit();
 
-		System.out.println("Breaking your Computer(LOL, Just Kidding)...");
+		LOGGER.info("[{}] 初始化完成", MOD_ID);
+	}
+
+	/**
+	 * 构造本模组的资源标识符。
+	 *
+	 * <p>26.2 的类是 {@code net.minecraft.resources.Identifier}
+	 * （1.21.11 起 mojmap 把 {@code ResourceLocation} 改成了这个名），
+	 * 工厂方法是 {@code fromNamespaceAndPath}——不是 1.21 时代的 {@code of}。
+	 *
+	 * <p>注册用的入口在 {@link ModRegister}，这里保留一份是为了给资源路径之类
+	 * 不涉及注册表的地方用。
+	 */
+	public static Identifier id(String path) {
+		return Identifier.fromNamespaceAndPath(MOD_ID, path);
 	}
 }

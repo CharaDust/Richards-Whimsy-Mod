@@ -1,7 +1,7 @@
 {
-    "variants": {
-      "": {
-        "model": "richards-whimsy-mod:block/rdt_super_lubricent_ice"
-      }
+  "variants": {
+    "": {
+      "model": "richards-whimsy-mod:block/rdt_super_lubricent_ice"
     }
   }
+}

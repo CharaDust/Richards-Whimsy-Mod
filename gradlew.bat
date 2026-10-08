@@ -36,6 +36,15 @@ for %%i in ("%APP_HOME%") do set APP_HOME=%%~fi
 @rem Add default JVM options here. You can also use JAVA_OPTS and GRADLE_OPTS to pass JVM options to this script.
 set DEFAULT_JVM_OPTS="-Xmx64m" "-Xms64m"
 
+@rem ---------------------------------------------------------------------------
+@rem Local machine adapter: MC 26.2 needs Java 25 and this machine has no
+@rem standalone JDK, only the JetBrains Runtime bundled with IntelliJ IDEA.
+@rem If JAVA_HOME is unset and that path exists, point JAVA_HOME at it.
+@rem Machines that already define JAVA_HOME are unaffected.
+@rem NOTE: keep this file ASCII-only -- cmd.exe reads .bat in the ANSI codepage.
+@rem ---------------------------------------------------------------------------
+if not defined JAVA_HOME if exist "C:\Program Files\JetBrains\IntelliJ IDEA 2026.2.3\jbr\bin\java.exe" set "JAVA_HOME=C:\Program Files\JetBrains\IntelliJ IDEA 2026.2.3\jbr"
+
 @rem Find java.exe
 if defined JAVA_HOME goto findJavaFromJavaHome
 

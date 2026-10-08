@@ -1,45 +1,65 @@
 package com.rcdmake.whimsy.block.ClassDEV;
 
-import com.rcdmake.whimsy.RichardsWhimsyMod;
-import com.rcdmake.whimsy.block.ClassDEV.Enums.DEVEnum;
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.item.BlockItem;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.state.StateManager;
-import net.minecraft.state.property.EnumProperty;
-import net.minecraft.util.Identifier;
+import com.rcdmake.whimsy.ModRegister;
+import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 
+/**
+ * 开发_枚举方块（{@code dev_block_state_enum}）—— 由旧项目 {@code DEV_StateEnum} 迁来。
+ *
+ * <p><b>多方块状态</b>：枚举属性 {@code dev_enum}（3 种取值）。
+ * blockstate 由人工手写，本类不在 {@code blockStateModels()} 里声明。
+ *
+ * <p>改名对照（Yarn → 26.2 官方名）：
+ * {@code EnumProperty.of(name, class)} → {@code EnumProperty.create(name, class)}；
+ * {@code StringIdentifiable.asString()} → {@code StringRepresentable.getSerializedName()}。
+ *
+ * <p>枚举的每个取值由 {@code getSerializedName()} 提供序列化名（写进 blockstate 的
+ * variants 里用的就是它），所以那三个字符串 {@code dev_in/dev_out/dev_def} 不能改。
+ */
 public class DEV_StateEnum extends Block {
 
-    // 添加一个 DEV_ENUM(开发_枚举) 方块状态
-    public static final EnumProperty DEV_ENUM = EnumProperty.of("dev_enum", DEVEnum.class);
-    // 创建方块，使用构造函数类型
-    public static final Block DEV_BLOCK_STATE_ENUM  = new DEV_StateEnum(FabricBlockSettings.copyOf(Blocks.STONE));
+	/** 枚举取值：序列化名对应 blockstate variants 里的 property 值。 */
+	public enum DEVEnum implements StringRepresentable {
+		DEVIN("dev_in"),
+		DEVOUT("dev_out"),
+		DEVDEF("dev_def");
 
-    // 覆盖 appendProperties 并加入 DEV_ENUM 属性：
-    @Override
-    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(DEV_ENUM);
-    }
+		private final String id;
 
-    public DEV_StateEnum(Settings settings) {
-        super(settings);
-        setDefaultState(getDefaultState()
-                        .with(DEV_ENUM, DEVEnum.DEVDEF)
-                // 如果写了多的类型，可以在此处以.with().with().with()...的形式连接追加
-        );
-    }
-    // 方块以及方块物品注册方法简化写法
-    private static void register_Block_and_BlockItem(String path, Block block){
-        Registry.register(Registries.BLOCK, new Identifier(RichardsWhimsyMod.MOD_ID, path), block);
-        Registry.register(Registries.ITEM, new Identifier(RichardsWhimsyMod.MOD_ID, path), new BlockItem(block, new FabricItemSettings()));
-    }
-    public static void OnInit(){
-        register_Block_and_BlockItem("dev_block_state_enum", DEV_BLOCK_STATE_ENUM);
-    }
+		DEVEnum(String id) {
+			this.id = id;
+		}
+
+		@Override
+		public String getSerializedName() {
+			return id;
+		}
+	}
+
+	/** 方块状态属性：枚举。 */
+	public static final EnumProperty<DEVEnum> DEV_ENUM = EnumProperty.create("dev_enum", DEVEnum.class);
+
+	public static Block DEV_BLOCK_STATE_ENUM;
+
+	public DEV_StateEnum(BlockBehaviour.Properties properties) {
+		super(properties);
+		registerDefaultState(defaultBlockState().setValue(DEV_ENUM, DEVEnum.DEVDEF));
+	}
+
+	@Override
+	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+		builder.add(DEV_ENUM);
+	}
+
+	public static void OnInit() {
+		DEV_BLOCK_STATE_ENUM = ModRegister.registerBlockWithItem("dev_block_state_enum",
+				new DEV_StateEnum(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)
+						.setId(ModRegister.blockKey("dev_block_state_enum"))));
+	}
 }

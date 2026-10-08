@@ -1,50 +1,53 @@
 package com.rcdmake.whimsy.block.ClassDEV;
 
-import com.rcdmake.whimsy.RichardsWhimsyMod;
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.scoreboard.ScoreboardCriterion;
-import net.minecraft.state.StateManager;
-import net.minecraft.state.property.Properties;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Direction;
+import com.rcdmake.whimsy.ModRegister;
+import net.minecraft.core.Direction;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
-import static net.minecraft.state.property.Properties.AXIS;
-
+/**
+ * 开发_轴方块（{@code dev_block_state_axis}）—— 由旧项目 {@code DEV_StateEnumAxis} 迁来。
+ *
+ * <p><b>多方块状态</b>：轴属性 {@code axis}（x / y / z），放置时按玩家朝向决定。
+ * blockstate 由人工手写，本类不在 {@code blockStateModels()} 里声明。
+ *
+ * <p>改名对照（Yarn → 26.2 官方名）：
+ * {@code Properties.AXIS} → {@code BlockStateProperties.AXIS}；
+ * {@code ItemPlacementContext} → {@code BlockPlaceContext}；
+ * {@code getPlacementState(ctx)} → {@code getStateForPlacement(ctx)}；
+ * {@code ctx.getSide()} → {@code ctx.getClickedFace()}；
+ * {@code Direction.Axis} → {@code Direction.Axis}（同名，包从 {@code util.math} 变为 {@code core}）。
+ */
 public class DEV_StateEnumAxis extends Block {
 
-    // 创建方块，使用构造函数类型
-    public static final Block DEV_BLOCK_STATE_AXIS  = new DEV_StateEnumAxis(FabricBlockSettings.copyOf(Blocks.STONE));
-    public DEV_StateEnumAxis(Settings settings) {
-        super(settings);
-        setDefaultState(getDefaultState().with(AXIS, Direction.Axis.X));
-    }
+	public static Block DEV_BLOCK_STATE_AXIS;
 
-    // 添加方块状态
-    @Override
-    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(AXIS);
-    }
+	public DEV_StateEnumAxis(BlockBehaviour.Properties properties) {
+		super(properties);
+		registerDefaultState(defaultBlockState()
+				.setValue(BlockStateProperties.AXIS, Direction.Axis.X));
+	}
 
-    // 方块放置朝向逻辑
-    @Override
-    public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return this.getDefaultState().with(AXIS, ctx.getSide().getAxis());
-    }
+	@Override
+	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+		builder.add(BlockStateProperties.AXIS);
+	}
 
-    // 方块以及方块物品注册方法简化写法
-    private static void register_Block_and_BlockItem(String path, Block block){
-        Registry.register(Registries.BLOCK, new Identifier(RichardsWhimsyMod.MOD_ID, path), block);
-        Registry.register(Registries.ITEM, new Identifier(RichardsWhimsyMod.MOD_ID, path), new BlockItem(block, new FabricItemSettings()));
-    }
-    public static void OnInit(){
-        register_Block_and_BlockItem("dev_block_state_axis", DEV_BLOCK_STATE_AXIS);
-    }
+	/** 放置朝向逻辑：按点击面的轴来决定。 */
+	@Override
+	public BlockState getStateForPlacement(BlockPlaceContext context) {
+		return defaultBlockState()
+				.setValue(BlockStateProperties.AXIS, context.getClickedFace().getAxis());
+	}
+
+	public static void OnInit() {
+		DEV_BLOCK_STATE_AXIS = ModRegister.registerBlockWithItem("dev_block_state_axis",
+				new DEV_StateEnumAxis(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)
+						.setId(ModRegister.blockKey("dev_block_state_axis"))));
+	}
 }

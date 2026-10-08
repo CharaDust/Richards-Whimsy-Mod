@@ -34,9 +34,18 @@ bin/
 run/
 tmp/
 
+# datagen：产出的 json 要提交，但 loom 的中间缓存不提交
+src/main/generated/.cache/
+
 # java
 
 hs_err_*.log
 replay_*.log
 *.hprof
 *.jfr
+/toolchain-check
+
+# 本地测试用的 Gradle 用户目录（见 toolchain-check/gradlew26.bat）
+/.gradle-user/
+/src/main/resoursesbak
+/src/main/javaref

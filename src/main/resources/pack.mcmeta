@@ -1,6 +1,10 @@
 {
-    "pack": {
-        "pack_format": 18,
-        "description": "The default data for Mod"
-    }
+	"pack": {
+		"description": "Richard's Whimsy Mod 资源与数据",
+		"pack_format": 88,
+		"supported_formats": [
+			88,
+			107
+		]
+	}
 }

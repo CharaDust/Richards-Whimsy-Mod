@@ -1,143 +1,178 @@
 package com.rcdmake.whimsy.block.ClassDEV;
 
-import com.rcdmake.whimsy.RichardsWhimsyMod;
-import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.ShapeContext;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.VertexFormat;
-import net.minecraft.client.render.VertexFormats;
-import net.minecraft.entity.ai.pathing.NavigationType;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.fluid.Fluids;
-import net.minecraft.item.BlockItem;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.state.StateManager;
-import net.minecraft.state.property.Properties;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.util.shape.VoxelShapes;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldAccess;
-import net.minecraft.world.WorldView;
-import org.jetbrains.annotations.NotNull;
+import com.rcdmake.whimsy.ModRegister;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.pathfinder.PathComputationType;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
+/**
+ * 开发_幽灵方块（{@code dev_block_ghost}）—— 由旧项目 {@code DEV_GhostBlock} 迁来。
+ *
+ * <p><b>无方块状态</b>（单状态），行为特殊：不遮挡、不窒息、实体可穿过、可看穿、
+ * 相邻同类方块贴合面隐藏。因为是单状态，其 blockstate 由 datagen 自动生成。
+ *
+ * <h2>1.20.4 (Yarn) → 26.2 官方名对照（逐条核验过）</h2>
+ * <table border="1">
+ *   <caption>幽灵方块涉及的改名 / 移除</caption>
+ *   <tr><th>Yarn（旧）</th><th>26.2 官方名</th><th>说明</th></tr>
+ *   <tr><td>{@code getAmbientOcclusionLightLevel}</td><td>{@code getShadeBrightness}</td><td>环境光遮蔽</td></tr>
+ *   <tr><td>{@code isTransparent}</td><td>{@code propagatesSkylightDown}</td><td>是否让天光透过</td></tr>
+ *   <tr><td>{@code isSideInvisible(s, from, dir)}</td><td>{@code skipRendering(s, from, dir)}</td><td>相邻同类面隐藏</td></tr>
+ *   <tr><td>{@code canPathfindThrough(..., NavigationType)}</td><td>{@code isPathfindable(..., PathComputationType)}</td><td>枚举换名</td></tr>
+ *   <tr><td>{@code ShapeContext}</td><td>{@code CollisionContext}</td><td>碰撞上下文</td></tr>
+ *   <tr><td>{@code getCameraCollisionShape}</td><td><b>已移除</b></td><td>26.2 相机碰撞不再由方块决定</td></tr>
+ *   <tr><td>{@code allowsSpawning(Blocks::never)}</td><td><b>已移除且无等价覆写点</b></td>
+ *       <td>既没 builder 也没 {@code isValidSpawn} 可覆写（实测）。这条行为暂时无法保留。</td></tr>
+ *   <tr><td>{@code solidBlock(Blocks::never)} / {@code .solid()}</td><td>无这两个 builder</td>
+ *       <td>用形状覆写表达（见下）</td></tr>
+ *   <tr><td>{@code BlockRenderLayerMap}</td><td><b>已删除</b></td><td>26.1 起透明由贴图像素自动决定</td></tr>
+ * </table>
+ *
+ * <h2>⭐⭐ 水流问题的最终答案（26.2 反编译实证）</h2>
+ *
+ * <p><b>需求</b>：实体能穿过（无碰撞）＋ 水流冲不掉 ＋ 不引入 waterlogged 等第二职能。
+ *
+ * <p><b>判定链（逐层读出字节码，均为 26.2）</b>：
+ * <pre>{@code
+ * FlowingFluid.spreadTo(...)          // 水流把目标格换成水，并销毁原方块
+ *   ← 由 canPassThrough(...) 把关
+ *   ← canMaybePassThrough(...) && canHoldSpecificFluid(...)
+ *   ← canHoldAnyFluid(stateTo)        // ★ 真正的闸门
+ * }</pre>
+ *
+ * <p>{@code canHoldAnyFluid} 是一串<b>原版硬编码</b>判断（没有模组扩展点）：
+ * <pre>{@code
+ * if (Block instanceof LiquidBlockContainer)  return true;   // 可含水方块
+ * if (!state.blocksMotion())                  return true;   // ← 不阻挡运动 → 水可占
+ * if (Block instanceof DoorBlock)             return true;   // 门（含栅栏门）
+ * if (state.is(BlockTags.SIGNS))              return true;   // 告示牌
+ * LADDER / SUGAR_CANE / BUBBLE_COLUMN / NETHER_PORTAL / END_PORTAL /
+ * END_GATEWAY / STRUCTURE_VOID                return true;
+ * return false;                                              // 其余：水不能占
+ * }</pre>
+ * 栅栏门之所以不被冲，就是被 {@code DoorBlock} 那一条<b>特权白名单</b>放过了；
+ * 模组方块进不去这个名单。
+ *
+ * <p><b>而转机在于 {@code blocksMotion()} 读的并不是碰撞形状</b>：
+ * <pre>{@code
+ * BlockStateBase.blocksMotion()
+ *   → isSolid()
+ *   → 字段 legacySolid
+ * }</pre>
+ * {@code legacySolid} 由 {@code Properties.forceSolidOn()} / {@code forceSolidOff()}
+ * 设置，与 {@code getCollisionShape} 无关。于是：
+ * <b>空碰撞形状（实体穿过）＋ {@code forceSolidOn()}（{@code blocksMotion()==true}，
+ * 水不来占）可以兼得</b> —— 见 {@link #ghostProperties()}。
+ *
+ * <h2>已排除的走法（都实测过，别再重复）</h2>
+ * <table border="1">
+ *   <caption>排查记录</caption>
+ *   <tr><th>做法</th><th>结果</th></tr>
+ *   <tr><td>覆写 {@code canBeReplaced(state, Fluid)} 返回 false</td><td>❌ 仍被冲（不在水流路径上）</td></tr>
+ *   <tr><td>保留完整碰撞箱（去掉 {@code noCollision()}）</td><td>❌ 仍被冲</td></tr>
+ *   <tr><td>{@code getShape} / {@code getBlockSupportShape} 给完整箱</td><td>❌ 仍被冲</td></tr>
+ *   <tr><td>{@code neighborChanged} + {@code Orientation} 拦水</td><td>❌ NPE（该参数可为 null）且时机在替换之后</td></tr>
+ * </table>
+ */
 public class DEV_GhostBlock extends Block {
 
-    // 创建方块，使用构造函数类型
-    public static final Block DEV_BLOCK_GHOST = new DEV_GhostBlock(FabricBlockSettings.copyOf(Blocks.GLASS)
-            .nonOpaque()
-            .allowsSpawning(Blocks::never)
-            .solidBlock(Blocks::never)
-            // 窒息
-            .suffocates(Blocks::never)
-            .blockVision(Blocks::never)
-            .noCollision()
-            .solid()
-    );
+	public static Block DEV_BLOCK_GHOST;
 
-    public DEV_GhostBlock(Settings settings) {
-        super(settings);
-    }
+	public DEV_GhostBlock(BlockBehaviour.Properties properties) {
+		super(properties);
+	}
 
-    // 此方法返回一个VoxelShape，定义了方块的物理形状。返回VoxelShapes.empty()意味着这个方块不具有任何碰撞形状，实体可以自由穿过。
-//    @Override
-//    public VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-//        return VoxelShapes.empty();
-//    }
+	/** 不窒息、不阻挡视野：「无」语义用 {@code (state, level, pos) -> false} 表达。 */
+	private static boolean never(BlockState state, BlockGetter level, BlockPos pos) {
+		return false;
+	}
 
-    // 以下内容照搬玻璃的源文件
-    // 返回一个空的体积形状，表示方块不对相机产生碰撞效果，相机可以无障碍穿过此方块
-    @Override
-    public VoxelShape getCameraCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        return VoxelShapes.empty();
-    }
+	/**
+	 * 幽灵方块的属性。
+	 *
+	 * <p><b>关键组合：{@code noCollision()} + {@code forceSolidOn()}</b>
+	 *
+	 * <p>这两个看似矛盾的东西正是「实体能穿过」与「水冲不掉」兼得的关键：
+	 * <ul>
+	 *   <li>{@code noCollision()} 让碰撞形状为空 → <b>实体穿得过</b>；</li>
+	 *   <li>{@code forceSolidOn()} 把 {@code BlockBehaviour.BlockStateBase.legacySolid}
+	 *       置为 {@code true} → {@code blocksMotion()} 返回 {@code true}
+	 *       → 水流判定「不能占据」→ <b>冲不掉</b>。</li>
+	 * </ul>
+	 *
+	 * <p>反编译依据（{@code FlowingFluid.canHoldAnyFluid}，26.2）：
+	 * <pre>{@code
+	 * if (Block instanceof LiquidBlockContainer)  return true;   // 可含水方块
+	 * if (!state.blocksMotion())                  return true;   // ← 不阻挡运动则可被水占
+	 * if (Block instanceof DoorBlock)             return true;   // 门（含栅栏门）
+	 * if (state.is(BlockTags.SIGNS))              return true;   // 告示牌
+	 * ... (LADDER / SUGAR_CANE / BUBBLE_COLUMN / 传送门 / STRUCTURE_VOID)
+	 * return false;
+	 * }</pre>
+	 * 而 {@code BlockStateBase.blocksMotion()} 读的是
+	 * {@code isSolid()} → 字段 {@code legacySolid}，<b>不是碰撞形状</b>。
+	 * 所以只要 {@code legacySolid} 为 true，水就不会来占 —— 与碰撞形状无关。
+	 */
+	public static BlockBehaviour.Properties ghostProperties() {
+		return BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS)
+				.noOcclusion()
+				.isSuffocating(DEV_GhostBlock::never)
+				.isViewBlocking(DEV_GhostBlock::never)
+				// 实体穿得过
+				.noCollision()
+				// 但让 blocksMotion() 仍返回 true，从而挡住水流
+				.forceSolidOn();
+	}
 
-    // 水流无法穿过方块
-    @Override
-    public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
-        return true;
-    }
+	/** 环境光遮蔽：1.0 = 完全不遮蔽（旧 {@code getAmbientOcclusionLightLevel}）。 */
+	@Override
+	protected float getShadeBrightness(BlockState state, BlockGetter level, BlockPos pos) {
+		return 1.0F;
+	}
 
-    @Override
-    public void onBroken(WorldAccess world, BlockPos pos, BlockState state) {
-        if (world.getBlockState(pos).getFluidState().isEmpty()) {
-            super.onBroken(world, pos, state);
-        }
-    }
+	/** 让天光透过去（旧 {@code isTransparent} 的等价物）。 */
+	@Override
+	protected boolean propagatesSkylightDown(BlockState state) {
+		return true;
+	}
 
-    @Override
-    public boolean canPathfindThrough(BlockState state, BlockView world, BlockPos pos, @NotNull NavigationType type) {
-        switch (type) {
-            case WATER: {
-                return false;
-            }
-        }
-        return false;
-    }
+	/** 相邻的两个同类方块贴合面不渲染（旧 {@code isSideInvisible}）。 */
+	@Override
+	protected boolean skipRendering(BlockState state, BlockState neighbor, Direction direction) {
+		if (neighbor.getBlock() == this) {
+			return true;
+		}
+		return super.skipRendering(state, neighbor, direction);
+	}
 
-    // 处理邻居方块的更新
-    @Override
-    public void neighborUpdate(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos, boolean notify) {
-        // 防止水流影响GhostBlock
-        if (world.getBlockState(fromPos).getBlock() == Blocks.WATER) {
-            return;
-        }
-        super.neighborUpdate(state, world, pos, block, fromPos, notify);
-    }
+	/** 水不参与寻路（旧方法恒返回 false，这里保持同样语义）。 */
+	@Override
+	protected boolean isPathfindable(BlockState state, PathComputationType type) {
+		return false;
+	}
 
-    // 该方块可含水
-//    @Override
-//    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-//        builder.add(Properties.WATERLOGGED);
-//    }
-//
-//    public FluidState getFluidState(BlockState state) {
-//        return state.get(Properties.WATERLOGGED) ? Fluids.WATER.getStill(false) : super.getFluidState(state);
-//    }
+	/**
+	 * 流体替换：一律不允许。
+	 * <p>这是与上一条<b>互补</b>的保险 —— 形状判定挡住「水能否流入」，
+	 * 本方法挡住「流体直接替换本方块」。两者都在，才不依赖单一机制。
+	 */
+	@Override
+	protected boolean canBeReplaced(BlockState state, Fluid fluid) {
+		return false;
+	}
 
-    // 控制方块的光照表现。在Minecraft中，环境光遮蔽级别通常介于 0.0(完全遮蔽光线) 到 1.0(不遮蔽光线)
-    @Override
-    public float getAmbientOcclusionLightLevel(BlockState state, BlockView world, BlockPos pos) {
-        return 1.0f;
-    }
-
-    // 检查方块是否为透明，返回 true，表示方块总是透明的
-    @Override
-    public boolean isTransparent(BlockState state, BlockView world, BlockPos pos) {
-        return true;
-    }
-
-//    // 此方法返回一个布尔值，指示是否应考虑与此方块的碰撞。返回false表示实体不会与此方块发生碰撞检测
-//    @Override
-//    public boolean canCollide(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-//        return false;
-//    }
-
-    // 边面可见度：当两个相同方块连接时，贴合的面不可见
-    @Override
-    public boolean isSideInvisible(BlockState state, BlockState stateFrom, Direction direction) {
-        if (stateFrom.isOf(this)) {
-            return true;
-        }
-        return super.isSideInvisible(state, stateFrom, direction);
-    }
-
-    // 方块以及方块物品注册方法简化写法
-    private static void register_Block_and_BlockItem(String path, Block block) {
-        Registry.register(Registries.BLOCK, new Identifier(RichardsWhimsyMod.MOD_ID, path), block);
-        Registry.register(Registries.ITEM, new Identifier(RichardsWhimsyMod.MOD_ID, path), new BlockItem(block, new FabricItemSettings()));
-    }
-
-    public static void OnInit() {
-        register_Block_and_BlockItem("dev_block_ghost", DEV_BLOCK_GHOST);
-    }
+	public static void OnInit() {
+		DEV_BLOCK_GHOST = ModRegister.registerBlockWithItem("dev_block_ghost",
+				new DEV_GhostBlock(ghostProperties()
+						.setId(ModRegister.blockKey("dev_block_ghost"))));
+	}
 }

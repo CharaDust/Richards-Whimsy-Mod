@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '1.6-SNAPSHOT'
+	id 'net.fabricmc.fabric-loom' version "${loom_version}"
 	id 'maven-publish'
 }
 
@@ -18,50 +18,182 @@ repositories {
 	// for more information about repositories.
 }
 
+// 数据生成：注册 runDatagen 任务，入口是 RichardsWhimsyModDataGenerator。
+// 26.2 下这个 Loom 扩展仍然有效（已核验 fabric-loom 1.18.2 的 FabricApiExtension：
+// configureDataGeneration(Action<DataGenerationSettings>) 仍在）。
 fabricApi {
-	configureDataGeneration()
+	configureDataGeneration {
+		createRunConfiguration = true
+		// 不额外建 datagen 源集：本项目的数据生成器代码就在 main 源集里
+		// （RichardsWhimsyModDataGenerator），建了只会得到一个空的
+		// build/classes/java/datagen 目录，让 Fabric 在启动时报
+		// "Class path entries reference missing files ... classes\java\datagen"。
+		createSourceSet = false
+		// ⚠️ 产出目录**必须**与 src/main/resources 分开。实测（2026-10-07）：
+		// 把 outputDirectory 指向 src/main/resources 会让 datagen 的缓存把
+		// 资源目录里所有「不在它缓存里」的文件当成陈旧文件删掉 —— 那一次
+		// 删掉了 344 个文件（含 fabric.mod.json / pack.mcmeta / 全部贴图）。
+		// 日志特征：Caching: total files: 348, old count: 0, new count: 4,
+		//           removed stale: 344, written: 4
+		//
+		// 原因：datagen 的产出目录是「它独占」的，缓存清单就是目录内容的真相。
+		// 所以它只能写自己的目录；要进 jar 由 addToResources 负责合成。
+		outputDirectory = layout.buildDirectory.file('generated/datagen')
+		// false：jar 只打 src/main/resources 这一份资源根。
+		// datagen 的产出由下面的 :syncDatagen 复制进 src/main/resources 后才进包，
+		// 这样同一个路径不会同时存在两份，:processResources 不会报重复。
+		addToResources = false
+		strictValidation = true
+	}
 }
+
+// ---------------------------------------------------------------------------
+// :syncDatagen —— 把数据生成产出复制进 src/main/resources
+//
+// 为什么需要它：Fabric datagen 的 outputDirectory 是「它独占」的目录，
+// 缓存清单就是目录内容的真相，**放在资源目录里会删掉它不认识的 344 个文件**
+// （已实测，见上面 outputDirectory 的注释）。所以 datagen 只能写自己的目录，
+// 再由本任务把产出搬进源码资源目录 —— 这样你能在 IDEA 里直接看到生成结果。
+//
+// ⚠️ 这里用 Copy，**不能用 Sync**：Sync 的语义是「镜像」，会删除目标目录里
+// 不在源目录中的文件 —— 实测把 src/main/resources 的 346 个资源删成 4 个。
+// Copy 只增不删，对「datagen 只管自己那几个文件」这个场景才是对的。
+//
+// 用法：gradlew syncDatagen          （会先自动跑 runDatagen）
+//      gradlew datagenRegenerate    （产出内容没变时强制重写）
+// ---------------------------------------------------------------------------
+tasks.register('syncDatagen', Copy) {
+	group = 'fabric'
+	description = '把数据生成产出复制进 src/main/resources（先跑 runDatagen，只增不删）'
+
+	// runDatagen 由 Loom 在更晚的阶段注册，配置期不能用 tasks.named 取，
+	// 所以用字符串形式的 dependsOn（Gradle 会惰性解析）。
+	dependsOn 'runDatagen'
+
+	from(layout.buildDirectory.dir('generated/datagen')) {
+		// 只搬 datagen 真正负责的那几棵子树，其余一概不碰。
+		// lang 与 loot_table 由 Fabric 的 provider 产出，落在 datagen 输出目录。
+		include "assets/${project.name}/lang/**"
+		include "data/${project.name}/loot_table/**"
+	}
+	// blockstate 与物品模型定义由生成器直接写到运行时资源根
+	// （实测 getRootPath() = build/resources/main）—— 它和 processResources
+	// 写同一个目录，所以这里把它们捞出来一起同步，否则生成结果只留在 build/ 里。
+	// 接进源码目录后，以后新方块只要有单状态声明、新物品只要有模型，
+	// 就能直接删掉手写的 blockstate / 不必再手写 items/<id>.json。
+	from(layout.buildDirectory.dir('resources/main')) {
+		include "assets/${project.name}/blockstates/**"
+		// 26.2 的物品模型定义（缺它 → 物品显示暗淡紫黑贴图）
+		include "assets/${project.name}/items/**"
+	}
+	into layout.projectDirectory.dir('src/main/resources')
+
+	// ⚠️ 必须声明输出，且必须忽略「上次的产出」（upToDateWhen { false }）。
+	//
+	// 否则 Gradle 会把它判成 UP-TO-DATE 而整段跳过 —— 实测踩到过：
+	// runDatagen 刚把新的 items/*.json 写进 build/resources/main，
+	// 紧接着 syncDatagen 显示 "UP-TO-DATE"，于是源码目录里始终没有新文件，
+	// 而日志上完全看不出问题（任务"成功"了）。
+	// 这个任务是开发期的搬运工，跑一次几毫秒，不值得为增量优化冒这个险。
+	outputs.upToDateWhen { false }
+	outputs.dir(layout.projectDirectory.dir('src/main/resources/assets'))
+}
+
+tasks.register('datagenRegenerate') {
+	group = 'fabric'
+	description = '先删掉数据生成缓存，强制 runDatagen 重写全部产出'
+	dependsOn 'runDatagen'
+	doFirst {
+		delete layout.buildDirectory.dir('generated/datagen/.cache')
+	}
+}
+
+// 数据生成产出**不要**手动挂 srcDir：Loom 在 createSourceSet = false 时
+// 已经把它加进主资源了。手动再加一次会让 :processResources 报
+// "Entry data/.../skeleton_test_block.json is a duplicate"（实测）。
+// 用法：先 gradlew runDatagen，再 gradlew build。
+// 产出目录里的 .cache 是 Loom 的中间状态；Loom 自己会把它标成排除项。
+
+// ---------------------------------------------------------------------------
+// 【本文件为迁移后版本】旧代码已经搬去 src/main/javaref/，不再参与编译，
+// 因此原先那 10 行 exclude 已经删掉。javaref 不在源码集内，自然不会被编译。
+//
+// 若你是从迁移前的版本对照：迁移前的 build.gradle 在 sourceSets 块里带有
+// 10 行 `exclude 'com/rcdmake/whimsy/<子包>/**'`，用于把旧代码挡在编译之外。
+// ---------------------------------------------------------------------------
 
 dependencies {
 	// To change the versions see the gradle.properties file
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
-	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+	implementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
-	// 示例：确保将版本号替换为当前的Fabric API版本
-	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-	// lookup-api
-//	modImplementation "net.fabricmc.fabric-api:fabric-lookup-api-v1:${project.fabric_version}"
-//	include "net.fabricmc.fabric-api:fabric-lookup-api-v1:${project.fabric_version}"
+	implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+}
 
+// ---------------------------------------------------------------------------
+// 方块类范式样板（doc/wiki/example/blockv1.md 的配套类）
+//
+// block/paradigm/ 下的 `ParadigmBlockV1` 是「抄它改名字」的样板：**不注册、不参与编译、不进 jar**，
+// 所以它坏了也不会让构建失败。要校验它是否仍与当前 MC 版本 API 一致，
+// 临时注释掉下面这行 exclude，跑一次 `gradlew build` 即可（样板本身是能编译的）。
+// ---------------------------------------------------------------------------
+sourceSets {
+	main {
+		java {
+			exclude 'com/rcdmake/whimsy/block/paradigm/**'
+		}
+	}
 }
 
 processResources {
-	inputs.property "version", project.version
+	def version = project.version
+	inputs.property "version", version
+
+	// ------------------------------------------------------------------
+	// .cache 是 Fabric datagen 的私有缓存（判断「文件要不要重写」用），
+	// 不是游戏资源，绝不能进 jar。
+	//
+	// 之前把 datagen 的 outputDirectory 指向 src/main/resources 时，
+	// 它在资源目录里留下了一份 .cache；现在产出又回到
+	// build/generated/datagen（Loom 会把它并进主资源），于是两个资源根
+	// 各有一份 .cache → :processResources 报
+	//   "Entry .cache/<hash> is a duplicate but no duplicate handling strategy has been set"
+	//
+	// 这里显式排除，任何一处残留都不会再炸构建；配合下面的
+	// duplicatesStrategy 也让「手写资源与生成资源同路径」时不再直接失败。
+	// ------------------------------------------------------------------
+	exclude '**/.cache/**'
+	duplicatesStrategy = DuplicatesStrategy.INCLUDE
 
 	filesMatching("fabric.mod.json") {
-		expand "version": project.version
+		expand "version": version
 	}
 }
 
 tasks.withType(JavaCompile).configureEach {
-	it.options.release = 17
+	it.options.release = 25
 }
 
 java {
-	// Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
-	// if it is present.
-	// If you remove this line, sources will not be generated.
-	withSourcesJar()
+	// 刻意不开 withSourcesJar()：
+	// sourcesJar 会扫描整个源码集与构建目录，而 runDatagen 的产出目录
+	// （build/generated/datagen）会被它当成自己的输入，Gradle 9 直接以
+	// 「隐式依赖」报错并中断构建。二者只要同时存在就冲突，除非给 runDatagen
+	// 加 mustRunAfter —— 那就把 datagen 变成构建的一部分，不符合本项目用法。
+	// 本项目原 1.20.4 构建也没有产出 sources jar，所以直接不开。
 
-	sourceCompatibility = JavaVersion.VERSION_17
-	targetCompatibility = JavaVersion.VERSION_17
+	sourceCompatibility = JavaVersion.VERSION_25
+	targetCompatibility = JavaVersion.VERSION_25
 }
 
 jar {
+	def projectName = project.name
+	inputs.property "projectName", projectName
+
+	// 有 LICENSE 就打进去；没有也不构建失败。
 	from("LICENSE") {
-		rename { "${it}_${project.base.archivesName.get()}"}
+		rename { "${it}_$projectName"}
 	}
 }
 
