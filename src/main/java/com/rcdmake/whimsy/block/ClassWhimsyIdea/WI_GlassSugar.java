@@ -50,19 +50,36 @@ import net.minecraft.world.phys.BlockHitResult;
  * 1.20.4 在被踩碎的那条路径上调用的是 {@code super.onSteppedOn(...)}（26.2 的 {@code stepOn}），
  * 而不是 {@code fallOn} 的默认实现 —— 于是「落在这块玻璃上」<b>不会</b>产生摔落伤害。
  * 本类照搬这一行为（{@code super.stepOn(...)}），因为玻璃碎了再吃一份摔落伤害显然不是设计意图。
+ *
+ * <h2>范式 V1 契约栏（层 0）</h2>
+ * <ul>
+ *   <li><b>注册名</b> {@code wi_glasssugar}　<b>模块</b> WI（由 {@code RDT_GlasSugar} 迁入）　<b>父级</b> 玻璃</li>
+ *   <li><b>启用的可选层</b>：层 9 交互与判定（{@code fallOn} 踩碎 / {@code onProjectileHit} 击碎）、
+ *       层 10 形状与外观（{@code getShadeBrightness} / {@code propagatesSkylightDown} / {@code skipRendering}）</li>
+ *   <li><b>跳过的可选层</b>：层 1 常量、层 3 状态属性（单状态）、层 6 家族、层 7 codec、层 8 生命周期、
+ *       层 11 预留区、层 C 客户端（镂空由贴图自动判定，已无渲染层注册）</li>
+ *   <li><b>能力阶梯</b>：停在第 2 级「覆写本类方法」</li>
+ *   <li><b>登记点</b>：①☑ 主类 {@code OnInit()}　②☑ {@code BlockStateGenerator.collectAll()}（单状态）
+ *       　③☒ 物品模型无例外　④☑ 中英 {@code WI_LangEntries}　⑤☑ {@code WI_CreativeTabs} 方块页
+ *       　⑥☑ 贴图 / 模型　⑦☐ 配方与战利品表（wiki 写「获取方式：无」）</li>
+ * </ul>
  */
 public class WI_GlassSugar extends Block {
 
 	/** 方块本体，在 {@link #OnInit()} 里赋值。 */
 	public static Block WI_GLASSSUGAR;
 
-	public WI_GlassSugar(BlockBehaviour.Properties properties) {
-		super(properties);
-	}
-
 	/** 糖玻璃的属性：完整复制玻璃。 */
 	public static BlockBehaviour.Properties glassSugarProperties() {
 		return BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS);
+	}
+
+	/**
+	 * 构造器（层 5；运行时排在属性工厂之后）：只做装配，没有别的逻辑。
+	 * <p>属性来自上面的 {@link #glassSugarProperties()} —— 它是本构造器实参的来源。
+	 */
+	public WI_GlassSugar(BlockBehaviour.Properties properties) {
+		super(properties);
 	}
 
 	/**

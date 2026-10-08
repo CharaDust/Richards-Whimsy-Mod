@@ -71,15 +71,27 @@ import net.minecraft.world.level.material.MapColor;
  * </pre>
  * 注意最后两行：气凝胶（{@code cube_all} + 无 {@code skipRendering} 覆写）与原版玻璃都不剔除贴合面，
  * 属预期。判定为 false 之后是否真的不画，还要看模型那一面有没有 {@code cullface}。
+ *
+ * <h2>范式 V1 契约栏（层 0）</h2>
+ * <ul>
+ *   <li><b>注册名</b> {@code wi_static_liquid_water}　<b>模块</b> WI　<b>父级</b> 无（全新属性）</li>
+ *   <li><b>启用的可选层</b>：层 10 形状与外观（{@code getShadeBrightness} / {@code propagatesSkylightDown} /
+ *       {@code skipRendering}）、<b>层 C 客户端接线</b>（{@code BlockColorRegistry} + {@code BlockTintSources.water()}，
+ *       写在 {@code RichardsWhimsyModClient}，本类不出现任何客户端类型）</li>
+ *   <li><b>跳过的可选层</b>：层 1 常量、层 3 状态属性（单状态）、层 6 家族、层 7 codec、层 8 生命周期、
+ *       层 9 交互与判定（wiki 无事件；旧代码的「右键吃掉」是文档抄错，已删）、层 11 预留区</li>
+ *   <li><b>能力阶梯</b>：停在第 3 级「登记其他注册表 / 数据驱动制品」—— 群系水色上色用的是颜色注册表 +
+ *       灰度贴图（物品另用乘好水色的 {@code _mapped} 贴图），既没有客户端着色器，也没有 Mixin</li>
+ *   <li><b>登记点</b>：①☑ 主类 {@code OnInit()}　②☑ {@code BlockStateGenerator.collectAll()}（单状态）
+ *       　③☑ {@code ItemModelGenerator.ITEM_MODEL_OVERRIDES}（物品用 {@code item/wi_static_liquid_water}）
+ *       　④☑ 中英 {@code WI_LangEntries}　⑤☑ {@code WI_CreativeTabs} 方块页　⑥☑ 贴图 / 模型（模型手写，
+ *       六面都带 {@code cullface}）　⑦☐ 配方与战利品表</li>
+ * </ul>
  */
 public class WI_StaticLiquidWater extends Block {
 
 	/** 方块本体，在 {@link #OnInit()} 里赋值。 */
 	public static Block WI_STATIC_LIQUID_WATER;
-
-	public WI_StaticLiquidWater(BlockBehaviour.Properties properties) {
-		super(properties);
-	}
 
 	/** 固化水方块的属性（wiki「构造」表逐行落地）。 */
 	public static BlockBehaviour.Properties staticLiquidWaterProperties() {
@@ -103,6 +115,14 @@ public class WI_StaticLiquidWater extends Block {
 				// 26.2 只剩 legacySolid 一个开关，noCollision() 不顶用，实测见 WI_Aerogel 类注释。
 				// 副作用：流体可以占据本方块 —— 1.20.4 的 solidBlock(never) 同样如此）
 				.forceSolidOff();
+	}
+
+	/**
+	 * 构造器（层 5；运行时排在属性工厂之后）：只做装配，没有别的逻辑。
+	 * <p>属性来自上面的 {@link #staticLiquidWaterProperties()} —— 它是本构造器实参的来源。
+	 */
+	public WI_StaticLiquidWater(BlockBehaviour.Properties properties) {
+		super(properties);
 	}
 
 	/** 环境光遮蔽：旧代码 0.9f。 */

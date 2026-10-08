@@ -68,6 +68,20 @@ import net.minecraft.world.phys.Vec3;
  * 附带效果是流体可占据本方块 —— 它本来就没有碰撞箱，属预期。
  * <p>{@code Properties.forceSolidOff()} 在 26.2 已标 {@code @Deprecated}（编译会给提示），
  * 但原版自己仍在用（杜鹃花、大滴水叶等），且它是目前唯一能表达「有碰撞箱但不概念性固体」的开关，故保留。
+ *
+ * <h2>范式 V1 契约栏（层 0）</h2>
+ * <ul>
+ *   <li><b>注册名</b> {@code wi_aerogel}　<b>模块</b> WI　<b>父级</b> 无（全新属性）</li>
+ *   <li><b>启用的可选层</b>：层 1 规格常量（{@code INSIDE_DRAG}）、层 9 交互与判定（{@code entityInside}）、
+ *       层 10 形状与外观（{@code getShadeBrightness} / {@code propagatesSkylightDown}）</li>
+ *   <li><b>跳过的可选层</b>：层 3 状态属性（单状态）、层 6 家族、层 7 codec（继承 {@code Block}，已有实现）、
+ *       层 8 生命周期、层 11 预留区、层 C 客户端（无颜色/渲染层接线）</li>
+ *   <li><b>能力阶梯</b>：停在第 2 级「覆写本类方法」—— 没有跨类通知，也没有 Mixin</li>
+ *   <li><b>登记点</b>：①☑ 主类 {@code OnInit()}　②☑ {@code BlockStateGenerator.collectAll()}（单状态，交给 datagen）
+ *       　③☑ {@code ItemModelGenerator.ITEM_MODEL_OVERRIDES}（物品用更实的 {@code item/wi_aerogel}）
+ *       　④☑ 中英 {@code WI_LangEntries}　⑤☑ {@code WI_CreativeTabs} 方块页　⑥☑ 贴图 / 模型
+ *       　⑦☐ 配方与战利品表（全项目暂缓）</li>
+ * </ul>
  */
 public class WI_Aerogel extends Block {
 
@@ -81,10 +95,6 @@ public class WI_Aerogel extends Block {
 
 	/** 方块本体，在 {@link #OnInit()} 里赋值。 */
 	public static Block WI_AEROGEL;
-
-	public WI_Aerogel(BlockBehaviour.Properties properties) {
-		super(properties);
-	}
 
 	/**
 	 * 气凝胶的属性（wiki「构造」表的逐行落地）。
@@ -110,6 +120,14 @@ public class WI_Aerogel extends Block {
 				.noCollision()
 				// 概念性固体：否（旧 solidBlock(Blocks::never)；理由见类注释的实测表）
 				.forceSolidOff();
+	}
+
+	/**
+	 * 构造器（层 5；运行时排在属性工厂之后，见 V1 的「按运行时顺序排列」）：只做装配，没有别的逻辑。
+	 * <p>属性来自上面的 {@link #aerogelProperties()} —— 它是本构造器实参的来源。
+	 */
+	public WI_Aerogel(BlockBehaviour.Properties properties) {
+		super(properties);
 	}
 
 	/**

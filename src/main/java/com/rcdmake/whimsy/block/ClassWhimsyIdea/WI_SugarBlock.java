@@ -52,20 +52,36 @@ import net.minecraft.world.phys.BlockHitResult;
  *
  * <p>旧代码里注释掉的 {@code player.canConsume(false)}（饱食度满时不能再吃）保持注释状态，
  * 即与 1.20.4 的实际行为一致：<b>不检查</b>饥饿值上限。
+ *
+ * <h2>范式 V1 契约栏（层 0）</h2>
+ * <ul>
+ *   <li><b>注册名</b> {@code wi_sugarblock}　<b>模块</b> WI　<b>父级</b> 石头（声音组改 SAND）</li>
+ *   <li><b>启用的可选层</b>：层 9 交互与判定（{@code useWithoutItem} / {@code useItemOn} 两条路径 → 私有 {@code eat}）</li>
+ *   <li><b>跳过的可选层</b>：层 1 常量（无魔法数值）、层 3 状态属性（单状态）、层 6 家族、层 7 codec、
+ *       层 8 生命周期、层 10 形状与外观（常规渲染）、层 11 预留区、层 C 客户端</li>
+ *   <li><b>能力阶梯</b>：停在第 2 级「覆写本类方法」</li>
+ *   <li><b>登记点</b>：①☑ 主类 {@code OnInit()}　②☑ {@code BlockStateGenerator.collectAll()}（单状态）
+ *       　③☒ 物品模型无例外（默认指向方块模型）　④☑ 中英 {@code WI_LangEntries}
+ *       　⑤☑ {@code WI_CreativeTabs} 方块页　⑥☑ 贴图 / 模型　⑦☐ 配方与战利品表</li>
+ * </ul>
  */
 public class WI_SugarBlock extends Block {
 
 	/** 方块本体，在 {@link #OnInit()} 里赋值。 */
 	public static Block WI_SUGARBLOCK;
 
-	public WI_SugarBlock(BlockBehaviour.Properties properties) {
-		super(properties);
-	}
-
 	/** 糖块的属性：复制石头，声音组换成 SAND。 */
 	public static BlockBehaviour.Properties sugarBlockProperties() {
 		return BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)
 				.sound(SoundType.SAND);
+	}
+
+	/**
+	 * 构造器（层 5；运行时排在属性工厂之后）：只做装配，没有别的逻辑。
+	 * <p>属性来自上面的 {@link #sugarBlockProperties()} —— 它是本构造器实参的来源。
+	 */
+	public WI_SugarBlock(BlockBehaviour.Properties properties) {
+		super(properties);
 	}
 
 	/** 空手交互（旧 {@code onUse} 的空手那一半）。 */
