@@ -33,17 +33,21 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
  */
 public class DEV_StateInt extends Block {
 
+	// ── 层 2 ｜ 方块声明 ──
 	/** 方块本体（层 2），在 {@link #OnInit()} 里赋值。 */
 	public static Block DEV_BLOCK_STATE_INT;
 
+	// ── 层 3 ｜ 状态属性字段 ──
 	/** 状态属性字段（层 3）：整数，范围 0~9。 */
 	public static final IntegerProperty DEV_INT = IntegerProperty.create("dev_int", 0, 9);
 
+	// ── 层 4 ｜ 属性工厂（运行时先执行）──
 	/** 整型的属性（层 4）：wiki「构造」表逐行都是「父级」，故完整复制石头。 */
 	public static BlockBehaviour.Properties stateIntProperties() {
 		return BlockBehaviour.Properties.ofFullCopy(Blocks.STONE);
 	}
 
+	// ── 层 5 ｜ 构造器（运行时后执行）──
 	/**
 	 * 构造器（层 5；运行时排在属性工厂之后）：装配 + 给状态初值。
 	 * <p>属性来自上面的 {@link #stateIntProperties()}；{@code registerDefaultState} 只能写在
@@ -56,10 +60,12 @@ public class DEV_StateInt extends Block {
 
 	/** 状态模式（层 8）：声明本方块有 {@code dev_int} 这一个状态维度。 */
 	@Override
+	// ── 层 8 ｜ 状态模式与生命周期 ──
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
 		builder.add(DEV_INT);
 	}
 
+	// ── 层 12 ｜ 初始化 ──
 	/** 注册（层 12）。 */
 	public static void OnInit() {
 		DEV_BLOCK_STATE_INT = ModRegister.registerBlockWithItem("dev_block_state_int",

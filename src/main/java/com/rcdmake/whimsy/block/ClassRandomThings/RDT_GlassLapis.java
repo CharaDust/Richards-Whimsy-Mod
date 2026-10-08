@@ -100,15 +100,18 @@ import net.minecraft.world.phys.shapes.VoxelShape;
  */
 public class RDT_GlassLapis extends Block {
 
+	// ── 层 2 ｜ 方块声明 ──
 	/** 方块本体，在 {@link #OnInit()} 里赋值。 */
 	public static Block RDT_LAPIS_GLASS;
 
+	// ── 层 4 ｜ 属性工厂（运行时先执行）──
 	/** 青金石玻璃的属性：完整复制玻璃 + 把「概念性固体」钉死为 true（理由见类注释）。 */
 	public static BlockBehaviour.Properties lapisGlassProperties() {
 		return BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS)
 				.forceSolidOn();
 	}
 
+	// ── 层 5 ｜ 构造器（运行时后执行）──
 	/**
 	 * 构造器（层 5；运行时排在属性工厂之后）：只做装配，没有别的逻辑。
 	 * <p>属性来自上面的 {@link #lapisGlassProperties()} —— 它是本构造器实参的来源。
@@ -119,6 +122,7 @@ public class RDT_GlassLapis extends Block {
 
 	/** 流体一律不可替换本方块：水流冲不掉它（第二道保险，理由见类注释）。 */
 	@Override
+	// ── 层 9 ｜ 交互与判定 ──
 	protected boolean canBeReplaced(BlockState state, Fluid fluid) {
 		return false;
 	}
@@ -132,6 +136,7 @@ public class RDT_GlassLapis extends Block {
 	 * 返回空的话方块会被水冲掉（详见类注释里的实测）。
 	 */
 	@Override
+	// ── 层 10 ｜ 形状与外观 ──
 	protected VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos,
 			CollisionContext context) {
 		if (context instanceof EntityCollisionContext entityContext) {
@@ -169,6 +174,7 @@ public class RDT_GlassLapis extends Block {
 		return super.skipRendering(state, neighbor, direction);
 	}
 
+	// ── 层 12 ｜ 初始化 ──
 	public static void OnInit() {
 		RDT_LAPIS_GLASS = ModRegister.registerBlockWithItem("rdt_lapis_glass",
 				new RDT_GlassLapis(lapisGlassProperties().setId(ModRegister.blockKey("rdt_lapis_glass"))));

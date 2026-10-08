@@ -66,14 +66,17 @@ import net.minecraft.world.phys.BlockHitResult;
  */
 public class WI_GlassSugar extends Block {
 
+	// ── 层 2 ｜ 方块声明 ──
 	/** 方块本体，在 {@link #OnInit()} 里赋值。 */
 	public static Block WI_GLASSSUGAR;
 
+	// ── 层 4 ｜ 属性工厂（运行时先执行）──
 	/** 糖玻璃的属性：完整复制玻璃。 */
 	public static BlockBehaviour.Properties glassSugarProperties() {
 		return BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS);
 	}
 
+	// ── 层 5 ｜ 构造器（运行时后执行）──
 	/**
 	 * 构造器（层 5；运行时排在属性工厂之后）：只做装配，没有别的逻辑。
 	 * <p>属性来自上面的 {@link #glassSugarProperties()} —— 它是本构造器实参的来源。
@@ -87,6 +90,7 @@ public class WI_GlassSugar extends Block {
 	 * <p>无视踩踏效果的实体（鸡、幻翼等）不会踩碎它，与原版海龟蛋的判定一致。
 	 */
 	@Override
+	// ── 层 9 ｜ 交互与判定 ──
 	public void fallOn(Level level, BlockState state, BlockPos pos, Entity entity, double fallDistance) {
 		if (!level.isClientSide() && !entity.isSteppingCarefully()) {
 			level.destroyBlock(pos, false);
@@ -111,6 +115,7 @@ public class WI_GlassSugar extends Block {
 
 	/** 环境光遮蔽为 0：旧 {@code getAmbientOcclusionLightLevel} 返回 1.0。 */
 	@Override
+	// ── 层 10 ｜ 形状与外观 ──
 	protected float getShadeBrightness(BlockState state, BlockGetter level, BlockPos pos) {
 		return 1.0F;
 	}
@@ -130,6 +135,7 @@ public class WI_GlassSugar extends Block {
 		return super.skipRendering(state, neighbor, direction);
 	}
 
+	// ── 层 12 ｜ 初始化 ──
 	public static void OnInit() {
 		WI_GLASSSUGAR = ModRegister.registerBlockWithItem("wi_glasssugar",
 				new WI_GlassSugar(glassSugarProperties().setId(ModRegister.blockKey("wi_glasssugar"))));

@@ -55,12 +55,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "wiki/Blocks/ClassRandomThings/RDT_LuminousBlocks.md",
+                "file": "wiki/example/blockv1.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "RDT_LuminousBlocks"
+              "title": "blockv1"
             }
           },
           {
@@ -170,7 +170,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "wiki/Blocks/ClassRandomThings/RDT_LuminousBlocks.md",
+                "file": "wiki/example/blockv1.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -189,7 +189,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "wiki/Blocks/ClassRandomThings/RDT_LuminousBlocks.md",
+                "file": "wiki/example/blockv1.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
@@ -232,7 +232,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "wiki/Blocks/ClassRandomThings/RDT_LuminousBlocks.md",
+                "file": "wiki/example/blockv1.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
@@ -260,6 +260,7 @@
   },
   "active": "1c93ff0ef8e926d3",
   "lastOpenFiles": [
+    "wiki/Blocks/ClassRandomThings/RDT_LuminousBlocks.md",
     "agent/deepseek/10-方块类范式V1统一计划.md",
     "wiki/example/blockv1.md",
     "wiki/example",
@@ -276,7 +277,6 @@
     "wiki/Blocks/ClassWhimsyIdea/WI_PackedPlanks.md",
     "wiki/Blocks/ClassWhimsyIdea/WI_StaticCobblestone.md",
     "wiki/ItemGroup/ClassWhimsyIdea/WI_General.md",
-    "wiki/Blocks/ClassRandomThings/RDT_LuminousBlocks.md",
     "wiki/Items/ClassLegacy/LGC_HoneyCrystallized.md",
     "wiki/Items/ClassBlockHeadsRebon/BHR_ItemsOther.md",
     "wiki/Blocks/ClassBlockHeadsRebon/BHR_Soils.md",

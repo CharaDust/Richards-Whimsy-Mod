@@ -90,9 +90,11 @@ import net.minecraft.world.level.material.MapColor;
  */
 public class WI_StaticLiquidWater extends Block {
 
+	// ── 层 2 ｜ 方块声明 ──
 	/** 方块本体，在 {@link #OnInit()} 里赋值。 */
 	public static Block WI_STATIC_LIQUID_WATER;
 
+	// ── 层 4 ｜ 属性工厂（运行时先执行）──
 	/** 固化水方块的属性（wiki「构造」表逐行落地）。 */
 	public static BlockBehaviour.Properties staticLiquidWaterProperties() {
 		// 碰撞：wiki 写「默认」→ 这里刻意不调 noCollision()，保持完整碰撞箱
@@ -117,6 +119,7 @@ public class WI_StaticLiquidWater extends Block {
 				.forceSolidOff();
 	}
 
+	// ── 层 5 ｜ 构造器（运行时后执行）──
 	/**
 	 * 构造器（层 5；运行时排在属性工厂之后）：只做装配，没有别的逻辑。
 	 * <p>属性来自上面的 {@link #staticLiquidWaterProperties()} —— 它是本构造器实参的来源。
@@ -127,6 +130,7 @@ public class WI_StaticLiquidWater extends Block {
 
 	/** 环境光遮蔽：旧代码 0.9f。 */
 	@Override
+	// ── 层 10 ｜ 形状与外观 ──
 	protected float getShadeBrightness(BlockState state, BlockGetter level, BlockPos pos) {
 		return 0.9F;
 	}
@@ -151,6 +155,7 @@ public class WI_StaticLiquidWater extends Block {
 		return super.skipRendering(state, neighbor, direction);
 	}
 
+	// ── 层 12 ｜ 初始化 ──
 	public static void OnInit() {
 		WI_STATIC_LIQUID_WATER = ModRegister.registerBlockWithItem("wi_static_liquid_water",
 				new WI_StaticLiquidWater(staticLiquidWaterProperties()

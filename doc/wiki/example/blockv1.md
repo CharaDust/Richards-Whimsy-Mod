@@ -142,3 +142,61 @@
 2. 按 §5 勾完 7 处登记点，把勾选状态写进层 0 契约栏；
 3. 可选层：只留用到的，其余连注释一起删 —— **别留空壳**；
 4. 校验样板本身是否仍与当前 MC 版本 API 一致：临时注释掉 `build.gradle` 里 `sourceSets` 的那行 `exclude`，`gradlew build` 一次即可（样板是能编译的，只是默认不进编译）。
+
+### 9.1 层号注释的写法（本轮统一）
+
+- **生产类**（`block/Class*/` 下的真实方块）：每层开始处一行，形如
+  `// ── 层 4 ｜ 属性工厂（运行时先执行）──`，紧贴该层第一个成员的 javadoc 上方；
+  只在该类**实际存在**的层上写（跳过的不写）。
+- **样板类**（`block/paradigm/`）：用三行重横幅 + 每层说明（它本身就是教材，需要解释每一层在干什么）。
+- 层号取自 §2 的表格；方块状态生成声明（`blockStateModels()`）之类「登记点载体」不属于方块本体，
+  用 `// ── 登记点 ② ｜ … ──` 标注，不占层号。
+
+---
+
+## 10. 未来展望（V2 讨论存根）
+
+> 本节是 V2 的入口：V1 定稿时已有 **19 个方块类 / 22 个方块**按 V1 归一（阶段 0~3），
+> 下表是它们的现状清单 —— **V2 要动哪一条，先在这里补一行**，再开讨论。
+
+### 10.1 V1 落地的类（19 类 / 22 方块）
+
+| 模块 | 类 | 方块数 | 用到的可选层 | 阶梯最高级 | V2 可议之处 |
+| --- | --- | --- | --- | --- | --- |
+| WI | [WI_Aerogel](../../../src/main/java/com/rcdmake/whimsy/block/ClassWhimsyIdea/WI_Aerogel.java) | 1 | 1, 9, 10 | 2 | 减速乘数 0.9 是自定值（wiki 只说「稍有阻力」，没给数） |
+| WI | [WI_SugarBlock](../../../src/main/java/com/rcdmake/whimsy/block/ClassWhimsyIdea/WI_SugarBlock.java) | 1 | 9 | 2 | 「空手 / 手持物品」两条路径都要覆写（1.21.2 拆分的后果），是否有更省写法 |
+| WI | [WI_StaticLiquidWater](../../../src/main/java/com/rcdmake/whimsy/block/ClassWhimsyIdea/WI_StaticLiquidWater.java) | 1 | 10, **C** | 3 | 硬度/爆炸抗性 100 是 wiki 的占位值（待定）；模型手写需 `cullface` |
+| WI | [WI_StaticCobblestone](../../../src/main/java/com/rcdmake/whimsy/block/ClassWhimsyIdea/WI_StaticCobblestone.java) | 1 | — | 0/1 | 模板遗留方块，一行覆写都没有（这是它的价值） |
+| WI | [WI_PackedPlanks](../../../src/main/java/com/rcdmake/whimsy/block/ClassWhimsyIdea/WI_PackedPlanks.java) | 1 | — | 0/1 | 同上；它是 WI 方块页的图标 |
+| WI | [WI_GlassSugar](../../../src/main/java/com/rcdmake/whimsy/block/ClassWhimsyIdea/WI_GlassSugar.java) | 1 | 9, 10 | 2 | `fallOn` 里刻意调 `super.stepOn`（踩碎不吃摔落伤害）—— 与直觉相反的写法，值得再确认 |
+| RDT | [RDT_SuperLubricentIce](../../../src/main/java/com/rcdmake/whimsy/block/ClassRandomThings/RDT_SuperLubricentIce.java) | 1 | 1, **M** | **5** | 全项目唯一用到 Mixin；`require = 0`，需游戏内确认命中 |
+| RDT | [RDT_GlassLapis](../../../src/main/java/com/rcdmake/whimsy/block/ClassRandomThings/RDT_GlassLapis.java) | 1 | 9, 10 | 2 | 兜底必须回落父级形状（硬约束）；`forceSolidOn` 是否冗余（有它更稳） |
+| RDT | [RDT_GlassQuartz](../../../src/main/java/com/rcdmake/whimsy/block/ClassRandomThings/RDT_GlassQuartz.java) | 1 | 9, 10 | 2 | 兜底是完整箱，故没有 `forceSolidOn` —— 两块玻璃的差异点 |
+| RDT | [RDT_StepBlock](../../../src/main/java/com/rcdmake/whimsy/block/ClassRandomThings/RDT_StepBlock.java) | 1 | 1, 8, 10 | 2 | 硬度按 wiki「默认」而不设 `strength`（旧代码是 0.5） |
+| RDT | [RDT_TreeLogSpectre](../../../src/main/java/com/rcdmake/whimsy/block/ClassRandomThings/RDT_TreeLogSpectre.java) | 1 | 1, 3, **6**, 8, 9, 10, **12** | 3 | 家族继承 + 可燃性登记都在这里；地图颜色仍待定 |
+| RDT | [RDT_LuminousBlocks](../../../src/main/java/com/rcdmake/whimsy/block/ClassRandomThings/RDT_LuminousBlocks.java) | **3** | 4 | 1 | 一类多方块；纯色渲染靠「属性 + 模型」两侧配合 |
+| DEV | [DEV_BlocksOther](../../../src/main/java/com/rcdmake/whimsy/block/ClassDEV/DEV_BlocksOther.java) | **2** | — | 0/1 | 一类两方块，属性相同却刻意各留一条工厂 |
+| DEV | [DEV_GhostBlock](../../../src/main/java/com/rcdmake/whimsy/block/ClassDEV/DEV_GhostBlock.java) | 1 | 9, 10 | 2 | 「已排除的走法」表是踩坑记录，别删；`wasValidSpawn` 那条行为无法保留 |
+| DEV | [DEV_StateBoolean](../../../src/main/java/com/rcdmake/whimsy/block/ClassDEV/DEV_StateBoolean.java) | 1 | 3, 8 | 2 | 手写 blockstate；状态样例 |
+| DEV | [DEV_StateInt](../../../src/main/java/com/rcdmake/whimsy/block/ClassDEV/DEV_StateInt.java) | 1 | 3, 8 | 2 | 同上（10 种取值） |
+| DEV | [DEV_StateEnum](../../../src/main/java/com/rcdmake/whimsy/block/ClassDEV/DEV_StateEnum.java) | 1 | 3, 8 | 2 | 嵌套枚举的序列化名不能改（写进 blockstate variants） |
+| DEV | [DEV_StateEnumAxis](../../../src/main/java/com/rcdmake/whimsy/block/ClassDEV/DEV_StateEnumAxis.java) | 1 | 3, 8 | 2 | **刻意不继承** `RotatedPillarBlock`（要让学生看见状态定义与放置逻辑） |
+| DEV | [DEV_StateEnumFace](../../../src/main/java/com/rcdmake/whimsy/block/ClassDEV/DEV_StateEnumFace.java) | 1 | 3, 8 | 2 | 没有 `getStateForPlacement`，默认恒为 NORTH（与旧代码一致） |
+
+### 10.2 V2 待议清单
+
+1. **层号注释**：本轮已在 19 个类里统一为单行 `// ── 层 N ｜ … ──`（约定见 §9.1）；V2 可议是否升级为必做/是否要把「跳过的层」也写出来。
+2. **层 3 属性字段**：是否强制「每个状态维度都声明成本类的 `public static final` 字段」？DEV 的 `AXIS` / `FACING` 目前是原版常量的**别名**（同实例），有人会认为是多余的一层。
+3. **层 11 预留区**：目前 19 个类**没有一个**用到 —— 保留（等真出现不可预测钩子时）还是删掉这一层？
+4. **层 7 codec**：一旦开工切割家族（本体/半砖/楼梯/墙），是否把「家族类必看 codec」写成硬规则？（继承原版家族类可白拿，见 §8 TODO 表）
+5. **登记点清单的落地**：现在 8 项（含 Mixin 三处）只写在各类的层 0 契约栏里，是否要抽一份公共清单文件 + 一个「新方块 checklist」模板？
+6. **阶梯第 3~5 级的判定权**：谁来判定「前四级真的都无解」？目前只有超级滑滑冰用了第 5 级，判据写在它的类注释里 —— 是否需要一条「上 Mixin 前必须在契约栏留推导」的硬规则（现在事实上是这么做的）。
+7. **层 C 客户端接线**：目前散在 `RichardsWhimsyModClient`，是否要一张「客户端接线登记表」（方块 ↔ 颜色/渲染层/着色器）。
+8. **集合类的边界**：`DEV_BlocksOther`（2 个无关方块）与 `RDT_LuminousBlocks`（3 个换色）现在都用「一类多方块」；V2 要不要把「什么情况允许合并」写成更死的条文。
+9. **获取方式整体阶段**：战利品表 / 配方 / 挖掘标签（登记点⑦）全项目未落地 —— 落地时要不要给范式加一层。
+
+### 10.3 V2 的触发条件
+
+按 §7 硬约束与 §8 TODO 的性质，建议 V2 只在下面任意一条成立时开：
+切割家族真的开工 / 出现第二个必须用 Mixin 的方块 / `BLOCK_TYPE` 与 `BaseEntityBlock` codec 两个待核实项被证实有影响 / 「获取方式」阶段启动。
+

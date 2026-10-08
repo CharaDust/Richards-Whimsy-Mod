@@ -85,6 +85,7 @@ import net.minecraft.world.phys.Vec3;
  */
 public class WI_Aerogel extends Block {
 
+	// ── 层 1 ｜ 规格常量 ──
 	/**
 	 * 方块内减速乘数（水平 x/z、垂直 y）。
 	 * <p>26.2 的 {@code makeStuckInBlock} 是「把速度直接乘以该向量」，1 = 不减速。
@@ -93,9 +94,11 @@ public class WI_Aerogel extends Block {
 	 */
 	private static final Vec3 INSIDE_DRAG = new Vec3(0.9, 0.9, 0.9);
 
+	// ── 层 2 ｜ 方块声明 ──
 	/** 方块本体，在 {@link #OnInit()} 里赋值。 */
 	public static Block WI_AEROGEL;
 
+	// ── 层 4 ｜ 属性工厂（运行时先执行）──
 	/**
 	 * 气凝胶的属性（wiki「构造」表的逐行落地）。
 	 *
@@ -122,6 +125,7 @@ public class WI_Aerogel extends Block {
 				.forceSolidOff();
 	}
 
+	// ── 层 5 ｜ 构造器（运行时后执行）──
 	/**
 	 * 构造器（层 5；运行时排在属性工厂之后，见 V1 的「按运行时顺序排列」）：只做装配，没有别的逻辑。
 	 * <p>属性来自上面的 {@link #aerogelProperties()} —— 它是本构造器实参的来源。
@@ -136,6 +140,7 @@ public class WI_Aerogel extends Block {
 	 * {@code inside} 标记；蜘蛛网、细雪也走这个覆写点，本方块不用分发器，直接改实体速度。
 	 */
 	@Override
+	// ── 层 9 ｜ 交互与判定 ──
 	protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity,
 			InsideBlockEffectApplier effectApplier, boolean inside) {
 		entity.makeStuckInBlock(state, INSIDE_DRAG);
@@ -143,6 +148,7 @@ public class WI_Aerogel extends Block {
 
 	/** 环境光遮蔽为 0（即亮度不被削弱）：旧 {@code getAmbientOcclusionLightLevel} 返回 1.0。 */
 	@Override
+	// ── 层 10 ｜ 形状与外观 ──
 	protected float getShadeBrightness(BlockState state, BlockGetter level, BlockPos pos) {
 		return 1.0F;
 	}
@@ -153,6 +159,7 @@ public class WI_Aerogel extends Block {
 		return true;
 	}
 
+	// ── 层 12 ｜ 初始化 ──
 	public static void OnInit() {
 		WI_AEROGEL = ModRegister.registerBlockWithItem("wi_aerogel",
 				new WI_Aerogel(aerogelProperties().setId(ModRegister.blockKey("wi_aerogel"))));

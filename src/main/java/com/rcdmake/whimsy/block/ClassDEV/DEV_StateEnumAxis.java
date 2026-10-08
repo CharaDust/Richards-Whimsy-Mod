@@ -41,20 +41,24 @@ import net.minecraft.world.level.block.state.properties.EnumProperty;
  */
 public class DEV_StateEnumAxis extends Block {
 
+	// ── 层 2 ｜ 方块声明 ──
 	/** 方块本体（层 2），在 {@link #OnInit()} 里赋值。 */
 	public static Block DEV_BLOCK_STATE_AXIS;
 
+	// ── 层 3 ｜ 状态属性字段 ──
 	/**
 	 * 状态属性字段（层 3）：轴向，直接取原版共享常量。
 	 * <p>序列化名是 {@code axis}（原版 {@code BlockStateProperties.AXIS} 的名字），手写的 blockstate 用的就是它。
 	 */
 	public static final EnumProperty<Direction.Axis> AXIS = BlockStateProperties.AXIS;
 
+	// ── 层 4 ｜ 属性工厂（运行时先执行）──
 	/** 轴方块的属性（层 4）：wiki「构造」表逐行都是「父级」，故完整复制石头。 */
 	public static BlockBehaviour.Properties stateEnumAxisProperties() {
 		return BlockBehaviour.Properties.ofFullCopy(Blocks.STONE);
 	}
 
+	// ── 层 5 ｜ 构造器（运行时后执行）──
 	/**
 	 * 构造器（层 5；运行时排在属性工厂之后）：装配 + 给状态初值。
 	 * <p>属性来自上面的 {@link #stateEnumAxisProperties()}；{@code registerDefaultState} 只能写在
@@ -68,6 +72,7 @@ public class DEV_StateEnumAxis extends Block {
 
 	/** 状态模式（层 8）：声明本方块有 {@code axis} 这一个状态维度。 */
 	@Override
+	// ── 层 8 ｜ 状态模式与生命周期 ──
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
 		builder.add(AXIS);
 	}
@@ -79,6 +84,7 @@ public class DEV_StateEnumAxis extends Block {
 				.setValue(AXIS, context.getClickedFace().getAxis());
 	}
 
+	// ── 层 12 ｜ 初始化 ──
 	/** 注册（层 12）。 */
 	public static void OnInit() {
 		DEV_BLOCK_STATE_AXIS = ModRegister.registerBlockWithItem("dev_block_state_axis",

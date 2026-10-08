@@ -66,14 +66,17 @@ import net.minecraft.world.phys.shapes.VoxelShape;
  */
 public class RDT_GlassQuartz extends Block {
 
+	// ── 层 2 ｜ 方块声明 ──
 	/** 方块本体，在 {@link #OnInit()} 里赋值。 */
 	public static Block RDT_QUARTZ_GLASS;
 
+	// ── 层 4 ｜ 属性工厂（运行时先执行）──
 	/** 石英玻璃的属性：完整复制玻璃（碰撞开关保持为 true，理由见 {@link RDT_GlassLapis}）。 */
 	public static BlockBehaviour.Properties quartzGlassProperties() {
 		return BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS);
 	}
 
+	// ── 层 5 ｜ 构造器（运行时后执行）──
 	/**
 	 * 构造器（层 5；运行时排在属性工厂之后）：只做装配，没有别的逻辑。
 	 * <p>属性来自上面的 {@link #quartzGlassProperties()} —— 它是本构造器实参的来源。
@@ -84,6 +87,7 @@ public class RDT_GlassQuartz extends Block {
 
 	/** 流体一律不可替换本方块：水流冲不掉它（第二道保险，理由见 {@link RDT_GlassLapis}）。 */
 	@Override
+	// ── 层 9 ｜ 交互与判定 ──
 	protected boolean canBeReplaced(BlockState state, Fluid fluid) {
 		return false;
 	}
@@ -95,6 +99,7 @@ public class RDT_GlassQuartz extends Block {
 	 * 语义与原来的 {@code Shapes.block()} 相同，但把「兜底 = 父级」这条规矩写明白了。
 	 */
 	@Override
+	// ── 层 10 ｜ 形状与外观 ──
 	protected VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos,
 			CollisionContext context) {
 		if (context instanceof EntityCollisionContext entityContext) {
@@ -127,6 +132,7 @@ public class RDT_GlassQuartz extends Block {
 		return super.skipRendering(state, neighbor, direction);
 	}
 
+	// ── 层 12 ｜ 初始化 ──
 	public static void OnInit() {
 		RDT_QUARTZ_GLASS = ModRegister.registerBlockWithItem("rdt_quartz_glass",
 				new RDT_GlassQuartz(quartzGlassProperties().setId(ModRegister.blockKey("rdt_quartz_glass"))));

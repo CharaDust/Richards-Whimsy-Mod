@@ -63,6 +63,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
  */
 public class RDT_SuperLubricentIce extends Block {
 
+	// ── 层 1 ｜ 规格常量 ──
 	/**
 	 * 表面阻力系数：26.2 允许的最大值（= 原版「无阻力」封顶）。
 	 * <p>原版蓝冰是 0.989、普通方块约 0.6、冰 0.98；1.0 已经把「每 Tick 衰减」压到最小
@@ -70,15 +71,18 @@ public class RDT_SuperLubricentIce extends Block {
 	 */
 	private static final float FRICTION = 1.0F;
 
+	// ── 层 2 ｜ 方块声明 ──
 	/** 方块本体，在 {@link #OnInit()} 里赋值。 */
 	public static Block RDT_SUPER_LUBRICENT_ICE;
 
+	// ── 层 4 ｜ 属性工厂（运行时先执行）──
 	/** 超级滑滑冰的属性：复制蓝冰 + 表面阻力系数取 26.2 的封顶值。 */
 	public static BlockBehaviour.Properties superLubricentIceProperties() {
 		return BlockBehaviour.Properties.ofFullCopy(Blocks.BLUE_ICE)
 				.friction(FRICTION);
 	}
 
+	// ── 层 5 ｜ 构造器（运行时后执行）──
 	/**
 	 * 构造器（层 5；运行时排在属性工厂之后）：只做装配，没有别的逻辑。
 	 * <p>属性来自上面的 {@link #superLubricentIceProperties()} —— 它是本构造器实参的来源。
@@ -87,6 +91,7 @@ public class RDT_SuperLubricentIce extends Block {
 		super(properties);
 	}
 
+	// ── 层 12 ｜ 初始化 ──
 	public static void OnInit() {
 		RDT_SUPER_LUBRICENT_ICE = ModRegister.registerBlockWithItem("rdt_super_lubricent_ice",
 				new RDT_SuperLubricentIce(superLubricentIceProperties()

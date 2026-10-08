@@ -47,5 +47,14 @@ replay_*.log
 
 # 本地测试用的 Gradle 用户目录（见 toolchain-check/gradlew26.bat）
 /.gradle-user/
+
+# 本地参考 / 备份目录：不入库
+#   /src/main/javaref      —— 1.20.4 旧代码，作为迁移参考保留在磁盘上，不参与编译、也不进 jar
+#   /src/main/resoursesbak —— 拼写错误的备份目录
+#
+# ⚠️ .gitignore 只对**未被跟踪**的文件生效。这两个目录若曾被提交过，必须先把它们从索引里摘掉：
+#     git rm -r --cached src/main/javaref
+#     git commit -m "chore: 停止跟踪 src/main/javaref（1.20.4 迁移参考代码，不入库）"
+#   注意 `--cached` 不可省：它只删除索引与后续提交里的记录，磁盘上的文件会原样保留。
 /src/main/resoursesbak
 /src/main/javaref

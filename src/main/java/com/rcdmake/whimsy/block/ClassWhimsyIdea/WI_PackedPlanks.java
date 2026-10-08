@@ -48,14 +48,17 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
  */
 public class WI_PackedPlanks extends Block {
 
+	// ── 层 2 ｜ 方块声明 ──
 	/** 方块本体，在 {@link #OnInit()} 里赋值。 */
 	public static Block WI_PACKED_PLANKS;
 
+	// ── 层 4 ｜ 属性工厂（运行时先执行）──
 	/** 包装木材的属性：完整复制橡木木板（含其木质可燃性等）。 */
 	public static BlockBehaviour.Properties packedPlanksProperties() {
 		return BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS);
 	}
 
+	// ── 层 5 ｜ 构造器（运行时后执行）──
 	/**
 	 * 构造器（层 5；运行时排在属性工厂之后）：只做装配，没有别的逻辑。
 	 * <p>属性来自上面的 {@link #packedPlanksProperties()} —— 它是本构造器实参的来源。
@@ -64,6 +67,7 @@ public class WI_PackedPlanks extends Block {
 		super(properties);
 	}
 
+	// ── 层 12 ｜ 初始化 ──
 	public static void OnInit() {
 		WI_PACKED_PLANKS = ModRegister.registerBlockWithItem("wi_packed_planks",
 				new WI_PackedPlanks(packedPlanksProperties()

@@ -67,15 +67,18 @@ import net.minecraft.world.phys.BlockHitResult;
  */
 public class WI_SugarBlock extends Block {
 
+	// ── 层 2 ｜ 方块声明 ──
 	/** 方块本体，在 {@link #OnInit()} 里赋值。 */
 	public static Block WI_SUGARBLOCK;
 
+	// ── 层 4 ｜ 属性工厂（运行时先执行）──
 	/** 糖块的属性：复制石头，声音组换成 SAND。 */
 	public static BlockBehaviour.Properties sugarBlockProperties() {
 		return BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)
 				.sound(SoundType.SAND);
 	}
 
+	// ── 层 5 ｜ 构造器（运行时后执行）──
 	/**
 	 * 构造器（层 5；运行时排在属性工厂之后）：只做装配，没有别的逻辑。
 	 * <p>属性来自上面的 {@link #sugarBlockProperties()} —— 它是本构造器实参的来源。
@@ -86,6 +89,7 @@ public class WI_SugarBlock extends Block {
 
 	/** 空手交互（旧 {@code onUse} 的空手那一半）。 */
 	@Override
+	// ── 层 9 ｜ 交互与判定 ──
 	protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player,
 			BlockHitResult hit) {
 		return eat(level, pos, player);
@@ -116,6 +120,7 @@ public class WI_SugarBlock extends Block {
 		return InteractionResult.SUCCESS;
 	}
 
+	// ── 层 12 ｜ 初始化 ──
 	public static void OnInit() {
 		WI_SUGARBLOCK = ModRegister.registerBlockWithItem("wi_sugarblock",
 				new WI_SugarBlock(sugarBlockProperties().setId(ModRegister.blockKey("wi_sugarblock"))));

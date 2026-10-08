@@ -80,6 +80,7 @@ import net.minecraft.world.level.material.MapColor;
  */
 public class RDT_LuminousBlocks extends Block {
 
+	// ── 层 2 ｜ 方块声明 ──
 	/** 红色鲁米诺方块 {@code rdt_luminous_block_red}。 */
 	public static Block RDT_LUMINOUS_BLOCK_RED;
 	/** 绿色鲁米诺方块 {@code rdt_luminous_block_green}。 */
@@ -87,6 +88,7 @@ public class RDT_LuminousBlocks extends Block {
 	/** 蓝色鲁米诺方块 {@code rdt_luminous_block_blue}。 */
 	public static Block RDT_LUMINOUS_BLOCK_BLUE;
 
+	// ── 层 4 ｜ 属性工厂（运行时先执行）──
 	/**
 	 * 鲁米诺方块的属性（wiki「构造」表逐行落地 + 纯色渲染所需的 emissive）。
 	 * <p>三个方块共用这一条 —— 换色只在贴图上体现。
@@ -103,6 +105,7 @@ public class RDT_LuminousBlocks extends Block {
 		// 亮度：wiki 写 0（不实际发光），故不设 lightLevel
 	}
 
+	// ── 层 5 ｜ 构造器（运行时后执行）──
 	/**
 	 * 构造器（层 5；运行时排在属性工厂之后）：只做装配，没有别的逻辑。
 	 * <p>属性来自上面的 {@link #luminousProperties()} —— 三个方块共用它。
@@ -111,6 +114,7 @@ public class RDT_LuminousBlocks extends Block {
 		super(properties);
 	}
 
+	// ── 层 12 ｜ 初始化 ──
 	public static void OnInit() {
 		RDT_LUMINOUS_BLOCK_RED = ModRegister.registerBlockWithItem("rdt_luminous_block_red",
 				new RDT_LuminousBlocks(luminousProperties().setId(ModRegister.blockKey("rdt_luminous_block_red"))));

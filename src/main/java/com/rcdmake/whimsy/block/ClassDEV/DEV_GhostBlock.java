@@ -108,14 +108,17 @@ import net.minecraft.world.phys.shapes.VoxelShape;
  */
 public class DEV_GhostBlock extends Block {
 
+	// ── 层 2 ｜ 方块声明 ──
 	/** 方块本体（层 2），在 {@link #OnInit()} 里赋值。 */
 	public static Block DEV_BLOCK_GHOST;
 
+	// ── 层 4 ｜ 谓词助手（供属性工厂使用）──
 	/** 不窒息、不阻挡视野：「无」语义用 {@code (state, level, pos) -> false} 表达（层 4 的谓词助手）。 */
 	private static boolean never(BlockState state, BlockGetter level, BlockPos pos) {
 		return false;
 	}
 
+	// ── 层 4 ｜ 属性工厂（运行时先执行）──
 	/**
 	 * 幽灵方块的属性（层 4）。
 	 *
@@ -153,6 +156,7 @@ public class DEV_GhostBlock extends Block {
 				.forceSolidOn();
 	}
 
+	// ── 层 5 ｜ 构造器（运行时后执行）──
 	/**
 	 * 构造器（层 5；运行时排在属性工厂之后）：只做装配，没有别的逻辑。
 	 * <p>属性来自上面的 {@link #ghostProperties()} —— 它是本构造器实参的来源。
@@ -163,6 +167,7 @@ public class DEV_GhostBlock extends Block {
 
 	/** 水不参与寻路（旧方法恒返回 false，这里保持同样语义，层 9）。 */
 	@Override
+	// ── 层 9 ｜ 交互与判定 ──
 	protected boolean isPathfindable(BlockState state, PathComputationType type) {
 		return false;
 	}
@@ -179,6 +184,7 @@ public class DEV_GhostBlock extends Block {
 
 	/** 环境光遮蔽：1.0 = 完全不遮蔽（旧 {@code getAmbientOcclusionLightLevel}，层 10）。 */
 	@Override
+	// ── 层 10 ｜ 形状与外观 ──
 	protected float getShadeBrightness(BlockState state, BlockGetter level, BlockPos pos) {
 		return 1.0F;
 	}
@@ -198,6 +204,7 @@ public class DEV_GhostBlock extends Block {
 		return super.skipRendering(state, neighbor, direction);
 	}
 
+	// ── 层 12 ｜ 初始化 ──
 	/** 注册（层 12）。 */
 	public static void OnInit() {
 		DEV_BLOCK_GHOST = ModRegister.registerBlockWithItem("dev_block_ghost",

@@ -44,17 +44,21 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
  */
 public class DEV_StateBoolean extends Block {
 
+	// ── 层 2 ｜ 方块声明 ──
 	/** 方块本体（层 2），在 {@link #OnInit()} 里赋值。 */
 	public static Block DEV_BLOCK_STATE_BOOLEAN;
 
+	// ── 层 3 ｜ 状态属性字段 ──
 	/** 状态属性字段（层 3）：布尔值，序列化名 {@code dev_boolean}（属性名不是注册名）。 */
 	public static final BooleanProperty DEV_BOOLEAN = BooleanProperty.create("dev_boolean");
 
+	// ── 层 4 ｜ 属性工厂（运行时先执行）──
 	/** 布尔的属性（层 4）：wiki「构造」表逐行都是「父级」，故完整复制石头。 */
 	public static BlockBehaviour.Properties stateBooleanProperties() {
 		return BlockBehaviour.Properties.ofFullCopy(Blocks.STONE);
 	}
 
+	// ── 层 5 ｜ 构造器（运行时后执行）──
 	/**
 	 * 构造器（层 5；运行时排在属性工厂之后）：装配 + 给状态初值。
 	 * <p>属性来自上面的 {@link #stateBooleanProperties()}；{@code registerDefaultState} 只能写在
@@ -68,10 +72,12 @@ public class DEV_StateBoolean extends Block {
 
 	/** 状态模式（层 8）：声明本方块有 {@code dev_boolean} 这一个状态维度。 */
 	@Override
+	// ── 层 8 ｜ 状态模式与生命周期 ──
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
 		builder.add(DEV_BOOLEAN);
 	}
 
+	// ── 层 12 ｜ 初始化 ──
 	/** 注册（层 12）：id 只在注册处出现一次（{@code Properties.setId} 是 26.2 的硬性要求）。 */
 	public static void OnInit() {
 		DEV_BLOCK_STATE_BOOLEAN = ModRegister.registerBlockWithItem("dev_block_state_boolean",

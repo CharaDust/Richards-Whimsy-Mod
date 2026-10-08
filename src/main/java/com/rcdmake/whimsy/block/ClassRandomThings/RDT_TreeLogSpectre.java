@@ -95,6 +95,7 @@ import net.minecraft.world.phys.Vec3;
  */
 public class RDT_TreeLogSpectre extends RotatedPillarBlock {
 
+	// ── 层 1 ｜ 规格常量 ──
 	/** 方块内减速乘数（xyz）。wiki 原先标「未实现」，现已按 0.85 实现 —— 较轻的阻力。 */
 	private static final Vec3 INSIDE_DRAG = new Vec3(0.85, 0.85, 0.85);
 
@@ -108,9 +109,11 @@ public class RDT_TreeLogSpectre extends RotatedPillarBlock {
 	/** 烧毁几率（{@code burnOdds} / {@code setFlammable} 的第二个参数）。wiki 的「父级*（要比原木高）」→ 60。 */
 	private static final int BURN_ODDS = 60;
 
+	// ── 层 2 ｜ 方块声明 ──
 	/** 方块本体，在 {@link #OnInit()} 里赋值。 */
 	public static Block RDT_SPECTRE_LOG;
 
+	// ── 层 4 ｜ 属性工厂（运行时先执行）──
 	/** 通灵原木的属性（wiki「构造」表逐行落地）。 */
 	public static BlockBehaviour.Properties spectreLogProperties() {
 		return BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LOG)
@@ -127,6 +130,7 @@ public class RDT_TreeLogSpectre extends RotatedPillarBlock {
 		// 视野阻挡：wiki 写「父级」，故不覆写（引擎默认谓词生效）
 	}
 
+	// ── 层 5 ｜ 构造器（运行时后执行）──
 	/**
 	 * 构造器（层 5；运行时排在属性工厂之后）：装配 + 给状态初值。
 	 * <p>属性来自上面的 {@link #spectreLogProperties()}；{@code registerDefaultState} 只能写在
@@ -146,6 +150,7 @@ public class RDT_TreeLogSpectre extends RotatedPillarBlock {
 	 * 乘数见 {@link #INSIDE_DRAG}：三个方向各保留绝大部分速度，即「无窒息但稍有阻力地穿过」。
 	 */
 	@Override
+	// ── 层 9 ｜ 交互与判定 ──
 	protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity,
 			InsideBlockEffectApplier effectApplier, boolean inside) {
 		entity.makeStuckInBlock(state, INSIDE_DRAG);
@@ -159,6 +164,7 @@ public class RDT_TreeLogSpectre extends RotatedPillarBlock {
 
 	/** 环境光遮蔽：旧代码 0.9f。 */
 	@Override
+	// ── 层 10 ｜ 形状与外观 ──
 	protected float getShadeBrightness(BlockState state, BlockGetter level, BlockPos pos) {
 		return 0.9F;
 	}
@@ -178,6 +184,7 @@ public class RDT_TreeLogSpectre extends RotatedPillarBlock {
 		return super.skipRendering(state, neighbor, direction);
 	}
 
+	// ── 层 12 ｜ 初始化 ──
 	/**
 	 * 注册方块与方块物品，并登记可燃性。
 	 *

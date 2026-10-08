@@ -78,12 +78,15 @@ import net.minecraft.world.level.material.PushReaction;
  */
 public class RDT_StepBlock extends Block {
 
+	// ── 层 1 ｜ 规格常量 ──
 	/** 计划刻延迟（Tick）。wiki 写「200Tick」。 */
 	private static final int BREAK_DELAY_TICKS = 200;
 
+	// ── 层 2 ｜ 方块声明 ──
 	/** 方块本体，在 {@link #OnInit()} 里赋值。 */
 	public static Block RDT_STEP_BLOCK;
 
+	// ── 层 4 ｜ 属性工厂（运行时先执行）──
 	/** 垫脚方块的属性（wiki「构造」表逐行落地）。 */
 	public static BlockBehaviour.Properties stepBlockProperties() {
 		// 父级「无」→ 全新属性；硬度/爆炸抗性按 wiki 保持引擎默认
@@ -102,6 +105,7 @@ public class RDT_StepBlock extends Block {
 				.noOcclusion();
 	}
 
+	// ── 层 5 ｜ 构造器（运行时后执行）──
 	/**
 	 * 构造器（层 5；运行时排在属性工厂之后）：只做装配，没有别的逻辑。
 	 * <p>属性来自上面的 {@link #stepBlockProperties()} —— 它是本构造器实参的来源。
@@ -115,6 +119,7 @@ public class RDT_StepBlock extends Block {
 	 * <p>只在服务端排刻 —— 客户端排刻没有任何意义（旧代码同样是 {@code !world.isClient}）。
 	 */
 	@Override
+	// ── 层 8 ｜ 状态模式与生命周期 ──
 	public void setPlacedBy(Level level, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
 		super.setPlacedBy(level, pos, state, placer, stack);
 		if (!level.isClientSide()) {
@@ -135,6 +140,7 @@ public class RDT_StepBlock extends Block {
 
 	/** 环境光遮蔽为 0：旧 {@code getAmbientOcclusionLightLevel} 返回 1.0。 */
 	@Override
+	// ── 层 10 ｜ 形状与外观 ──
 	protected float getShadeBrightness(BlockState state, BlockGetter level, BlockPos pos) {
 		return 1.0F;
 	}
@@ -145,6 +151,7 @@ public class RDT_StepBlock extends Block {
 		return true;
 	}
 
+	// ── 层 12 ｜ 初始化 ──
 	public static void OnInit() {
 		RDT_STEP_BLOCK = ModRegister.registerBlockWithItem("rdt_step_block",
 				new RDT_StepBlock(stepBlockProperties().setId(ModRegister.blockKey("rdt_step_block"))));

@@ -56,11 +56,13 @@ import java.util.Map;
  */
 public class DEV_BlocksOther {
 
+	// ── 层 2 ｜ 方块声明 ──
 	/** 一般方块 {@code dev_block_normal}（层 2）。 */
 	public static Block DEV_BLOCK_NORMAL;
 	/** 固定向上方块 {@code dev_block_vector_fix_side_u}（层 2）。 */
 	public static Block DEV_BLOCK_VECTOR_FIX_SIDE_U;
 
+	// ── 层 4 ｜ 属性工厂（运行时先执行）──
 	/**
 	 * 一般方块的属性（层 4）：wiki「构造」表逐行都是「父级」→ 完整复制石头。
 	 * <p>与 {@link #vectorFixSideUProperties()} 目前内容相同，但<b>刻意各留一条</b>：
@@ -75,6 +77,7 @@ public class DEV_BlocksOther {
 		return BlockBehaviour.Properties.ofFullCopy(Blocks.STONE);
 	}
 
+	// ── 登记点 ② ｜ blockstate 生成声明（非方块本体）──
 	/**
 	 * 方块状态数据生成的声明（登记点②的载体，不属于方块本体）：方块 → 模型路径后缀
 	 * （空串 = 沿用 {@code block/<方块id>}）。
@@ -93,6 +96,7 @@ public class DEV_BlocksOther {
 				DEV_BLOCK_VECTOR_FIX_SIDE_U, "");
 	}
 
+	// ── 层 12 ｜ 初始化 ──
 	/**
 	 * 初始化（层 12）：构造并注册本类的全部方块及其方块物品。
 	 * <p>主类只需要调用这一条。

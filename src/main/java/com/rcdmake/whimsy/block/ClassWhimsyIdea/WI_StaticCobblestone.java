@@ -54,14 +54,17 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
  */
 public class WI_StaticCobblestone extends Block {
 
+	// ── 层 2 ｜ 方块声明 ──
 	/** 方块本体，在 {@link #OnInit()} 里赋值。 */
 	public static Block WI_STATIC_COBBLESTONE;
 
+	// ── 层 4 ｜ 属性工厂（运行时先执行）──
 	/** 固石的属性：完整复制石头。 */
 	public static BlockBehaviour.Properties staticCobblestoneProperties() {
 		return BlockBehaviour.Properties.ofFullCopy(Blocks.STONE);
 	}
 
+	// ── 层 5 ｜ 构造器（运行时后执行）──
 	/**
 	 * 构造器（层 5；运行时排在属性工厂之后）：只做装配，没有别的逻辑。
 	 * <p>属性来自上面的 {@link #staticCobblestoneProperties()} —— 它是本构造器实参的来源。
@@ -70,6 +73,7 @@ public class WI_StaticCobblestone extends Block {
 		super(properties);
 	}
 
+	// ── 层 12 ｜ 初始化 ──
 	public static void OnInit() {
 		WI_STATIC_COBBLESTONE = ModRegister.registerBlockWithItem("wi_static_cobblestone",
 				new WI_StaticCobblestone(staticCobblestoneProperties()
