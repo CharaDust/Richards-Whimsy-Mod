@@ -117,8 +117,9 @@
 2. **`registerDefaultState` 只能在 `super(...)` 之后**；状态模式（`createBlockStateDefinition`）在 `Block` 构造器内部就已定死。
 3. **客户端代码绝不写进方块类**：颜色/渲染层/着色器一律进 `RichardsWhimsyModClient`。
 4. **碰撞相关的两条**（本项目花过大量时间）：
-   - 「概念性固体」（`legacySolid`）由 `calculateSolid()` 读**缓存下来的碰撞形状**反推 —— 凡按实体区分碰撞的方块，**非实体上下文的兜底分支必须返回父级形状**，返回空会让 `blocksMotion()` 变 false、方块被水冲掉、告示牌也贴不上；
-   - 「恒为空碰撞」写法必须是 `noCollision()` **+** `forceSolidOn()`。
+	- 对于能使实体透过的方块，如果不希望导致被水冲掉，请遵循以下两条
+	   - 「概念性固体」（`legacySolid`）由 `calculateSolid()` 读**缓存下来的碰撞形状**反推 —— 凡按实体区分碰撞的方块，**非实体上下文的兜底分支必须返回父级形状**，返回空会让 `blocksMotion()` 变 false、方块被水冲掉、告示牌也贴不上；
+	   - 「恒为空碰撞」写法必须是 `noCollision()` **+** `forceSolidOn()`。
 5. **`skipRendering` 要真正生效，模型那一面必须有 `cullface`**（手写 `elements` 时最容易漏）。
 6. **Mixin 三处登记**：Mixin 类 + `<modid>.mixins.json` 的 `mixins` + `fabric.mod.json` 的 `mixins`；用 `require = 0` 保证不命中不崩；必须游戏内验证。
 7. **覆写点必须带 `@Override`**，且注释里写清它对应旧版的哪个 Yarn 方法（迁移对照的落地形式）。

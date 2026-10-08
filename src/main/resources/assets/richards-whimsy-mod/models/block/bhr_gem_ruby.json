@@ -1,8 +1,9 @@
 {
+	"format_version": "26.2",
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "richards-whimsy-mod:item/bhr/gem_ruby",
-		"particle": "richards-whimsy-mod:item/bhr/gem_ruby"
+		"0": "richards-whimsy-mod:block/bhr/gem_ruby",
+		"particle": "richards-whimsy-mod:block/bhr/gem_ruby"
 	},
 	"elements": [
 		{
@@ -93,7 +94,7 @@
 				"south": {"uv": [7, 6, 10, 7], "texture": "#0"},
 				"west": {"uv": [7, 6, 8, 7], "texture": "#0"},
 				"up": {"uv": [7, 6, 10, 7], "texture": "#0"},
-				"down": {"uv": [0, 0, 3, 1], "texture": "#missing"}
+				"down": {"uv": [0, 0, 3, 1], "texture": "#0"}
 			}
 		},
 		{
@@ -106,7 +107,7 @@
 				"south": {"uv": [7, 10, 10, 11], "texture": "#0"},
 				"west": {"uv": [7, 10, 8, 11], "texture": "#0"},
 				"up": {"uv": [7, 10, 10, 11], "texture": "#0"},
-				"down": {"uv": [0, 0, 3, 1], "texture": "#missing"}
+				"down": {"uv": [0, 0, 3, 1], "texture": "#0"}
 			}
 		},
 		{
@@ -119,7 +120,7 @@
 				"south": {"uv": [6, 9, 7, 10], "texture": "#0"},
 				"west": {"uv": [6, 7, 7, 10], "rotation": 270, "texture": "#0"},
 				"up": {"uv": [6, 7, 7, 10], "texture": "#0"},
-				"down": {"uv": [6, 7, 7, 10], "texture": "#missing"}
+				"down": {"uv": [6, 7, 7, 10], "texture": "#0"}
 			}
 		},
 		{
@@ -132,7 +133,7 @@
 				"south": {"uv": [10, 9, 11, 10], "texture": "#0"},
 				"west": {"uv": [10, 7, 11, 10], "rotation": 270, "texture": "#0"},
 				"up": {"uv": [10, 7, 11, 10], "texture": "#0"},
-				"down": {"uv": [6, 7, 7, 10], "texture": "#missing"}
+				"down": {"uv": [6, 7, 7, 10], "texture": "#0"}
 			}
 		}
 	]

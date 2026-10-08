@@ -68,14 +68,24 @@ public final class ItemModelGenerator {
 	 *       （Alpha 32~140，肉眼更实），方块用 {@code wi/aerogel.png}（Alpha 恒 32，近乎全透）；</li>
 	 *   <li>{@code wi_static_liquid_water} —— 物品用 {@code wi/static_liquid_water_mapped.png}
 	 *       （已经把水色乘进贴图），方块用 {@code wi/static_liquid_water.png}
-	 *       （灰度原图，靠 {@code BlockColorRegistry} 按生物群系上色）。</li>
+	 *       （灰度原图，靠 {@code BlockColorRegistry} 按生物群系上色）；</li>
+	 *   <li>{@code bhr_gem_*} 五种宝石 —— 方块是 Blockbench 手写的 3D {@code elements} 模型，
+	 *       但<b>物品图标从旧项目起就是一张平面宝石图</b>（{@code models/item/bhr_gem_*.json}
+	 *       = {@code parent: item/generated} + {@code layer0}，26.2 这条路依然有效，
+	 *       与原版 {@code item/amethyst_shard} 的写法一致）。不走例外表的话，
+	 *       物品栏里会变成「一块 3D 宝石」，与旧项目观感不同。</li>
 	 * </ul>
 	 * 例外只写在这里，不动默认规则 —— {@code DEV} 分支那些「物品模型只是转指方块模型」的
 	 * 文件因此完全不受影响。
 	 */
 	private static final Map<String, String> ITEM_MODEL_OVERRIDES = Map.of(
 			"wi_aerogel", "item/wi_aerogel",
-			"wi_static_liquid_water", "item/wi_static_liquid_water");
+			"wi_static_liquid_water", "item/wi_static_liquid_water",
+			"bhr_gem_amethyst", "item/bhr_gem_amethyst",
+			"bhr_gem_sapphire", "item/bhr_gem_sapphire",
+			"bhr_gem_emerald", "item/bhr_gem_emerald",
+			"bhr_gem_ruby", "item/bhr_gem_ruby",
+			"bhr_gem_diamond", "item/bhr_gem_diamond");
 
 	private ItemModelGenerator() {
 	}

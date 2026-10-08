@@ -41,11 +41,6 @@
 
 ## 方块状态
 - AXIS
-- #deprecated BHR_DECAYED（BOOLEAN）
-	- 受枯萎机制控制（未实现）
-	- 人为放置时默认为TRUE（代码重制前为FALSE）
-	- 自然生长的默认为FALSE（未实现）
-	- 可使用骨粉由TRUE转化为FALSE（未实现）
 
 ## 获取方式
 ### 战利品表
@@ -57,3 +52,6 @@
 - 方块状态BHR_DECAYED即将弃用，原因如下：
 	- 挖掘方块时不会保留方块状态
 	- #todo 该状态将拆分为两个不同方块——松木原木、枯萎的松木原木
+- ✅ 已重制（2026）：只保留 `AXIS`（父级 `RotatedPillarBlock` 白拿「放置时按贴合面」）；
+  旧写法里那个 `bhr_decayed` 状态未移植，手写的 `blockstates/bhr_pine_log.json` 已由 6 个 variants 收敛为 3 个（`axis=x/y/z`）。
+  枯萎形态留给将来的 `#todo` 方块「枯萎的松木原木」—— 贴图 `bhr/pine_decayed_log*.png` 与模型 `bhr_pine_decayed_log` 已随资源在树里。

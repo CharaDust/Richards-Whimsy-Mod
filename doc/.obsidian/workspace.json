@@ -8,35 +8,7 @@
         "type": "tabs",
         "children": [
           {
-            "id": "9075e4bba38cd15e",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "wiki/Blocks/ClassWhimsyIdea/WI_Aerogel.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "WI_Aerogel"
-            }
-          },
-          {
             "id": "4d715005c8c98192",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "wiki/Blocks/ClassRandomThings/RDT_LuminousBlocks.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "RDT_LuminousBlocks"
-            }
-          },
-          {
-            "id": "5ec3690d336992ee",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -50,7 +22,21 @@
             }
           },
           {
-            "id": "1c93ff0ef8e926d3",
+            "id": "b8d03649a3fdd1f5",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "wiki/Blocks/ClassBlockHeadsRebon/BHR_TreeLogPine.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "BHR_TreeLogPine"
+            }
+          },
+          {
+            "id": "5ec3690d336992ee",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -61,6 +47,20 @@
               },
               "icon": "lucide-file",
               "title": "blockv1"
+            }
+          },
+          {
+            "id": "1c93ff0ef8e926d3",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "wiki/Component/ClassBlockHeadsRebon/BHR_GemBlessing.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "BHR_GemBlessing"
             }
           },
           {
@@ -92,7 +92,7 @@
             }
           }
         ],
-        "currentTab": 3
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -170,7 +170,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "wiki/example/blockv1.md",
+                "file": "wiki/Blocks/ClassBlockHeadsRebon/BHR_TreeLogPine.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -189,7 +189,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "wiki/example/blockv1.md",
+                "file": "wiki/Blocks/ClassBlockHeadsRebon/BHR_TreeLogPine.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
@@ -232,7 +232,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "wiki/example/blockv1.md",
+                "file": "wiki/Blocks/ClassBlockHeadsRebon/BHR_TreeLogPine.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
@@ -241,7 +241,8 @@
               "title": "大纲"
             }
           }
-        ]
+        ],
+        "currentTab": 4
       }
     ],
     "direction": "horizontal",
@@ -258,19 +259,24 @@
       "bases:新建数据库": false
     }
   },
-  "active": "1c93ff0ef8e926d3",
+  "active": "b8d03649a3fdd1f5",
   "lastOpenFiles": [
-    "wiki/Blocks/ClassRandomThings/RDT_LuminousBlocks.md",
-    "agent/deepseek/10-方块类范式V1统一计划.md",
-    "wiki/example/blockv1.md",
-    "wiki/example",
     "wiki/RichardsWhimsyMod.md",
+    "wiki/Blocks/ClassRandomThings/RDT_LuminousBlocks.md",
     "wiki/Blocks/ClassWhimsyIdea/WI_Aerogel.md",
+    "wiki/example/blockv1.md",
+    "wiki/Blocks/ClassDEV/DEV_BlocksOther.md",
+    "wiki/Component/ClassBlockHeadsRebon/BHR_GemBlessing.md",
+    "wiki/Items/ClassBlockHeadsRebon/BHR_FoodOther.md",
+    "wiki/Items/ClassBlockHeadsRebon/BHR_FoodLime.md",
+    "wiki/Component/ClassBlockHeadsRebon/BHR_GemBlessing_1.md",
+    "wiki/Blocks/ClassRandomThings/RDT_GlassSugar.md",
+    "agent/deepseek/10-方块类范式V1统一计划.md",
+    "wiki/example",
     "agent/humanidea/开发约定.md",
     "wiki/Items/ClassDEV/DEVItems.md",
     "agent/humanidea",
     "wiki/Items/ClassDEV/DEV_ItemsOther.md",
-    "wiki/Blocks/ClassDEV/DEV_BlocksOther.md",
     "agent/deepseek/08-IDEA设置指南-26.2骨架.md",
     "wiki/Items/ModItems.md",
     "agent/deepseek/09-26.2骨架交付报告.md",
@@ -282,12 +288,7 @@
     "wiki/Blocks/ClassBlockHeadsRebon/BHR_Soils.md",
     "wiki/Blocks/ClassBlockHeadsRebon/BHR_Rocks.md",
     "wiki/Items/ClassBlockHeadsRebon/BHR_OtherItems.md",
-    "wiki/Items/ClassBlockHeadsRebon/BHR_FoodOther.md",
     "wiki/Blocks/ClassBlockHeadsRebon/BHR_SlateCobble.md",
-    "agent/deepseek/07-文档补全执行报告.md",
-    "wiki/Misc/文档范式说明.md",
-    "wiki/Misc/模板遗留方块.md",
-    "wiki/Misc/客户端渲染接线.md",
     "wiki/ItemGroup/ClassWhimsyIdea",
     "wiki/ItemGroup/ClassRandomThings",
     "wiki/ItemGroup/ClassDEV",

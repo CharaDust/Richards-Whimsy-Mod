@@ -1,8 +1,9 @@
 {
+	"format_version": "26.2",
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "richards-whimsy-mod:item/bhr/gem_emerald",
-		"particle": "richards-whimsy-mod:item/bhr/gem_emerald"
+		"0": "richards-whimsy-mod:block/bhr/gem_emerald",
+		"particle": "richards-whimsy-mod:block/bhr/gem_emerald"
 	},
 	"elements": [
 		{

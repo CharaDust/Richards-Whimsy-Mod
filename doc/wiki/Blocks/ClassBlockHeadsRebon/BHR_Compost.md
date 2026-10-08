@@ -34,8 +34,12 @@
 - 常规渲染
 
 ## 改写方法
-- #mixin 对 CropBlock.class 中的 canPlantOnTop 方法进行修改：
-	- 如果底部方块是堆肥块，直接允许种植，不考虑水源等其他因素
+- ✅ 已实现，且 26.2 **不需要 Mixin**：把本方块加入原版方块标签 `minecraft:supports_crops` 即可
+	- 26.2 的「能否种在其上」是**标签驱动**的：原版是 `minecraft:supports_crops = [minecraft:farmland]`，
+	  茎类作物走 `minecraft:supports_stem_crops = [#minecraft:supports_crops]`（所以加一个标签就全覆盖）
+	- 落地文件：`src/main/resources/data/minecraft/tags/block/supports_crops.json`（`"replace": false`，与其它数据包合并）
+	- ⚠️ 原 `#mixin 改 CropBlock.canPlantOnTop` 的写法在 26.2 已过时 —— 标签是官方给出的等价点，
+	  本方块因此从能力阶梯第 5 级（Mixin）降到第 3 级（数据驱动制品）
 
 ## 事件
 - 无
@@ -48,3 +52,7 @@
 
 ## 备注
 - 「不会因为踩踏而退化 / 其上的作物不会枯萎」的成因：本方块相较耕地没有踩踏与退化逻辑
+	- 实现上：**复制耕地的属性，但继承 `Block` 而不是 `FarmlandBlock`** —— 退化逻辑在类里，不在属性里
+	- （26.2 里耕地类由 `FarmBlock` 更名为 `FarmlandBlock`）
+- 旧代码的 `BHR_Compost4CropMixin` 还给堆肥块上的作物强制了生长速度 `8F`（作者标注的「极端测试」，wiki 未列）
+	—— 本阶段**未移植**；若要恢复，把本方块一并加入 `minecraft:grows_crops` 标签即可，仍然不需要 Mixin

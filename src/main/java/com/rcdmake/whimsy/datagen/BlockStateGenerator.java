@@ -158,6 +158,33 @@ public final class BlockStateGenerator {
 		all.put(com.rcdmake.whimsy.block.ClassRandomThings.RDT_LuminousBlocks.RDT_LUMINOUS_BLOCK_GREEN, "");
 		all.put(com.rcdmake.whimsy.block.ClassRandomThings.RDT_LuminousBlocks.RDT_LUMINOUS_BLOCK_BLUE, "");
 
+		// 方块愚者（BHR）：
+		// ⚠️ 多状态方块一律**不**在这里声明（blockstate 手写），共 8 个：
+		//   · 五个宝石（bhr_gem_*）—— face(ATTACH_FACE) × facing 两个属性；
+		//   · 红壤（bhr_soil）与它的两个矿土子类（bhr_soil_flint_ore / bhr_soil_clay_ore）—— grass_cover 布尔状态。
+		//   · 松木原木（bhr_pine_log）带 AXIS，同上。
+		// 下面全是单状态方块（模型与方块同名 → block/<id>），交给生成器。
+		all.put(com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Compost.BHR_COMPOST, "");
+		// —— 切面板岩系 ——
+		all.put(com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Slate.BHR_SLATE, "");
+		all.put(com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_SlateCobble.BHR_COBBLESLATE, "");
+		all.put(com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_OreSlateCopper.BHR_SLATE_COPPER_ORE, "");
+		all.put(com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_OreSlateIron.BHR_SLATE_IRON_ORE, "");
+		all.put(com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_OreSlateTin.BHR_SLATE_TIN_ORE, "");
+		all.put(com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_OreSlateCoal.BHR_SLATE_COAL_ORE, "");
+		all.put(com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_OreSlateGold.BHR_SLATE_GOLD_ORE, "");
+		all.put(com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_OreSlatePlatinum.BHR_SLATE_PLATINUM_ORE, "");
+		all.put(com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_OreSlateTitanium.BHR_SLATE_TITANIUM_ORE, "");
+		all.put(com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_OreSlateUnknown.BHR_SLATE_UNKNOWN_ORE, "");
+		// —— 红壤系：只有「未知矿土」是单状态（wiki 明写它没有 grass_cover 状态） ——
+		all.put(com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_OreSoilUnknown.BHR_SOIL_UNKNOWN_ORE, "");
+		// —— 石灰石 / 大理石 / 海滩沙 ——
+		all.put(com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Limestone.BHR_LIMESTONE, "");
+		all.put(com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_LimestoneBrick.BHR_LIMESTONE_BRICK, "");
+		all.put(com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_OreLimestoneOil.BHR_LIMESTONE_OIL_ORE, "");
+		all.put(com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Marble.BHR_MARBLE, "");
+		all.put(com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_MarblePolished.BHR_POLISHED_MARBLE, "");
+		all.put(com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_BeachSand.BHR_BEACH_SAND, "");
 		return all;
 	}
 }

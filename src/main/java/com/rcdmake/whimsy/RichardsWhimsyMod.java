@@ -1,5 +1,32 @@
 package com.rcdmake.whimsy;
 
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_BeachSand;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Compost;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_GemAmethyst;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_GemDiamond;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_GemEmerald;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_GemRuby;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_GemSapphire;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Limestone;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_LimestoneBrick;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Marble;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_MarblePolished;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_OreLimestoneOil;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_OreSlateCoal;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_OreSlateCopper;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_OreSlateGold;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_OreSlateIron;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_OreSlatePlatinum;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_OreSlateTitanium;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_OreSlateTin;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_OreSlateUnknown;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_OreSoilClay;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_OreSoilFlint;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_OreSoilUnknown;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Slate;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_SlateCobble;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Soil;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_TreeLogPine;
 import com.rcdmake.whimsy.block.ClassDEV.DEV_BlocksOther;
 import com.rcdmake.whimsy.block.ClassDEV.DEV_GhostBlock;
 import com.rcdmake.whimsy.block.ClassDEV.DEV_StateBoolean;
@@ -73,6 +100,44 @@ public class RichardsWhimsyMod implements ModInitializer {
 		RDT_StepBlock.OnInit();
 		RDT_TreeLogSpectre.OnInit();
 		RDT_LuminousBlocks.OnInit();
+
+		// --- 方块（方块愚者 BHR，由 1.20.4 迁移而来） ---
+		// 第一批：2 个 #wait4move 方块
+		BHR_TreeLogPine.OnInit();
+		BHR_Compost.OnInit();
+
+		// 第二批：5 个 #deprecated 集合类拆分成 25 个独立类（注册名对照表见 doc/agent/deepseek/06）
+		// 顺序约定：家族父类必须先就位（BHR_Soil 在前，BHR_OreSoilFlint / Clay 继承它），
+		// 其余按 wiki 物品栏页「包含物品」的分组顺序排列，读起来与游戏里看到的顺序一致。
+		// —— 方块与矿物：切面板岩系 ——
+		BHR_Slate.OnInit();
+		BHR_SlateCobble.OnInit();
+		BHR_OreSlateCopper.OnInit();
+		BHR_OreSlateIron.OnInit();
+		BHR_OreSlateTin.OnInit();
+		BHR_OreSlateCoal.OnInit();
+		BHR_OreSlateGold.OnInit();
+		BHR_OreSlatePlatinum.OnInit();
+		BHR_OreSlateTitanium.OnInit();
+		BHR_OreSlateUnknown.OnInit();
+		// —— 方块与矿物：红壤系（父类先于两个矿土子类） ——
+		BHR_Soil.OnInit();
+		BHR_OreSoilFlint.OnInit();
+		BHR_OreSoilClay.OnInit();
+		BHR_OreSoilUnknown.OnInit();
+		// —— 方块与矿物：石灰石 / 大理石 / 海滩沙 ——
+		BHR_Limestone.OnInit();
+		BHR_LimestoneBrick.OnInit();
+		BHR_OreLimestoneOil.OnInit();
+		BHR_Marble.OnInit();
+		BHR_MarblePolished.OnInit();
+		BHR_BeachSand.OnInit();
+		// —— 宝石（五个独立类，原来的 BHR_Gems 集合类就此退休） ——
+		BHR_GemAmethyst.OnInit();
+		BHR_GemSapphire.OnInit();
+		BHR_GemEmerald.OnInit();
+		BHR_GemRuby.OnInit();
+		BHR_GemDiamond.OnInit();
 
 		// --- 物品 ---
 		DEV_ItemsOther.OnInit();

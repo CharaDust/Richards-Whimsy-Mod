@@ -1,27 +1,15 @@
 {
   "variants": {
-    "axis=x,bhr_decayed=false": {
+    "axis=x": {
       "model": "richards-whimsy-mod:block/bhr_pine_log",
       "x": 90,
       "y": 90
     },
-    "axis=y,bhr_decayed=false": {
+    "axis=y": {
       "model": "richards-whimsy-mod:block/bhr_pine_log"
     },
-    "axis=z,bhr_decayed=false": {
+    "axis=z": {
       "model": "richards-whimsy-mod:block/bhr_pine_log",
-      "x": 90
-    },
-    "axis=x,bhr_decayed=true": {
-      "model": "richards-whimsy-mod:block/bhr_pine_decayed_log",
-      "x": 90,
-      "y": 90
-    },
-    "axis=y,bhr_decayed=true": {
-      "model": "richards-whimsy-mod:block/bhr_pine_decayed_log"
-    },
-    "axis=z,bhr_decayed=true": {
-      "model": "richards-whimsy-mod:block/bhr_pine_decayed_log",
       "x": 90
     }
   }
