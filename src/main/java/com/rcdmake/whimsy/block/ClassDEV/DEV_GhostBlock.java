@@ -3,6 +3,7 @@ package com.rcdmake.whimsy.block.ClassDEV;
 import com.rcdmake.whimsy.ModRegister;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -30,8 +31,12 @@ import net.minecraft.world.phys.shapes.VoxelShape;
  *   <tr><td>{@code canPathfindThrough(..., NavigationType)}</td><td>{@code isPathfindable(..., PathComputationType)}</td><td>枚举换名</td></tr>
  *   <tr><td>{@code ShapeContext}</td><td>{@code CollisionContext}</td><td>碰撞上下文</td></tr>
  *   <tr><td>{@code getCameraCollisionShape}</td><td><b>已移除</b></td><td>26.2 相机碰撞不再由方块决定</td></tr>
- *   <tr><td>{@code allowsSpawning(Blocks::never)}</td><td><b>已移除且无等价覆写点</b></td>
- *       <td>既没 builder 也没 {@code isValidSpawn} 可覆写（实测）。这条行为暂时无法保留。</td></tr>
+ *   <tr><td>{@code allowsSpawning(Blocks::never)}</td>
+ *       <td>{@code isValidSpawn((state, level, pos, type) -&gt; false)}</td>
+ *       <td>≡「表面生成生物 FALSE」。<b>2026-10 更正 + 补齐</b>：本条原写「已移除且无等价覆写点（实测）」，
+ *       是<b>误记</b> —— 26.2 的 {@code BlockBehaviour.Properties.isValidSpawn(StateArgumentPredicate)}
+ *       一直都在（宝石方块 {@code BHR_GemAmethyst} 也是用它落地的）。本类现已按 wiki 那一行启用
+ *       {@code .isValidSpawn(DEV_GhostBlock::neverSpawn)}，幽灵方块不再刷怪。</td></tr>
  *   <tr><td>{@code solidBlock(Blocks::never)} / {@code .solid()}</td><td>无这两个 builder</td>
  *       <td>用形状覆写表达（见下）</td></tr>
  *   <tr><td>{@code BlockRenderLayerMap}</td><td><b>已删除</b></td><td>26.1 起透明由贴图像素自动决定</td></tr>
@@ -118,6 +123,14 @@ public class DEV_GhostBlock extends Block {
 		return false;
 	}
 
+	/**
+	 * 表面生成生物 FALSE（层 4 的谓词助手，2026-10 补齐）。
+	 * <p>{@code isValidSpawn} 的谓词比另外两个多一个实体类型参数，所以要单独一个四参助手。
+	 */
+	private static boolean neverSpawn(BlockState state, BlockGetter level, BlockPos pos, EntityType<?> type) {
+		return false;
+	}
+
 	// ── 层 4 ｜ 属性工厂（运行时先执行）──
 	/**
 	 * 幽灵方块的属性（层 4）。
@@ -148,6 +161,8 @@ public class DEV_GhostBlock extends Block {
 	public static BlockBehaviour.Properties ghostProperties() {
 		return BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS)
 				.noOcclusion()
+				// 表面生成生物 FALSE（wiki 那一行；2026-10 用 26.2 的 isValidSpawn 补齐）
+				.isValidSpawn(DEV_GhostBlock::neverSpawn)
 				.isSuffocating(DEV_GhostBlock::never)
 				.isViewBlocking(DEV_GhostBlock::never)
 				// 实体穿得过

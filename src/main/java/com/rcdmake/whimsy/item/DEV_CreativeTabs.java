@@ -6,8 +6,9 @@ import com.rcdmake.whimsy.block.ClassDEV.DEV_GhostBlock;
 import com.rcdmake.whimsy.block.ClassDEV.DEV_StateBoolean;
 import com.rcdmake.whimsy.block.ClassDEV.DEV_StateEnum;
 import com.rcdmake.whimsy.block.ClassDEV.DEV_StateEnumAxis;
-import com.rcdmake.whimsy.block.ClassDEV.DEV_StateEnumFace;
+import com.rcdmake.whimsy.block.ClassDEV.DEV_StateEnumFacing;
 import com.rcdmake.whimsy.block.ClassDEV.DEV_StateInt;
+import com.rcdmake.whimsy.item.ClassDEV.DEV_HardcoreSwitcher;
 import com.rcdmake.whimsy.item.ClassDEV.DEV_ItemsOther;
 import net.minecraft.world.item.ItemStack;
 
@@ -68,11 +69,12 @@ public final class DEV_CreativeTabs {
 					output.accept(DEV_StateInt.DEV_BLOCK_STATE_INT);
 					output.accept(DEV_StateEnum.DEV_BLOCK_STATE_ENUM);
 					output.accept(DEV_StateEnumAxis.DEV_BLOCK_STATE_AXIS);
-					output.accept(DEV_StateEnumFace.DEV_BLOCK_STATE_FACE);
+					output.accept(DEV_StateEnumFacing.DEV_BLOCK_STATE_FACING);
 					// 幽灵方块
 					output.accept(DEV_GhostBlock.DEV_BLOCK_GHOST);
-					// 一般物品
+					// 一般物品、极限模式切换器
 					output.accept(DEV_ItemsOther.DEV_ITEM_NORMAL);
+					output.accept(DEV_HardcoreSwitcher.DEV_HARDCORE_SWITCHER);
 				});
 	}
 }

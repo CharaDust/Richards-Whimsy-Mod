@@ -1,0 +1,24 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "OR": [
+          { "bhr_hormone_type": "none|persistent" },
+          { "bhr_hormone_count": "0" }
+        ]
+      },
+      "apply": {
+        "model": "richards-whimsy-mod:block/bhr_pine_leaves"
+      }
+    },
+    {
+      "when": {
+        "bhr_hormone_type": "dominant|suppressive",
+        "bhr_hormone_count": "1|2|3|4|5|6|7|8|9|10|11|12|13|14|15"
+      },
+      "apply": {
+        "model": "richards-whimsy-mod:block/bhr_pine_leaves_outside"
+      }
+    }
+  ]
+}

@@ -26,9 +26,11 @@ import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_OreSoilUnknown;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Slate;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_SlateCobble;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Soil;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_TreeLeavesPine;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_TreeLogPine;
 import com.rcdmake.whimsy.datagen.LangEntrySupport;
 import com.rcdmake.whimsy.item.BHR_CreativeTabs;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_PineCone;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 
 /**
@@ -87,6 +89,9 @@ public final class BHR_LangEntries {
 		LangEntrySupport.addBlockAndItem(builder, BHR_BeachSand.BHR_BEACH_SAND, "海滩沙");
 		// —— 树木 ——
 		LangEntrySupport.addBlockAndItem(builder, BHR_TreeLogPine.BHR_PINE_LOG, "松木原木");
+		LangEntrySupport.addBlockAndItem(builder, BHR_TreeLeavesPine.BHR_PINE_LEAVES, "松木树叶");
+		// —— 物品：松果（普通物品，只有 item.… 一条键）——
+		builder.add(BHR_PineCone.BHR_PINE_CONE, "松果");
 		// —— 其他方块 ——
 		LangEntrySupport.addBlockAndItem(builder, BHR_Compost.BHR_COMPOST, "堆肥块");
 		// —— 宝石 ——
@@ -126,6 +131,9 @@ public final class BHR_LangEntries {
 		LangEntrySupport.addBlockAndItem(builder, BHR_BeachSand.BHR_BEACH_SAND, "Beach Sand");
 		// —— 树木 ——
 		LangEntrySupport.addBlockAndItem(builder, BHR_TreeLogPine.BHR_PINE_LOG, "Pine Log");
+		LangEntrySupport.addBlockAndItem(builder, BHR_TreeLeavesPine.BHR_PINE_LEAVES, "Pine Leaves");
+		// —— 物品：松果 ——
+		builder.add(BHR_PineCone.BHR_PINE_CONE, "Pine Cone");
 		// —— 其他方块 ——
 		LangEntrySupport.addBlockAndItem(builder, BHR_Compost.BHR_COMPOST, "Compost Block");
 		// —— 宝石 ——

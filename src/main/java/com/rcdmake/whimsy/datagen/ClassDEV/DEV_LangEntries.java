@@ -5,9 +5,10 @@ import com.rcdmake.whimsy.block.ClassDEV.DEV_GhostBlock;
 import com.rcdmake.whimsy.block.ClassDEV.DEV_StateBoolean;
 import com.rcdmake.whimsy.block.ClassDEV.DEV_StateEnum;
 import com.rcdmake.whimsy.block.ClassDEV.DEV_StateEnumAxis;
-import com.rcdmake.whimsy.block.ClassDEV.DEV_StateEnumFace;
+import com.rcdmake.whimsy.block.ClassDEV.DEV_StateEnumFacing;
 import com.rcdmake.whimsy.block.ClassDEV.DEV_StateInt;
 import com.rcdmake.whimsy.datagen.LangEntrySupport;
+import com.rcdmake.whimsy.item.ClassDEV.DEV_HardcoreSwitcher;
 import com.rcdmake.whimsy.item.ClassDEV.DEV_ItemsOther;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 
@@ -55,11 +56,15 @@ public final class DEV_LangEntries {
 		LangEntrySupport.addBlockAndItem(builder, DEV_StateInt.DEV_BLOCK_STATE_INT, "整型方块");
 		LangEntrySupport.addBlockAndItem(builder, DEV_StateEnum.DEV_BLOCK_STATE_ENUM, "枚举方块");
 		LangEntrySupport.addBlockAndItem(builder, DEV_StateEnumAxis.DEV_BLOCK_STATE_AXIS, "轴方块");
-		LangEntrySupport.addBlockAndItem(builder, DEV_StateEnumFace.DEV_BLOCK_STATE_FACE, "朝向方块");
+		LangEntrySupport.addBlockAndItem(builder, DEV_StateEnumFacing.DEV_BLOCK_STATE_FACING, "朝向方块");
 		LangEntrySupport.addBlockAndItem(builder, DEV_GhostBlock.DEV_BLOCK_GHOST, "幽灵方块");
 
 		// 普通物品（键：item.richards-whimsy-mod.*）
 		builder.add(DEV_ItemsOther.DEV_ITEM_NORMAL, "一般物品");
+		builder.add(DEV_HardcoreSwitcher.DEV_HARDCORE_SWITCHER, "极限模式切换器");
+		// 切换提示（键：message.richards-whimsy-mod.*）
+		builder.add(DEV_HardcoreSwitcher.MESSAGE_KEY_ON, "极限模式：已开启（服务端已生效，客户端心形重进世界后刷新）");
+		builder.add(DEV_HardcoreSwitcher.MESSAGE_KEY_OFF, "极限模式：已关闭");
 	}
 
 	/** 英文条目（与 {@link #zh} 同一批键）。 */
@@ -73,9 +78,12 @@ public final class DEV_LangEntries {
 		LangEntrySupport.addBlockAndItem(builder, DEV_StateInt.DEV_BLOCK_STATE_INT, "Integer Block");
 		LangEntrySupport.addBlockAndItem(builder, DEV_StateEnum.DEV_BLOCK_STATE_ENUM, "Enum Block");
 		LangEntrySupport.addBlockAndItem(builder, DEV_StateEnumAxis.DEV_BLOCK_STATE_AXIS, "Axis Block");
-		LangEntrySupport.addBlockAndItem(builder, DEV_StateEnumFace.DEV_BLOCK_STATE_FACE, "Facing Block");
+		LangEntrySupport.addBlockAndItem(builder, DEV_StateEnumFacing.DEV_BLOCK_STATE_FACING, "Facing Block");
 		LangEntrySupport.addBlockAndItem(builder, DEV_GhostBlock.DEV_BLOCK_GHOST, "Ghost Block");
 
 		builder.add(DEV_ItemsOther.DEV_ITEM_NORMAL, "Normal Item");
+		builder.add(DEV_HardcoreSwitcher.DEV_HARDCORE_SWITCHER, "Hardcore Switcher");
+		builder.add(DEV_HardcoreSwitcher.MESSAGE_KEY_ON, "Hardcore: ON (server-side is live; the client hearts refresh after rejoining)");
+		builder.add(DEV_HardcoreSwitcher.MESSAGE_KEY_OFF, "Hardcore: OFF");
 	}
 }

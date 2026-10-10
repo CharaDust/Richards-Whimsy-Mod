@@ -3,6 +3,7 @@
 	"package": "com.rcdmake.whimsy.mixin",
 	"compatibilityLevel": "JAVA_25",
 	"mixins": [
+		"ClassDEV.DEV_HardcoreModeMixin",
 		"ClassRandomThings.RDT_SuperLubricentIceFrictionMixin"
 	],
 	"injectors": {

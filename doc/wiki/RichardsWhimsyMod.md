@@ -71,7 +71,7 @@
 	- [[DEV_StateBoolean]]
 	- [[DEV_StateEnum]]
 	- [[DEV_StateEnumAxis]]
-	- [[DEV_StateEnumFace]]
+	- [[DEV_StateEnumFacing]]
 	- [[DEV_StateInt]]
 
 ## 方块实体
@@ -97,6 +97,7 @@
 	- #deprecated [[BHR_GemBlessTest]]
 	- #deprecated [[BHR_OtherItems]]
 	- #todo [[BHR_ItemsOther]]
+	- [[BHR_PineCone]]
 - 随意物件（`RDT`）
 - 奇思妙想（`WI`）
 	- #wait4move [[WI_Prospector]]
@@ -106,6 +107,7 @@
 	- #todo [[LGC_HoneyCrystallized]]
 - 初学开发（`DEV`）
 	- [[DEV_ItemsOther]]
+	- #mixin [[DEV_HardcoreSwitcher]]
 
 ## 状态效果
 - 方块愚者（`BHR`）

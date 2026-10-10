@@ -1,0 +1,102 @@
+package com.rcdmake.whimsy.block.ClassDEV;
+
+import com.rcdmake.whimsy.ModRegister;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+
+/**
+ * 开发_朝向方块（{@code dev_block_state_face}→{@code dev_block_state_facing}）——
+ * 由旧项目 {@code DEV_StateEnumFace} 迁来，2026-10 改名（类名 / 字段名 / 注册名一起改）。
+ *
+ * <h2>为什么改名</h2>
+ * Minecraft 里「朝向」（上下左右前后共 6 个方向）叫 <b>{@code Facing}</b>，而 <b>{@code Face}</b>
+ * 指的是<b>附着面</b>（天花板 / 墙 / 地板 —— 见 {@code AttachFace} 与
+ * {@code FaceAttachedHorizontalDirectionalBlock}）。本方块的状态是六向朝向，沿用 {@code face}
+ * 会与「附着面」混淆，所以统一改成 {@code facing}：
+ * <ul>
+ *   <li>类名 {@code DEV_StateEnumFace} → {@code DEV_StateEnumFacing}（文件同名）</li>
+ *   <li>字段 {@code DEV_BLOCK_STATE_FACE} → {@link #DEV_BLOCK_STATE_FACING}</li>
+ *   <li>属性工厂 {@code stateEnumFaceProperties()} → {@link #stateEnumFacingProperties()}</li>
+ *   <li>注册名 {@code dev_block_state_face} → {@code dev_block_state_facing}（blockstate / 6 个方向模型 / 物品定义同步改名）</li>
+ * </ul>
+ * 属性常量 {@code FACING} 本来就叫对了：它取的是原版共享常量 {@code BlockStateProperties.FACING}，
+ * 序列化名一直是 {@code facing}，手写 blockstate 用的也是它 —— 这次改的只是「脸」这个词本身。
+ *
+ * <p><b>多方块状态</b>：朝向属性 {@code facing}（6 个方向）。blockstate 由人工手写，
+ * 本类不在 {@code blockStateModels()} 里声明。
+ *
+ * <p>注意：本类**没有**覆写放置逻辑（旧代码也没有），所以默认恒为 {@code NORTH}；
+ * 需要「放置时按玩家朝向」的话得自己加 {@code getStateForPlacement}（层 8 的第二个覆写点）。
+ *
+ * <p>改名对照（1.20.4 → 26.2）：{@code Properties.FACING} → {@code BlockStateProperties.FACING}；
+ * {@code AbstractBlock.Settings} → {@code BlockBehaviour.Properties}。
+ *
+ * <h2>范式 V1 契约栏（层 0）</h2>
+ * <ul>
+ *   <li><b>注册名</b> {@code dev_block_state_face}→{@code dev_block_state_facing}
+ *       　<b>模块</b> DEV　<b>父级</b> 石头</li>
+ *   <li><b>启用的可选层</b>：层 3 状态属性（{@code FACING}）、层 8 状态模式（{@code createBlockStateDefinition}）
+ *       —— <b>没有</b> {@code getStateForPlacement}，默认恒为 NORTH（与旧代码一致）</li>
+ *   <li><b>跳过的可选层</b>：层 1 常量、层 6 家族、层 7 codec、层 9 交互与判定、层 10 形状与外观、
+ *       层 11 预留区、层 C 客户端、层 M Mixin</li>
+ *   <li><b>能力阶梯</b>：停在第 2 级「覆写本类方法」—— 想让它「放置时按玩家朝向」就再加一条
+ *       {@code getStateForPlacement}</li>
+ *   <li><b>登记点</b>：①☑ 主类 {@code OnInit()}　②☒ <b>不在</b> {@code blockStateModels()} 里声明
+ *       （6 个方向，blockstate 手写）　③☒ 物品模型无例外　④☑ 中英 {@code DEV_LangEntries}
+ *       　⑤☑ {@code DEV_CreativeTabs}　⑥☑ 贴图 / 模型（6 向模型 2026-10 已补齐）
+ *       　⑦☐ 配方与战利品表（wiki：获取方式「无」）</li>
+ * </ul>
+ */
+public class DEV_StateEnumFacing extends Block {
+
+	// ── 层 2 ｜ 方块声明 ──
+	/** 方块本体（层 2），在 {@link #OnInit()} 里赋值。 */
+	public static Block DEV_BLOCK_STATE_FACING;
+
+	// ── 层 3 ｜ 状态属性字段 ──
+	/**
+	 * 状态属性字段（层 3）：朝向，直接取原版共享常量。
+	 * <p>序列化名是 {@code facing}（原版 {@code BlockStateProperties.FACING} 的名字），手写的 blockstate 用的就是它。
+	 * <p>这个词也正是本类改名的由来：朝向叫 {@code Facing}，附着面才叫 {@code Face}。
+	 */
+	public static final EnumProperty<Direction> FACING = BlockStateProperties.FACING;
+
+	// ── 层 4 ｜ 属性工厂（运行时先执行）──
+	/** 朝向方块的属性（层 4）：wiki「构造」表逐行都是「父级」，故完整复制石头。 */
+	public static BlockBehaviour.Properties stateEnumFacingProperties() {
+		return BlockBehaviour.Properties.ofFullCopy(Blocks.STONE);
+	}
+
+	// ── 层 5 ｜ 构造器（运行时后执行）──
+	/**
+	 * 构造器（层 5；运行时排在属性工厂之后）：装配 + 给状态初值。
+	 * <p>属性来自上面的 {@link #stateEnumFacingProperties()}；{@code registerDefaultState} 只能写在
+	 * {@code super(...)} 之后。
+	 */
+	public DEV_StateEnumFacing(BlockBehaviour.Properties properties) {
+		super(properties);
+		registerDefaultState(defaultBlockState()
+				.setValue(FACING, Direction.NORTH));
+	}
+
+	// ── 层 8 ｜ 状态模式与生命周期 ──
+	/** 状态模式（层 8）：声明本方块有 {@code facing} 这一个状态维度。 */
+	@Override
+	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+		builder.add(FACING);
+	}
+
+	// ── 层 12 ｜ 初始化 ──
+	/** 注册（层 12）。 */
+	public static void OnInit() {
+		DEV_BLOCK_STATE_FACING = ModRegister.registerBlockWithItem("dev_block_state_facing",
+				new DEV_StateEnumFacing(stateEnumFacingProperties()
+						.setId(ModRegister.blockKey("dev_block_state_facing"))));
+	}
+}

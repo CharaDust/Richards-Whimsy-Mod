@@ -123,6 +123,12 @@
 5. **`skipRendering` 要真正生效，模型那一面必须有 `cullface`**（手写 `elements` 时最容易漏）。
 6. **Mixin 三处登记**：Mixin 类 + `<modid>.mixins.json` 的 `mixins` + `fabric.mod.json` 的 `mixins`；用 `require = 0` 保证不命中不崩；必须游戏内验证。
 7. **覆写点必须带 `@Override`**，且注释里写清它对应旧版的哪个 Yarn 方法（迁移对照的落地形式）。
+8. **代码风格两条**（2026-10 由 `BHR_TreeLeavesPine` 的返工写进范式，之前只散落在 §9.1 与口头约定里）：
+	- **缩进一律 Tab**：一个缩进层级 = 一个制表符；文件 UTF-8（无 BOM）+ LF。空格缩进会让 `git diff`、
+	  IDE 缩进提示与其余方块类全部对不齐 —— 方块类是要互相抄的，格式不一致等于抄错。
+	- **层号注释只用单行横幅**：`// ── 层 N ｜ … ──`（写法见 §9.1）。**三行重横幅只允许出现在
+	  `block/paradigm/` 的样板类里** —— 样板是教材，需要解释每层在干什么；生产类照抄样板会把 200 行的类
+	  撑到 300 行，还会用说明文字盖住「这一层其实是空的」这件事。
 
 ---
 
@@ -146,10 +152,12 @@
 
 ### 9.1 层号注释的写法（本轮统一）
 
+- **缩进用 Tab**、文件 UTF-8 无 BOM + LF（§7 第 8 条把这两条升成硬约束）。
 - **生产类**（`block/Class*/` 下的真实方块）：每层开始处一行，形如
   `// ── 层 4 ｜ 属性工厂（运行时先执行）──`，紧贴该层第一个成员的 javadoc 上方；
   只在该类**实际存在**的层上写（跳过的不写）。
 - **样板类**（`block/paradigm/`）：用三行重横幅 + 每层说明（它本身就是教材，需要解释每一层在干什么）。
+  ⚠️ 样板类 **只此一家**：生产类照抄这套横幅属于 §7 第 8 条的违规。
 - 层号取自 §2 的表格；方块状态生成声明（`blockStateModels()`）之类「登记点载体」不属于方块本体，
   用 `// ── 登记点 ② ｜ … ──` 标注，不占层号。
 
@@ -182,7 +190,7 @@
 | DEV | [DEV_StateInt](../../../src/main/java/com/rcdmake/whimsy/block/ClassDEV/DEV_StateInt.java) | 1 | 3, 8 | 2 | 同上（10 种取值） |
 | DEV | [DEV_StateEnum](../../../src/main/java/com/rcdmake/whimsy/block/ClassDEV/DEV_StateEnum.java) | 1 | 3, 8 | 2 | 嵌套枚举的序列化名不能改（写进 blockstate variants） |
 | DEV | [DEV_StateEnumAxis](../../../src/main/java/com/rcdmake/whimsy/block/ClassDEV/DEV_StateEnumAxis.java) | 1 | 3, 8 | 2 | **刻意不继承** `RotatedPillarBlock`（要让学生看见状态定义与放置逻辑） |
-| DEV | [DEV_StateEnumFace](../../../src/main/java/com/rcdmake/whimsy/block/ClassDEV/DEV_StateEnumFace.java) | 1 | 3, 8 | 2 | 没有 `getStateForPlacement`，默认恒为 NORTH（与旧代码一致） |
+| DEV | [DEV_StateEnumFacing](../../../src/main/java/com/rcdmake/whimsy/block/ClassDEV/DEV_StateEnumFacing.java) | 1 | 3, 8 | 2 | 没有 `getStateForPlacement`，默认恒为 NORTH（与旧代码一致）；2026-10 由 `DEV_StateEnumFace` 改名（朝向叫 Facing，附着面才叫 Face） |
 
 ### 10.2 V2 待议清单
 

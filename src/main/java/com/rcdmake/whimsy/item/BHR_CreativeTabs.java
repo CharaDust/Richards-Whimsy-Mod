@@ -27,7 +27,9 @@ import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_OreSoilUnknown;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Slate;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_SlateCobble;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Soil;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_TreeLeavesPine;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_TreeLogPine;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_PineCone;
 import net.minecraft.world.item.ItemStack;
 
 /**
@@ -39,15 +41,15 @@ import net.minecraft.world.item.ItemStack;
  * 方块与矿物（切面板岩与矿石、红壤系、石灰石系、大理石系、海滩沙）→ 树木（松木原木）→
  * 其他方块（堆肥块）→ 宝石 → 燃料（余烬）→ 食物。
  *
- * <h2>当前进度（第二批：5 个 {@code #deprecated} 集合类已拆分，共 27 个方块入栏）</h2>
- * 已重制并入栏的是「方块与矿物 / 树木 / 其他方块 / 宝石」四组，共 <b>27</b> 个方块：
+ * <h2>当前进度（第二批：5 个 {@code #deprecated} 集合类已拆分，共 28 个方块入栏）</h2>
+ * 已重制并入栏的是「方块与矿物 / 树木 / 其他方块 / 宝石」四组，共 <b>28</b> 个方块：
  * <pre>
  *   切面板岩系 10（切面板岩 + 板岩片石 + 8 种矿石）
  *   红壤系      4（红壤 + 燧石 / 粘土 / 未知矿土）
  *   石灰石系    3（石灰石 + 石灰砖 + 石灰石油矿）
  *   大理石系    2（大理石 + 磨制大理石）
  *   海滩沙      1
- *   松木原木    1
+ *   树木        2（松木原木 + 松木树叶）
  *   堆肥块      1
  *   宝石        5（紫锂辉 / 蓝宝石 / 祖母绿 / 红刚玉 / 宝石钻石）
  * </pre>
@@ -108,6 +110,8 @@ public final class BHR_CreativeTabs {
 					output.accept(BHR_BeachSand.BHR_BEACH_SAND);               // 海滩沙
 					// —— 树木 ——
 					output.accept(BHR_TreeLogPine.BHR_PINE_LOG);               // 松木原木
+					output.accept(BHR_TreeLeavesPine.BHR_PINE_LEAVES);         // 松木树叶
+					output.accept(BHR_PineCone.BHR_PINE_CONE);                 // 松果（物品）
 					// —— 其他方块 ——
 					output.accept(BHR_Compost.BHR_COMPOST);                    // 堆肥块
 					// —— 宝石 ——

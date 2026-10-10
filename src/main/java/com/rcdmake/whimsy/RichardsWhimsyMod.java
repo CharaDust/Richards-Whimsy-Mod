@@ -26,13 +26,14 @@ import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_OreSoilUnknown;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Slate;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_SlateCobble;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Soil;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_TreeLeavesPine;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_TreeLogPine;
 import com.rcdmake.whimsy.block.ClassDEV.DEV_BlocksOther;
 import com.rcdmake.whimsy.block.ClassDEV.DEV_GhostBlock;
 import com.rcdmake.whimsy.block.ClassDEV.DEV_StateBoolean;
 import com.rcdmake.whimsy.block.ClassDEV.DEV_StateEnum;
 import com.rcdmake.whimsy.block.ClassDEV.DEV_StateEnumAxis;
-import com.rcdmake.whimsy.block.ClassDEV.DEV_StateEnumFace;
+import com.rcdmake.whimsy.block.ClassDEV.DEV_StateEnumFacing;
 import com.rcdmake.whimsy.block.ClassDEV.DEV_StateInt;
 import com.rcdmake.whimsy.block.ClassRandomThings.RDT_GlassLapis;
 import com.rcdmake.whimsy.block.ClassRandomThings.RDT_GlassQuartz;
@@ -47,6 +48,8 @@ import com.rcdmake.whimsy.block.ClassWhimsyIdea.WI_StaticCobblestone;
 import com.rcdmake.whimsy.block.ClassWhimsyIdea.WI_StaticLiquidWater;
 import com.rcdmake.whimsy.block.ClassWhimsyIdea.WI_SugarBlock;
 import com.rcdmake.whimsy.item.ClassDEV.DEV_ItemsOther;
+import com.rcdmake.whimsy.item.ClassDEV.DEV_HardcoreSwitcher;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_PineCone;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.resources.Identifier;
 import org.slf4j.Logger;
@@ -82,7 +85,7 @@ public class RichardsWhimsyMod implements ModInitializer {
 		DEV_StateInt.OnInit();
 		DEV_StateEnum.OnInit();
 		DEV_StateEnumAxis.OnInit();
-		DEV_StateEnumFace.OnInit();
+		DEV_StateEnumFacing.OnInit();
 		DEV_GhostBlock.OnInit();
 
 		// --- 方块（奇思妙想 WI，由 1.20.4 迁移而来） ---
@@ -109,6 +112,8 @@ public class RichardsWhimsyMod implements ModInitializer {
 		// 第二批：5 个 #deprecated 集合类拆分成 25 个独立类（注册名对照表见 doc/agent/deepseek/06）
 		// 顺序约定：家族父类必须先就位（BHR_Soil 在前，BHR_OreSoilFlint / Clay 继承它），
 		// 其余按 wiki 物品栏页「包含物品」的分组顺序排列，读起来与游戏里看到的顺序一致。
+		// —— 树木：松木树叶（2026-10 由其它 AI 编写的类，本批补齐登记点） ——
+		BHR_TreeLeavesPine.OnInit();
 		// —— 方块与矿物：切面板岩系 ——
 		BHR_Slate.OnInit();
 		BHR_SlateCobble.OnInit();
@@ -141,6 +146,10 @@ public class RichardsWhimsyMod implements ModInitializer {
 
 		// --- 物品 ---
 		DEV_ItemsOther.OnInit();
+		// DEV 测试工具：极限模式切换器（右键切换存档 hardcore，见其类注释与 wiki 页）
+		DEV_HardcoreSwitcher.OnInit();
+		// 方块愚者（BHR）的物品：松果（种树用；由它放下第一片带激素的松木树叶）
+		BHR_PineCone.OnInit();
 
 		// --- 创造模式物品栏 ---
 		// 必须最后：它直接引用上面注册好的方块与物品的静态字段，此刻那些字段才非 null；
