@@ -153,6 +153,8 @@ public final class BlockStateGenerator {
 		all.put(com.rcdmake.whimsy.block.ClassRandomThings.RDT_SuperLubricentIce.RDT_SUPER_LUBRICENT_ICE, "");
 		all.put(com.rcdmake.whimsy.block.ClassRandomThings.RDT_GlassLapis.RDT_LAPIS_GLASS, "");
 		all.put(com.rcdmake.whimsy.block.ClassRandomThings.RDT_GlassQuartz.RDT_QUARTZ_GLASS, "");
+		all.put(com.rcdmake.whimsy.block.ClassRandomThings.RDT_LampLapis.RDT_LAPIS_LAMP, "");
+		all.put(com.rcdmake.whimsy.block.ClassRandomThings.RDT_LampQuartz.RDT_QUARTZ_LAMP, "");
 		all.put(com.rcdmake.whimsy.block.ClassRandomThings.RDT_StepBlock.RDT_STEP_BLOCK, "");
 		all.put(com.rcdmake.whimsy.block.ClassRandomThings.RDT_LuminousBlocks.RDT_LUMINOUS_BLOCK_RED, "");
 		all.put(com.rcdmake.whimsy.block.ClassRandomThings.RDT_LuminousBlocks.RDT_LUMINOUS_BLOCK_GREEN, "");

@@ -4,7 +4,10 @@
 	"compatibilityLevel": "JAVA_25",
 	"mixins": [
 		"ClassDEV.DEV_HardcoreModeMixin",
-		"ClassRandomThings.RDT_SuperLubricentIceFrictionMixin"
+		"ClassRandomThings.RDT_SuperLubricentIceFrictionMixin",
+		"ClassRandomThings.RDT_LampLightEmissionMixin",
+		"ClassRandomThings.RDT_LampLightSyncMixin",
+		"ClassRandomThings.RDT_LampIndexMaintenanceMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

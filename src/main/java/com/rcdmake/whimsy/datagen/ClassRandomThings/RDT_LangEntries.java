@@ -2,6 +2,8 @@ package com.rcdmake.whimsy.datagen.ClassRandomThings;
 
 import com.rcdmake.whimsy.block.ClassRandomThings.RDT_GlassLapis;
 import com.rcdmake.whimsy.block.ClassRandomThings.RDT_GlassQuartz;
+import com.rcdmake.whimsy.block.ClassRandomThings.RDT_LampLapis;
+import com.rcdmake.whimsy.block.ClassRandomThings.RDT_LampQuartz;
 import com.rcdmake.whimsy.block.ClassRandomThings.RDT_LuminousBlocks;
 import com.rcdmake.whimsy.block.ClassRandomThings.RDT_StepBlock;
 import com.rcdmake.whimsy.block.ClassRandomThings.RDT_SuperLubricentIce;
@@ -36,6 +38,8 @@ public final class RDT_LangEntries {
 		LangEntrySupport.addBlockAndItem(builder, RDT_SuperLubricentIce.RDT_SUPER_LUBRICENT_ICE, "超级滑滑冰");
 		LangEntrySupport.addBlockAndItem(builder, RDT_GlassLapis.RDT_LAPIS_GLASS, "青金石玻璃");
 		LangEntrySupport.addBlockAndItem(builder, RDT_GlassQuartz.RDT_QUARTZ_GLASS, "石英玻璃");
+		LangEntrySupport.addBlockAndItem(builder, RDT_LampLapis.RDT_LAPIS_LAMP, "青金石灯");
+		LangEntrySupport.addBlockAndItem(builder, RDT_LampQuartz.RDT_QUARTZ_LAMP, "石英灯");
 		LangEntrySupport.addBlockAndItem(builder, RDT_StepBlock.RDT_STEP_BLOCK, "垫脚方块");
 		LangEntrySupport.addBlockAndItem(builder, RDT_TreeLogSpectre.RDT_SPECTRE_LOG, "通灵原木");
 		LangEntrySupport.addBlockAndItem(builder, RDT_LuminousBlocks.RDT_LUMINOUS_BLOCK_RED, "红色鲁米诺方块");
@@ -50,6 +54,8 @@ public final class RDT_LangEntries {
 		LangEntrySupport.addBlockAndItem(builder, RDT_SuperLubricentIce.RDT_SUPER_LUBRICENT_ICE, "Super Lubricent Ice");
 		LangEntrySupport.addBlockAndItem(builder, RDT_GlassLapis.RDT_LAPIS_GLASS, "Lapis Glass");
 		LangEntrySupport.addBlockAndItem(builder, RDT_GlassQuartz.RDT_QUARTZ_GLASS, "Quartz Glass");
+		LangEntrySupport.addBlockAndItem(builder, RDT_LampLapis.RDT_LAPIS_LAMP, "Lapis Lamp");
+		LangEntrySupport.addBlockAndItem(builder, RDT_LampQuartz.RDT_QUARTZ_LAMP, "Quartz Lamp");
 		LangEntrySupport.addBlockAndItem(builder, RDT_StepBlock.RDT_STEP_BLOCK, "Step Block");
 		LangEntrySupport.addBlockAndItem(builder, RDT_TreeLogSpectre.RDT_SPECTRE_LOG, "Spectre Log");
 		LangEntrySupport.addBlockAndItem(builder, RDT_LuminousBlocks.RDT_LUMINOUS_BLOCK_RED, "Red Luminous Block");

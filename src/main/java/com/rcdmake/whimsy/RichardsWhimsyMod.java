@@ -37,6 +37,8 @@ import com.rcdmake.whimsy.block.ClassDEV.DEV_StateEnumFacing;
 import com.rcdmake.whimsy.block.ClassDEV.DEV_StateInt;
 import com.rcdmake.whimsy.block.ClassRandomThings.RDT_GlassLapis;
 import com.rcdmake.whimsy.block.ClassRandomThings.RDT_GlassQuartz;
+import com.rcdmake.whimsy.block.ClassRandomThings.RDT_LampLapis;
+import com.rcdmake.whimsy.block.ClassRandomThings.RDT_LampQuartz;
 import com.rcdmake.whimsy.block.ClassRandomThings.RDT_LuminousBlocks;
 import com.rcdmake.whimsy.block.ClassRandomThings.RDT_StepBlock;
 import com.rcdmake.whimsy.block.ClassRandomThings.RDT_SuperLubricentIce;
@@ -100,6 +102,8 @@ public class RichardsWhimsyMod implements ModInitializer {
 		RDT_SuperLubricentIce.OnInit();
 		RDT_GlassLapis.OnInit();
 		RDT_GlassQuartz.OnInit();
+		RDT_LampLapis.OnInit();
+		RDT_LampQuartz.OnInit();
 		RDT_StepBlock.OnInit();
 		RDT_TreeLogSpectre.OnInit();
 		RDT_LuminousBlocks.OnInit();

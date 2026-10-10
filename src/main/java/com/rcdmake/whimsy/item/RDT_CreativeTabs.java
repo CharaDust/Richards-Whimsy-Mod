@@ -3,6 +3,8 @@ package com.rcdmake.whimsy.item;
 import com.rcdmake.whimsy.ModCreativeTabs;
 import com.rcdmake.whimsy.block.ClassRandomThings.RDT_GlassLapis;
 import com.rcdmake.whimsy.block.ClassRandomThings.RDT_GlassQuartz;
+import com.rcdmake.whimsy.block.ClassRandomThings.RDT_LampLapis;
+import com.rcdmake.whimsy.block.ClassRandomThings.RDT_LampQuartz;
 import com.rcdmake.whimsy.block.ClassRandomThings.RDT_LuminousBlocks;
 import com.rcdmake.whimsy.block.ClassRandomThings.RDT_StepBlock;
 import com.rcdmake.whimsy.block.ClassRandomThings.RDT_SuperLubricentIce;
@@ -19,7 +21,8 @@ import net.minecraft.world.item.Items;
  *
  * <h2>包含清单（顺序 = wiki 的顺序）</h2>
  * <ol>
- *   <li>超级滑滑冰、青金石玻璃、石英玻璃 <span>（糖玻璃已迁往 {@code WI} 模块，从本页移除）</span></li>
+ *   <li>超级滑滑冰、青金石玻璃、石英玻璃、青金石灯、石英灯
+ *       <span>（糖玻璃已迁往 {@code WI} 模块，从本页移除）</span></li>
  *   <li>垫脚方块 <span>（方块破坏器 {@code RDT_BlockBreaker} 是<b>方块实体</b>，属注册目录的「方块实体」分区，
  *       不在本次方块重制范围内，留到那个阶段再加进本页）</span></li>
  *   <li>通灵原木</li>
@@ -54,6 +57,8 @@ public final class RDT_CreativeTabs {
 					output.accept(RDT_SuperLubricentIce.RDT_SUPER_LUBRICENT_ICE);  // 超级滑滑冰
 					output.accept(RDT_GlassLapis.RDT_LAPIS_GLASS);                 // 青金石玻璃
 					output.accept(RDT_GlassQuartz.RDT_QUARTZ_GLASS);               // 石英玻璃
+					output.accept(RDT_LampLapis.RDT_LAPIS_LAMP);                   // 青金石灯
+					output.accept(RDT_LampQuartz.RDT_QUARTZ_LAMP);                 // 石英灯
 					// —— 方块 ——
 					output.accept(RDT_StepBlock.RDT_STEP_BLOCK);                   // 垫脚方块
 					// —— 木材 ——
