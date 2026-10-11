@@ -1,5 +1,6 @@
 package com.rcdmake.whimsy.datagen;
 
+import com.rcdmake.whimsy.datagen.ClassBlockHeadsRebon.BHR_GameRuleLangEntries;
 import com.rcdmake.whimsy.datagen.ClassBlockHeadsRebon.BHR_LangEntries;
 import com.rcdmake.whimsy.datagen.ClassDEV.DEV_LangEntries;
 import com.rcdmake.whimsy.datagen.ClassRandomThings.RDT_LangEntries;
@@ -33,6 +34,7 @@ public class ModLangProviderZh extends FabricLanguageProvider {
 	@Override
 	public void generateTranslations(HolderLookup.Provider registries, TranslationBuilder builder) {
 		BHR_LangEntries.zh(builder);
+		BHR_GameRuleLangEntries.zh(builder);
 		DEV_LangEntries.zh(builder);
 		WI_LangEntries.zh(builder);
 		RDT_LangEntries.zh(builder);

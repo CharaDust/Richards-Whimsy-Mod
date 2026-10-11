@@ -33,6 +33,6 @@
 - ✅ 2026 第二批：5 个 `#deprecated` 集合类（`BHR__NormalBlocks` / `BHR_Rocks` / `BHR_Soils` / `BHR_Gems`）
   拆成 **25 个独立类**，本页「方块与矿物 / 树木 / 其他方块 / 宝石」四组共 **27 个方块**已全部入栏
   （还差「燃料（余烬）」与「食物」两组 —— 它们属于物品目录，等物品阶段重制）
-  - 注册名按 [注册名对照表](../../agent/deepseek/06-注册名对照表.md) 落地：`rock*` → `bhr_slate*`、
+  - 注册名按 [注册名对照表](../../../agent/deepseek/06-注册名对照表.md) 落地：`rock*` → `bhr_slate*`、
     `mineral_soil*` → `bhr_soil*`、`slate` → `bhr_cobbleslate`（从 `ModBlocks` 迁入）
 - **图标暂用堆肥块**（wiki 要的「方块愚者徽标」是一件尚未重制的物品，原 `BHR_OtherItems` 已标 `#deprecated`）

@@ -1,6 +1,7 @@
 package com.rcdmake.whimsy.block.ClassBlockHeadsRebon;
 
 import com.rcdmake.whimsy.ModRegister;
+import com.rcdmake.whimsy.misc.ClassBlockHeadsRebon.BHR_ExpertMode;
 import java.util.Set;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -101,10 +102,12 @@ import org.jspecify.annotations.Nullable;
  *       真正的删除在 {@code tick} 里做 —— 一次删除会引发周围 6 格的邻居更新，在
  *       {@code neighborChanged} 里直接删就是递归，一片大树叶云足以把栈吃穿；排成 1 tick 之后
  *       每次消失都是独立的一刻，连锁照样发生而栈深度恒为 1。
- *       分流：原版极限模式 / （{@code #todo}）BHR 专家模式 → {@code removeBlock}（不掉落）；
+ *       分流：原版极限模式 / BHR 规则 {@code richards-whimsy-mod:bhr_decaying_leaves_no_drop}
+ *       → {@code removeBlock}（不掉落）；
  *       其余 → <b>1/5 几率</b> {@code destroyBlock(pos, true)}（走战利品表），4/5 也是 {@code removeBlock}
  *       （wiki 2026-10：减少粒子、鼓励上手挖树叶）。两者都是 flag 3，wiki 的
- *       「触发周围方块更新」自带。BHR 专家模式的判定留了一个只返回 {@code false} 的占位方法。
+ *       「触发周围方块更新」自带。该规则由 {@link BHR_ExpertMode#leavesNoDrop} 读取 ——
+ *       读的是细调条目本身，不是 {@code bhr_expert_mode} 开关（理由见 {@link #isVanishWithoutDrops}）。
  *       <p><b>随机刻兜底</b>（wiki 2026-10）：{@code randomTick} 开头会用同一套 {@link #shouldVanish}
  *       再判一次「该不该存在」，不该就 {@code removeBlock} —— <b>直接消失、不掉落</b>。
  *       它存在的意义是「密集种植时远端的叶收不到方块更新」；正常长出来的树走不到这里
@@ -380,7 +383,7 @@ public class BHR_TreeLeavesPine extends Block implements SimpleWaterloggedBlock 
 	 * 计划刻（层 8）：<b>消失流程的执行点</b>。
 	 * <p>1 tick 之后再查一遍条件（这中间可能已经长出了新的松木树叶），然后按存档游戏模式分流：
 	 * <ul>
-	 *   <li>原版极限 / BHR 专家模式 → {@code removeBlock}（直接消失，不掉落）；</li>
+	 *   <li>原版极限 / BHR 规则 {@code bhr_decaying_leaves_no_drop} → {@code removeBlock}（直接消失，不掉落）；</li>
 	 *   <li>其余 → <b>1/5 几率</b> {@code destroyBlock(pos, true)}（带掉落物破坏），
 	 *       其余 4/5 也是 {@code removeBlock}（wiki 2026-10：减少粒子、鼓励上手挖树叶）。</li>
 	 * </ul>
@@ -498,18 +501,17 @@ public class BHR_TreeLeavesPine extends Block implements SimpleWaterloggedBlock 
 		return false;
 	}
 
-	/** 是否属于「直接消失、不掉落」的模式：原版极限模式，或（{@code #todo}）BHR 专家模式。 */
-	private static boolean isVanishWithoutDrops(ServerLevel level) {
-		return level.getLevelData().isHardcore() || isBhrExpertMode();
-	}
-
 	/**
-	 * 「BHR 专家模式」判定占位（wiki {@code #todo}）。
-	 * <p>wiki 的消失流程按「存档默认游戏模式」分流，其中 BHR 专家模式还没设计，这里固定返回
-	 * {@code false}。将来落地时只改这一个方法（调用点只有 {@link #isVanishWithoutDrops} 一处）。
+	 * 是否属于「直接消失、不掉落」的模式：原版极限模式，或 BHR 的
+	 * {@code richards-whimsy-mod:bhr_decaying_leaves_no_drop} 规则。
+	 *
+	 * <p>⚠️ 这里读的是<b>细调条目本身</b>，而不是 {@code bhr_expert_mode} 开关。
+	 * 这是刻意的：专家模式只是个「一键写预设」的调节工具，玩家完全可以在开过专家模式之后
+	 * 再单独把这一条调回普通挡位 —— 那条路必须立刻生效。
 	 */
-	private static boolean isBhrExpertMode() {
-		return false;
+	private static boolean isVanishWithoutDrops(ServerLevel level) {
+		return level.getLevelData().isHardcore()
+				|| BHR_ExpertMode.leavesNoDrop(level.getServer());
 	}
 
 	// ── 层 8 ｜ 生长（wiki「事件」第 2 条）──

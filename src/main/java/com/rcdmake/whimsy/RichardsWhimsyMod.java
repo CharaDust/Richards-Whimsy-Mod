@@ -52,6 +52,7 @@ import com.rcdmake.whimsy.block.ClassWhimsyIdea.WI_SugarBlock;
 import com.rcdmake.whimsy.item.ClassDEV.DEV_ItemsOther;
 import com.rcdmake.whimsy.item.ClassDEV.DEV_HardcoreSwitcher;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_PineCone;
+import com.rcdmake.whimsy.misc.ClassBlockHeadsRebon.BHR_GameRules;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.resources.Identifier;
 import org.slf4j.Logger;
@@ -80,6 +81,11 @@ public class RichardsWhimsyMod implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		LOGGER.info("[{}] 正在初始化（Minecraft 26.2 / Fabric）", MOD_ID);
+
+		// --- 游戏规则（misc：不属于任何「可放置/可使用」的模块，按模块子包归档） ---
+		// BHR 的三条布尔规则在类初始化时就注册好了，这一句只是接上「专家模式开关 → 预设挡位」的协调器。
+		// 顺序随意：它不依赖上面任何方块/物品的静态字段。
+		BHR_GameRules.OnInit();
 
 		// --- 方块 ---
 		DEV_BlocksOther.OnInit();

@@ -3,6 +3,10 @@
 	"package": "com.rcdmake.whimsy.mixin",
 	"compatibilityLevel": "JAVA_25",
 	"mixins": [
+		"ClassBlockHeadsRebon.BHR_LegacyHungerMovementMixin",
+		"ClassBlockHeadsRebon.BHR_LegacyHungerBlockMixin",
+		"ClassBlockHeadsRebon.BHR_LegacyHungerAttackMixin",
+		"ClassBlockHeadsRebon.BHR_LegacyHungerEffectMixin",
 		"ClassDEV.DEV_HardcoreModeMixin",
 		"ClassRandomThings.RDT_SuperLubricentIceFrictionMixin",
 		"ClassRandomThings.RDT_LampLightEmissionMixin",

@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "wiki/Blocks/ClassRandomThings/RDT_LampQuartz.md",
+                "file": "wiki/Component/ClassBlockHeadsRebon/BHR_GemBlessing.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "RDT_LampQuartz"
+              "title": "BHR_GemBlessing"
             }
           },
           {
@@ -246,7 +246,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "wiki/Blocks/ClassRandomThings/RDT_LampQuartz.md",
+                "file": "wiki/Component/ClassBlockHeadsRebon/BHR_GemBlessing.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
@@ -275,6 +275,8 @@
   },
   "active": "b8d03649a3fdd1f5",
   "lastOpenFiles": [
+    "wiki/Misc/游戏规则.md",
+    "wiki/Blocks/ClassRandomThings/RDT_LampQuartz.md",
     "wiki/Blocks/ClassRandomThings/RDT_LampLapis.md",
     "wiki/StatusEffect/ClassRandomThings/RDT_EffectFireImbue.md",
     "wiki/Items/ClassDEV/DEV_HardcoreSwitcher.md",
@@ -299,9 +301,7 @@
     "wiki/Items/ClassBlockHeadsRebon/BHR_FoodLime.md",
     "wiki/Component/ClassBlockHeadsRebon/BHR_GemBlessing_1.md",
     "wiki/Blocks/ClassRandomThings/RDT_GlassSugar.md",
-    "agent/deepseek/10-方块类范式V1统一计划.md",
     "wiki/example",
-    "agent/humanidea/开发约定.md",
     "agent/humanidea",
     "wiki/ItemGroup/ClassWhimsyIdea",
     "wiki/ItemGroup/ClassRandomThings",

@@ -51,6 +51,9 @@
   "block.richards-whimsy-mod.wi_static_cobblestone": "Static Cobblestone",
   "block.richards-whimsy-mod.wi_static_liquid_water": "Static Liquid Water",
   "block.richards-whimsy-mod.wi_sugarblock": "Sugar Block",
+  "gamerule.richards-whimsy-mod:bhr_decaying_leaves_no_drop": "Decaying BHR leaves vanish without drops (same as hardcore). When off, they are destroyed with drops on a 1/5 chance instead.",
+  "gamerule.richards-whimsy-mod:bhr_expert_mode": "One-click preset: writes the BHR expert values into the detail rules below (writes the normal values back when turned off). It is a convenience dial, not a lock.",
+  "gamerule.richards-whimsy-mod:bhr_legacy_hunger_consumption": "Restores Minecraft 1.8-level hunger exhaustion. The mechanic itself is not implemented yet; this rule is a placeholder.",
   "item.richards-whimsy-mod.bhr_beach_sand": "Beach Sand",
   "item.richards-whimsy-mod.bhr_cobbleslate": "Slate",
   "item.richards-whimsy-mod.bhr_compost": "Compost Block",
@@ -111,5 +114,8 @@
   "itemGroup.rdt_general": "Random Things: sequel?",
   "itemGroup.wi_group_block": "Whimsy Blocks",
   "message.richards-whimsy-mod.dev_hardcore_switcher.off": "Hardcore: OFF",
-  "message.richards-whimsy-mod.dev_hardcore_switcher.on": "Hardcore: ON (server-side is live; the client hearts refresh after rejoining)"
+  "message.richards-whimsy-mod.dev_hardcore_switcher.on": "Hardcore: ON (server-side is live; the client hearts refresh after rejoining)",
+  "richards-whimsy-mod:bhr_decaying_leaves_no_drop": "Decaying Leaves Drop Nothing",
+  "richards-whimsy-mod:bhr_expert_mode": "BHR Expert Mode",
+  "richards-whimsy-mod:bhr_legacy_hunger_consumption": "Legacy Hunger Consumption"
 }
