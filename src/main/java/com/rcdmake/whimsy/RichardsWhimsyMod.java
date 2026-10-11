@@ -51,6 +51,7 @@ import com.rcdmake.whimsy.block.ClassWhimsyIdea.WI_StaticLiquidWater;
 import com.rcdmake.whimsy.block.ClassWhimsyIdea.WI_SugarBlock;
 import com.rcdmake.whimsy.item.ClassDEV.DEV_ItemsOther;
 import com.rcdmake.whimsy.item.ClassDEV.DEV_HardcoreSwitcher;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Lime;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_PineCone;
 import com.rcdmake.whimsy.misc.ClassBlockHeadsRebon.BHR_GameRules;
 import net.fabricmc.api.ModInitializer;
@@ -160,6 +161,8 @@ public class RichardsWhimsyMod implements ModInitializer {
 		DEV_HardcoreSwitcher.OnInit();
 		// 方块愚者（BHR）的物品：松果（种树用；由它放下第一片带激素的松木树叶）
 		BHR_PineCone.OnInit();
+		// BHR 物品阶段第一批：食物「石灰酸橙」（1.20.5 起的食物 = 普通构造器 + food / consumable 两个组件）
+		BHR_Lime.OnInit();
 
 		// --- 创造模式物品栏 ---
 		// 必须最后：它直接引用上面注册好的方块与物品的静态字段，此刻那些字段才非 null；

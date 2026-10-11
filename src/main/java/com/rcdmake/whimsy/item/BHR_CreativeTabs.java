@@ -29,6 +29,7 @@ import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_SlateCobble;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Soil;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_TreeLeavesPine;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_TreeLogPine;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Lime;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_PineCone;
 import net.minecraft.world.item.ItemStack;
 
@@ -53,8 +54,8 @@ import net.minecraft.world.item.ItemStack;
  *   堆肥块      1
  *   宝石        5（紫锂辉 / 蓝宝石 / 祖母绿 / 红刚玉 / 宝石钻石）
  * </pre>
- * 还差「燃料（余烬）」与「食物（樱桃、椰子、咖啡樱桃、芒果、橙子、石灰酸橙）」两组 ——
- * 它们属于物品目录（不是方块），等物品阶段重制。
+ * 还差「燃料（余烬）」与「食物」两组 —— 它们属于物品目录（不是方块），食物组已开始重制
+ * （石灰酸橙入栏；樱桃、椰子、咖啡樱桃、芒果、橙子等各自的 wiki 页写好后陆续跟进）。
  * <p><b>图标暂用堆肥块</b>：wiki 要的「方块愚者徽标」是一件尚未重制的物品
  * （原 {@code BHR_OtherItems} 已按注册目录标 {@code #deprecated}），
  * 等那件物品落地后再换成它（见类的 TODO）。
@@ -120,6 +121,10 @@ public final class BHR_CreativeTabs {
 					output.accept(BHR_GemEmerald.BHR_GEM_EMERALD);             // 祖母绿
 					output.accept(BHR_GemRuby.BHR_GEM_RUBY);                   // 红刚玉
 					output.accept(BHR_GemDiamond.BHR_GEM_DIAMOND);             // 宝石钻石
+					// —— 食物 ——
+					// wiki 顺序是「樱桃、椰子、咖啡樱桃、芒果、橙子、石灰酸橙」，
+					// 其余 5 个水果尚未重制（等各自的 wiki 页），所以石灰酸橙暂时排在食物组最前。
+					output.accept(BHR_Lime.BHR_LIME);                          // 石灰酸橙
 				});
 	}
 }

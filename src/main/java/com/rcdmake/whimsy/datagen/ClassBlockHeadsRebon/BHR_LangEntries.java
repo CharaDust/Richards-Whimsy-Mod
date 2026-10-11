@@ -30,6 +30,7 @@ import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_TreeLeavesPine;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_TreeLogPine;
 import com.rcdmake.whimsy.datagen.LangEntrySupport;
 import com.rcdmake.whimsy.item.BHR_CreativeTabs;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Lime;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_PineCone;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 
@@ -52,7 +53,11 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
  *   <li>旧语言文件里<b>缺</b>的 6 条（石灰石 / 石灰砖 / 石灰石油矿 / 大理石 / 磨制大理石 / 海滩沙）
  *       按中文名直译 —— 与第一批（松木原木 / 堆肥块）同样的处理。</li>
  * </ul>
- * 条目顺序 = wiki 物品栏页「包含物品」的分组顺序，与 {@code BHR_CreativeTabs} 一致，便于对照。
+ * <p><b>物品阶段</b>（2026-10 起）：食物组开始重制。物品只有 {@code item.…} 一条键，
+ * 直接 {@code builder.add(物品, 名称)} 即可 —— 名字同样优先抄旧语言文件
+ * （石灰酸橙 {@code bhr_lime} 的英文名就是旧文件里的 {@code Lime Limes}）。
+ *
+ * <p>条目顺序 = wiki 物品栏页「包含物品」的分组顺序，与 {@code BHR_CreativeTabs} 一致，便于对照。
  */
 public final class BHR_LangEntries {
 
@@ -100,6 +105,8 @@ public final class BHR_LangEntries {
 		LangEntrySupport.addBlockAndItem(builder, BHR_GemEmerald.BHR_GEM_EMERALD, "祖母绿");
 		LangEntrySupport.addBlockAndItem(builder, BHR_GemRuby.BHR_GEM_RUBY, "红刚玉");
 		LangEntrySupport.addBlockAndItem(builder, BHR_GemDiamond.BHR_GEM_DIAMOND, "宝石钻石");
+		// —— 食物 ——
+		builder.add(BHR_Lime.BHR_LIME, "石灰酸橙");
 	}
 
 	/** 英文条目（与 {@link #zh} 同一批键）。 */
@@ -142,5 +149,8 @@ public final class BHR_LangEntries {
 		LangEntrySupport.addBlockAndItem(builder, BHR_GemEmerald.BHR_GEM_EMERALD, "Canutillos");
 		LangEntrySupport.addBlockAndItem(builder, BHR_GemRuby.BHR_GEM_RUBY, "Ruby");
 		LangEntrySupport.addBlockAndItem(builder, BHR_GemDiamond.BHR_GEM_DIAMOND, "'Adamant'");
+		// —— 食物 ——
+		// 英文名取自旧语言文件（1.20.4 那版里 bhr_lime 的条目就是 "Lime Lime"，照抄）
+		builder.add(BHR_Lime.BHR_LIME, "Lime Lime");
 	}
 }
