@@ -1,0 +1,12 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "richards-whimsy-mod:item/wi_plague_potion_3",
+    "tints": [
+      {
+        "type": "minecraft:constant",
+        "value": 31057
+      }
+    ]
+  }
+}

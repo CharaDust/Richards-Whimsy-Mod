@@ -29,8 +29,17 @@ import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_SlateCobble;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Soil;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_TreeLeavesPine;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_TreeLogPine;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Cherry;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Coconut;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_CoffeeCherry;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_DodoApple;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Lime;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Mango;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_MapleSeed;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Orange;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_PineCone;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_PricklyPear;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Worm;
 import net.minecraft.world.item.ItemStack;
 
 /**
@@ -54,8 +63,9 @@ import net.minecraft.world.item.ItemStack;
  *   堆肥块      1
  *   宝石        5（紫锂辉 / 蓝宝石 / 祖母绿 / 红刚玉 / 宝石钻石）
  * </pre>
- * 还差「燃料（余烬）」与「食物」两组 —— 它们属于物品目录（不是方块），食物组已开始重制
- * （石灰酸橙入栏；樱桃、椰子、咖啡樱桃、芒果、橙子等各自的 wiki 页写好后陆续跟进）。
+ * 还差「燃料（余烬）」一组 —— 它属于物品目录（不是方块）。<b>食物组已完成</b>：
+ * 第一批的石灰酸橙 + 2026-10 第二批的 9 件（渡渡苹果、樱桃、椰子、咖啡樱桃、芒果、枫实、橙子、
+ * 梨果仙人掌、愚人蠕虫），共 <b>10</b> 件食物全部入栏。
  * <p><b>图标暂用堆肥块</b>：wiki 要的「方块愚者徽标」是一件尚未重制的物品
  * （原 {@code BHR_OtherItems} 已按注册目录标 {@code #deprecated}），
  * 等那件物品落地后再换成它（见类的 TODO）。
@@ -122,9 +132,19 @@ public final class BHR_CreativeTabs {
 					output.accept(BHR_GemRuby.BHR_GEM_RUBY);                   // 红刚玉
 					output.accept(BHR_GemDiamond.BHR_GEM_DIAMOND);             // 宝石钻石
 					// —— 食物 ——
-					// wiki 顺序是「樱桃、椰子、咖啡樱桃、芒果、橙子、石灰酸橙」，
-					// 其余 5 个水果尚未重制（等各自的 wiki 页），所以石灰酸橙暂时排在食物组最前。
+					// 前 6 件按 wiki 物品栏页「包含物品 → 食物」的原顺序；
+					// 其后 4 件（渡渡苹果、枫实、梨果仙人掌、愚人蠕虫）是本批新增的其余档位，
+					// wiki 物品栏页的食物组已同步补上这 4 条（共 10 件），顺序一致。
+					output.accept(BHR_Cherry.BHR_CHERRY);                      // 樱桃
+					output.accept(BHR_Coconut.BHR_COCONUT);                    // 椰子
+					output.accept(BHR_CoffeeCherry.BHR_COFFEE_CHERRY);         // 咖啡樱桃
+					output.accept(BHR_Mango.BHR_MANGO);                        // 芒果
+					output.accept(BHR_Orange.BHR_ORANGE);                      // 橙子
 					output.accept(BHR_Lime.BHR_LIME);                          // 石灰酸橙
+					output.accept(BHR_DodoApple.BHR_DODO_APPLE);               // 渡渡苹果
+					output.accept(BHR_MapleSeed.BHR_MAPLE_SEED);               // 枫实
+					output.accept(BHR_PricklyPear.BHR_PRICKLY_PEAR);           // 梨果仙人掌（旧语言文件叫「赤果」）
+					output.accept(BHR_Worm.BHR_WORM);                          // 愚人蠕虫
 				});
 	}
 }

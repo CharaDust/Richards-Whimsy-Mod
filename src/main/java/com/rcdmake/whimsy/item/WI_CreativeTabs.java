@@ -7,7 +7,10 @@ import com.rcdmake.whimsy.block.ClassWhimsyIdea.WI_PackedPlanks;
 import com.rcdmake.whimsy.block.ClassWhimsyIdea.WI_StaticCobblestone;
 import com.rcdmake.whimsy.block.ClassWhimsyIdea.WI_StaticLiquidWater;
 import com.rcdmake.whimsy.block.ClassWhimsyIdea.WI_SugarBlock;
+import com.rcdmake.whimsy.item.ClassWhimsyIdea.potion.WI_PlaguePotion;
+import com.rcdmake.whimsy.item.ClassWhimsyIdea.potion.WI_RadiationPotion;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 
 /**
  * 奇思妙想（{@code WI}）分支的创造模式物品栏。
@@ -73,7 +76,17 @@ public final class WI_CreativeTabs {
 				});
 
 		// --- 页面二：物品 ---
-		// TODO(WI 物品重制后)：注册 wi_group_item —— 图标是原版钻石（Items.DIAMOND），
-		// 包含清单见类注释与 wiki 的 WI_General。
+		// 本页原先一直空着（旧注释写着「WI 还没有物品」）。现在 WI 的第一批物品落地了：
+		// 三瓶药水（电离辐射 / 生物毒性 / 辐射解毒剂），所以本页正式注册。
+		// 图标仍按 wiki 取原版钻石（Items.DIAMOND）。
+		ModCreativeTabs.registerTab(GROUP_ID_ITEM,
+				() -> new ItemStack(Items.DIAMOND),
+				(parameters, output) -> {
+					// 瘟疫药水（生物毒性 III/IV）× 饮用/喷溅/滞留
+					// 清单来自条目类自己登记的 ENTRIES —— 注册了什么就进栏什么，不会漏。
+					WI_PlaguePotion.ENTRIES.forEach(entry -> output.accept(entry.item()));
+					// 放射药水（电离辐射 IV/V）× 饮用/喷溅/滞留
+					WI_RadiationPotion.ENTRIES.forEach(entry -> output.accept(entry.item()));
+				});
 	}
 }

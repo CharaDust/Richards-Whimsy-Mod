@@ -85,6 +85,10 @@ tasks.register('syncDatagen', Copy) {
 		include "assets/${project.name}/blockstates/**"
 		// 26.2 的物品模型定义（缺它 → 物品显示暗淡紫黑贴图）
 		include "assets/${project.name}/items/**"
+		// 模型本身（models/item/**）：药水的双层模型由 ItemModelGenerator 生成，
+		// 走的也是运行时资源根这条路。不捞出来的话，items/ 定义会指向一个
+		// 源码目录里不存在的模型 → 物品显示成缺失模型（紫黑块）。
+		include "assets/${project.name}/models/**"
 	}
 	into layout.projectDirectory.dir('src/main/resources')
 

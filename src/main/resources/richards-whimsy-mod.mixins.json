@@ -8,10 +8,16 @@
 		"ClassBlockHeadsRebon.BHR_LegacyHungerAttackMixin",
 		"ClassBlockHeadsRebon.BHR_LegacyHungerEffectMixin",
 		"ClassDEV.DEV_HardcoreModeMixin",
+		"ClassWhimsyIdea.WI_BioToxicityHurtMixin",
+		"ClassWhimsyIdea.WI_RadioactiveHurtMixin",
+		"ClassRandomThings.RDT_ImbueHurtMixin",
 		"ClassRandomThings.RDT_SuperLubricentIceFrictionMixin",
 		"ClassRandomThings.RDT_LampLightEmissionMixin",
 		"ClassRandomThings.RDT_LampLightSyncMixin",
 		"ClassRandomThings.RDT_LampIndexMaintenanceMixin"
+	],
+	"client": [
+		"client.ClassWhimsyIdea.WI_BioToxicityHeartMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

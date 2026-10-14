@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "richards-whimsy-mod:item/rdt/potion_poison_imbue"
+  }
+}

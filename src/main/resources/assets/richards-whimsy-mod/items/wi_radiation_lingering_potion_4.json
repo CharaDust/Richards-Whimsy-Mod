@@ -1,0 +1,12 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "richards-whimsy-mod:item/wi_radiation_lingering_potion_4",
+    "tints": [
+      {
+        "type": "minecraft:constant",
+        "value": 15968547
+      }
+    ]
+  }
+}

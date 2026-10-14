@@ -30,8 +30,17 @@ import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_TreeLeavesPine;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_TreeLogPine;
 import com.rcdmake.whimsy.datagen.LangEntrySupport;
 import com.rcdmake.whimsy.item.BHR_CreativeTabs;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Cherry;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Coconut;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_CoffeeCherry;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_DodoApple;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Lime;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Mango;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_MapleSeed;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Orange;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_PineCone;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_PricklyPear;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Worm;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 
 /**
@@ -106,7 +115,17 @@ public final class BHR_LangEntries {
 		LangEntrySupport.addBlockAndItem(builder, BHR_GemRuby.BHR_GEM_RUBY, "红刚玉");
 		LangEntrySupport.addBlockAndItem(builder, BHR_GemDiamond.BHR_GEM_DIAMOND, "宝石钻石");
 		// —— 食物 ——
+		// 顺序 = wiki 物品栏页「包含物品」的食物顺序（樱桃…石灰酸橙），其后是本批其余 4 件。
+		builder.add(BHR_Cherry.BHR_CHERRY, "樱桃");
+		builder.add(BHR_Coconut.BHR_COCONUT, "椰子");
+		builder.add(BHR_CoffeeCherry.BHR_COFFEE_CHERRY, "咖啡樱桃");
+		builder.add(BHR_Mango.BHR_MANGO, "芒果");
+		builder.add(BHR_Orange.BHR_ORANGE, "橙子");
 		builder.add(BHR_Lime.BHR_LIME, "石灰酸橙");
+		builder.add(BHR_DodoApple.BHR_DODO_APPLE, "渡渡苹果");
+		builder.add(BHR_MapleSeed.BHR_MAPLE_SEED, "枫实");
+		builder.add(BHR_PricklyPear.BHR_PRICKLY_PEAR, "梨果仙人掌");
+		builder.add(BHR_Worm.BHR_WORM, "愚人蠕虫");
 	}
 
 	/** 英文条目（与 {@link #zh} 同一批键）。 */
@@ -150,7 +169,18 @@ public final class BHR_LangEntries {
 		LangEntrySupport.addBlockAndItem(builder, BHR_GemRuby.BHR_GEM_RUBY, "Ruby");
 		LangEntrySupport.addBlockAndItem(builder, BHR_GemDiamond.BHR_GEM_DIAMOND, "'Adamant'");
 		// —— 食物 ——
-		// 英文名取自旧语言文件（1.20.4 那版里 bhr_lime 的条目就是 "Lime Lime"，照抄）
-		builder.add(BHR_Lime.BHR_LIME, "Lime Lime");
+		// 英文名优先抄旧语言文件（1.20.4 那版）：cherry / coconut / coffee_cherry / mango /
+		// orange / maple_seed / prickly_pear / lime 八条都还在里面，逐条照抄；
+		// 旧文件里没有的两条（渡渡苹果、愚人蠕虫 —— 旧代码从未注册过它们）按中文名直译。
+		builder.add(BHR_Cherry.BHR_CHERRY, "Cherry");
+		builder.add(BHR_Coconut.BHR_COCONUT, "Coconut");
+		builder.add(BHR_CoffeeCherry.BHR_COFFEE_CHERRY, "Coffee Cherry");
+		builder.add(BHR_Mango.BHR_MANGO, "Mango");
+		builder.add(BHR_Orange.BHR_ORANGE, "Orange");
+		builder.add(BHR_Lime.BHR_LIME, "Lime Limes");
+		builder.add(BHR_DodoApple.BHR_DODO_APPLE, "Dodo Apple");
+		builder.add(BHR_MapleSeed.BHR_MAPLE_SEED, "Maple Seed");
+		builder.add(BHR_PricklyPear.BHR_PRICKLY_PEAR, "Prickly Pear");
+		builder.add(BHR_Worm.BHR_WORM, "Fool's Worm");
 	}
 }

@@ -51,11 +51,30 @@ import com.rcdmake.whimsy.block.ClassWhimsyIdea.WI_StaticLiquidWater;
 import com.rcdmake.whimsy.block.ClassWhimsyIdea.WI_SugarBlock;
 import com.rcdmake.whimsy.item.ClassDEV.DEV_ItemsOther;
 import com.rcdmake.whimsy.item.ClassDEV.DEV_HardcoreSwitcher;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Cherry;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Coconut;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_CoffeeCherry;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_DodoApple;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Lime;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Mango;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_MapleSeed;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Orange;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_PineCone;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_PricklyPear;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Worm;
+import com.rcdmake.whimsy.item.ClassRandomThings.RDT_FireHormonePotion;
+import com.rcdmake.whimsy.item.ClassRandomThings.RDT_PoisonHormonePotion;
+import com.rcdmake.whimsy.item.ClassWhimsyIdea.potion.WI_PlaguePotion;
+import com.rcdmake.whimsy.item.ClassWhimsyIdea.potion.WI_RadiationPotion;
+import com.rcdmake.whimsy.item.WhimsyPotionRegistration;
 import com.rcdmake.whimsy.misc.ClassBlockHeadsRebon.BHR_GameRules;
+import com.rcdmake.whimsy.statusEffect.ClassRandomThings.RDT_FireImbue;
+import com.rcdmake.whimsy.statusEffect.ClassRandomThings.RDT_PoisonImbue;
+import com.rcdmake.whimsy.statusEffect.ClassWhimsyIdea.WI_BioToxicity;
+import com.rcdmake.whimsy.statusEffect.ClassWhimsyIdea.WI_Radioactive;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.Item;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -163,6 +182,45 @@ public class RichardsWhimsyMod implements ModInitializer {
 		BHR_PineCone.OnInit();
 		// BHR 物品阶段第一批：食物「石灰酸橙」（1.20.5 起的食物 = 普通构造器 + food / consumable 两个组件）
 		BHR_Lime.OnInit();
+		// BHR 物品阶段第二批（2026-10）：wiki 里已有独立页面的 9 件食物一次补齐。
+		// 数据全部取自各自的 wiki 页组件表（nutrition / saturation / can_always_eat / consume_seconds），
+		// 口径与第一批的 BHR_Lime 一致。各页的「种植」条目本轮**跳过** —— 对应的树叶/仙人掌方块尚未添加。
+		BHR_DodoApple.OnInit();     // 渡渡苹果（配方等价原版苹果，方案见 wiki 备注）
+		BHR_Cherry.OnInit();        // 樱桃
+		BHR_Coconut.OnInit();       // 椰子
+		BHR_CoffeeCherry.OnInit();  // 咖啡樱桃
+		BHR_Mango.OnInit();         // 芒果
+		BHR_MapleSeed.OnInit();     // 枫实
+		BHR_Orange.OnInit();        // 橙子
+		BHR_PricklyPear.OnInit();   // 梨果仙人掌（旧语言文件里叫「赤果」）
+		BHR_Worm.OnInit();          // 愚人蠕虫（本批唯一 consume_seconds = 2.6）
+
+		// --- 状态效果 ---
+		// 随意物件（RDT）的两种「灌注」：正面效果，本身不逐刻做事，
+		// 实际行为在攻击结算里（mixin ClassRandomThings.RDT_ImbueHurtMixin →
+		// statusEffect.ClassRandomThings.RDT_ImbueAttackHandler）。
+		// 顺序随意：两者互不依赖，注册完即可被指令 / 药水引用。
+		RDT_FireImbue.OnInit();
+		RDT_PoisonImbue.OnInit();
+		// 激素药水（饮用型，3 级 ×2 味）。
+		// 顺序要求：两个效果的句柄必须先都就绪，注册时才能把「互斥同族」写进 consumable 组件
+		// （注册后再补没意义：组件不可变；也不能用自定义 ConsumeEffect，会被序列化丢掉——
+		//  两次踩坑详见 item/WhimsyPotionRegistration 类注释）。
+		// 上面 RDT_FireImbue/RDT_PoisonImbue 的 OnInit() 已把两个效果注册好，这里直接注册药水即可。
+		RDT_FireHormonePotion.OnInit();
+		RDT_PoisonHormonePotion.OnInit();
+
+		// 奇思妙想（WI）的两种「损伤类」效果：负面、逐刻扣血。
+		// 电离辐射另有「生命值上限减少」，走原版属性修饰符钩子（add/removeAttributeModifiers），
+		// 所以提前清除/喝牛奶也能把上限还回来；两者的传染行为在攻击结算里
+		// （mixin ClassWhimsyIdea.WI_*HurtMixin → statusEffect.ClassWhimsyIdea.WI_*AttackHandler）。
+		// 顺序随意：两个效果互不依赖。
+		WI_Radioactive.OnInit();
+		WI_BioToxicity.OnInit();
+		// WI 的两族药水：瘟疫（生物毒性）与放射（电离辐射），各做最高的两级 × 三种形态
+		// （饮用 / 喷溅 / 滞留）。这两族不参与激素互斥。
+		WI_PlaguePotion.OnInit();
+		WI_RadiationPotion.OnInit();
 
 		// --- 创造模式物品栏 ---
 		// 必须最后：它直接引用上面注册好的方块与物品的静态字段，此刻那些字段才非 null；

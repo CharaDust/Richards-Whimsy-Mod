@@ -1,9 +1,11 @@
 package com.rcdmake.whimsy;
 
+import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -140,5 +142,23 @@ public final class ModRegister {
 		Item blockItem = new BlockItem(block, new Item.Properties().setId(itemKey));
 		Registry.register(BuiltInRegistries.ITEM, itemKey, blockItem);
 		return block;
+	}
+
+	/**
+	 * 注册一个状态效果（26.2 的 {@link MobEffect}，1.20.4 时代叫 {@code StatusEffect}）。
+	 *
+	 * <p><b>为什么返回 {@link Holder} 而不是 {@code MobEffect} 本身</b>：
+	 * 1.21 起原版收效果一律用 {@code Holder<MobEffect>}——
+	 * {@code LivingEntity#hasEffect(Holder)}、{@code MobEffectInstance(Holder, int, int)}、
+	 * {@code MobEffects.POISON} 本身都是 Holder。原版自己的注册方法
+	 * （{@code MobEffects.register}）也走 {@code Registry.registerForHolder}，
+	 * 这里跟着走同一条路：注册与「取值用的句柄」一次到位，
+	 * 调用方不需要再自己 {@code wrapAsHolder}。
+	 *
+	 * @param name 注册路径（省略命名空间 {@code richards-whimsy-mod:}）
+	 * @return 注册后的效果句柄，直接存进效果类的静态字段备用
+	 */
+	public static Holder<MobEffect> registerStatusEffect(String name, MobEffect effect) {
+		return Registry.registerForHolder(BuiltInRegistries.MOB_EFFECT, id(name), effect);
 	}
 }

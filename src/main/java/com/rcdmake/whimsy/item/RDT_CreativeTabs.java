@@ -9,6 +9,8 @@ import com.rcdmake.whimsy.block.ClassRandomThings.RDT_LuminousBlocks;
 import com.rcdmake.whimsy.block.ClassRandomThings.RDT_StepBlock;
 import com.rcdmake.whimsy.block.ClassRandomThings.RDT_SuperLubricentIce;
 import com.rcdmake.whimsy.block.ClassRandomThings.RDT_TreeLogSpectre;
+import com.rcdmake.whimsy.item.ClassRandomThings.RDT_FireHormonePotion;
+import com.rcdmake.whimsy.item.ClassRandomThings.RDT_PoisonHormonePotion;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
@@ -67,6 +69,9 @@ public final class RDT_CreativeTabs {
 					output.accept(RDT_LuminousBlocks.RDT_LUMINOUS_BLOCK_RED);      // 红色鲁米诺方块
 					output.accept(RDT_LuminousBlocks.RDT_LUMINOUS_BLOCK_GREEN);    // 绿色鲁米诺方块
 					output.accept(RDT_LuminousBlocks.RDT_LUMINOUS_BLOCK_BLUE);     // 蓝色鲁米诺方块
+					// —— 激素药水（饮用型，3 级 ×2 味）——
+					RDT_FireHormonePotion.ALL.forEach(output::accept);      // 火焰灌注药水
+					RDT_PoisonHormonePotion.ALL.forEach(output::accept);    // 毒性灌注药水
 				});
 	}
 }

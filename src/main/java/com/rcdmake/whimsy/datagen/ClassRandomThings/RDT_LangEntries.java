@@ -9,8 +9,15 @@ import com.rcdmake.whimsy.block.ClassRandomThings.RDT_StepBlock;
 import com.rcdmake.whimsy.block.ClassRandomThings.RDT_SuperLubricentIce;
 import com.rcdmake.whimsy.block.ClassRandomThings.RDT_TreeLogSpectre;
 import com.rcdmake.whimsy.datagen.LangEntrySupport;
+import com.rcdmake.whimsy.item.ClassRandomThings.RDT_FireHormonePotion;
+import com.rcdmake.whimsy.item.ClassRandomThings.RDT_PoisonHormonePotion;
 import com.rcdmake.whimsy.item.RDT_CreativeTabs;
+import com.rcdmake.whimsy.statusEffect.ClassRandomThings.RDT_FireImbue;
+import com.rcdmake.whimsy.statusEffect.ClassRandomThings.RDT_PoisonImbue;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
+import net.minecraft.world.item.Item;
+
+import java.util.List;
 
 /**
  * 随意物件（RDT）分支的<b>语言条目</b>（中英各一套）。
@@ -45,6 +52,18 @@ public final class RDT_LangEntries {
 		LangEntrySupport.addBlockAndItem(builder, RDT_LuminousBlocks.RDT_LUMINOUS_BLOCK_RED, "红色鲁米诺方块");
 		LangEntrySupport.addBlockAndItem(builder, RDT_LuminousBlocks.RDT_LUMINOUS_BLOCK_GREEN, "绿色鲁米诺方块");
 		LangEntrySupport.addBlockAndItem(builder, RDT_LuminousBlocks.RDT_LUMINOUS_BLOCK_BLUE, "蓝色鲁米诺方块");
+
+		// --- 状态效果（名称 + 描述两条键）---
+		LangEntrySupport.addEffect(builder, RDT_FireImbue.RDT_FIRE_IMBUE.value(), "火焰灌注");
+		LangEntrySupport.addEffectDescription(builder, RDT_FireImbue.RDT_FIRE_IMBUE.value(),
+				"攻击时点燃目标，燃烧时间随效果等级提升（每级 100 tick）");
+		LangEntrySupport.addEffect(builder, RDT_PoisonImbue.RDT_POISON_IMBUE.value(), "毒性灌注");
+		LangEntrySupport.addEffectDescription(builder, RDT_PoisonImbue.RDT_POISON_IMBUE.value(),
+				"攻击时使目标中毒，中毒时长与等级随效果等级提升（等级 III 起为中毒 II）");
+
+		// --- 激素药水（饮用型，3 级 ×2 味）---
+		addHormones(builder, "火焰激素药水", RDT_FireHormonePotion.ALL);
+		addHormones(builder, "毒性激素药水", RDT_PoisonHormonePotion.ALL);
 	}
 
 	/** 英文条目（与 {@link #zh} 同一批键）。 */
@@ -61,5 +80,25 @@ public final class RDT_LangEntries {
 		LangEntrySupport.addBlockAndItem(builder, RDT_LuminousBlocks.RDT_LUMINOUS_BLOCK_RED, "Red Luminous Block");
 		LangEntrySupport.addBlockAndItem(builder, RDT_LuminousBlocks.RDT_LUMINOUS_BLOCK_GREEN, "Green Luminous Block");
 		LangEntrySupport.addBlockAndItem(builder, RDT_LuminousBlocks.RDT_LUMINOUS_BLOCK_BLUE, "Blue Luminous Block");
+
+		// --- 状态效果（名称 + 描述两条键）---
+		LangEntrySupport.addEffect(builder, RDT_FireImbue.RDT_FIRE_IMBUE.value(), "Fire Imbue");
+		LangEntrySupport.addEffectDescription(builder, RDT_FireImbue.RDT_FIRE_IMBUE.value(),
+				"Your attacks set the target on fire, for 100 ticks per effect level.");
+		LangEntrySupport.addEffect(builder, RDT_PoisonImbue.RDT_POISON_IMBUE.value(), "Poison Imbue");
+		LangEntrySupport.addEffectDescription(builder, RDT_PoisonImbue.RDT_POISON_IMBUE.value(),
+				"Your attacks poison the target; the duration and the poison level both scale with this effect's level (poison II from level III on).");
+
+		// --- 激素药水 ---
+		addHormones(builder, "Potion of Fire Hormone", RDT_FireHormonePotion.ALL);
+		addHormones(builder, "Potion of Poison Hormone", RDT_PoisonHormonePotion.ALL);
+	}
+
+	/** 按基名登记一族激素药水（各等级共用一个名字，等级由 lore 显示）。 */
+	private static void addHormones(FabricLanguageProvider.TranslationBuilder builder,
+			String baseName, List<Item> items) {
+		for (Item item : items) {
+			builder.add(item, baseName);
+		}
 	}
 }
