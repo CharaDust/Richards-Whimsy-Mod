@@ -40,9 +40,13 @@ import com.rcdmake.whimsy.block.ClassRandomThings.RDT_GlassQuartz;
 import com.rcdmake.whimsy.block.ClassRandomThings.RDT_LampLapis;
 import com.rcdmake.whimsy.block.ClassRandomThings.RDT_LampQuartz;
 import com.rcdmake.whimsy.block.ClassRandomThings.RDT_LuminousBlocks;
+import com.rcdmake.whimsy.block.ClassRandomThings.RDT_SpectreLens;
 import com.rcdmake.whimsy.block.ClassRandomThings.RDT_StepBlock;
 import com.rcdmake.whimsy.block.ClassRandomThings.RDT_SuperLubricentIce;
+import com.rcdmake.whimsy.block.ClassRandomThings.RDT_TreeLeavesSpectre;
 import com.rcdmake.whimsy.block.ClassRandomThings.RDT_TreeLogSpectre;
+import com.rcdmake.whimsy.block.ClassRandomThings.RDT_TreePlanksSpectre;
+import com.rcdmake.whimsy.block.ClassRandomThings.RDT_TreeSaplingSpectre;
 import com.rcdmake.whimsy.block.ClassWhimsyIdea.WI_Aerogel;
 import com.rcdmake.whimsy.block.ClassWhimsyIdea.WI_GlassSugar;
 import com.rcdmake.whimsy.block.ClassWhimsyIdea.WI_PackedPlanks;
@@ -132,6 +136,17 @@ public class RichardsWhimsyMod implements ModInitializer {
 		RDT_LampQuartz.OnInit();
 		RDT_StepBlock.OnInit();
 		RDT_TreeLogSpectre.OnInit();
+		// 通灵树的另外三块（2026-10 补齐）：木板与树叶都是「可穿过 + 顶面可站立」
+		// （与通灵原木同一套，实现在 RDT_SpectrePassThrough），树叶另走原版树叶的距离枯萎机制，
+		// 树苗走原版树苗的「随机刻 / 骨粉 → TreeGrower → 配置特征 JSON」这条路。
+		// 顺序：四块互不依赖，但按「原木 → 木板 → 树叶 → 树苗」排更好读，也与物品栏顺序一致。
+		RDT_TreePlanksSpectre.OnInit();
+		RDT_TreeLeavesSpectre.OnInit();
+		RDT_TreeSaplingSpectre.OnInit();
+		// 通灵镜片（2026-10）：放在信标正上方，把下方信标的效果广播到全维度。
+		// 它自己会顺带接上全局索引的 80 tick 校验/施放事件（RDT_SpectreLensIndex.OnInit），
+		// 所以主类只需要这一条。
+		RDT_SpectreLens.OnInit();
 		RDT_LuminousBlocks.OnInit();
 
 		// --- 方块（方块愚者 BHR，由 1.20.4 迁移而来） ---

@@ -147,15 +147,26 @@ public final class BlockStateGenerator {
 		all.put(com.rcdmake.whimsy.block.ClassWhimsyIdea.WI_GlassSugar.WI_GLASSSUGAR, "");
 		all.put(com.rcdmake.whimsy.block.ClassWhimsyIdea.WI_StaticLiquidWater.WI_STATIC_LIQUID_WATER, "");
 
-		// 随意物件（RDT）：除通灵原木外也都是单方块状态。
-		// ⚠️ 通灵原木（rdt_spectre_log）带 AXIS 状态，是**多状态**方块，
-		// 它的 blockstate JSON（含 axis=x/y/z 三个变体与旋转）由旧项目沿用，这里绝不能声明。
+		// 随意物件（RDT）：除三块「通灵树」外也都是单方块状态 —— 包括通灵木板。
+		// ⚠️ 通灵树里有**三块**是**多状态**方块，blockstate JSON 一律**手写**，绝不能在这里声明：
+		//   · rdt_spectre_log      —— AXIS（轴）
+		//   · rdt_spectre_leaves   —— DISTANCE / PERSISTENT / WATERLOGGED（照抄原版树叶，28 个状态）
+		//   · rdt_spectre_sapling  —— STAGE（照抄原版树苗，2 个状态）
+		//   三份手写 JSON 都用原版那种「catch-all 变体 ""」（外观不随状态变化），
+		//   路径 assets/richards-whimsy-mod/blockstates/ 下。
+		// ⚠️ 而 rdt_spectre_planks（通灵木板）**没有**任何状态，属于单状态方块 → 就在下面这一串里，
+		//   由本生成器产出 blockstates/rdt_spectre_planks.json（块状物的默认 6 面模型）。
 		all.put(com.rcdmake.whimsy.block.ClassRandomThings.RDT_SuperLubricentIce.RDT_SUPER_LUBRICENT_ICE, "");
 		all.put(com.rcdmake.whimsy.block.ClassRandomThings.RDT_GlassLapis.RDT_LAPIS_GLASS, "");
 		all.put(com.rcdmake.whimsy.block.ClassRandomThings.RDT_GlassQuartz.RDT_QUARTZ_GLASS, "");
 		all.put(com.rcdmake.whimsy.block.ClassRandomThings.RDT_LampLapis.RDT_LAPIS_LAMP, "");
 		all.put(com.rcdmake.whimsy.block.ClassRandomThings.RDT_LampQuartz.RDT_QUARTZ_LAMP, "");
 		all.put(com.rcdmake.whimsy.block.ClassRandomThings.RDT_StepBlock.RDT_STEP_BLOCK, "");
+		// 通灵镜片：单状态（薄层模型是手写的 models/block/rdt_spectre_lens.json，
+		// blockstate 仍由本生成器产出，指向 block/rdt_spectre_lens）
+		all.put(com.rcdmake.whimsy.block.ClassRandomThings.RDT_SpectreLens.RDT_SPECTRE_LENS, "");
+		// —— 通灵木料：原木 / 树叶 / 树苗是多状态（上面注释），只有木板是单状态 ——
+		all.put(com.rcdmake.whimsy.block.ClassRandomThings.RDT_TreePlanksSpectre.RDT_SPECTRE_PLANKS, "");
 		all.put(com.rcdmake.whimsy.block.ClassRandomThings.RDT_LuminousBlocks.RDT_LUMINOUS_BLOCK_RED, "");
 		all.put(com.rcdmake.whimsy.block.ClassRandomThings.RDT_LuminousBlocks.RDT_LUMINOUS_BLOCK_GREEN, "");
 		all.put(com.rcdmake.whimsy.block.ClassRandomThings.RDT_LuminousBlocks.RDT_LUMINOUS_BLOCK_BLUE, "");

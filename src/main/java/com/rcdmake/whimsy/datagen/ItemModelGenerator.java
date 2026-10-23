@@ -75,6 +75,16 @@ public final class ItemModelGenerator {
 	 *       = {@code parent: item/generated} + {@code layer0}，26.2 这条路依然有效，
 	 *       与原版 {@code item/amethyst_shard} 的写法一致）。不走例外表的话，
 	 *       物品栏里会变成「一块 3D 宝石」，与旧项目观感不同。</li>
+	 *   <li>{@code rdt_spectre_sapling} —— 方块是 {@code block/cross} 的 X 型植物（3D 十字），
+	 *       但原版<b>所有 cross 型植物方块的物品形式都是一张 2D 精灵</b>：
+	 *       {@code items/oak_sapling.json} → {@code minecraft:item/oak_sapling}，
+	 *       而 {@code models/item/oak_sapling.json} = {@code parent: item/generated}
+	 *       + {@code layer0: minecraft:block/oak_sapling}（<b>复用同一张方块贴图</b>）。
+	 *       花（{@code dandelion}）、甘蔗（{@code sugar_cane}）全是这个写法（26.2 逐条核验）。
+	 *       走默认规则会指向 {@code block/rdt_spectre_sapling}，
+	 *       于是<b>拿在手上/物品栏里举着一个 3D 十字</b>（2026-10 修正）。
+	 *       对比：树叶（{@code oak_leaves}）与原木（{@code oak_log}）原版<b>就是</b>
+	 *       指向 {@code block/<id>}，那两块不需要进例外表。</li>
 	 * </ul>
 	 * 例外只写在这里，不动默认规则 —— {@code DEV} 分支那些「物品模型只是转指方块模型」的
 	 * 文件因此完全不受影响。
@@ -86,7 +96,8 @@ public final class ItemModelGenerator {
 			"bhr_gem_sapphire", "item/bhr_gem_sapphire",
 			"bhr_gem_emerald", "item/bhr_gem_emerald",
 			"bhr_gem_ruby", "item/bhr_gem_ruby",
-			"bhr_gem_diamond", "item/bhr_gem_diamond");
+			"bhr_gem_diamond", "item/bhr_gem_diamond",
+			"rdt_spectre_sapling", "item/rdt_spectre_sapling");
 
 	/**
 	 * <b>常量着色表</b>：物品 id → 打包的水色，写进 {@code items/<id>.json} 的 {@code tints} 数组。

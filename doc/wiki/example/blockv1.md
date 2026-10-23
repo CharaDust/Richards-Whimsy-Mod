@@ -129,6 +129,16 @@
 	- **层号注释只用单行横幅**：`// ── 层 N ｜ … ──`（写法见 §9.1）。**三行重横幅只允许出现在
 	  `block/paradigm/` 的样板类里** —— 样板是教材，需要解释每层在干什么；生产类照抄样板会把 200 行的类
 	  撑到 300 行，还会用说明文字盖住「这一层其实是空的」这件事。
+9. **同一条规则只有一份实现**（2026-10 由「通灵木料三兄弟」的统一写进范式）：
+	当**多个方块共用同一条手感 / 形状 / 判定**时（例：通灵原木、通灵木板、通灵树叶的
+	「可穿过 + 顶面可站立 = `RDT_SpectrePassThrough`」），实现必须收进**一个** `final` 工具类
+	（放 `block/Class<模块>/` 下），各方块只留**一行转发** + 它的差异参数；**不许**每块抄一份。
+	- 单继承决定了这件事：三块的父类各不相同（`RotatedPillarBlock` / `Block` /
+	  `UntintedParticleLeavesBlock`），**没法**用一个公共基类收口，工具类 + 静态方法是唯一出路。
+	- 差异**必须**是显式参数或显式开关，并在工具类注释里列一张对照表 ——
+	  否则下一个人会以为「统一」就是「全都一样」，顺手把树叶的 `forceSolidOn()` 也补上（那是错的）。
+	- 工具类的类注释是这条规则的**唯一权威**：把判定式、逐条理由、以及「为什么不能那样写」都写在那边，
+	  各方块类只写「我填了哪个参数、为什么是这个值」。
 
 ---
 
@@ -191,6 +201,18 @@
 | DEV | [DEV_StateEnum](../../../src/main/java/com/rcdmake/whimsy/block/ClassDEV/DEV_StateEnum.java) | 1 | 3, 8 | 2 | 嵌套枚举的序列化名不能改（写进 blockstate variants） |
 | DEV | [DEV_StateEnumAxis](../../../src/main/java/com/rcdmake/whimsy/block/ClassDEV/DEV_StateEnumAxis.java) | 1 | 3, 8 | 2 | **刻意不继承** `RotatedPillarBlock`（要让学生看见状态定义与放置逻辑） |
 | DEV | [DEV_StateEnumFacing](../../../src/main/java/com/rcdmake/whimsy/block/ClassDEV/DEV_StateEnumFacing.java) | 1 | 3, 8 | 2 | 没有 `getStateForPlacement`，默认恒为 NORTH（与旧代码一致）；2026-10 由 `DEV_StateEnumFace` 改名（朝向叫 Facing，附着面才叫 Face） |
+
+### 10.1.1 V1 之后新增的类（2026-10，通灵树一条线）
+
+> V1 的 19 类清单之外后补的，按新规矩（§7 第 9 条）又多了个「共享实现类」。列在这里是为了让这张表继续是**现状**。
+
+| 模块 | 类 | 方块数 | 用到的可选层 | 阶梯最高级 | 备注 |
+| --- | --- | --- | --- | --- | --- |
+| RDT | [RDT_TreeLeavesSpectre](../../../src/main/java/com/rcdmake/whimsy/block/ClassRandomThings/RDT_TreeLeavesSpectre.java) | 1 | 1, 9, 10, 12 | 3 | 继承 `UntintedParticleLeavesBlock`（原版 `LeavesBlock` 在 26.2 是抽象类）；枯萎全继承 |
+| RDT | [RDT_TreeSaplingSpectre](../../../src/main/java/com/rcdmake/whimsy/block/ClassRandomThings/RDT_TreeSaplingSpectre.java) | 1 | 1, 12 | 3 | **零业务覆写**；树型走配置特征 JSON（照抄白桦、换材质） |
+| RDT | [RDT_TreePlanksSpectre](../../../src/main/java/com/rcdmake/whimsy/block/ClassRandomThings/RDT_TreePlanksSpectre.java) | 1 | 1, 9, 10, 12 | 3 | 单状态 → blockstate 交给 datagen（与另三块的「多状态手写」相反） |
+| RDT | [RDT_SpectrePassThrough](../../../src/main/java/com/rcdmake/whimsy/block/ClassRandomThings/RDT_SpectrePassThrough.java) | —（工具类） | — | — | **不是方块**：§7 第 9 条那个「同一条规则只有一份实现」的载体；三块通灵木料的碰撞 / 减速都转发到它 |
+| RDT | [RDT_SpectreLens](../../../src/main/java/com/rcdmake/whimsy/block/ClassRandomThings/RDT_SpectreLens.java) | 1 | 1, 8, 10, 12 | **4** | 通灵镜片（`rdt_spectre_lens`）：方块本体只到第 2 级；「每 80 tick 校验 + 全维度施放」在共享类 [RDT_SpectreLensIndex](../../../src/main/java/com/rcdmake/whimsy/block/ClassRandomThings/RDT_SpectreLensIndex.java) 里，所以整体到第 4 级。**没有方块实体、没有 Mixin** |
 
 ### 10.2 V2 待议清单
 

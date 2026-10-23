@@ -58,3 +58,5 @@ replay_*.log
 #   注意 `--cached` 不可省：它只删除索引与后续提交里的记录，磁盘上的文件会原样保留。
 /src/main/resoursesbak
 /src/main/javaref
+/ref/mc262
+/tools

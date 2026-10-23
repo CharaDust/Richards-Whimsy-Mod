@@ -6,9 +6,13 @@ import com.rcdmake.whimsy.block.ClassRandomThings.RDT_GlassQuartz;
 import com.rcdmake.whimsy.block.ClassRandomThings.RDT_LampLapis;
 import com.rcdmake.whimsy.block.ClassRandomThings.RDT_LampQuartz;
 import com.rcdmake.whimsy.block.ClassRandomThings.RDT_LuminousBlocks;
+import com.rcdmake.whimsy.block.ClassRandomThings.RDT_SpectreLens;
 import com.rcdmake.whimsy.block.ClassRandomThings.RDT_StepBlock;
 import com.rcdmake.whimsy.block.ClassRandomThings.RDT_SuperLubricentIce;
+import com.rcdmake.whimsy.block.ClassRandomThings.RDT_TreeLeavesSpectre;
 import com.rcdmake.whimsy.block.ClassRandomThings.RDT_TreeLogSpectre;
+import com.rcdmake.whimsy.block.ClassRandomThings.RDT_TreePlanksSpectre;
+import com.rcdmake.whimsy.block.ClassRandomThings.RDT_TreeSaplingSpectre;
 import com.rcdmake.whimsy.item.ClassRandomThings.RDT_FireHormonePotion;
 import com.rcdmake.whimsy.item.ClassRandomThings.RDT_PoisonHormonePotion;
 import net.minecraft.world.item.ItemStack;
@@ -27,7 +31,7 @@ import net.minecraft.world.item.Items;
  *       <span>（糖玻璃已迁往 {@code WI} 模块，从本页移除）</span></li>
  *   <li>垫脚方块 <span>（方块破坏器 {@code RDT_BlockBreaker} 是<b>方块实体</b>，属注册目录的「方块实体」分区，
  *       不在本次方块重制范围内，留到那个阶段再加进本页）</span></li>
- *   <li>通灵原木</li>
+ *   <li>通灵原木、通灵木板、通灵树叶、通灵树苗</li>
  *   <li>红色 / 绿色 / 蓝色鲁米诺方块</li>
  * </ol>
  *
@@ -65,6 +69,10 @@ public final class RDT_CreativeTabs {
 					output.accept(RDT_StepBlock.RDT_STEP_BLOCK);                   // 垫脚方块
 					// —— 木材 ——
 					output.accept(RDT_TreeLogSpectre.RDT_SPECTRE_LOG);             // 通灵原木
+					output.accept(RDT_TreePlanksSpectre.RDT_SPECTRE_PLANKS);       // 通灵木板
+					output.accept(RDT_TreeLeavesSpectre.RDT_SPECTRE_LEAVES);       // 通灵树叶
+					output.accept(RDT_TreeSaplingSpectre.RDT_SPECTRE_SAPLING);     // 通灵树苗
+					output.accept(RDT_SpectreLens.RDT_SPECTRE_LENS);               // 通灵镜片
 					// —— 鲁米诺 ——
 					output.accept(RDT_LuminousBlocks.RDT_LUMINOUS_BLOCK_RED);      // 红色鲁米诺方块
 					output.accept(RDT_LuminousBlocks.RDT_LUMINOUS_BLOCK_GREEN);    // 绿色鲁米诺方块

@@ -1,0 +1,6 @@
+{
+  "parent": "block/cross",
+  "textures": {
+    "cross": "richards-whimsy-mod:block/rdt/spectre_sapling"
+  }
+}

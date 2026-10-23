@@ -57,6 +57,8 @@
 	- [[RDT_StepBlock]]
 	- [[RDT_SuperLubricentIce]]
 	- [[RDT_TreeLogSpectre]]
+	- [[RDT_TreeLeavesSpectre]]
+	- [[RDT_TreeSaplingSpectre]]
 - 奇思妙想（`WI`）
 	- [[WI_Aerogel]]
 	- [[WI_SugarBlock]]
@@ -90,7 +92,6 @@
 	- #deprecated [[BHR_FoodOther]]
 	- #todo [[BHR_FoodLow]]
 	- #todo [[BHR_FoodRaw]]
-	- #todo [[BHR_FoodMedium]]
 	- #todo [[BHR_FoodHigh]]
 	- #todo [[BHR_FoodMaximum]]
 	- #wait4move [[BHR_FoodLime]]
