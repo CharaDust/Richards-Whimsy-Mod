@@ -136,16 +136,18 @@ dependencies {
 }
 
 // ---------------------------------------------------------------------------
-// 方块类范式样板（doc/wiki/example/blockv1.md 的配套类）
+// 范式样板（doc/wiki/example/ 下两份范式的配套类）
 //
-// block/paradigm/ 下的 `ParadigmBlockV1` 是「抄它改名字」的样板：**不注册、不参与编译、不进 jar**，
-// 所以它坏了也不会让构建失败。要校验它是否仍与当前 MC 版本 API 一致，
-// 临时注释掉下面这行 exclude，跑一次 `gradlew build` 即可（样板本身是能编译的）。
+// block/paradigm/ 下的 `ParadigmBlockV1`（方块范式 V1）与 item/paradigm/ 下的
+// `ParadigmItemV1`（物品范式 V1）都是「抄它改名字」的样板：**不注册、不参与编译、不进 jar**，
+// 所以它们坏了也不会让构建失败。要校验样板是否仍与当前 MC 版本 API 一致，
+// 临时注释掉对应的那行 exclude，跑一次 `gradlew build` 即可（样板本身是能编译的）。
 // ---------------------------------------------------------------------------
 sourceSets {
 	main {
 		java {
 			exclude 'com/rcdmake/whimsy/block/paradigm/**'
+			exclude 'com/rcdmake/whimsy/item/paradigm/**'
 		}
 	}
 }
