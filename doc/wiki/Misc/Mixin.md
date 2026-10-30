@@ -8,7 +8,7 @@
 | 主模组 Mixin | `MinecraftServer` 的世界加载方法 | 方法体为空 | **空实现，可删除** |
 | 堆肥块作物 Mixin | `CropBlock` 的种植判定 | 底部为堆肥块时允许种植，不考虑水源 | 有效，见 [BHR_Compost](../Blocks/ClassBlockHeadsRebon/BHR_Compost.md) |
 | 堆肥块作物 Mixin | `CropBlock` 的湿度计算 | 底部为堆肥块时固定返回较高湿度值 | 有效（当前文档未单独记载） |
-| 宝石祝福紫锂辉 Mixin | 附魔等级计算 | 紫锂辉祝福使效率附魔视为等级 +1 | 测试性质，见 [BHR_GemBlessing](../Component/ClassBlockHeadsRebon/BHR_GemBlessing.md) |
+| 宝石祝福 Mixin | `EnchantmentHelper` 的等级查询与两条附魔遍历 | 把宝石祝福折算成附魔等级 +1 / +2（真实条目加值 + 物品上没有的附魔补成 1 级），不改 `ENCHANTMENTS` 组件 | 有效，见 [BHR_GemBlessing](../Component/ClassBlockHeadsRebon/BHR_GemBlessing.md) |
 | 极限模式切换器 Mixin | `PrimaryLevelData` 的 `settings` 字段 | 提供 hardcore 的写入口（原版只有读：没有 `withHardcore`、也没有 setter） | 有效，见 [DEV_HardcoreSwitcher](../Items/ClassDEV/DEV_HardcoreSwitcher.md) |
 | 传统饥饿消耗 Mixin（4 个类） | `ServerPlayer` / `Block` / `Player` / `HungerMobEffect` 的 `causeFoodExhaustion` 调用点 | 把 10 处饥饿消耗改回 1.8 的数值（游泳/步行/潜行/挖方块/跳跃/疾跑跳/攻击/饥饿效果） | 有效，见 [游戏规则](./游戏规则.md) |
 
@@ -34,6 +34,23 @@
 - ⛔ `HungerMobEffect` 是**包级私有**类，只能用 `@Mixin(targets = "…")` 字符串形式，`import` 不了
 - `@ModifyArg` 在这些地方**都不可用**：它只把「原方法的参数」接到处理方法尾部，
 	拿不到 `@At` 目标方法的实参，实测报 `invalid signature (F), expected (F…)`；一律用 `@Redirect`
+
+## 宝石祝福：三处注入与非破坏式重定向
+- 目标类只有一个：`EnchantmentHelper`。26.2 里「读某附魔几级」与「遍历附魔效果」全部收口在它的三个方法上
+  （`getItemEnchantmentLevel` + 两条 `runIterationOnItem`），所以三处注入即覆盖整个玩法面
+- `getItemEnchantmentLevel` 是 `@Inject(at = "RETURN")` 加返回值 —— 不改控制流，天然无副作用
+- 两条 `runIterationOnItem` 用 `@Redirect` 拦住方法体里**唯一**那一次「读 `ENCHANTMENTS` 组件」的调用：
+  2 参重载是 `ItemStack.getOrDefault(…)`，4 参重载是 `ItemStack.get(…)`
+  （描述符从 `EnchantmentHelper.class` 的常量池核对过，两处都是 `INVOKEVIRTUAL ItemStack.*`）
+- ⚠️ **4 参重载的重定向必须能返回非 null**：原版紧接着做 `!= null && !isEmpty()` 两道判定，
+  物品「压根没有附魔组件」时原调用会返回 `null`，直接跳过整段遍历 —— 而没附魔的工具加祝福正是主场景
+- **原版正文一行不改地照常执行**（遍历、`matchingSlot` 槽位过滤、`EnchantedItemInUse` 构造），
+  所以其它模组注入在同一方法体里的 `@Redirect` / `@ModifyArg` / `@ModifyVariable` / 局部变量捕获照常生效。
+  早期版本用的是「`@At("HEAD")` + `cancellable` 取消后自己复刻正文」，会静默吞掉那些注入，已废弃
+- 合成条目需要动态附魔注册表的 `Holder`（数据包驱动，`BuiltInRegistries` 里没有），
+  因此缓存在组件侧维护，拿不到时降级为「只加成已存在的附魔」
+- 保留 `injectors.defaultRequire = 1`：真与别的模组重定向了同一处调用时，由 Mixin 在**加载期**报冲突
+  （响亮），而不是让祝福在那些物品上静默失效 —— 便于后续在模组包里测兼容性
 
 ## 现状与限制
 - Mixin 配置中的兼容级别已随语言版本提升到 **Java 25**（见 `richards-whimsy-mod.mixins.json` 的 `compatibilityLevel`）

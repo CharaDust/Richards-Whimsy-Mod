@@ -28,12 +28,14 @@ import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_SlateCobble;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Soil;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_TreeLeavesPine;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_TreeLogPine;
+import com.rcdmake.whimsy.component.ClassBlockHeadsRebon.BHR_GemBlessing;
 import com.rcdmake.whimsy.datagen.LangEntrySupport;
 import com.rcdmake.whimsy.item.BHR_CreativeTabs;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Cherry;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Coconut;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_CoffeeCherry;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_DodoApple;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_GemBlessTest;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Lime;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Mango;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_MapleSeed;
@@ -126,6 +128,17 @@ public final class BHR_LangEntries {
 		builder.add(BHR_MapleSeed.BHR_MAPLE_SEED, "枫实");
 		builder.add(BHR_PricklyPear.BHR_PRICKLY_PEAR, "梨果仙人掌");
 		builder.add(BHR_Worm.BHR_WORM, "愚人蠕虫");
+		// —— 宝石祝福（组件 tooltip + 测试棒播报） ——
+		builder.add(BHR_GemBlessTest.BHR_GEM_BLESS_TEST, "宝石祝福测试棒");
+		builder.add(BHR_GemBlessing.Gem.AMETHYST.tooltipKey(), "宝石祝福：紫锂辉");
+		builder.add(BHR_GemBlessing.Gem.SAPPHIRE.tooltipKey(), "宝石祝福：蓝宝石");
+		builder.add(BHR_GemBlessing.Gem.EMERALD.tooltipKey(), "宝石祝福：祖母绿");
+		builder.add(BHR_GemBlessing.Gem.RUBY.tooltipKey(), "宝石祝福：红刚玉");
+		builder.add(BHR_GemBlessing.Gem.DIAMOND.tooltipKey(), "宝石祝福：宝石钻石");
+		builder.add("message.richards-whimsy-mod.gem_bless_test.no_target", "把要测试的物品放到副手");
+		builder.add("message.richards-whimsy-mod.gem_bless_test.added", "已加上%s（当前：%s）");
+		builder.add("message.richards-whimsy-mod.gem_bless_test.full", "五种宝石祝福已齐（当前：%s）");
+		builder.add("message.richards-whimsy-mod.gem_bless_test.cleared", "已清除宝石祝福");
 	}
 
 	/** 英文条目（与 {@link #zh} 同一批键）。 */
@@ -182,5 +195,17 @@ public final class BHR_LangEntries {
 		builder.add(BHR_MapleSeed.BHR_MAPLE_SEED, "Maple Seed");
 		builder.add(BHR_PricklyPear.BHR_PRICKLY_PEAR, "Prickly Pear");
 		builder.add(BHR_Worm.BHR_WORM, "Fool's Worm");
+		// —— 宝石祝福（组件 tooltip + 测试棒播报） ——
+		// 宝石英文名沿用旧语言文件的 Blockheads 命名（Kunzite / Canutillos / Adamant），与方块那几条一致。
+		builder.add(BHR_GemBlessTest.BHR_GEM_BLESS_TEST, "Gem Blessing Test Rod");
+		builder.add(BHR_GemBlessing.Gem.AMETHYST.tooltipKey(), "Gem Blessing: Kunzite");
+		builder.add(BHR_GemBlessing.Gem.SAPPHIRE.tooltipKey(), "Gem Blessing: Sapphire");
+		builder.add(BHR_GemBlessing.Gem.EMERALD.tooltipKey(), "Gem Blessing: Canutillos");
+		builder.add(BHR_GemBlessing.Gem.RUBY.tooltipKey(), "Gem Blessing: Ruby");
+		builder.add(BHR_GemBlessing.Gem.DIAMOND.tooltipKey(), "Gem Blessing: Adamant");
+		builder.add("message.richards-whimsy-mod.gem_bless_test.no_target", "Put the item to test in your off hand");
+		builder.add("message.richards-whimsy-mod.gem_bless_test.added", "Blessing added: %s (now: %s)");
+		builder.add("message.richards-whimsy-mod.gem_bless_test.full", "All five blessings are present (now: %s)");
+		builder.add("message.richards-whimsy-mod.gem_bless_test.cleared", "Gem blessings cleared");
 	}
 }

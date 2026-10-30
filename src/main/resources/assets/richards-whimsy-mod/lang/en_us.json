@@ -89,6 +89,7 @@
   "item.richards-whimsy-mod.bhr_compost": "Compost Block",
   "item.richards-whimsy-mod.bhr_dodo_apple": "Dodo Apple",
   "item.richards-whimsy-mod.bhr_gem_amethyst": "Kunzite",
+  "item.richards-whimsy-mod.bhr_gem_bless_test": "Gem Blessing Test Rod",
   "item.richards-whimsy-mod.bhr_gem_diamond": "'Adamant'",
   "item.richards-whimsy-mod.bhr_gem_emerald": "Canutillos",
   "item.richards-whimsy-mod.bhr_gem_ruby": "Ruby",
@@ -174,5 +175,14 @@
   "itemGroup.wi_group_block": "Whimsy Blocks",
   "itemGroup.wi_group_item": "Whimsy Items",
   "message.richards-whimsy-mod.dev_hardcore_switcher.off": "Hardcore: OFF",
-  "message.richards-whimsy-mod.dev_hardcore_switcher.on": "Hardcore: ON (server-side is live; the client hearts refresh after rejoining)"
+  "message.richards-whimsy-mod.dev_hardcore_switcher.on": "Hardcore: ON (server-side is live; the client hearts refresh after rejoining)",
+  "message.richards-whimsy-mod.gem_bless_test.added": "Blessing added: %s (now: %s)",
+  "message.richards-whimsy-mod.gem_bless_test.cleared": "Gem blessings cleared",
+  "message.richards-whimsy-mod.gem_bless_test.full": "All five blessings are present (now: %s)",
+  "message.richards-whimsy-mod.gem_bless_test.no_target": "Put the item to test in your off hand",
+  "tooltip.richards-whimsy-mod.gem_blessing.amethyst": "Gem Blessing: Kunzite",
+  "tooltip.richards-whimsy-mod.gem_blessing.diamond": "Gem Blessing: Adamant",
+  "tooltip.richards-whimsy-mod.gem_blessing.emerald": "Gem Blessing: Canutillos",
+  "tooltip.richards-whimsy-mod.gem_blessing.ruby": "Gem Blessing: Ruby",
+  "tooltip.richards-whimsy-mod.gem_blessing.sapphire": "Gem Blessing: Sapphire"
 }

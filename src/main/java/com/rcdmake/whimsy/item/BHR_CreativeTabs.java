@@ -33,6 +33,7 @@ import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Cherry;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Coconut;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_CoffeeCherry;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_DodoApple;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_GemBlessTest;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Lime;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Mango;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_MapleSeed;
@@ -145,6 +146,10 @@ public final class BHR_CreativeTabs {
 					output.accept(BHR_MapleSeed.BHR_MAPLE_SEED);               // 枫实
 					output.accept(BHR_PricklyPear.BHR_PRICKLY_PEAR);           // 梨果仙人掌（旧语言文件叫「赤果」）
 					output.accept(BHR_Worm.BHR_WORM);                          // 愚人蠕虫
+					// —— 开发期测试物品（wiki 有独立页，但内容不是玩法内容） ——
+					// 宝石祝福测试棒：右键给副手物品加一种祝福、潜行右键清空。
+					// 排在最后，避免把测试用品混进宝石 / 食物的分组里。
+					output.accept(BHR_GemBlessTest.BHR_GEM_BLESS_TEST);        // 宝石祝福测试棒
 				});
 	}
 }

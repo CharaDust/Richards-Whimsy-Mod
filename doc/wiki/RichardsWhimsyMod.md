@@ -128,7 +128,7 @@
 ## 组件
 - 方块愚者（`BHR`）
 	- #deprecated [[BHR_GemBlessing_1]]
-	- #todo [[BHR_GemBlessing]]
+	- [[BHR_GemBlessing]]
 - 随意物件（`RDT`）
 - 奇思妙想（`WI`）
 - 原版考古（`LGC`）

@@ -1,7 +1,10 @@
 package com.rcdmake.whimsy;
 
 import com.rcdmake.whimsy.block.ClassWhimsyIdea.WI_StaticLiquidWater;
+import com.rcdmake.whimsy.component.ClassBlockHeadsRebon.BHR_GemBlessingBonus;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLevelEvents;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockColorRegistry;
 import net.minecraft.client.color.block.BlockTintSources;
 import org.slf4j.Logger;
@@ -47,5 +50,13 @@ public class RichardsWhimsyModClient implements ClientModInitializer {
 		// 固化水方块：按所在生物群系的水色上色（方块模型各面 tintindex=0）
 		BlockColorRegistry.register(List.of(BlockTintSources.water()),
 				WI_StaticLiquidWater.WI_STATIC_LIQUID_WATER);
+
+		// 宝石祝福：客户端的附魔注册表视图。
+		// 服务端那一份在主类的 ServerLifecycleEvents 里；多人游戏时客户端没有服务端，
+		// 只能从当前世界拿（换维度时也会重新触发）。拿不到时自动降级：
+		// 只给物品上已有的附魔加等级，不再补「物品上没有的附魔」。
+		ClientLevelEvents.AFTER_CLIENT_LEVEL_CHANGE.register((client, level) ->
+				BHR_GemBlessingBonus.updateLookup(level.registryAccess()));
+		ClientLifecycleEvents.CLIENT_STOPPING.register(client -> BHR_GemBlessingBonus.clearLookup());
 	}
 }

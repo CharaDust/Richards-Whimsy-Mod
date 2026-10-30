@@ -89,6 +89,7 @@
   "item.richards-whimsy-mod.bhr_compost": "堆肥块",
   "item.richards-whimsy-mod.bhr_dodo_apple": "渡渡苹果",
   "item.richards-whimsy-mod.bhr_gem_amethyst": "紫锂辉",
+  "item.richards-whimsy-mod.bhr_gem_bless_test": "宝石祝福测试棒",
   "item.richards-whimsy-mod.bhr_gem_diamond": "宝石钻石",
   "item.richards-whimsy-mod.bhr_gem_emerald": "祖母绿",
   "item.richards-whimsy-mod.bhr_gem_ruby": "红刚玉",
@@ -174,5 +175,14 @@
   "itemGroup.wi_group_block": "奇思妙想方块",
   "itemGroup.wi_group_item": "奇思妙想物品",
   "message.richards-whimsy-mod.dev_hardcore_switcher.off": "极限模式：已关闭",
-  "message.richards-whimsy-mod.dev_hardcore_switcher.on": "极限模式：已开启（服务端已生效，客户端心形重进世界后刷新）"
+  "message.richards-whimsy-mod.dev_hardcore_switcher.on": "极限模式：已开启（服务端已生效，客户端心形重进世界后刷新）",
+  "message.richards-whimsy-mod.gem_bless_test.added": "已加上%s（当前：%s）",
+  "message.richards-whimsy-mod.gem_bless_test.cleared": "已清除宝石祝福",
+  "message.richards-whimsy-mod.gem_bless_test.full": "五种宝石祝福已齐（当前：%s）",
+  "message.richards-whimsy-mod.gem_bless_test.no_target": "把要测试的物品放到副手",
+  "tooltip.richards-whimsy-mod.gem_blessing.amethyst": "宝石祝福：紫锂辉",
+  "tooltip.richards-whimsy-mod.gem_blessing.diamond": "宝石祝福：宝石钻石",
+  "tooltip.richards-whimsy-mod.gem_blessing.emerald": "宝石祝福：祖母绿",
+  "tooltip.richards-whimsy-mod.gem_blessing.ruby": "宝石祝福：红刚玉",
+  "tooltip.richards-whimsy-mod.gem_blessing.sapphire": "宝石祝福：蓝宝石"
 }

@@ -7,6 +7,7 @@
 		"ClassBlockHeadsRebon.BHR_LegacyHungerBlockMixin",
 		"ClassBlockHeadsRebon.BHR_LegacyHungerAttackMixin",
 		"ClassBlockHeadsRebon.BHR_LegacyHungerEffectMixin",
+		"ClassBlockHeadsRebon.BHR_GemBlessingEnchantmentMixin",
 		"ClassDEV.DEV_HardcoreModeMixin",
 		"ClassWhimsyIdea.WI_BioToxicityHurtMixin",
 		"ClassWhimsyIdea.WI_RadioactiveHurtMixin",

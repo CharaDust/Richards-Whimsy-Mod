@@ -26,6 +26,8 @@
 ### 食物
 - 樱桃、椰子、咖啡樱桃、芒果、橙子、石灰酸橙
 - 渡渡苹果、枫实、赤果（梨果仙人掌）、愚人蠕虫
+### 测试物品（非玩法内容）
+- 宝石祝福测试棒（见 [BHR_GemBlessTest](../Items/ClassBlockHeadsRebon/BHR_GemBlessTest.md)）
 
 ## 备注
 - 该物品栏在 `RichardsWhimsyMod` 初始化链中被注册；注册 id 需保持唯一，否则崩溃

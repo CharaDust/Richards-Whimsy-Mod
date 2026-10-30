@@ -53,6 +53,9 @@ import com.rcdmake.whimsy.block.ClassWhimsyIdea.WI_PackedPlanks;
 import com.rcdmake.whimsy.block.ClassWhimsyIdea.WI_StaticCobblestone;
 import com.rcdmake.whimsy.block.ClassWhimsyIdea.WI_StaticLiquidWater;
 import com.rcdmake.whimsy.block.ClassWhimsyIdea.WI_SugarBlock;
+import com.rcdmake.whimsy.component.ClassBlockHeadsRebon.BHR_GemBlessing;
+import com.rcdmake.whimsy.component.ClassBlockHeadsRebon.BHR_GemBlessingBonus;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_GemBlessTest;
 import com.rcdmake.whimsy.item.ClassDEV.DEV_ItemsOther;
 import com.rcdmake.whimsy.item.ClassDEV.DEV_HardcoreSwitcher;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Cherry;
@@ -77,6 +80,7 @@ import com.rcdmake.whimsy.statusEffect.ClassRandomThings.RDT_PoisonImbue;
 import com.rcdmake.whimsy.statusEffect.ClassWhimsyIdea.WI_BioToxicity;
 import com.rcdmake.whimsy.statusEffect.ClassWhimsyIdea.WI_Radioactive;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import org.slf4j.Logger;
@@ -110,6 +114,11 @@ public class RichardsWhimsyMod implements ModInitializer {
 		// BHR 的三条布尔规则在类初始化时就注册好了，这一句只是接上「专家模式开关 → 预设挡位」的协调器。
 		// 顺序随意：它不依赖上面任何方块/物品的静态字段。
 		BHR_GameRules.OnInit();
+
+		// --- 物品组件 ---
+		// 宝石祝福（richards-whimsy-mod:gem_blessing）：5 个布尔值，把指定附魔「视为」等级 +1 / +2。
+		// 必须先于任何会读附魔的东西初始化 —— 它的 mixin 从字面上就会去读这个组件。
+		BHR_GemBlessing.OnInit();
 
 		// --- 方块 ---
 		DEV_BlocksOther.OnInit();
@@ -209,6 +218,8 @@ public class RichardsWhimsyMod implements ModInitializer {
 		BHR_Orange.OnInit();        // 橙子
 		BHR_PricklyPear.OnInit();   // 梨果仙人掌（旧语言文件里叫「赤果」）
 		BHR_Worm.OnInit();          // 愚人蠕虫（本批唯一 consume_seconds = 2.6）
+		// 宝石祝福测试棒：右键给副手物品加一种祝福、潜行右键清空（开发期验证 BHR_GemBlessing 用）
+		BHR_GemBlessTest.OnInit();
 
 		// --- 状态效果 ---
 		// 随意物件（RDT）的两种「灌注」：正面效果，本身不逐刻做事，
@@ -241,6 +252,19 @@ public class RichardsWhimsyMod implements ModInitializer {
 		// 必须最后：它直接引用上面注册好的方块与物品的静态字段，此刻那些字段才非 null；
 		// 提前调用会让标签页里的内容全是 null（空页）或直接抛 NPE。
 		ModCreativeTabs.OnInit();
+
+		// --- 事件：宝石祝福的附魔注册表视图 ---
+		// 26.2 的附魔是数据包驱动的动态注册表，BuiltInRegistries 里没有条目；
+		// 「物品上没有的附魔也要能算出等级」就必须拿到 Holder，也就必须缓存一份 HolderLookup。
+		// 这里只管服务端（含单人存档的内置服务端）；多人客户端的那一份在 RichardsWhimsyModClient。
+		ServerLifecycleEvents.SERVER_STARTED.register(server -> BHR_GemBlessingBonus.updateLookup(server.registryAccess()));
+		ServerLifecycleEvents.END_DATA_PACK_RELOAD.register((server, resourceManager, success) -> {
+			if (success) {
+				// /reload 之后附魔可能整批换掉，旧 Holder 全部作废。
+				BHR_GemBlessingBonus.updateLookup(server.registryAccess());
+			}
+		});
+		ServerLifecycleEvents.SERVER_STOPPED.register(server -> BHR_GemBlessingBonus.clearLookup());
 
 		LOGGER.info("[{}] 初始化完成", MOD_ID);
 	}
