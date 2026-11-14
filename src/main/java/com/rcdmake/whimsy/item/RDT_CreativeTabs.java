@@ -3,6 +3,7 @@ package com.rcdmake.whimsy.item;
 import com.rcdmake.whimsy.ModCreativeTabs;
 import com.rcdmake.whimsy.block.ClassRandomThings.RDT_GlassLapis;
 import com.rcdmake.whimsy.block.ClassRandomThings.RDT_GlassQuartz;
+import com.rcdmake.whimsy.block.ClassRandomThings.RDT_GlassRedstone;
 import com.rcdmake.whimsy.block.ClassRandomThings.RDT_LampLapis;
 import com.rcdmake.whimsy.block.ClassRandomThings.RDT_LampQuartz;
 import com.rcdmake.whimsy.block.ClassRandomThings.RDT_LuminousBlocks;
@@ -63,6 +64,7 @@ public final class RDT_CreativeTabs {
 					output.accept(RDT_SuperLubricentIce.RDT_SUPER_LUBRICENT_ICE);  // 超级滑滑冰
 					output.accept(RDT_GlassLapis.RDT_LAPIS_GLASS);                 // 青金石玻璃
 					output.accept(RDT_GlassQuartz.RDT_QUARTZ_GLASS);               // 石英玻璃
+					output.accept(RDT_GlassRedstone.RDT_REDSTONE_GLASS);           // 红石玻璃
 					output.accept(RDT_LampLapis.RDT_LAPIS_LAMP);                   // 青金石灯
 					output.accept(RDT_LampQuartz.RDT_QUARTZ_LAMP);                 // 石英灯
 					// —— 方块 ——

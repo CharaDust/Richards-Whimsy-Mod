@@ -37,6 +37,7 @@ import com.rcdmake.whimsy.block.ClassDEV.DEV_StateEnumFacing;
 import com.rcdmake.whimsy.block.ClassDEV.DEV_StateInt;
 import com.rcdmake.whimsy.block.ClassRandomThings.RDT_GlassLapis;
 import com.rcdmake.whimsy.block.ClassRandomThings.RDT_GlassQuartz;
+import com.rcdmake.whimsy.block.ClassRandomThings.RDT_GlassRedstone;
 import com.rcdmake.whimsy.block.ClassRandomThings.RDT_LampLapis;
 import com.rcdmake.whimsy.block.ClassRandomThings.RDT_LampQuartz;
 import com.rcdmake.whimsy.block.ClassRandomThings.RDT_LuminousBlocks;
@@ -141,6 +142,10 @@ public class RichardsWhimsyMod implements ModInitializer {
 		RDT_SuperLubricentIce.OnInit();
 		RDT_GlassLapis.OnInit();
 		RDT_GlassQuartz.OnInit();
+		// 红石玻璃（2026-10 新增）：未激活 = 普通玻璃；收到红石信号 → triggered=true，所有实体可穿过。
+		// 它是**多状态**方块（triggered 布尔），blockstate / 两个模型都是手写的
+		// （不在 BlockStateGenerator.collectAll() 里声明）。
+		RDT_GlassRedstone.OnInit();
 		RDT_LampLapis.OnInit();
 		RDT_LampQuartz.OnInit();
 		RDT_StepBlock.OnInit();

@@ -156,6 +156,9 @@ public final class BlockStateGenerator {
 		//   路径 assets/richards-whimsy-mod/blockstates/ 下。
 		// ⚠️ 而 rdt_spectre_planks（通灵木板）**没有**任何状态，属于单状态方块 → 就在下面这一串里，
 		//   由本生成器产出 blockstates/rdt_spectre_planks.json（块状物的默认 6 面模型）。
+		// ⚠️ rdt_redstone_glass（红石玻璃，2026-10 新增）是**多状态**方块（布尔 triggered，2 种 variants），
+		//   blockstate 与两个模型都手写，所以**不**在下面声明：
+		//   assets/.../blockstates/rdt_redstone_glass.json → block/rdt_redstone_glass{,_triggered}
 		all.put(com.rcdmake.whimsy.block.ClassRandomThings.RDT_SuperLubricentIce.RDT_SUPER_LUBRICENT_ICE, "");
 		all.put(com.rcdmake.whimsy.block.ClassRandomThings.RDT_GlassLapis.RDT_LAPIS_GLASS, "");
 		all.put(com.rcdmake.whimsy.block.ClassRandomThings.RDT_GlassQuartz.RDT_QUARTZ_GLASS, "");

@@ -53,6 +53,7 @@
 - 随意物件（`RDT`）
 	- [[RDT_GlassLapis]]
 	- [[RDT_GlassQuartz]]
+	- [[RDT_GlassRedstone]]
 	- [[RDT_LuminousBlocks]]
 	- [[RDT_StepBlock]]
 	- [[RDT_SuperLubricentIce]]

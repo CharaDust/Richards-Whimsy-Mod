@@ -213,6 +213,7 @@
 | RDT | [RDT_TreePlanksSpectre](../../../src/main/java/com/rcdmake/whimsy/block/ClassRandomThings/RDT_TreePlanksSpectre.java) | 1 | 1, 9, 10, 12 | 3 | 单状态 → blockstate 交给 datagen（与另三块的「多状态手写」相反） |
 | RDT | [RDT_SpectrePassThrough](../../../src/main/java/com/rcdmake/whimsy/block/ClassRandomThings/RDT_SpectrePassThrough.java) | —（工具类） | — | — | **不是方块**：§7 第 9 条那个「同一条规则只有一份实现」的载体；三块通灵木料的碰撞 / 减速都转发到它 |
 | RDT | [RDT_SpectreLens](../../../src/main/java/com/rcdmake/whimsy/block/ClassRandomThings/RDT_SpectreLens.java) | 1 | 1, 8, 10, 12 | **4** | 通灵镜片（`rdt_spectre_lens`）：方块本体只到第 2 级；「每 80 tick 校验 + 全维度施放」在共享类 [RDT_SpectreLensIndex](../../../src/main/java/com/rcdmake/whimsy/block/ClassRandomThings/RDT_SpectreLensIndex.java) 里，所以整体到第 4 级。**没有方块实体、没有 Mixin** |
+| RDT | [RDT_GlassRedstone](../../../src/main/java/com/rcdmake/whimsy/block/ClassRandomThings/RDT_GlassRedstone.java) | 1 | 3, 8, 9, 10 | 2 | 红石玻璃（`rdt_redstone_glass`，2026-10 新增）：**状态非单值**的方块里第一个「状态决定碰撞」的 —— `triggered` 布尔 + `neighborChanged` 读信号；blockstate 与两个模型手写，**不**进 `collectAll()`。兜底回落父级形状 + `forceSolidOn()`（与青金石玻璃同一条硬约束） |
 
 ### 10.2 V2 待议清单
 
