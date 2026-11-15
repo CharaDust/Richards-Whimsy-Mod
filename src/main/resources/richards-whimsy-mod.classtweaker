@@ -1,0 +1,25 @@
+classTweaker v2 official
+# 方块愚者（BHR）的类调整文件（class tweaker）。
+#
+# 头必须写在第一行，且版本必须是 v2：枚举扩展（extend-enum）自 v2 起才有
+# （Fabric 文档 develop/class-tweakers/enum-extension）。命名空间 official 是 26.x 的原生名
+# （26.1 起不再混淆，没有 Yarn/mojmap 重命名层）。
+#
+# extend-enum 的作用：给目标枚举补一个「占位常量字段」，Mixin 的枚举扩展
+# 在运行期把它换成真正的枚举常量。没有这一行，Mixin 里那个常量无从落地。
+#
+# 三处扩展：
+#   1) net/minecraft/world/level/GameType —— 真正的第五种游戏模式（双端）；
+#   2) GameModeSwitcherScreen$GameModeIcon —— F3+F4 切换器里的第五个图标格
+#      （只存在于客户端，专用服务端上这一行会被忽略）；
+#   3) WorldCreationUiState$SelectedGameMode —— 「创建世界」界面的游戏模式挡位。
+#      它和 GameType 不是一回事：GameType 是玩起来的行为，SelectedGameMode 是
+#      界面上的四选一（生存 / 极限 / 创造 / 调试）。没有这一行，
+#      创建世界界面里写不出 SelectedGameMode.BHR_FOOL（编译期就找不到这个常量）。
+#      ⚠️ 常量名必须与 Mixin（BHR_FoolGameModeChoiceMixin）里声明的一致：
+#         BHR_FOOL。序列化名 "fool" 由那个 Mixin 的构造实参给出，
+#         于是语言键自动是 selectWorld.gameMode.fool / .fool.info。
+
+extend-enum net/minecraft/world/level/GameType BHR_FOOL_MODE
+extend-enum net/minecraft/client/gui/screens/debug/GameModeSwitcherScreen$GameModeIcon BHR_FOOL_MODE
+extend-enum net/minecraft/client/gui/screens/worldselection/WorldCreationUiState$SelectedGameMode BHR_FOOL

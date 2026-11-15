@@ -58,5 +58,15 @@ public class RichardsWhimsyModClient implements ClientModInitializer {
 		ClientLevelEvents.AFTER_CLIENT_LEVEL_CHANGE.register((client, level) ->
 				BHR_GemBlessingBonus.updateLookup(level.registryAccess()));
 		ClientLifecycleEvents.CLIENT_STOPPING.register(client -> BHR_GemBlessingBonus.clearLookup());
+
+		// 濒死 BGM：每 tick 推进淡出/播放状态机（见 BHR_DownedMusic）
+		net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents.END_CLIENT_TICK
+				.register(com.rcdmake.whimsy.client.BHR_DownedMusic::tick);
+
+		// AppleSkin 软兼容：愚者模式下屏蔽它的全部 HUD 叠加层
+		// （自定义 barR 已经接管那块区域；生存模式仍然保持 AppleSkin 的原生表现）。
+		if (net.fabricmc.loader.api.FabricLoader.getInstance().isModLoaded("appleskin")) {
+			com.rcdmake.whimsy.client.compat.BHR_AppleSkinCompat.register();
+		}
 	}
 }

@@ -30,8 +30,8 @@ Refer to this wiki link [[1]](https://wiki.floofyplasma.com/wiki/Main_Page)
 | 兑换式合成系统 / MATTIS          |                |
 | 合成任务列表 / Craft Tasks List |                |
 | 熔炼合成燃料热值 / Fuel System    |                |
-| 精力值 / Energy Bar          |                |
-| 环境值 / Environment Bar     |                |
+| 精力值 / Energy Bar          | 2026/11/15     |
+| 环境值 / Environment Bar     | 2026/11/15     |
 | 快乐值 / Happy Bar           |                |
 | 濒死生命值                     |                |
 | 冥想奖励 / Mediate Bonus      |                |

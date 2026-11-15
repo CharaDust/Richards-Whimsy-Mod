@@ -29,6 +29,7 @@ import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_SlateCobble;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Soil;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_TreeLeavesPine;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_TreeLogPine;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_BlockHeadsIcon;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Cherry;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Coconut;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_CoffeeCherry;
@@ -67,9 +68,10 @@ import net.minecraft.world.item.ItemStack;
  * 还差「燃料（余烬）」一组 —— 它属于物品目录（不是方块）。<b>食物组已完成</b>：
  * 第一批的石灰酸橙 + 2026-10 第二批的 9 件（渡渡苹果、樱桃、椰子、咖啡樱桃、芒果、枫实、橙子、
  * 梨果仙人掌、愚人蠕虫），共 <b>10</b> 件食物全部入栏。
- * <p><b>图标暂用堆肥块</b>：wiki 要的「方块愚者徽标」是一件尚未重制的物品
- * （原 {@code BHR_OtherItems} 已按注册目录标 {@code #deprecated}），
- * 等那件物品落地后再换成它（见类的 TODO）。
+ * <p><b>图标 = 方块愚者徽标</b>（{@code bhr_blockheads_icon}）：
+ * 该物品原本没有注册（第一批时只能暂用堆肥块），本次随「愚者模式」一并落地
+ * （同一个贴图 {@code textures/item/bhr/blockheads_icon.png} 也是 F3+F4 切换器里
+ * 愚者模式那一格的图标，见 {@code BHR_FoolGameModeIconMixin}）。
  *
  * <p><b>注册动作</b>：统一用 {@link ModCreativeTabs#registerTab}（阶段 0 起各模块共用一份写法），
  * 本类只提供「注册 id / 图标 / 包含清单」。
@@ -92,9 +94,8 @@ public final class BHR_CreativeTabs {
 	 */
 	public static void OnInit() {
 		ModCreativeTabs.registerTab(GROUP_ID,
-				// 图标：暂用堆肥块（wiki 要的「方块愚者徽标」物品尚未重制）
-				// TODO(徽标物品重制后)：换成 () -> new ItemStack(BHR_xxx.徽标)
-				() -> new ItemStack(BHR_Compost.BHR_COMPOST),
+				// 图标：方块愚者徽标（bhr_blockheads_icon）
+				() -> new ItemStack(BHR_BlockHeadsIcon.BHR_BLOCKHEADS_ICON),
 				(parameters, output) -> {
 					// 顺序照 wiki「包含物品」的分组顺序
 					// —— 方块与矿物：切面板岩系 ——
@@ -150,6 +151,8 @@ public final class BHR_CreativeTabs {
 					// 宝石祝福测试棒：右键给副手物品加一种祝福、潜行右键清空。
 					// 排在最后，避免把测试用品混进宝石 / 食物的分组里。
 					output.accept(BHR_GemBlessTest.BHR_GEM_BLESS_TEST);        // 宝石祝福测试棒
+					// —— 徽标：同时是本标签页的图标（放在最后，不打断玩法内容的顺序） ——
+					output.accept(BHR_BlockHeadsIcon.BHR_BLOCKHEADS_ICON);     // 方块愚者徽标
 				});
 	}
 }

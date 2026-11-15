@@ -10,6 +10,19 @@ base {
 	archivesName = project.archives_base_name
 }
 
+// ---------------------------------------------------------------------------
+// 类调整文件（class tweaker）—— 愚者模式用的枚举扩展（extend-enum）
+//
+// 属性名仍叫 accessWidenerPath：类调整文件是「access widener 的超集」，
+// Loom 为兼容保留了旧名（见 Fabric 文档 develop/class-tweakers/）。
+// 没有这一行，richards-whimsy-mod.classtweaker 里的 extend-enum 不会作用于
+// 编译期的 Minecraft jar，代码里引用 GameType.BHR_FOOL_MODE 会编译失败。
+// 校验用：gradlew validateAccessWidener
+// ---------------------------------------------------------------------------
+loom {
+	accessWidenerPath = file("src/main/resources/richards-whimsy-mod.classtweaker")
+}
+
 repositories {
 	// Add repositories to retrieve artifacts from in here.
 	// You should only use this when depending on other mods because

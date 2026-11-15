@@ -3,6 +3,13 @@
 	"package": "com.rcdmake.whimsy.mixin",
 	"compatibilityLevel": "JAVA_25",
 	"mixins": [
+		"ClassBlockHeadsRebon.BHR_FoolGameTypeMixin",
+		"ClassBlockHeadsRebon.BHR_FoolHealthDamageMixin",
+		"ClassBlockHeadsRebon.BHR_FoolHealthLivingMixin",
+		"ClassBlockHeadsRebon.BHR_FoolHealthGameModeMixin",
+		"ClassBlockHeadsRebon.BHR_HappinessMiningMixin",
+		"ClassBlockHeadsRebon.BHR_FoodDataMixin",
+		"ClassBlockHeadsRebon.BHR_EnergyFoodMixin",
 		"ClassBlockHeadsRebon.BHR_LegacyHungerMovementMixin",
 		"ClassBlockHeadsRebon.BHR_LegacyHungerBlockMixin",
 		"ClassBlockHeadsRebon.BHR_LegacyHungerAttackMixin",
@@ -18,7 +25,16 @@
 		"ClassRandomThings.RDT_LampIndexMaintenanceMixin"
 	],
 	"client": [
-		"client.ClassWhimsyIdea.WI_BioToxicityHeartMixin"
+		"client.ClassWhimsyIdea.WI_BioToxicityHeartMixin",
+		"client.ClassBlockHeadsRebon.BHR_FoolGameModeIconMixin",
+		"client.ClassBlockHeadsRebon.BHR_FoolGameModeSwitcherMixin",
+		"client.ClassBlockHeadsRebon.BHR_FoolGameModeChoiceMixin",
+		"client.ClassBlockHeadsRebon.BHR_FoolGameTabMixin",
+		"client.ClassBlockHeadsRebon.BHR_FoolCreateWorldMixin",
+		"client.ClassBlockHeadsRebon.BHR_FoolWorldLoadTelemetryMixin",
+		"client.ClassBlockHeadsRebon.BHR_FoolHealthVignetteMixin",
+		"client.ClassBlockHeadsRebon.BHR_FoolHudHealthMixin",
+		"client.ClassBlockHeadsRebon.BHR_MusicManagerMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

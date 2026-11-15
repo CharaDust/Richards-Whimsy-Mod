@@ -59,6 +59,7 @@ import com.rcdmake.whimsy.component.ClassBlockHeadsRebon.BHR_GemBlessingBonus;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_GemBlessTest;
 import com.rcdmake.whimsy.item.ClassDEV.DEV_ItemsOther;
 import com.rcdmake.whimsy.item.ClassDEV.DEV_HardcoreSwitcher;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_BlockHeadsIcon;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Cherry;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Coconut;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_CoffeeCherry;
@@ -75,6 +76,11 @@ import com.rcdmake.whimsy.item.ClassRandomThings.RDT_PoisonHormonePotion;
 import com.rcdmake.whimsy.item.ClassWhimsyIdea.potion.WI_PlaguePotion;
 import com.rcdmake.whimsy.item.ClassWhimsyIdea.potion.WI_RadiationPotion;
 import com.rcdmake.whimsy.item.WhimsyPotionRegistration;
+import com.rcdmake.whimsy.misc.ClassBlockHeadsRebon.BHR_Energy;
+import com.rcdmake.whimsy.misc.ClassBlockHeadsRebon.BHR_Environment;
+import com.rcdmake.whimsy.misc.ClassBlockHeadsRebon.BHR_FoodSync;
+import com.rcdmake.whimsy.misc.ClassBlockHeadsRebon.BHR_FoolHealth;
+import com.rcdmake.whimsy.misc.ClassBlockHeadsRebon.BHR_Happiness;
 import com.rcdmake.whimsy.misc.ClassBlockHeadsRebon.BHR_GameRules;
 import com.rcdmake.whimsy.statusEffect.ClassRandomThings.RDT_FireImbue;
 import com.rcdmake.whimsy.statusEffect.ClassRandomThings.RDT_PoisonImbue;
@@ -115,6 +121,23 @@ public class RichardsWhimsyMod implements ModInitializer {
 		// BHR 的三条布尔规则在类初始化时就注册好了，这一句只是接上「专家模式开关 → 预设挡位」的协调器。
 		// 顺序随意：它不依赖上面任何方块/物品的静态字段。
 		BHR_GameRules.OnInit();
+
+		// --- 愚者模式的两层生命模型（第一层 = 原版血量，第二层 = 濒死值） ---
+		// 声明濒死值附件（持久化 + 按玩家自身同步），并接上进服/重生/每 tick 兜底。
+		// 必须在任何玩家进服之前完成，所以放在这里（与方块/物品注册无关）。
+		BHR_FoolHealth.OnInit();
+
+		// --- 精力值：右侧第三条资源条，每 tick −1，吃东西补 ---
+		// 顺序：精力值先接入 —— 它的数值是快乐值上限的一个来源（低于 8000 开始压低上限）。
+		BHR_Energy.OnInit();
+
+		// --- 环境值：右侧第四条资源条，0~100，按固定速率朝「扣分制算出的目标值」靠拢 ---
+		BHR_Environment.OnInit();
+
+		BHR_Happiness.OnInit();
+
+		// --- 消耗度同步：原版只同步血/饥饿/饱和度，消耗度要自己推给客户端 ---
+		BHR_FoodSync.OnInit();
 
 		// --- 物品组件 ---
 		// 宝石祝福（richards-whimsy-mod:gem_blessing）：5 个布尔值，把指定附魔「视为」等级 +1 / +2。
@@ -225,6 +248,10 @@ public class RichardsWhimsyMod implements ModInitializer {
 		BHR_Worm.OnInit();          // 愚人蠕虫（本批唯一 consume_seconds = 2.6）
 		// 宝石祝福测试棒：右键给副手物品加一种祝福、潜行右键清空（开发期验证 BHR_GemBlessing 用）
 		BHR_GemBlessTest.OnInit();
+		// 方块愚者徽标：本身没有玩法功能，但两处要用它 ——
+		// ① 方块愚者物品栏的标签图标；② F3+F4 切换器里「愚者模式」那一格的图标
+		// （切换器图标是 ItemStack，所以必须有一件真实物品，见 BHR_FoolGameModeIconMixin）。
+		BHR_BlockHeadsIcon.OnInit();
 
 		// --- 状态效果 ---
 		// 随意物件（RDT）的两种「灌注」：正面效果，本身不逐刻做事，

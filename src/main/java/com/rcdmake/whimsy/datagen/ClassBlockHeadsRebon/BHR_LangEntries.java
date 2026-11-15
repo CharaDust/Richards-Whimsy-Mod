@@ -31,6 +31,7 @@ import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_TreeLogPine;
 import com.rcdmake.whimsy.component.ClassBlockHeadsRebon.BHR_GemBlessing;
 import com.rcdmake.whimsy.datagen.LangEntrySupport;
 import com.rcdmake.whimsy.item.BHR_CreativeTabs;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_BlockHeadsIcon;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Cherry;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Coconut;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_CoffeeCherry;
@@ -79,6 +80,30 @@ public final class BHR_LangEntries {
 	public static void zh(FabricLanguageProvider.TranslationBuilder builder) {
 		// 创造模式物品栏标题
 		builder.add(BHR_CreativeTabs.LANG_KEY, "方块愚者");
+		// —— 愚者模式（GameType 的序列化名 fool → 两个键）——
+		// gameMode.fool：切换器标题、/gamemode 的反馈、聊天里的「游戏模式已更新」都用它；
+		// selectWorld.gameMode.fool：创建世界界面里那个循环按钮上的名字。
+		//   ⚠️ 只写「愚者」，不带「模式」二字 —— 原版那一列是 生存 / 极限 / 创造，
+		//   循环按钮自己已经带了「游戏模式：」前缀，再加「模式」会变成「模式：愚者模式」。
+		// selectWorld.gameMode.fool.info：它的「描述文案」——原版把游戏模式的说明
+		//   做成这个循环按钮的悬浮提示（对照 selectWorld.gameMode.creative.info），
+		//   所以中文里不显示括号内的英文注记（warp in / Blockheads）。
+		builder.add("gameMode.fool", "愚者模式");
+		builder.add("selectWorld.gameMode.fool", "愚者");
+		builder.add("selectWorld.gameMode.fool.info",
+				"你通过扭转时间与空间进入了这个三维世界，"
+						+ "现在你就是这个奇幻交织世界里面的方块愚者，"
+						+ "你能用你带来的愚者科技在这里创造出什么样的精彩呢？");
+		// —— 愚者模式下方那枚「专家模式」按钮（关 / 开 / 自定义 + 三条悬浮文案）——
+		// 它只是创建世界时的选择：开/关 = 创建后执行一次「开启/关闭专家模式」，
+		// 自定义 = 什么都不做，交给 [游戏规则]。
+		builder.add("selectWorld.expertMode", "专家模式");
+		builder.add("selectWorld.expertMode.off", "关");
+		builder.add("selectWorld.expertMode.off.tooltip", "标准的方块愚者体验");
+		builder.add("selectWorld.expertMode.on", "开");
+		builder.add("selectWorld.expertMode.on.tooltip", "匮乏的资源与更高的生存需求，坏到极点了，不是吗？");
+		builder.add("selectWorld.expertMode.custom", "自定义");
+		builder.add("selectWorld.expertMode.custom.tooltip", "你可以在[游戏规则]里自定义你的挑战");
 
 		// —— 方块与矿物：切面板岩系 ——
 		LangEntrySupport.addBlockAndItem(builder, BHR_Slate.BHR_SLATE, "切面板岩");
@@ -130,6 +155,8 @@ public final class BHR_LangEntries {
 		builder.add(BHR_Worm.BHR_WORM, "愚人蠕虫");
 		// —— 宝石祝福（组件 tooltip + 测试棒播报） ——
 		builder.add(BHR_GemBlessTest.BHR_GEM_BLESS_TEST, "宝石祝福测试棒");
+		// —— 方块愚者徽标（物品栏标签图标 + 切换器愚者格图标）——
+		builder.add(BHR_BlockHeadsIcon.BHR_BLOCKHEADS_ICON, "方块愚者徽标");
 		builder.add(BHR_GemBlessing.Gem.AMETHYST.tooltipKey(), "宝石祝福：紫锂辉");
 		builder.add(BHR_GemBlessing.Gem.SAPPHIRE.tooltipKey(), "宝石祝福：蓝宝石");
 		builder.add(BHR_GemBlessing.Gem.EMERALD.tooltipKey(), "宝石祝福：祖母绿");
@@ -144,6 +171,23 @@ public final class BHR_LangEntries {
 	/** 英文条目（与 {@link #zh} 同一批键）。 */
 	public static void en(FabricLanguageProvider.TranslationBuilder builder) {
 		builder.add(BHR_CreativeTabs.LANG_KEY, "Block Heads Reborn");
+		// —— 愚者模式 ——
+		builder.add("gameMode.fool", "Fool Mode");
+		// 创建世界界面的循环按钮：与 Survival / Hardcore / Creative 同风格，只写 "Fool"。
+		builder.add("selectWorld.gameMode.fool", "Fool");
+		// 英文里 "warp in" 是原文指定要照用的说法（中文那一条里不出现）。
+		builder.add("selectWorld.gameMode.fool.info",
+				"You twisted time and space to warp in to this three-dimensional world. "
+						+ "You are now a Blockhead in this fantastically interwoven world - "
+						+ "what marvels will you create here with the Fool technology you brought along?");
+		// —— 「专家模式」按钮（Off / On / Custom）——
+		builder.add("selectWorld.expertMode", "Expert Mode");
+		builder.add("selectWorld.expertMode.off", "Off");
+		builder.add("selectWorld.expertMode.off.tooltip", "The standard Blockheads experience");
+		builder.add("selectWorld.expertMode.on", "On");
+		builder.add("selectWorld.expertMode.on.tooltip", "Scarce resources and harsher survival demands. As bad as it gets, isn't it?");
+		builder.add("selectWorld.expertMode.custom", "Custom");
+		builder.add("selectWorld.expertMode.custom.tooltip", "You can customize your challenge in [Game Rules]");
 
 		// —— 方块与矿物：切面板岩系 ——
 		LangEntrySupport.addBlockAndItem(builder, BHR_Slate.BHR_SLATE, "Faceted Slate");
@@ -198,6 +242,8 @@ public final class BHR_LangEntries {
 		// —— 宝石祝福（组件 tooltip + 测试棒播报） ——
 		// 宝石英文名沿用旧语言文件的 Blockheads 命名（Kunzite / Canutillos / Adamant），与方块那几条一致。
 		builder.add(BHR_GemBlessTest.BHR_GEM_BLESS_TEST, "Gem Blessing Test Rod");
+		// —— 方块愚者徽标 ——
+		builder.add(BHR_BlockHeadsIcon.BHR_BLOCKHEADS_ICON, "Blockheads Emblem");
 		builder.add(BHR_GemBlessing.Gem.AMETHYST.tooltipKey(), "Gem Blessing: Kunzite");
 		builder.add(BHR_GemBlessing.Gem.SAPPHIRE.tooltipKey(), "Gem Blessing: Sapphire");
 		builder.add(BHR_GemBlessing.Gem.EMERALD.tooltipKey(), "Gem Blessing: Canutillos");

@@ -32,7 +32,9 @@ import java.util.List;
  *
  * <h2>「专家模式」是调节器，不是真相源（本类的核心契约）</h2>
  * <ul>
- *   <li><b>只在手动改 {@code bhr_expert_mode} 时</b>才把细调条目写成预设挡位；</li>
+ *   <li><b>只在手动改 {@code bhr_expert_mode} 时</b>才把细调条目写成预设挡位；
+ *       另外创建世界界面里那个「专家模式：开 / 关」会在世界落地前走一次
+ *       {@link #applyExpertModePreset}（见下），效果与手动改完全一致；</li>
  *   <li>关闭时<b>强制写 FALSE</b>（不记忆历史值，见 {@link #applyPreset}）；</li>
  *   <li><b>从存档读盘不重放</b>：协调器只挂在 {@link GameRuleEvents#changeCallback} 上，
  *       而世界加载是直接反序列化 {@code world/data/minecraft/game_rules.dat}，
@@ -91,7 +93,9 @@ public final class BHR_GameRules {
 
 	/**
 	 * 专家模式开关（{@code bhr_expert_mode}，默认 FALSE）。
-	 * <p><b>本类只读它、从不写它</b>，改它只应该由玩家（{@code /gamerule} 命令或世界创建界面）来做。
+	 * <p><b>本类只在</b> {@link #applyExpertModePreset} 里写它（创建世界时那一次
+	 * 「执行一次 开启/关闭 专家模式」）；运行期一律由玩家（{@code /gamerule} 命令或
+	 * 世界创建界面）来改，本类不去「顺手」改它。
 	 */
 	public static final GameRule<Boolean> BHR_EXPERT_MODE = GameRuleBuilder
 			.forBoolean(false)
@@ -209,5 +213,32 @@ public final class BHR_GameRules {
 		for (Preset preset : PRESETS) {
 			rules.set(preset.rule(), expert && preset.expert(), null);
 		}
+	}
+
+	/**
+	 * 「执行一次 开启 / 关闭专家模式」—— <b>创建世界界面用</b>的那个入口。
+	 *
+	 * <p>语义上等价于玩家在世界里手敲一次
+	 * {@code /gamerule <ns>:bhr_expert_mode true|false}：
+	 * 先写开关本身，再照预设表把每条细调条目写成对应挡位。
+	 *
+	 * <p>为什么需要它：创建世界时<b>还没有 {@code MinecraftServer}</b>，
+	 * {@link GameRuleEvents#changeCallback} 那条路挂不上（回调签名要求 server），
+	 * 而手里的 {@code GameRules} 正是「即将写进 level.dat 的那份」。
+	 * {@code set(..., null)} 的第三个参数传 null ⇒ 写值但不通知 —— 与
+	 * {@link #applyPreset} 同一套理由（见类注释）。
+	 *
+	 * <p>调用点只有一个：{@code BHR_FoolCreateWorldMixin} 在
+	 * {@code CreateWorldScreen.createWorldAndCleanup} 的 HEAD 处调用它。
+	 * 之后世界加载时规则值从 {@code game_rules.dat} 反序列化，
+	 * 不会重放、也不会再触发一次 —— 「读盘不重放」契约仍然成立。
+	 *
+	 * @param rules  即将写进存档的规则对象
+	 * @param expert {@code true} = 开启专家模式（写专家挡位）；
+	 *               {@code false} = 关闭（细调条目一律写 FALSE）
+	 */
+	public static void applyExpertModePreset(GameRules rules, boolean expert) {
+		rules.set(BHR_EXPERT_MODE, expert, null);
+		applyPreset(rules, expert);
 	}
 }
