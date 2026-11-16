@@ -81,6 +81,8 @@ import com.rcdmake.whimsy.misc.ClassBlockHeadsRebon.BHR_Environment;
 import com.rcdmake.whimsy.misc.ClassBlockHeadsRebon.BHR_FoodSync;
 import com.rcdmake.whimsy.misc.ClassBlockHeadsRebon.BHR_FoolHealth;
 import com.rcdmake.whimsy.misc.ClassBlockHeadsRebon.BHR_Happiness;
+import com.rcdmake.whimsy.misc.ClassBlockHeadsRebon.BHR_Sleep;
+import com.rcdmake.whimsy.misc.ClassBlockHeadsRebon.BHR_Sounds;
 import com.rcdmake.whimsy.misc.ClassBlockHeadsRebon.BHR_GameRules;
 import com.rcdmake.whimsy.statusEffect.ClassRandomThings.RDT_FireImbue;
 import com.rcdmake.whimsy.statusEffect.ClassRandomThings.RDT_PoisonImbue;
@@ -130,6 +132,11 @@ public class RichardsWhimsyMod implements ModInitializer {
 		// --- 精力值：右侧第三条资源条，每 tick −1，吃东西补 ---
 		// 顺序：精力值先接入 —— 它的数值是快乐值上限的一个来源（低于 8000 开始压低上限）。
 		BHR_Energy.OnInit();
+
+		// --- 睡眠系统：分组比例 / 时钟加速 / 睡眠补精力 / 跳夜平账 ---
+		// 顺序无关，但它会读精力值，所以放在 BHR_Energy 之后更好读。
+		BHR_Sounds.OnInit();
+		BHR_Sleep.OnInit();
 
 		// --- 环境值：右侧第四条资源条，0~100，按固定速率朝「扣分制算出的目标值」靠拢 ---
 		BHR_Environment.OnInit();

@@ -57,7 +57,15 @@ public class RichardsWhimsyModClient implements ClientModInitializer {
 		// 只给物品上已有的附魔加等级，不再补「物品上没有的附魔」。
 		ClientLevelEvents.AFTER_CLIENT_LEVEL_CHANGE.register((client, level) ->
 				BHR_GemBlessingBonus.updateLookup(level.registryAccess()));
-		ClientLifecycleEvents.CLIENT_STOPPING.register(client -> BHR_GemBlessingBonus.clearLookup());
+		ClientLifecycleEvents.CLIENT_STOPPING.register(client -> {
+			BHR_GemBlessingBonus.clearLookup();
+			com.rcdmake.whimsy.client.ClassBlockHeadsRebon.BHR_FoolSleepCamera.exit();
+		});
+
+		// 灵魂出窍：纯客户端的观察相机（本地 Marker + 原版相机实体），
+		// 每 tick 推进位置，并在「醒来 / 死亡 / 换维度 / 断线」时自动归位。
+		net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents.END_CLIENT_TICK
+				.register(com.rcdmake.whimsy.client.ClassBlockHeadsRebon.BHR_FoolSleepCamera::tick);
 
 		// 濒死 BGM：每 tick 推进淡出/播放状态机（见 BHR_DownedMusic）
 		net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents.END_CLIENT_TICK

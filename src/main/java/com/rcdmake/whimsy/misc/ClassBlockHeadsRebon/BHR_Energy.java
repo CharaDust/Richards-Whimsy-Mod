@@ -11,9 +11,12 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameType;
+import net.minecraft.world.level.Level;
 
 /**
  * 精力值（{@code energy}）：愚者模式右侧 HUD 的第三条资源条（饥饿条<b>正上方</b>那一行）。
@@ -75,6 +78,18 @@ public final class BHR_Energy {
 	/** 附件路径（{@code richards-whimsy-mod:energy}）。 */
 	public static final String VALUE_PATH = "energy";
 
+	/** 黄条（睡眠奖励的「额外精力时间」）上限：与主条同为 20000，共用同一套像素刻度。 */
+	public static final float SUPER_MAX = MAX;
+
+	/** 黄条附件路径（{@code richards-whimsy-mod:super_energy}）。 */
+	public static final String SUPER_PATH = "super_energy";
+
+	/** 入睡门槛：主条高于这个值就不许睡（「你还不累」）。 */
+	public static final float SLEEP_GATE = 16000.0F;
+
+	/** 低于这个精力值开始给黑暗效果（每 5 秒续 10 秒）。 */
+	public static final float DARKNESS_KNEE = 4000.0F;
+
 	// ── 层 1 ｜ 数据载体 ──
 
 	/** 精力值本身：持久化 + 按玩家自身同步。 */
@@ -85,14 +100,33 @@ public final class BHR_Energy {
 					.initializer(() -> MAX)
 					.syncWith(ByteBufCodecs.FLOAT, AttachmentSyncPredicate.targetOnly()));
 
+	/** 黄条本身：持久化 + 按玩家自身同步（与主条同款）。 */
+	public static final AttachmentType<Float> SUPER = AttachmentRegistry.create(
+			ModRegister.id(SUPER_PATH),
+			builder -> builder
+					.persistent(Codec.FLOAT)
+					.initializer(() -> 0.0F)
+					.syncWith(ByteBufCodecs.FLOAT, AttachmentSyncPredicate.targetOnly()));
+
 	private BHR_Energy() {
 	}
+
+	/** 屏息锁存（氧气见底 → true，松开潜行 → false）：同步给客户端画氧气箭头用。 */
+	public static final AttachmentType<Boolean> BREATH_BLOCKED = AttachmentRegistry.create(
+			ModRegister.id("breath_blocked"),
+			builder -> builder
+					.persistent(Codec.BOOL)
+					.initializer(() -> Boolean.FALSE)
+					.syncWith(ByteBufCodecs.BOOL, AttachmentSyncPredicate.targetOnly()));
 
 	// ── 层 12 ｜ 初始化 ──
 
 	/** 注册事件（重生补满 + 每 tick 消耗）。由主类调用。 */
 	public static void OnInit() {
-		ServerPlayerEvents.AFTER_RESPAWN.register((oldPlayer, newPlayer, alive) -> set(newPlayer, MAX));
+		ServerPlayerEvents.AFTER_RESPAWN.register((oldPlayer, newPlayer, alive) -> {
+			set(newPlayer, MAX);
+			setSuper(newPlayer, 0.0F);
+		});
 		ServerTickEvents.END_SERVER_TICK.register(server -> {
 			for (ServerPlayer player : server.getPlayerList().getPlayers()) {
 				tick(player);
@@ -104,16 +138,81 @@ public final class BHR_Energy {
 
 	/**
 	 * 愚者模式每 tick −1；其它模式<b>不动</b>（数值原样留档，切回来接着用）。
+	 *
+	 * <p><b>睡眠期间暂停</b>：睡着时精力只进不出（补充由 {@code BHR_Sleep} 按世界 tick 结算）。
+	 *
+	 * <p><b>黄条先消耗</b>：只要黄条还有，主条就不掉 —— 所以「主条为空」必然意味着
+	 * 黄条也已耗尽，强制睡眠的触发条件天然自洽。
 	 */
 	private static void tick(ServerPlayer player) {
 		if (player.gameMode() != GameType.BHR_FOOL_MODE) {
 			return;
 		}
+
+		// 屏息：氧气扣除与「氧气见底后锁存到松手」的状态机
+		BHR_Breath.tick(player);
+
+		if (player.isSleeping()) {
+			return;
+		}
+
+		checkDarkness(player);
+
+		float drain = drainPerTick(player);
+
+		float superEnergy = getSuper(player);
+		if (superEnergy > 0.0F) {
+			setSuper(player, superEnergy - drain);
+			return;
+		}
+
 		float value = get(player);
 		if (value <= 0.0F) {
 			return;
 		}
-		set(player, value - DRAIN_PER_TICK);
+		set(player, value - drain);
+	}
+
+	/**
+	 * 这一 tick 的精力消耗。
+	 *
+	 * <ul>
+	 *   <li>基础 1 点；</li>
+	 *   <li><b>非主世界减半</b>（下界 / 末地探索期不至于被精力条锁死）；</li>
+	 *   <li><b>瞄准中 +2 点</b>（弓 / 弩 / 三叉戟，见 {@link BHR_Breath#isAiming}）。</li>
+	 * </ul>
+	 */
+	public static float drainPerTick(ServerPlayer player) {
+		float drain = DRAIN_PER_TICK;
+		if (!player.level().dimension().equals(Level.OVERWORLD)) {
+			drain *= 0.5F;
+		}
+		if (BHR_Breath.isAiming(player)) {
+			drain += 2.0F;
+		}
+		return drain;
+	}
+
+	/** 精力低于 {@link #DARKNESS_KNEE} 时每 5 秒续一次黑暗（10 秒，不叠加，只刷新时长）。 */
+	private static void checkDarkness(ServerPlayer player) {
+		if (player.tickCount % 100 != 0) {
+			return;
+		}
+		if (get(player) < DARKNESS_KNEE) {
+			player.addEffect(new MobEffectInstance(MobEffects.DARKNESS, 200, 0, false, false, true));
+		}
+	}
+
+	/** 屏息被锁存了吗（氧气见底后必须松开潜行才能再屏息）。 */
+	public static boolean isBreathBlocked(ServerPlayer player) {
+		return player.getAttachedOrElse(BREATH_BLOCKED, Boolean.FALSE);
+	}
+
+	/** 写屏息锁存（同步给客户端，用来画氧气箭头）。 */
+	public static void setBreathBlocked(ServerPlayer player, boolean blocked) {
+		if (isBreathBlocked(player) != blocked) {
+			player.setAttached(BREATH_BLOCKED, blocked);
+		}
 	}
 
 	// ── 层 8 ｜ 吃东西补充 ──
@@ -178,5 +277,15 @@ public final class BHR_Energy {
 	/** 写精力值（自动夹在 0~20000）。 */
 	public static void set(ServerPlayer player, float value) {
 		player.setAttached(VALUE, Mth.clamp(value, 0.0F, MAX));
+	}
+
+	/** 读黄条（没有记录时按 0 处理）。 */
+	public static float getSuper(ServerPlayer player) {
+		return Mth.clamp(player.getAttachedOrCreate(SUPER), 0.0F, SUPER_MAX);
+	}
+
+	/** 写黄条（自动夹在 0~20000）。 */
+	public static void setSuper(ServerPlayer player, float value) {
+		player.setAttached(SUPER, Mth.clamp(value, 0.0F, SUPER_MAX));
 	}
 }

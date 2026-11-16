@@ -5,6 +5,7 @@ import com.rcdmake.whimsy.misc.ClassBlockHeadsRebon.BHR_Energy;
 import com.rcdmake.whimsy.misc.ClassBlockHeadsRebon.BHR_Environment;
 import com.rcdmake.whimsy.misc.ClassBlockHeadsRebon.BHR_FoodSync;
 import com.rcdmake.whimsy.misc.ClassBlockHeadsRebon.BHR_FoolHealth;
+import com.rcdmake.whimsy.misc.ClassBlockHeadsRebon.BHR_Breath;
 import com.rcdmake.whimsy.misc.ClassBlockHeadsRebon.BHR_FoolHudArrows;
 import com.rcdmake.whimsy.misc.ClassBlockHeadsRebon.BHR_Happiness;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
@@ -156,6 +157,8 @@ public abstract class BHR_FoolHudHealthMixin {
 	private static final Identifier SUPER_EXHAUSTION = hud("bhr_barr_super_exhaustion");
 	/** 饱和度金边（黄，比长条大一圈）。 */
 	private static final Identifier SUPER_FOOD = hud("bhr_barr_super_food");
+	/** 精力条的金边：睡眠奖励的「额外精力时间」（黄，比长条大一圈，与饱和度同款画法）。 */
+	private static final Identifier SUPER_ENERGY = hud("bhr_barr_super_energy");
 
 	/** barR 画布里的箭头区（0…14）。 */
 	private static final int ARROW_R_U = 0;
@@ -519,8 +522,18 @@ public abstract class BHR_FoolHudHealthMixin {
 		// 图标（最右）
 		whimsy$blit(graphics, ICON_ENERGY, canvasLeft + ICON_R_U, y, ICON_R_U, ICON_R_W);
 
-		// 箭头：恒为 1 个负向（= 减少 = 朝右）—— 精力按时间恒速消耗，不分档
-		BHR_FoolHudArrows.Arrows arrows = BHR_FoolHudArrows.sampleEnergy(energy);
+		// 黄条：睡眠奖励的「额外精力时间」，右对齐、按 SUPER_MAX 换算成金边宽度
+		float superEnergy = player.getAttachedOrElse(BHR_Energy.SUPER, 0.0F);
+		if (superEnergy > 0.0F) {
+			int superWidth = Mth.clamp(Math.round(Mth.clamp(superEnergy / BHR_Energy.SUPER_MAX, 0.0F, 1.0F) * SUPER_R_W),
+					1, SUPER_R_W);
+			int from = SUPER_R_W - superWidth;
+			whimsy$blit(graphics, SUPER_ENERGY, canvasLeft + SUPER_R_U + from, y,
+					SUPER_R_U + from, superWidth);
+		}
+
+		// 箭头：睡着了 = 按床档朝上（补充中）；醒着 = 常规消耗（2 / 其他维度 1 / 瞄准 +1）
+		BHR_FoolHudArrows.Arrows arrows = BHR_FoolHudArrows.sampleEnergy(player, energy);
 		whimsy$drawArrowRight(graphics, canvasLeft + ARROW_R_U, y,
 				false, arrows.negative(), arrows.negativeAlpha());
 		whimsy$drawArrowRight(graphics, canvasLeft + ARROW_R_U, y,
@@ -564,7 +577,10 @@ public abstract class BHR_FoolHudHealthMixin {
 		}
 
 		float alpha = BHR_FoolHudArrows.blinkAlphaNow();
-		if (!underwater) {
+		if (whimsy$isHoldingBreath(player)) {
+			// 屏息：氧气 3 点/tick 地掉 —— 5 个负向箭头（朝右）
+			whimsy$drawArrowRight(graphics, canvasLeft + ARROW_R_U, y, false, 5, alpha);
+		} else if (!underwater) {
 			// 不在水里：氧气快速回复 = 增加 → 5 个正向箭头（朝左）
 			whimsy$drawArrowRight(graphics, canvasLeft + ARROW_R_U, y, true, 5, alpha);
 		} else {
@@ -652,4 +668,26 @@ public abstract class BHR_FoolHudHealthMixin {
 		MultiPlayerGameMode gameMode = net.minecraft.client.Minecraft.getInstance().gameMode;
 		return gameMode != null && gameMode.getPlayerMode() == GameType.BHR_FOOL_MODE;
 	}
+
+	/**
+	 * 本地玩家是不是正在屏息（潜行 + 拉弓/蓄力三叉戟 + 还有氧气 + 没被锁存）。
+	 *
+	 * <p>服务端的锁存状态通过 {@code BHR_Energy.BREATH_BLOCKED} 同步下来，
+	 * 所以两边对「氧气见底后要先松手」的判断是一致的。
+	 */
+	private static boolean whimsy$isHoldingBreath(Player player) {
+		if (!(player instanceof net.minecraft.client.player.LocalPlayer)) {
+			return false;
+		}
+		if (!whimsy$isFoolMode()) {
+			return false;
+		}
+		if (player.isShiftKeyDown() && BHR_Breath.isCharging(player)
+				&& player.getAirSupply() > 0
+				&& !player.getAttachedOrElse(BHR_Energy.BREATH_BLOCKED, Boolean.FALSE)) {
+			return true;
+		}
+		return false;
+	}
 }
+

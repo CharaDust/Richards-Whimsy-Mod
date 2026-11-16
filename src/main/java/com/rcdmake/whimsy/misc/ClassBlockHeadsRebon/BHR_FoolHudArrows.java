@@ -6,6 +6,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodData;
+import net.minecraft.world.level.Level;
 
 /**
  * 右侧箭头（barR）的状态机：把「正在回血 / 正在掉血」翻译成箭头数量与透明度。
@@ -273,18 +274,42 @@ public final class BHR_FoolHudArrows {
 	// ── 精力值（barR 第二行）专用：恒为 1 个箭头 ──
 
 	/**
-	 * 精力这一行的箭头：<b>恒为 1 个负向箭头</b>（右侧素材 {@code bhr_barr_arrow_-1} = <b>减少</b>，
-	 * 在右侧长条上朝<b>右</b>），常驻闪烁。
+	 * 精力这一行的箭头数量。
 	 *
-	 * <p>精力是「按时间恒速消耗」的资源（每 tick −1），不像饥饿那样有增量分档，
-	 * 所以不做过任何瞬时判定 —— 只要还有精力就一直画那 1 个箭头。
-	 * 真正耗尽（0 点）时不再画，因为此时已经没有在掉了。
+	 * <ul>
+	 *   <li><b>睡着</b>：入梦头 5 秒（{@code sleepTimer < 100}）不画 —— 那段时间也不消耗精力；
+	 *       之后按床档 2 / 3 / 4 / 5 个，方向朝上（补充中）；</li>
+	 *   <li><b>醒着</b>：常规 2 个；在其它维度（消耗减半）1 个；瞄准中（弓 / 弩 / 三叉戟）+1 个。</li>
+	 * </ul>
 	 */
-	public static Arrows sampleEnergy(float energy) {
+	public static int energyArrowCount(Player player) {
+		if (player.isSleeping()) {
+			if (player.getSleepTimer() < 100) {
+				return 0;
+			}
+			return BHR_BedTier.of(player.level(), player.getSleepingPos().orElse(null)).arrows;
+		}
+
+		int count = player.level().dimension().equals(Level.OVERWORLD) ? 2 : 1;
+		if (BHR_Breath.isAiming(player)) {
+			count += 1;
+		}
+		return Mth.clamp(count, 0, MAX_ARROWS);
+	}
+
+	/** 精力这一行的箭头（方向由「在补还是在掉」决定）。 */
+	public static Arrows sampleEnergy(Player player, float energy) {
+		int count = energyArrowCount(player);
+		if (count <= 0) {
+			return new Arrows(0, 0.0F, 0, 0.0F);
+		}
+		if (player.isSleeping()) {
+			return new Arrows(count, blinkAlphaNow(), 0, 0.0F);
+		}
 		if (energy <= 0.0F) {
 			return new Arrows(0, 0.0F, 0, 0.0F);
 		}
-		return new Arrows(0, 0.0F, 1, blinkAlphaNow());
+		return new Arrows(0, 0.0F, count, blinkAlphaNow());
 	}
 
 	// ── 环境值（barR 第三行）专用：1 个箭头，指向当前移动方向 ──

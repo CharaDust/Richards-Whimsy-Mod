@@ -105,6 +105,12 @@ public final class BHR_LangEntries {
 		builder.add("selectWorld.expertMode.custom", "自定义");
 		builder.add("selectWorld.expertMode.custom.tooltip", "你可以在[游戏规则]里自定义你的挑战");
 
+		// —— 愚者模式的睡眠：入睡门槛提示 + 背包底部两枚按钮 ——
+		builder.add("bhr.sleep.too_rested", "你还不够累 —— 精力高于 16000 时睡不着");
+		builder.add("gui.bhr.fool.observe", "观察世界");
+		builder.add("gui.bhr.fool.return_body", "返回身体");
+		builder.add("gui.bhr.fool.wake_up", "起床");
+
 		// —— 方块与矿物：切面板岩系 ——
 		LangEntrySupport.addBlockAndItem(builder, BHR_Slate.BHR_SLATE, "切面板岩");
 		LangEntrySupport.addBlockAndItem(builder, BHR_SlateCobble.BHR_COBBLESLATE, "板岩片石");
@@ -188,6 +194,12 @@ public final class BHR_LangEntries {
 		builder.add("selectWorld.expertMode.on.tooltip", "Scarce resources and harsher survival demands. As bad as it gets, isn't it?");
 		builder.add("selectWorld.expertMode.custom", "Custom");
 		builder.add("selectWorld.expertMode.custom.tooltip", "You can customize your challenge in [Game Rules]");
+
+		// —— 愚者模式的睡眠：入睡门槛提示 + 背包底部两枚按钮 ——
+		builder.add("bhr.sleep.too_rested", "You are not tired enough - cannot sleep above 16000 energy");
+		builder.add("gui.bhr.fool.observe", "Observe the World");
+		builder.add("gui.bhr.fool.return_body", "Return to Body");
+		builder.add("gui.bhr.fool.wake_up", "Get Up");
 
 		// —— 方块与矿物：切面板岩系 ——
 		LangEntrySupport.addBlockAndItem(builder, BHR_Slate.BHR_SLATE, "Faceted Slate");

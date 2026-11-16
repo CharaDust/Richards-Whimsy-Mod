@@ -1,4 +1,5 @@
 {
+  "bhr.sleep.too_rested": "You are not tired enough - cannot sleep above 16000 energy",
   "block.richards-whimsy-mod.bhr_beach_sand": "Beach Sand",
   "block.richards-whimsy-mod.bhr_cobbleslate": "Slate",
   "block.richards-whimsy-mod.bhr_compost": "Compost Block",
@@ -83,6 +84,9 @@
   "gamerule.richards-whimsy-mod:bhr_expert_mode.description": "One-click preset: writes the expert values into the detail rules (decaying leaves, legacy hunger, ...); turning it off writes the normal values back. It is a convenience dial: changing a detail rule does not affect it.",
   "gamerule.richards-whimsy-mod:bhr_legacy_hunger_consumption": "Legacy Hunger Consumption",
   "gamerule.richards-whimsy-mod:bhr_legacy_hunger_consumption.description": "Restores Minecraft 1.8 hunger exhaustion: swimming, walking, sneaking, block breaking, jumping, sprint-jumping, attacking and the Hunger effect all use their 1.8 values.",
+  "gui.bhr.fool.observe": "Observe the World",
+  "gui.bhr.fool.return_body": "Return to Body",
+  "gui.bhr.fool.wake_up": "Get Up",
   "item.richards-whimsy-mod.bhr_beach_sand": "Beach Sand",
   "item.richards-whimsy-mod.bhr_blockheads_icon": "Blockheads Emblem",
   "item.richards-whimsy-mod.bhr_cherry": "Cherry",

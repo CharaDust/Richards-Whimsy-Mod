@@ -1,6 +1,8 @@
 {
   "wi_radioactive_applied": { "sounds": ["richards-whimsy-mod:wi_radioactive_applied"] },
   "wi_bio_toxicity_applied": { "sounds": ["richards-whimsy-mod:wi_bio_toxicity_applied"] },
+  "bhr_speedup": { "sounds": ["richards-whimsy-mod:bhr_speedup"] },
+  "bhr_slowdown": { "sounds": ["richards-whimsy-mod:bhr_slowdown"] },
   "bhr_tikopia": {
     "sounds": [
       {
