@@ -1,0 +1,16 @@
+{
+  "workbench": "bhr_workbench",
+  "expert": true,
+  "level": 1,
+  "time": 10,
+  "ingredients": [
+    {
+      "item": "minecraft:stick",
+      "count": 1
+    }
+  ],
+  "result": {
+    "item": "minecraft:torch",
+    "count": 1
+  }
+}

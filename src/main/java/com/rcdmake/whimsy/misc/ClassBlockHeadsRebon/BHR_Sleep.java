@@ -111,6 +111,12 @@ public final class BHR_Sleep {
 	 */
 	private static final Set<java.util.UUID> FLOOR_SLEEPING = new HashSet<>();
 
+	/** 上一 tick 在睡的愚者（只用来打「醒来」日志，方便实机定位是谁把人叫醒的）。 */
+	private static final Set<java.util.UUID> WAS_SLEEPING = new HashSet<>();
+
+	/** 睡眠期间最后一次判定到的床档（醒来时床位已清空，日志要用它）。 */
+	private static final Map<java.util.UUID, BHR_BedTier> LAST_TIER = new HashMap<>();
+
 	private BHR_Sleep() {
 	}
 
@@ -166,7 +172,25 @@ public final class BHR_Sleep {
 				continue;
 			}
 			fools.add(player);
-			if (player.isSleeping()) {
+
+			boolean sleeping = player.isSleeping();
+			boolean wasSleeping = WAS_SLEEPING.contains(player.getUUID());
+			if (wasSleeping && !sleeping) {
+				BHR_BedTier lastTier = LAST_TIER.getOrDefault(player.getUUID(), BHR_BedTier.FLOOR);
+				LOGGER.info("[睡眠] {} 醒来（精力 {}/{}，床档 {}）", player.getPlainTextName(),
+						Math.round(BHR_Energy.get(player)), Math.round(BHR_Energy.MAX), lastTier.name());
+				// 起床（不管是被叫醒还是自己按「起床」）也给一声「恢复原速」的提示音
+				playRateSound(level, false);
+			}
+			if (sleeping) {
+				WAS_SLEEPING.add(player.getUUID());
+				LAST_TIER.put(player.getUUID(), tierAt(level, player));
+			} else {
+				WAS_SLEEPING.remove(player.getUUID());
+				LAST_TIER.remove(player.getUUID());
+			}
+
+			if (sleeping) {
 				sleepers.add(player);
 				if (!skipped) {
 					refill(player, level, delta);
@@ -236,6 +260,7 @@ public final class BHR_Sleep {
 		((com.rcdmake.whimsy.mixin.ClassBlockHeadsRebon.BHR_SleepCounterAccess) (Object) player)
 				.whimsy$setSleepCounter(0);
 		FLOOR_SLEEPING.add(player.getUUID());
+		LOGGER.info("[睡眠] 强制睡眠（精力耗尽）：{} @ {}", player.getPlainTextName(), pos);
 	}
 
 	/**

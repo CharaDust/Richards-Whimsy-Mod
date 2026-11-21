@@ -48,24 +48,38 @@ public abstract class BHR_InBedSleepButtonsMixin {
 		int x = self.width / 2 - BUTTON_WIDTH / 2;
 		int y = self.height - VANILLA_BUTTON_Y_FROM_BOTTOM - BUTTON_HEIGHT - GAP;
 
-		Component label = Component.translatable(
-				BHR_FoolSleepCamera.isActive()
-						? "gui.bhr.fool.return_body"
-						: "gui.bhr.fool.observe");
+		// 已经在出窍：这枚按钮不再重复出现（回身体走物品栏那枚）
+		if (BHR_FoolSleepCamera.isActive()) {
+			return;
+		}
 
-		Button button = Button.builder(label, pressed -> {
+		Component label = Component.translatable("gui.bhr.fool.observe");
+
+		Runnable action = () -> {
 			BHR_FoolSleepCamera.requestExitChatWithoutWake();
 			BHR_FoolSleepCamera.toggle();
 			minecraft.gui.setScreen(null);
-		}).bounds(x, y, BUTTON_WIDTH, BUTTON_HEIGHT).build();
+		};
+
+		Button button = Button.builder(label, pressed -> action.run())
+				.bounds(x, y, BUTTON_WIDTH, BUTTON_HEIGHT)
+				.build();
 
 		((BHR_ScreenAccess) (Object) this).whimsy$addRenderableWidget(button);
+		BHR_FoolSleepCamera.setObserveButton(button, action);
 	}
 
-	/** 关界面时，如果这一次是「切相机」，就别顺手把人叫醒。 */
+	/**
+	 * 关掉床上界面时别顺手把人叫醒。
+	 *
+	 * <p>原版 {@code InBedChatScreen#onClose} 会发 {@code STOP_SLEEPING}。
+	 * 出窍期间<b>任何</b>关闭这个界面的动作（点按钮、按 Esc、被别的界面顶掉）都不该让人起床，
+	 * 所以这里是"出窍中一律吞掉"，而不是只吞我们自己那一次点击。
+	 */
 	@Inject(method = "onClose", at = @At("HEAD"), cancellable = true)
-	private void whimsy$skipWakeWhenSwitchingCamera(CallbackInfo ci) {
-		if (BHR_FoolSleepCamera.consumeSuppressWake()) {
+	private void whimsy$skipWakeWhileObserving(CallbackInfo ci) {
+		BHR_FoolSleepCamera.setObserveButton(null, null);
+		if (BHR_FoolSleepCamera.isActive() || BHR_FoolSleepCamera.consumeSuppressWake()) {
 			ci.cancel();
 		}
 	}

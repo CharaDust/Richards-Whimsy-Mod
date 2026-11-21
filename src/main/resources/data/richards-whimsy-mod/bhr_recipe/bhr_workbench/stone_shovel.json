@@ -1,0 +1,24 @@
+{
+  "workbench": "bhr_workbench",
+  "expert": false,
+  "level": 2,
+  "time": 60,
+  "ingredients": [
+    {
+      "item": "minecraft:stick",
+      "count": 1
+    },
+    {
+      "any": [
+        "minecraft:cobblestone",
+        "minecraft:blackstone",
+        "richards-whimsy-mod:bhr_slate"
+      ],
+      "count": 2
+    }
+  ],
+  "result": {
+    "item": "minecraft:stone_shovel",
+    "count": 1
+  }
+}

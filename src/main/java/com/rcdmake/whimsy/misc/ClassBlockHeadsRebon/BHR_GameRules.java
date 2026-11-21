@@ -18,7 +18,7 @@ import java.util.List;
  * <p>本类只有一件事：把 BHR 的规则注册进游戏规则表，并让
  * {@code bhr_expert_mode} 这个开关成为一个<b>批量调节工具</b>。
  *
- * <h2>三条规则（全部布尔，默认 false）</h2>
+ * <h2>四条规则（全部布尔，默认 false）</h2>
  * <table border="1">
  *   <caption>BHR 游戏规则一览</caption>
  *   <tr><th>规则 id（省略命名空间 {@code richards-whimsy-mod:}）</th><th>默认</th><th>专家挡位</th><th>用途</th></tr>
@@ -28,6 +28,8 @@ import java.util.List;
  *       <td>枯萎树叶直接消失、不掉落（极限模式行为）</td></tr>
  *   <tr><td>{@code bhr_legacy_hunger_consumption}</td><td>false</td><td><b>true</b></td>
  *       <td>饥饿值消耗回到 1.8 水平（尚未实现，先占位）</td></tr>
+ *   <tr><td>{@code bhr_expert_recipes}</td><td>false</td><td><b>true</b></td>
+ *       <td>制作台用哪一套愚者配方（界面显示名「更严苛的配方」）：开 = 专家配方，关 = 普通配方</td></tr>
  * </table>
  *
  * <h2>「专家模式」是调节器，不是真相源（本类的核心契约）</h2>
@@ -125,6 +127,19 @@ public final class BHR_GameRules {
 			.category(GameRuleCategory.MISC)
 			.buildAndRegister(RichardsWhimsyMod.id("bhr_legacy_hunger_consumption"));
 
+	/**
+	 * 专家模式配方（{@code bhr_expert_recipes}，默认 FALSE）—— <b>配方类型的切换开关</b>。
+	 * <p>语义：{@code true} = 制作台只列出 / 只接受 {@code expert: true} 的愚者配方；
+	 * {@code false} = 只用普通配方。
+	 * <p>它<b>不是</b> {@link #BHR_EXPERT_MODE} 的细调条目：专家模式预设表里没有它
+	 * （预设表的语义是「一键写细调条目」，而配方类型是独立的玩法选择，
+	 * 玩家完全可以开专家模式却用普通配方，或反过来）。
+	 */
+	public static final GameRule<Boolean> BHR_EXPERT_RECIPES = GameRuleBuilder
+			.forBoolean(false)
+			.category(GameRuleCategory.MISC)
+			.buildAndRegister(RichardsWhimsyMod.id("bhr_expert_recipes"));
+
 	// ── 层 1 ｜ 规格常量（预设表）──
 
 	/**
@@ -142,7 +157,8 @@ public final class BHR_GameRules {
 	 */
 	private static final List<Preset> PRESETS = List.of(
 			new Preset(BHR_DECAYING_LEAVES_NO_DROP, true),
-			new Preset(BHR_LEGACY_HUNGER_CONSUMPTION, true));
+			new Preset(BHR_LEGACY_HUNGER_CONSUMPTION, true),
+			new Preset(BHR_EXPERT_RECIPES, true));
 
 	// ── 层 5 ｜ 构造器 ──
 
@@ -185,14 +201,15 @@ public final class BHR_GameRules {
 		ServerLifecycleEvents.SERVER_STARTED.register(BHR_GameRules::logRuleState);
 	}
 
-	/** 把三条规则的当前值打进日志（诊断用，只读）。 */
+	/** 把四条规则的当前值打进日志（诊断用，只读）。 */
 	private static void logRuleState(MinecraftServer server) {
 		GameRules rules = server.getGameRules();
-		RichardsWhimsyMod.LOGGER.info("[{}] BHR 规则状态：{}={}，{}={}，{}={}",
+		RichardsWhimsyMod.LOGGER.info("[{}] BHR 规则状态：{}={}，{}={}，{}={}，{}={}",
 				RichardsWhimsyMod.MOD_ID,
 				BHR_EXPERT_MODE.id(), rules.get(BHR_EXPERT_MODE),
 				BHR_DECAYING_LEAVES_NO_DROP.id(), rules.get(BHR_DECAYING_LEAVES_NO_DROP),
-				BHR_LEGACY_HUNGER_CONSUMPTION.id(), rules.get(BHR_LEGACY_HUNGER_CONSUMPTION));
+				BHR_LEGACY_HUNGER_CONSUMPTION.id(), rules.get(BHR_LEGACY_HUNGER_CONSUMPTION),
+				BHR_EXPERT_RECIPES.id(), rules.get(BHR_EXPERT_RECIPES));
 	}
 
 	// ── 层 8 ｜ 协调器（预设应用）──

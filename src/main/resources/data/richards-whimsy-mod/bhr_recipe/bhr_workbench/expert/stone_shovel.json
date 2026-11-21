@@ -1,0 +1,28 @@
+{
+  "workbench": "bhr_workbench",
+  "expert": true,
+  "level": 2,
+  "time": 60,
+  "ingredients": [
+    {
+      "tag": "minecraft:planks",
+      "count": 2
+    },
+    {
+      "any": [
+        "minecraft:cobblestone",
+        "minecraft:blackstone",
+        "richards-whimsy-mod:bhr_slate"
+      ],
+      "count": 4
+    },
+    {
+      "item": "minecraft:string",
+      "count": 1
+    }
+  ],
+  "result": {
+    "item": "minecraft:stone_shovel",
+    "count": 1
+  }
+}

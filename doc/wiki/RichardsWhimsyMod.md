@@ -50,6 +50,7 @@
 	- [[BHR_GemRuby]]
 	- [[BHR_GemDiamond]]
 	- [[BHR_TreeLogPine]]
+	- [[BHR_WorkBench]]
 - 随意物件（`RDT`）
 	- [[RDT_GlassLapis]]
 	- [[RDT_GlassQuartz]]
@@ -100,6 +101,7 @@
 	- #deprecated [[BHR_OtherItems]]
 	- #todo [[BHR_ItemsOther]]
 	- [[BHR_PineCone]]
+	- [[BHR_TimeCrystal]]
 - 随意物件（`RDT`）
 - 奇思妙想（`WI`）
 	- #wait4move [[WI_Prospector]]
@@ -130,6 +132,7 @@
 - 方块愚者（`BHR`）
 	- #deprecated [[BHR_GemBlessing_1]]
 	- [[BHR_GemBlessing]]
+	- [[BHR_WorkBenchLevel]]
 - 随意物件（`RDT`）
 - 奇思妙想（`WI`）
 - 原版考古（`LGC`）

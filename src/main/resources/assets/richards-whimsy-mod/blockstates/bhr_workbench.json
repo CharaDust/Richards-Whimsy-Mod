@@ -1,0 +1,33 @@
+{
+  "variants": {
+    "level=1": { "model": "richards-whimsy-mod:block/bhr_workbench_1" },
+    "level=2": { "model": "richards-whimsy-mod:block/bhr_workbench_2" },
+    "level=3": { "model": "richards-whimsy-mod:block/bhr_workbench_3" },
+    "level=4": { "model": "richards-whimsy-mod:block/bhr_workbench_4" },
+    "level=5": { "model": "richards-whimsy-mod:block/bhr_workbench_5" },
+    "level=6": { "model": "richards-whimsy-mod:block/bhr_workbench_6" },
+    "level=7": { "model": "richards-whimsy-mod:block/bhr_workbench_7" },
+    "level=8": { "model": "richards-whimsy-mod:block/bhr_workbench_8" },
+    "level=9": { "model": "richards-whimsy-mod:block/bhr_workbench_9" },
+    "level=10": { "model": "richards-whimsy-mod:block/bhr_workbench_10" },
+    "level=11": { "model": "richards-whimsy-mod:block/bhr_workbench_11" },
+    "level=12": { "model": "richards-whimsy-mod:block/bhr_workbench_12" },
+    "level=13": { "model": "richards-whimsy-mod:block/bhr_workbench_13" },
+    "level=14": { "model": "richards-whimsy-mod:block/bhr_workbench_14" },
+    "level=15": { "model": "richards-whimsy-mod:block/bhr_workbench_15" },
+    "level=16": { "model": "richards-whimsy-mod:block/bhr_workbench_16" },
+    "level=17": { "model": "richards-whimsy-mod:block/bhr_workbench_17" },
+    "level=18": { "model": "richards-whimsy-mod:block/bhr_workbench_18" },
+    "level=19": { "model": "richards-whimsy-mod:block/bhr_workbench_19" },
+    "level=20": { "model": "richards-whimsy-mod:block/bhr_workbench_20" },
+    "level=21": { "model": "richards-whimsy-mod:block/bhr_workbench_21" },
+    "level=22": { "model": "richards-whimsy-mod:block/bhr_workbench_22" },
+    "level=23": { "model": "richards-whimsy-mod:block/bhr_workbench_23" },
+    "level=24": { "model": "richards-whimsy-mod:block/bhr_workbench_24" },
+    "level=25": { "model": "richards-whimsy-mod:block/bhr_workbench_25" },
+    "level=26": { "model": "richards-whimsy-mod:block/bhr_workbench_26" },
+    "level=27": { "model": "richards-whimsy-mod:block/bhr_workbench_27" },
+    "level=28": { "model": "richards-whimsy-mod:block/bhr_workbench_28" },
+    "level=29": { "model": "richards-whimsy-mod:block/bhr_workbench_29" }
+  }
+}

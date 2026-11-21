@@ -67,6 +67,13 @@ public class RichardsWhimsyModClient implements ClientModInitializer {
 		net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents.END_CLIENT_TICK
 				.register(com.rcdmake.whimsy.client.ClassBlockHeadsRebon.BHR_FoolSleepCamera::tick);
 
+		// 制作台界面：把「菜单类型 → 屏幕类」接起来。
+		// ⚠️ 26.2 的 MenuScreens#register 是私有的（Fabric API 没有替代入口），
+		// 已在 richards-whimsy-mod.classtweaker 里放开；这条只在客户端执行，专用服务端不受影响。
+		net.minecraft.client.gui.screens.MenuScreens.register(
+				com.rcdmake.whimsy.menu.ClassBlockHeadsRebon.BHR_WorkBenchMenu.BHR_WORK_BENCH_MENU,
+				com.rcdmake.whimsy.client.ClassBlockHeadsRebon.BHR_WorkBenchScreen::new);
+
 		// 濒死 BGM：每 tick 推进淡出/播放状态机（见 BHR_DownedMusic）
 		net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents.END_CLIENT_TICK
 				.register(com.rcdmake.whimsy.client.BHR_DownedMusic::tick);

@@ -1,0 +1,17 @@
+{
+  "workbench": "bhr_workbench",
+  "expert": false,
+  "level": 1,
+  "time": 180,
+  "ingredients": [
+    {
+      "any": [
+        "minecraft:cobblestone",
+        "minecraft:blackstone",
+        "richards-whimsy-mod:bhr_slate"
+      ],
+      "count": 1
+    }
+  ],
+  "upgrade_to": 11
+}

@@ -1,0 +1,354 @@
+# The Blockheads recipes — 自定义参考格式 v1
+# 语法：
+#   [bench_id] 名称  { attr=value ... }
+#     L<level>:
+#       <产物> x<数量>  <=  <材料> x<数量> [+ <材料> x<数量>]...  @<秒>s
+#   time 为 '-' 表示 wiki 未记录。
+
+[workbench] Workbench  { category=core fuel=no electric=no max_level=4 }
+  L1:
+    Campfire x1                        <=  Stick x10                                                  @-
+    Craft Bench x1                     <=  Dirt x1 + Stick x1                                         @-
+    Tool Bench x1                      <=  Dirt x1 + Flint x1                                         @-
+    Woodwork Bench x1                  <=  Wood x1                                                    @-
+  L2:
+    Builder's Bench x1                 <=  Stone x1 + Limestone x1 + Marble x1                        @-
+    Compost Bin x1                     <=  Wood x1 + Dirt x1 + Worm x5                                @-
+    Easel x1                           <=  Wood x1                                                    @-
+    Furnace x1                         <=  Stone x1 + Charcoal x10                                    @-
+    Kiln x1                            <=  Stone x1 + Clay x3 + Stick x10                             @-
+    Portal x1                          <=  Stone x1 + Time Crystal x100                               @-
+    Press x1                           <=  Stone x1 + Wood x1                                         @-
+    Tailor's Bench x1                  <=  Stone x1 + Flax x5                                         @-
+  L3:
+    Armor Bench x1                     <=  Stone x1 + Tin Ingot x5                                    @-
+    Dye Bench x1                       <=  Stone x1 + Bucket of Water x1 + Linen x1                   @-
+    Metalwork Bench x1                 <=  Bronze Ingot x5 + Coal x2                                  @-
+    Mixing Bench x1                    <=  Stone x1 + Tin Bucket x1 + Oil x5                          @-
+    Shop x1                            <=  Stone x1 + Gold Coin x1                                    @-
+    Train Yard x1                      <=  Stone x1 + Steel Ingot x5                                  @-
+  L4:
+    Electric Furnace x1                <=  Steel Block x1 + Iron Ingot x1 + Copper Wire x10           @-
+    Electric Kiln x1                   <=  Steel Block x1 + Red Bricks x1 + Copper Wire x10           @-
+    Electric Metalwork Bench x1        <=  Steel Block x1 + Steel Ingot x1 + Copper Wire x10          @-
+    Electric Press x1                  <=  Steel Block x1 + Copper Block x1 + Copper Wire x10         @9
+    Electric Sluice x1                 <=  Steel Block x1 + Electric Motor x1 + Bucket of Water x1 + Copper Wire x10 @-
+    Electric Stove x1                  <=  Steel Block x1 + Iron Pot x1 + Copper Wire x10             @-
+    Flywheel x1                        <=  Steel Block x1 + Copper Block x1 + Electric Motor x1 + Copper Wire x10 @-
+    Refinery x1                        <=  Electric Furnace x1 + Copper Boiler x1 + Copper Wire x10 + Oil x10 @-
+    Solar Panel x1                     <=  Steel Block x1 + Silicon Wafer x3 + Copper Wire x10        @-
+    Steam Generator x1                 <=  Steel Block x1 + Steam Engine x1 + Electric Motor x1       @-
+
+[armor_bench] Armor Bench  { category=bench fuel=no electric=no max_level=1 }
+  L1:
+    Iron Armor Leggings x1             <=  Iron Ingot x3                                              @-
+    Tin Armor Leggings x1              <=  Tin Ingot x3                                               @-
+    Tin Chest Plate x1                 <=  Tin Ingot x5                                               @-
+
+[builders_bench] Builder's Bench  { category=bench fuel=no electric=no max_level=2 }
+  L1:
+    Basalt Column x2                   <=  Basalt x1                                                  @8
+    Basalt Stairs x2                   <=  Basalt x1                                                  @8
+    Black Glass Column x2              <=  Black Glass x1                                             @4
+    Black Glass Stairs x2              <=  Black Glass x1                                             @4
+    Brick Column x2                    <=  Red Bricks x1                                              @4
+    Brick Stairs x2                    <=  Red Bricks x1                                              @4
+    Glass Column x2                    <=  Glass x1                                                   @4
+    Glass Stairs x2                    <=  Glass x1                                                   @4
+    Ice Column x2                      <=  Ice x1                                                     @-
+    Ice Stairs x2                      <=  Ice x1                                                     @-
+    Lapis Lazuli Column x2             <=  Lapis Lazuli x1                                            @4
+    Lapis Lazuli Stairs x2             <=  Lapis Lazuli x1                                            @4
+    Limestone Column x2                <=  Limestone x1                                               @-
+    Limestone Stairs x2                <=  Limestone x1                                               @-
+    Marble Column x2                   <=  Marble x1                                                  @-
+    Marble Stairs x2                   <=  Marble x1                                                  @-
+    Red Marble Column x2               <=  Red Marble x1                                              @4
+    Red Marble Stairs x2               <=  Red Marble x1                                              @4
+    Sandstone Column x2                <=  Sandstone x1                                               @4
+    Sandstone Stairs x2                <=  Sandstone x1                                               @4
+    Stone Column x2                    <=  Stone x1                                                   @4
+    Stone Stairs x2                    <=  Stone x1                                                   @4
+    Wood Column x2                     <=  Wood x1                                                    @4
+    Wood Stairs x2                     <=  Wood x1                                                    @4
+  L2:
+    Bronze Column x2                   <=  Bronze Block x1                                            @4
+    Bronze Stairs x2                   <=  Bronze Block x1                                            @4
+    Carbon Fiber Column x1             <=  Carbon Fiber Sheet x1                                      @4
+    Carbon Fiber Stairs x1             <=  Carbon Fiber Sheet x1                                      @4
+    Copper Column x2                   <=  Copper Block x1                                            @4
+    Copper Stairs x2                   <=  Copper Block x1                                            @4
+    Gold Column x2                     <=  Gold Block x1                                              @4
+    Gold Stairs x2                     <=  Gold Block x1                                              @4
+    Iron Column x2                     <=  Iron Block x1                                              @4
+    Iron Stairs x2                     <=  Iron Block x1                                              @4
+    Platinum Column x2                 <=  Platinum Block x1                                          @4
+    Platinum Stairs x2                 <=  Platinum Block x1                                          @4
+    Steel Column x2                    <=  Steel Block x1                                             @4
+    Steel Stairs x2                    <=  Steel Block x1                                             @4
+    Tin Column x2                      <=  Tin Block x1                                               @4
+    Tin Stairs x2                      <=  Tin Block x1                                               @4
+    Titanium Column x2                 <=  Titanium Block x1                                          @4
+    Titanium Stairs x2                 <=  Titanium Block x1                                          @4
+
+[compost_bin] Compost Bin  { category=bench fuel=no electric=no max_level=1 }
+  L1:
+    Compost x1                         <=  Chilli x5                                                  @8
+
+[craft_bench] Craft Bench  { category=bench fuel=no electric=no max_level=3 }
+  L1:
+    Basket x1                          <=  Stick x5                                                   @-
+    Camera x1                          <=  Glass x1 + Wood x1                                         @4
+    Carrot on a Stick x1               <=  Carrot x1 + String x1 + Stick x1                           @8
+    Compost x1                         <=  Kelp x5                                                    @8
+    Fishing Rod x1                     <=  Worm x5 + String x5 + Stick x1                             @8
+    String x1                          <=  Flax x1                                                    @8
+    Tin Foil Hat x1                    <=  Tin Foil x3                                                @4
+  L4:
+    Jetpack x1                         <=  Carbon Fiber Wing x2 + Jetpack Chassis x1 + Jet Engine x2 + Fuel x10 @15
+
+[dye_bench] Dye Bench  { category=bench fuel=no electric=no max_level=1 }
+  L1:
+    Dyed Linen Brimmed Hat x1          <=  Linen Brimmed Hat x1 + Bucket of Water x1 + Pigment x1     @-
+    Dyed Linen Cap x1                  <=  Linen Cap x1 + Bucket of Water x1 + Pigment x1             @4
+    Dyed Linen Pants x1                <=  Linen Pants x1 + Bucket of Water x1 + Pigment x1           @-
+    Dyed Linen Shirt x1                <=  Linen Shirt x1 + Bucket of Water x1 + Pigment x1           @-
+  L2:
+    Dyed Leather Boots x1              <=  Leather Boots x1 + Bucket of Water x1 + Pigment x1         @-
+    Dyed Leather Jacket x1             <=  Leather Jacket x1 + Bucket of Water x1 + Pigment x1        @-
+    Dyed Leather Pants x1              <=  Leather Pants x1 + Bucket of Water x1 + Pigment x1         @8
+    Dyed Soft Bed x1                   <=  Soft Bed x1 + Bucket of Water x1 + Pigment x1              @8
+  L3:
+    Dyed Fur Boots x1                  <=  Fur Boots x1 + Bucket of Water x1 + Pigment x1             @-
+    Dyed Fur Coat x1                   <=  Fur Coat x1 + Bucket of Water x1 + Pigment x1              @-
+    Dyed Golden Bed x1                 <=  Golden Bed x1 + Bucket of Water x1 + Pigment x1            @-
+
+[easel] Easel  { category=bench fuel=no electric=no max_level=1 }
+  L1:
+    Small Landscape Painting x1        <=  Wood x1 + Linen x1 + Oil x1 + Pigment x1                   @8
+    Small Portrait Painting x1         <=  Wood x1 + Linen x1 + Oil x1 + Pigment x1                   @8
+    Small Square Painting x1           <=  Wood x1 + Linen x1 + Oil x1 + Pigment x1                   @8
+  L2:
+    Med Landscape Painting x1          <=  Wood x2 + Linen x2 + Oil x2 + Pigment x1                   @10
+    Med Portrait Painting x1           <=  Wood x2 + Linen x2 + Oil x2 + Pigment x1                   @10
+    Med Square Painting x1             <=  Wood x2 + Linen x2 + Oil x2 + Pigment x1                   @10
+  L3:
+    Large Landscape Painting x1        <=  Wood x3 + Linen x3 + Oil x3 + Pigment x1                   @24
+    Large Portrait Painting x1         <=  Wood x3 + Linen x3 + Oil x3 + Pigment x1                   @24
+    Large Square Painting x1           <=  Wood x3 + Linen x3 + Oil x3 + Pigment x1                   @24
+
+[metalwork_bench] Metalwork Bench  { category=bench fuel=no electric=no max_level=2 }
+  L1:
+    Bronze Block x1                    <=  Bronze Ingot x5                                            @8
+    Display Cabinet x1                 <=  Black Glass x2 + Iron Ingot x1                             @2
+    Gold Block x1                      <=  Gold Ingot x5                                              @-
+    Gold Column x2                     <=  Gold Block x1                                              @-
+    Gold Stairs x2                     <=  Gold Block x1                                              @-
+    Iron Block x1                      <=  Iron Ingot x5                                              @8
+    Iron Pot x1                        <=  Iron Ingot x3                                              @-
+    Iron Trapdoor x1                   <=  Iron Block x1 + Ladder x1                                  @8
+    Magnet x1                          <=  Iron Ingot x1 + Black Sand x1                              @8
+    Safe x1                            <=  Iron Ingot x5                                              @8
+    Steel Block x1                     <=  Steel Ingot x5                                             @-
+    Steel Column x2                    <=  Steel Block x1                                             @-
+    Steel Downlight x5                 <=  Oil x1 + Glass x1 + Steel Ingot x1                         @-
+    Steel Lantern x5                   <=  Steel Ingot x1 + Glass x1 + Oil x1                         @0.5
+    Steel Stairs x2                    <=  Steel Block x1                                             @-
+    Steel Uplight x5                   <=  Oil x1 + Glass x1 + Steel Ingot x1                         @-
+    Tin Bucket x1                      <=  Tin Ingot x3                                               @8
+  L2:
+    Copper Wire x5                     <=  Copper Ingot x1                                            @-
+    Electric Elevator Motor x1         <=  Steel Block x1 + Electric Motor x1 + Copper Wire x10       @4
+    Electric Motor x1                  <=  Steel Ingot x5 + Magnet x1 + Copper Wire x10               @4
+    Elevator Shaft x5                  <=  Steel Block x1 + Copper Wire x5                            @4
+
+[mixing_bench] Mixing Bench  { category=bench fuel=no electric=no max_level=1 }
+  L1:
+    Paint x1                           <=  Tin Bucket x1 + Oil x5 + Pigment x1                        @8
+    Paint Stripper x1                  <=  Tin Bucket x1 + Oil x5                                     @8
+
+[press] Press  { category=bench fuel=no electric=no max_level=2 }
+  L1:
+    Black Sand x1                      <=  Sand x1 + Pig Iron x3                                      @8
+    Carbon Black x1                    <=  Charcoal x5                                                @4
+    Green Coffee Bean x1               <=  Coffee Cherry x1                                           @2
+    Indian Yellow x1                   <=  Mango x1                                                   @4
+    Iron Ore x1                        <=  Black Sand x2                                              @8
+    Marble White x1                    <=  Marble x1                                                  @8
+    Oil x2                             <=  Flax Seed x1                                               @-
+    Red Ochre x1                       <=  Clay x10                                                   @8
+    Tin Foil x1                        <=  Tin Ingot x1                                               @2
+  L2:
+    Clay x10                           <=  Dirt x1 + Bucket of Water x1                               @4
+    Copper Blue x1                     <=  Copper Ore x10                                             @4
+    Crushed Limestone x5               <=  Limestone x1                                               @-
+    Emerald Green x1                   <=  Emerald x1                                                 @8
+    Tyrian Purple x1                   <=  Dodo Feather x5                                            @8
+    Ultramarine Blue x1                <=  Lapis Lazuli x1                                            @4
+
+[tailors_bench] Tailor's Bench  { category=bench fuel=no electric=no max_level=4 }
+  L1:
+    Linen Brimmed Hat x1               <=  Linen x1                                                   @-
+    Linen Cap x1                       <=  Linen x1                                                   @-
+  L2:
+    Soft Bed x1                        <=  Wooden Bed x1 + Linen x3 + Dodo Feather x5                 @4
+
+[tool_bench] Tool Bench  { category=bench fuel=no electric=no max_level=6 }
+  L1:
+    Bronze Machete x1                  <=  Stick x1 + Bronze Ingot x2                                 @7
+    Bronze Pickaxe x1                  <=  Stick x1 + Bronze Ingot x5                                 @7
+    Bronze Sword x1                    <=  Stick x1 + Bronze Ingot x3                                 @7
+    Flint Axe x1                       <=  Stick x1 + Flint x3                                        @4
+    Flint Machete x1                   <=  Stick x1 + Flint x2                                        @4
+    Iron Machete x1                    <=  Stick x1 + Iron Ingot x2                                   @-
+    Iron Pickaxe x1                    <=  Stick x1 + Iron Ingot x5                                   @4
+    Iron Sword x1                      <=  Stick x1 + Iron Ingot x3                                   @4
+  L2:
+    Copper Bow & Arrows x1             <=  Stick x50 + Copper Ingot x5 + Dodo Feather x5 + String x1  @3
+    Stone Axe x1                       <=  Stick x1 + Stone x3                                        @6
+  L4:
+    Iron Axe x1                        <=  Stick x1 + Iron Ingot x3                                   @8
+  L5:
+    Crowbar x1                         <=  Steel Ingot x2                                             @8
+  L6:
+    Gold Bow & Poison Arrows x1        <=  Stick x50 + Gold Ingot x5 + Dodo Feather x5 + Poison x5    @16
+
+[train_yard] Train Yard  { category=bench fuel=no electric=no max_level=1 }
+  L1:
+    Train Station x1                   <=  Wood x3 + Rail x3                                          @-
+
+[woodwork_bench] Woodwork Bench  { category=bench fuel=no electric=no max_level=3 }
+  L1:
+    Chest x1                           <=  Wood x1                                                    @2
+    Ladder x10                         <=  Wood x1                                                    @2
+    Reinforced Platform x5             <=  Wood x1 + Iron Ingot x1                                    @2
+    Shelf x1                           <=  Wood x1                                                    @2
+    Sign x1                            <=  Wood x1                                                    @2
+    Trapdoor x1                        <=  Wood x1 + Ladder x1                                        @2
+    Wooden Bed x1                      <=  Wood x1                                                    @2
+    Wooden Door x1                     <=  Wood x3                                                    @2
+
+[campfire] Campfire  { category=heat fuel=yes electric=no max_level=1 }
+  L1:
+    Basic Torch x1                     <=  Stick x1                                                   @1
+    Cooked Fish x1                     <=  Tin Foil x1 + Raw Fish x1                                  @2
+
+[furnace] Furnace  { category=heat fuel=yes electric=no max_level=3 }
+  L1:
+    Bronze Ingot x3                    <=  Copper Ingot x2 + Tin Ingot x1                             @4
+    Gold Coin x10                      <=  Gold Ingot x1                                              @6
+    Gold Ingot x1                      <=  Gold Coin x10                                              @-
+    Iron Ingot x1                      <=  Iron Ore x3                                                @6
+    Steel Ingot x1                     <=  Iron Ingot x1 + Coal x2                                    @4
+    Tin Ingot x1                       <=  Tin Ore x3                                                 @-
+  L2:
+    Copper Coin x10                    <=  Copper Ingot x1                                            @-
+    Copper Ingot x1                    <=  Copper Coin x10                                            @-
+
+[kiln] Kiln  { category=heat fuel=yes electric=no max_level=1 }
+  L1:
+    Black Glass x1                     <=  Black Sand x1                                              @2
+    Black Window x5                    <=  Black Glass x1 + Iron Ingot x3                             @2
+    Brick Column x2                    <=  Red Bricks x1                                              @1
+    Brick Stairs x2                    <=  Red Bricks x1                                              @1
+    Charcoal x1                        <=  Stick x1                                                   @-
+    Cup x1                             <=  Clay x1                                                    @2
+    Glass x1                           <=  Sand x1                                                    @2
+    Oil Lantern x2                     <=  Clay x1 + Oil x1                                           @0.5
+    Red Bricks x1                      <=  Clay x1                                                    @2
+    Window x5                          <=  Glass x1 + Wood x1                                         @2
+
+[stove] Stove  { category=heat fuel=yes electric=no max_level=1 }
+  L1:
+    Coffee x1                          <=  Cup x1 + Bucket of Water x1 + Roasted Coffee Bean x1       @3
+    Dodo Stew x1                       <=  Iron Pot x1 + Raw Dodo Meat x1 + Carrot x1 + Corn x1       @3
+    Fish Curry x1                      <=  Iron Pot x1 + Raw Fish x1 + Chilli x1 + Coconut x1         @3
+    Raw Dodo Meat x1                   <=  Raw Dodo Meat x1                                           @2
+    Raw Fish x1                        <=  Raw Fish x1 + Tin Foil x1                                  @2
+    Roasted Coffee Bean x1             <=  Green Coffee Bean x1                                       @3
+
+[electric_furnace] Electric Furnace  { category=electric fuel=no electric=yes max_level=1 }
+  L1:
+    Iron Ingot x1                      <=  Pig Iron x1                                                @-
+    Pig Iron x1                        <=  Iron Ore x1 + Crushed Limestone x1                         @3
+    Platinum Coin x1                   <=  Platinum Ingot x1                                          @12
+    Platinum Ingot x1                  <=  Platinum Coin x1                                           @12
+    Silicon Ingot x1                   <=  Black Sand x5 + Sand x5                                    @10
+    Steel Ingot x1                     <=  Iron Ingot x1 + Coal x1                                    @4
+
+[electric_kiln] Electric Kiln  { category=electric fuel=no electric=yes max_level=1 }
+  L1:
+    Glass x1                           <=  Sand x1                                                    @2
+    Window x5                          <=  Glass x1 + Wood x1                                         @2
+
+[electric_metalwork_bench] Electric Metalwork Bench  { category=electric fuel=no electric=yes max_level=1 }
+  L1:
+    Bronze Block x1                    <=  Bronze Ingot x5                                            @8
+    Copper Block x1                    <=  Copper Ingot x5                                            @8
+    Copper Boiler x1                   <=  Bucket of Water x1 + Copper Ingot x5                       @4
+    Copper Wire x5                     <=  Copper Ingot x1                                            @4
+    Display Cabinet x1                 <=  Iron Ingot x2 + Black Glass x1                             @2
+    Electric Elevator Motor x1         <=  Steel Block x1 + Electric Motor x1 + Copper Wire x10       @4
+    Electric Motor x1                  <=  Steel Ingot x5 + Magnet x1 + Copper Wire x10               @4
+    Elevator Shaft x5                  <=  Steel Block x1 + Copper Wire x5                            @-
+    Gold Block x1                      <=  Gold Ingot x5                                              @8
+    Iron Block x1                      <=  Iron Ingot x5                                              @8
+    Iron Door x1                       <=  Iron Block x2                                              @8
+    Iron Pot x1                        <=  Iron Ingot x3                                              @8
+    Iron Trapdoor x1                   <=  Iron Block x1 + Ladder x1                                  @8
+    Jet Engine x1                      <=  Titanium Ingot x3 + Carbon Fiber Sheet x5                  @15
+    Magnet x1                          <=  Iron Ingot x1 + Black Sand x1                              @8
+    Platinum Block x1                  <=  Platinum Ingot x5                                          @6
+    Safe x1                            <=  Iron Ingot x5                                              @8
+    Silicon Wafer x5                   <=  Silicon Crystal x1                                         @5
+    Steam Engine x1                    <=  Steel Ingot x5 + Copper Boiler x1 + Coal x10               @4
+    Steel Block x1                     <=  Steel Ingot x5                                             @8
+    Steel Downlight x5                 <=  Steel Ingot x1 + Glass x1 + Oil x1                         @0.5
+    Steel Lantern x5                   <=  Steel Ingot x1 + Glass x1 + Oil x1                         @0.5
+    Steel Uplight x5                   <=  Steel Ingot x1 + Glass x1 + Oil x1                         @0.5
+    Tin Block x1                       <=  Tin Ingot x5                                               @8
+    Tin Bucket x1                      <=  Tin Ingot x3                                               @8
+    Titanium Block x1                  <=  Titanium Ingot x5                                          @6
+
+[electric_press] Electric Press  { category=electric fuel=no electric=yes max_level=1 }
+  L1:
+    Black Sand x1                      <=  Sand x1 + Pig Iron x3                                      @4
+    Carbon Black x1                    <=  Charcoal x5                                                @4
+    Clay x10                           <=  Dirt x1 + Bucket of Water x1                               @4
+    Copper Blue x1                     <=  Copper Ore x10                                             @4
+    Crushed Limestone x5               <=  Limestone x1                                               @4
+    Emerald Green x1                   <=  Emerald x1                                                 @4
+    Gravel x1                          <=  Stone x1                                                   @2
+    Green Coffee Bean x1               <=  Coffee Cherry x1                                           @2
+    Indian Yellow x1                   <=  Mango x1                                                   @4
+    Iron Ore x1                        <=  Black Sand x2                                              @4
+    Marble White x1                    <=  Marble x1                                                  @4
+    Oil x2                             <=  Flax Seed x1                                               @1
+    Red Ochre x1                       <=  Clay x1                                                    @4
+    Sand x1                            <=  Gravel x1                                                  @2
+    Tin Foil x1                        <=  Tin Ingot x1                                               @2
+    Tyrian Purple x1                   <=  Dodo Feather x5                                            @4
+    Ultramarine Blue x1                <=  Lapis Lazuli x1                                            @4
+
+[electric_stove] Electric Stove  { category=electric fuel=no electric=yes max_level=1 }
+  L1:
+    Coffee x1                          <=  Cup x1 + Bucket of Water x1 + Roasted Coffee Bean x1       @3
+    Dodo Stew x1                       <=  Iron Pot x1 + Raw Dodo Meat x1 + Carrot x1 + Corn x1       @3
+    Fish Curry x1                      <=  Iron Pot x1 + Raw Fish x1 + Chilli x1 + Coconut x1         @3
+    Raw Dodo Meat x1                   <=  Raw Dodo Meat x1                                           @2
+    Raw Fish x1                        <=  Raw Fish x1 + Tin Foil x1                                  @2
+    Roasted Coffee Bean x1             <=  Green Coffee Bean x1                                       @3
+
+[portal] Portal  { category=misc fuel=no electric=no max_level=1 }
+  L1:
+    Copper Coin x100                   <=  Gold Coin x1                                               @0.1
+    Gold Coin x1                       <=  Copper Coin x100                                           @0.1
+    Platinum Coin x1                   <=  Gold Coin x100                                             @0.1
+    Trade Portal x1                    <=  Portal x1 + Gold Coin x1 + Time Crystal x50                @1
+  L6:
+    Golden Bed x1                      <=  Gold Block x1 + Fur x5 + Time Crystal x100                 @0.5
+
+[trade_portal] Trade Portal  { category=misc fuel=no electric=no max_level=1 }
+  L1:
+    Entryno x1                         <=  Amethyst x1                                                @-
+

@@ -32,6 +32,9 @@ public final class BHR_GameRuleLangEntries {
 		addRule(builder, BHR_GameRules.BHR_LEGACY_HUNGER_CONSUMPTION,
 				"传统饥饿值消耗",
 				"把饥饿值消耗调回 Minecraft 1.8 的水平：游泳、步行、潜行、破坏方块、跳跃、疾跑跳、攻击与饥饿效果全部按 1.8 的数值结算。");
+		addRule(builder, BHR_GameRules.BHR_EXPERT_RECIPES,
+				"更严苛的配方",
+				"切换制作台使用哪一套愚者配方：开 = 只用更严苛的专家配方（材料更多、产出更少、耗时更长），关 = 只用普通配方。它只影响配方，不改变专家模式本身。");
 	}
 
 	/** 英文条目（与 {@link #zh} 同一批键）。 */
@@ -49,6 +52,11 @@ public final class BHR_GameRuleLangEntries {
 				"Legacy Hunger Consumption",
 				"Restores Minecraft 1.8 hunger exhaustion: swimming, walking, sneaking, block breaking, "
 						+ "jumping, sprint-jumping, attacking and the Hunger effect all use their 1.8 values.");
+		addRule(builder, BHR_GameRules.BHR_EXPERT_RECIPES,
+				"Stricter Recipes",
+				"Chooses which fool-recipe set the workbench uses: on = the stricter expert set only "
+						+ "(more materials, smaller output, longer craft time); off = normal recipes only. "
+						+ "It only affects recipes, not Expert Mode itself.");
 	}
 
 	/**

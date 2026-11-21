@@ -1,0 +1,20 @@
+{
+  "workbench": "bhr_workbench",
+  "expert": false,
+  "level": 2,
+  "time": 80,
+  "ingredients": [
+    {
+      "item": "minecraft:stick",
+      "count": 1
+    },
+    {
+      "item": "minecraft:iron_ingot",
+      "count": 5
+    }
+  ],
+  "result": {
+    "item": "minecraft:iron_pickaxe",
+    "count": 1
+  }
+}

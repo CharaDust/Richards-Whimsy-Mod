@@ -29,6 +29,7 @@ import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_SlateCobble;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Soil;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_TreeLeavesPine;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_TreeLogPine;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_WorkBench;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_BlockHeadsIcon;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Cherry;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Coconut;
@@ -41,6 +42,7 @@ import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_MapleSeed;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Orange;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_PineCone;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_PricklyPear;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_TimeCrystal;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Worm;
 import net.minecraft.world.item.ItemStack;
 
@@ -127,6 +129,9 @@ public final class BHR_CreativeTabs {
 					output.accept(BHR_PineCone.BHR_PINE_CONE);                 // 松果（物品）
 					// —— 其他方块 ——
 					output.accept(BHR_Compost.BHR_COMPOST);                    // 堆肥块
+					// 制作台（29 个等级）：物品栏里只放 1 级那一件 ——
+					// 2 级以上只能靠「合成 / 升级后再挖下来」得到，不占物品栏条目。
+					output.accept(BHR_WorkBench.BHR_WORK_BENCH_ITEM);          // 制作台（1 级）
 					// —— 宝石 ——
 					output.accept(BHR_GemAmethyst.BHR_GEM_AMETHYST);           // 紫锂辉
 					output.accept(BHR_GemSapphire.BHR_GEM_SAPPHIRE);           // 蓝宝石
@@ -151,6 +156,8 @@ public final class BHR_CreativeTabs {
 					// 宝石祝福测试棒：右键给副手物品加一种祝福、潜行右键清空。
 					// 排在最后，避免把测试用品混进宝石 / 食物的分组里。
 					output.accept(BHR_GemBlessTest.BHR_GEM_BLESS_TEST);        // 宝石祝福测试棒
+					// —— 制作台相关的消耗品 ——
+					output.accept(BHR_TimeCrystal.BHR_TIME_CRYSTAL);           // 时间水晶（堆叠 99）
 					// —— 徽标：同时是本标签页的图标（放在最后，不打断玩法内容的顺序） ——
 					output.accept(BHR_BlockHeadsIcon.BHR_BLOCKHEADS_ICON);     // 方块愚者徽标
 				});

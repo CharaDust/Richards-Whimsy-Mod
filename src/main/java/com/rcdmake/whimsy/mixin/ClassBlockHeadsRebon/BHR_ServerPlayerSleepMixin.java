@@ -9,6 +9,7 @@ import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /**
@@ -32,6 +33,34 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
  */
 @Mixin(ServerPlayer.class)
 public abstract class BHR_ServerPlayerSleepMixin {
+
+	/** 诊断用日志：谁把人叫醒的。 */
+	private static final org.slf4j.Logger LOGGER =
+			org.slf4j.LoggerFactory.getLogger(com.rcdmake.whimsy.RichardsWhimsyMod.MOD_ID + "/sleep");
+
+	/**
+	 * 诊断：记录「谁调用了 stopSleepInBed」。
+	 *
+	 * <p>愚者睡觉时被意外叫醒是目前唯一未定位的问题，这里把调用栈前几帧打出来，
+	 * 一眼能看出是客户端发包、原版检查、还是我们自己的代码。
+	 */
+	@Inject(method = "stopSleepInBed", at = @At("HEAD"))
+	private void whimsy$logWhoWakesUp(boolean forcefulWakeUp, boolean updateLevelList, CallbackInfo ci) {
+		ServerPlayer self = (ServerPlayer) (Object) this;
+		if (!BHR_Sleep.isFool(self) || !self.isSleeping()) {
+			return;
+		}
+		StackTraceElement[] stack = Thread.currentThread().getStackTrace();
+		StringBuilder sb = new StringBuilder();
+		for (int i = 2; i < Math.min(stack.length, 9); i++) {
+			if (i > 2) {
+				sb.append(" <- ");
+			}
+			sb.append(stack[i].getClassName().replace("net.minecraft.", ""))
+					.append('#').append(stack[i].getMethodName());
+		}
+		LOGGER.info("[睡眠][诊断] {} 被叫醒（forceful={}）：{}", self.getPlainTextName(), forcefulWakeUp, sb);
+	}
 
 	@Inject(method = "startSleepInBed", at = @At("HEAD"), cancellable = true)
 	private void whimsy$foolSleepEntry(BlockPos pos,
@@ -59,3 +88,4 @@ public abstract class BHR_ServerPlayerSleepMixin {
 		cir.setReturnValue(Either.right(Unit.INSTANCE));
 	}
 }
+

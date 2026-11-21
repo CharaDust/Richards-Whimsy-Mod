@@ -175,10 +175,12 @@ public final class BlockStateGenerator {
 		all.put(com.rcdmake.whimsy.block.ClassRandomThings.RDT_LuminousBlocks.RDT_LUMINOUS_BLOCK_BLUE, "");
 
 		// 方块愚者（BHR）：
-		// ⚠️ 多状态方块一律**不**在这里声明（blockstate 手写），共 8 个：
+		// ⚠️ 多状态方块一律**不**在这里声明（blockstate 手写），共 9 个：
 		//   · 五个宝石（bhr_gem_*）—— face(ATTACH_FACE) × facing 两个属性；
 		//   · 红壤（bhr_soil）与它的两个矿土子类（bhr_soil_flint_ore / bhr_soil_clay_ore）—— grass_cover 布尔状态。
 		//   · 松木原木（bhr_pine_log）带 AXIS，同上。
+		//   · 制作台（bhr_workbench）—— 整型 level（1~29），29 个变体各一套模型
+		//     （block/bhr_workbench_1 ~ _29），blockstate 手写。
 		// 下面全是单状态方块（模型与方块同名 → block/<id>），交给生成器。
 		all.put(com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Compost.BHR_COMPOST, "");
 		// —— 切面板岩系 ——

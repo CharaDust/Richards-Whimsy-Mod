@@ -1,0 +1,216 @@
+{
+  "model": {
+    "type": "minecraft:select",
+    "property": "minecraft:component",
+    "component": "richards-whimsy-mod:workbench_level",
+    "cases": [
+      {
+        "when": 1,
+        "model": {
+          "type": "minecraft:model",
+          "model": "richards-whimsy-mod:block/bhr_workbench_1"
+        }
+      },
+      {
+        "when": 2,
+        "model": {
+          "type": "minecraft:model",
+          "model": "richards-whimsy-mod:block/bhr_workbench_2"
+        }
+      },
+      {
+        "when": 3,
+        "model": {
+          "type": "minecraft:model",
+          "model": "richards-whimsy-mod:block/bhr_workbench_3"
+        }
+      },
+      {
+        "when": 4,
+        "model": {
+          "type": "minecraft:model",
+          "model": "richards-whimsy-mod:block/bhr_workbench_4"
+        }
+      },
+      {
+        "when": 5,
+        "model": {
+          "type": "minecraft:model",
+          "model": "richards-whimsy-mod:block/bhr_workbench_5"
+        }
+      },
+      {
+        "when": 6,
+        "model": {
+          "type": "minecraft:model",
+          "model": "richards-whimsy-mod:block/bhr_workbench_6"
+        }
+      },
+      {
+        "when": 7,
+        "model": {
+          "type": "minecraft:model",
+          "model": "richards-whimsy-mod:block/bhr_workbench_7"
+        }
+      },
+      {
+        "when": 8,
+        "model": {
+          "type": "minecraft:model",
+          "model": "richards-whimsy-mod:block/bhr_workbench_8"
+        }
+      },
+      {
+        "when": 9,
+        "model": {
+          "type": "minecraft:model",
+          "model": "richards-whimsy-mod:block/bhr_workbench_9"
+        }
+      },
+      {
+        "when": 10,
+        "model": {
+          "type": "minecraft:model",
+          "model": "richards-whimsy-mod:block/bhr_workbench_10"
+        }
+      },
+      {
+        "when": 11,
+        "model": {
+          "type": "minecraft:model",
+          "model": "richards-whimsy-mod:block/bhr_workbench_11"
+        }
+      },
+      {
+        "when": 12,
+        "model": {
+          "type": "minecraft:model",
+          "model": "richards-whimsy-mod:block/bhr_workbench_12"
+        }
+      },
+      {
+        "when": 13,
+        "model": {
+          "type": "minecraft:model",
+          "model": "richards-whimsy-mod:block/bhr_workbench_13"
+        }
+      },
+      {
+        "when": 14,
+        "model": {
+          "type": "minecraft:model",
+          "model": "richards-whimsy-mod:block/bhr_workbench_14"
+        }
+      },
+      {
+        "when": 15,
+        "model": {
+          "type": "minecraft:model",
+          "model": "richards-whimsy-mod:block/bhr_workbench_15"
+        }
+      },
+      {
+        "when": 16,
+        "model": {
+          "type": "minecraft:model",
+          "model": "richards-whimsy-mod:block/bhr_workbench_16"
+        }
+      },
+      {
+        "when": 17,
+        "model": {
+          "type": "minecraft:model",
+          "model": "richards-whimsy-mod:block/bhr_workbench_17"
+        }
+      },
+      {
+        "when": 18,
+        "model": {
+          "type": "minecraft:model",
+          "model": "richards-whimsy-mod:block/bhr_workbench_18"
+        }
+      },
+      {
+        "when": 19,
+        "model": {
+          "type": "minecraft:model",
+          "model": "richards-whimsy-mod:block/bhr_workbench_19"
+        }
+      },
+      {
+        "when": 20,
+        "model": {
+          "type": "minecraft:model",
+          "model": "richards-whimsy-mod:block/bhr_workbench_20"
+        }
+      },
+      {
+        "when": 21,
+        "model": {
+          "type": "minecraft:model",
+          "model": "richards-whimsy-mod:block/bhr_workbench_21"
+        }
+      },
+      {
+        "when": 22,
+        "model": {
+          "type": "minecraft:model",
+          "model": "richards-whimsy-mod:block/bhr_workbench_22"
+        }
+      },
+      {
+        "when": 23,
+        "model": {
+          "type": "minecraft:model",
+          "model": "richards-whimsy-mod:block/bhr_workbench_23"
+        }
+      },
+      {
+        "when": 24,
+        "model": {
+          "type": "minecraft:model",
+          "model": "richards-whimsy-mod:block/bhr_workbench_24"
+        }
+      },
+      {
+        "when": 25,
+        "model": {
+          "type": "minecraft:model",
+          "model": "richards-whimsy-mod:block/bhr_workbench_25"
+        }
+      },
+      {
+        "when": 26,
+        "model": {
+          "type": "minecraft:model",
+          "model": "richards-whimsy-mod:block/bhr_workbench_26"
+        }
+      },
+      {
+        "when": 27,
+        "model": {
+          "type": "minecraft:model",
+          "model": "richards-whimsy-mod:block/bhr_workbench_27"
+        }
+      },
+      {
+        "when": 28,
+        "model": {
+          "type": "minecraft:model",
+          "model": "richards-whimsy-mod:block/bhr_workbench_28"
+        }
+      },
+      {
+        "when": 29,
+        "model": {
+          "type": "minecraft:model",
+          "model": "richards-whimsy-mod:block/bhr_workbench_29"
+        }
+      }
+    ],
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "richards-whimsy-mod:block/bhr_workbench_1"
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "workbench": "bhr_workbench",
+  "expert": false,
+  "level": 1,
+  "time": 80,
+  "ingredients": [
+    {
+      "item": "richards-whimsy-mod:bhr_pine_cone",
+      "count": 5
+    }
+  ],
+  "result": {
+    "item": "richards-whimsy-mod:bhr_compost",
+    "count": 1
+  }
+}

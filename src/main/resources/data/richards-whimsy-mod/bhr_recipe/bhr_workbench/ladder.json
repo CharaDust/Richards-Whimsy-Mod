@@ -1,0 +1,16 @@
+{
+  "workbench": "bhr_workbench",
+  "expert": false,
+  "level": 1,
+  "time": 20,
+  "ingredients": [
+    {
+      "tag": "minecraft:planks",
+      "count": 1
+    }
+  ],
+  "result": {
+    "item": "minecraft:ladder",
+    "count": 10
+  }
+}

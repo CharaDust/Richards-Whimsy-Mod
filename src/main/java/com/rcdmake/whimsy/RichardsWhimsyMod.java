@@ -28,6 +28,7 @@ import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_SlateCobble;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Soil;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_TreeLeavesPine;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_TreeLogPine;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_WorkBench;
 import com.rcdmake.whimsy.block.ClassDEV.DEV_BlocksOther;
 import com.rcdmake.whimsy.block.ClassDEV.DEV_GhostBlock;
 import com.rcdmake.whimsy.block.ClassDEV.DEV_StateBoolean;
@@ -70,6 +71,7 @@ import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_MapleSeed;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Orange;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_PineCone;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_PricklyPear;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_TimeCrystal;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Worm;
 import com.rcdmake.whimsy.item.ClassRandomThings.RDT_FireHormonePotion;
 import com.rcdmake.whimsy.item.ClassRandomThings.RDT_PoisonHormonePotion;
@@ -198,6 +200,11 @@ public class RichardsWhimsyMod implements ModInitializer {
 		BHR_TreeLogPine.OnInit();
 		BHR_Compost.OnInit();
 
+		// 制作台（2026-10 新增）：29 个等级的合成方块 + 它自己的方块实体。
+		// 它内部按「升物品组件 → 注册方块 → 注册方块物品 → 注册方块实体类型」的顺序做，
+		// 所以这里只要一条；放在 BHR 方块区的最前面是因为它的组件要在任何物品被造出来之前就位。
+		BHR_WorkBench.OnInit();
+
 		// 第二批：5 个 #deprecated 集合类拆分成 25 个独立类（注册名对照表见 doc/agent/deepseek/06）
 		// 顺序约定：家族父类必须先就位（BHR_Soil 在前，BHR_OreSoilFlint / Clay 继承它），
 		// 其余按 wiki 物品栏页「包含物品」的分组顺序排列，读起来与游戏里看到的顺序一致。
@@ -259,6 +266,8 @@ public class RichardsWhimsyMod implements ModInitializer {
 		// ① 方块愚者物品栏的标签图标；② F3+F4 切换器里「愚者模式」那一格的图标
 		// （切换器图标是 ItemStack，所以必须有一件真实物品，见 BHR_FoolGameModeIconMixin）。
 		BHR_BlockHeadsIcon.OnInit();
+		// 时间水晶（制作台的加速消耗品，最大堆叠 99）
+		BHR_TimeCrystal.OnInit();
 
 		// --- 状态效果 ---
 		// 随意物件（RDT）的两种「灌注」：正面效果，本身不逐刻做事，
@@ -304,6 +313,10 @@ public class RichardsWhimsyMod implements ModInitializer {
 			}
 		});
 		ServerLifecycleEvents.SERVER_STOPPED.register(server -> BHR_GemBlessingBonus.clearLookup());
+
+		// --- 愚者配方（制作台用）---
+		// ⚠️ 必须放在所有方块/物品注册之后：配方文件里按 id 查物品，早于注册会解析失败。
+		com.rcdmake.whimsy.recipe.ClassBlockHeadsRebon.BHR_FoolRecipes.OnInit();
 
 		LOGGER.info("[{}] 初始化完成", MOD_ID);
 	}

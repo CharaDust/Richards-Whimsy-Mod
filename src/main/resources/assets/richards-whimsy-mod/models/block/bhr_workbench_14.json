@@ -1,0 +1,8 @@
+{
+  "parent": "block/cube_bottom_top",
+  "textures": {
+    "top": "richards-whimsy-mod:block/bhr/workbench_end_9",
+    "bottom": "richards-whimsy-mod:block/bhr/workbench_end_9",
+    "side": "richards-whimsy-mod:block/bhr/workbench_side_14"
+  }
+}

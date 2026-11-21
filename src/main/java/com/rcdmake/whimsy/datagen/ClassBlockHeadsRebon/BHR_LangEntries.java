@@ -28,6 +28,7 @@ import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_SlateCobble;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Soil;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_TreeLeavesPine;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_TreeLogPine;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_WorkBench;
 import com.rcdmake.whimsy.component.ClassBlockHeadsRebon.BHR_GemBlessing;
 import com.rcdmake.whimsy.datagen.LangEntrySupport;
 import com.rcdmake.whimsy.item.BHR_CreativeTabs;
@@ -43,6 +44,7 @@ import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_MapleSeed;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Orange;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_PineCone;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_PricklyPear;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_TimeCrystal;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Worm;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 
@@ -141,6 +143,19 @@ public final class BHR_LangEntries {
 		builder.add(BHR_PineCone.BHR_PINE_CONE, "松果");
 		// —— 其他方块 ——
 		LangEntrySupport.addBlockAndItem(builder, BHR_Compost.BHR_COMPOST, "堆肥块");
+		// —— 制作台（29 个等级共用一个名字：名字里不写等级，等级靠贴图与物品组件体现）——
+		LangEntrySupport.addBlockAndItem(builder, BHR_WorkBench.BHR_WORK_BENCH, "制作台");
+		// 描述栏那一行：由组件自带的 tooltip provider 输出（见 BHR_WorkBenchLevel.Level#addToTooltip）
+		builder.add("tooltip.richards-whimsy-mod.workbench_level", "等级：%s");
+		// 界面标题（%s = 等级）：位置与大箱子标题相同
+		builder.add("container.richards-whimsy-mod.bhr_workbench", "制作台 - 等级 %s");
+		// 配方悬浮提示
+		builder.add("tooltip.richards-whimsy-mod.workbench.level", "需要等级：%s");
+		builder.add("tooltip.richards-whimsy-mod.workbench.time", "耗时：%s 秒");
+		builder.add("tooltip.richards-whimsy-mod.workbench.upgrade", "制作台升级 → Lv.%s");
+		builder.add("tooltip.richards-whimsy-mod.workbench.batches.plus", "单击 +1；按住 Shift 可倍增数量");
+		builder.add("tooltip.richards-whimsy-mod.workbench.batches.minus", "单击 -1；按住 Shift 可减半数量");
+		builder.add("tooltip.richards-whimsy-mod.workbench.alt", "右键切换消耗物品");
 		// —— 宝石 ——
 		LangEntrySupport.addBlockAndItem(builder, BHR_GemAmethyst.BHR_GEM_AMETHYST, "紫锂辉");
 		LangEntrySupport.addBlockAndItem(builder, BHR_GemSapphire.BHR_GEM_SAPPHIRE, "蓝宝石");
@@ -163,6 +178,8 @@ public final class BHR_LangEntries {
 		builder.add(BHR_GemBlessTest.BHR_GEM_BLESS_TEST, "宝石祝福测试棒");
 		// —— 方块愚者徽标（物品栏标签图标 + 切换器愚者格图标）——
 		builder.add(BHR_BlockHeadsIcon.BHR_BLOCKHEADS_ICON, "方块愚者徽标");
+		// —— 时间水晶（制作台加速消耗品）——
+		builder.add(BHR_TimeCrystal.BHR_TIME_CRYSTAL, "时间水晶");
 		builder.add(BHR_GemBlessing.Gem.AMETHYST.tooltipKey(), "宝石祝福：紫锂辉");
 		builder.add(BHR_GemBlessing.Gem.SAPPHIRE.tooltipKey(), "宝石祝福：蓝宝石");
 		builder.add(BHR_GemBlessing.Gem.EMERALD.tooltipKey(), "宝石祝福：祖母绿");
@@ -231,6 +248,16 @@ public final class BHR_LangEntries {
 		builder.add(BHR_PineCone.BHR_PINE_CONE, "Pine Cone");
 		// —— 其他方块 ——
 		LangEntrySupport.addBlockAndItem(builder, BHR_Compost.BHR_COMPOST, "Compost Block");
+		// —— 制作台 ——
+		LangEntrySupport.addBlockAndItem(builder, BHR_WorkBench.BHR_WORK_BENCH, "Workbench");
+		builder.add("tooltip.richards-whimsy-mod.workbench_level", "Level: %s");
+		builder.add("container.richards-whimsy-mod.bhr_workbench", "Workbench - Level %s");
+		builder.add("tooltip.richards-whimsy-mod.workbench.level", "Requires level: %s");
+		builder.add("tooltip.richards-whimsy-mod.workbench.time", "Takes %s s");
+		builder.add("tooltip.richards-whimsy-mod.workbench.upgrade", "Upgrade workbench → Lv.%s");
+		builder.add("tooltip.richards-whimsy-mod.workbench.batches.plus", "Click for +1; hold Shift to double");
+		builder.add("tooltip.richards-whimsy-mod.workbench.batches.minus", "Click for -1; hold Shift to halve");
+		builder.add("tooltip.richards-whimsy-mod.workbench.alt", "Right-click to switch the consumed item");
 		// —— 宝石 ——
 		LangEntrySupport.addBlockAndItem(builder, BHR_GemAmethyst.BHR_GEM_AMETHYST, "Kunzite");
 		LangEntrySupport.addBlockAndItem(builder, BHR_GemSapphire.BHR_GEM_SAPPHIRE, "Sapphire");
@@ -256,6 +283,8 @@ public final class BHR_LangEntries {
 		builder.add(BHR_GemBlessTest.BHR_GEM_BLESS_TEST, "Gem Blessing Test Rod");
 		// —— 方块愚者徽标 ——
 		builder.add(BHR_BlockHeadsIcon.BHR_BLOCKHEADS_ICON, "Blockheads Emblem");
+		// —— 时间水晶 ——
+		builder.add(BHR_TimeCrystal.BHR_TIME_CRYSTAL, "Time Crystal");
 		builder.add(BHR_GemBlessing.Gem.AMETHYST.tooltipKey(), "Gem Blessing: Kunzite");
 		builder.add(BHR_GemBlessing.Gem.SAPPHIRE.tooltipKey(), "Gem Blessing: Sapphire");
 		builder.add(BHR_GemBlessing.Gem.EMERALD.tooltipKey(), "Gem Blessing: Canutillos");

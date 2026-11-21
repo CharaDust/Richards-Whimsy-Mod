@@ -6,6 +6,9 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.flag.FeatureFlags;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -142,6 +145,25 @@ public final class ModRegister {
 		Item blockItem = new BlockItem(block, new Item.Properties().setId(itemKey));
 		Registry.register(BuiltInRegistries.ITEM, itemKey, blockItem);
 		return block;
+	}
+
+	/**
+	 * 注册一个容器菜单类型（{@code MenuType}）。
+	 *
+	 * <p><b>26.2 的现实</b>：{@code MenuType} 的构造器与 {@code MenuType.MenuSupplier}
+	 * 都是私有的，原版自己也是靠类内的私有 {@code register} 方法注册。
+	 * 本项目的类调整文件 {@code richards-whimsy-mod.classtweaker} 已把这两处放开，
+	 * 所以这里可以直接 {@code new MenuType<>(...)}。
+	 *
+	 * <p>{@code FeatureFlags.VANILLA_SET} 与原版内建的菜单类型一致（不带实验性开关）；
+	 * 客户端要能显示界面，还需要 {@code MenuScreens.register}（同样由类调整文件放开，
+	 * 见客户端入口 {@code RichardsWhimsyModClient}）。
+	 *
+	 * @param name 注册路径（省略命名空间 {@code richards-whimsy-mod:}）
+	 */
+	public static <T extends AbstractContainerMenu> MenuType<T> registerMenuType(String name,
+			MenuType.MenuSupplier<T> supplier) {
+		return Registry.register(BuiltInRegistries.MENU, id(name), new MenuType<>(supplier, FeatureFlags.VANILLA_SET));
 	}
 
 	/**

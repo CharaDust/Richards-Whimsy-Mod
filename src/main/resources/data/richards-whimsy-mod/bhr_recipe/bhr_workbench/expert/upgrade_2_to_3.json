@@ -1,0 +1,13 @@
+{
+  "workbench": "bhr_workbench",
+  "expert": true,
+  "level": 2,
+  "time": 180,
+  "ingredients": [
+    {
+      "item": "minecraft:flint",
+      "count": 5
+    }
+  ],
+  "upgrade_to": 3
+}

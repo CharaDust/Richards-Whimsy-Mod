@@ -1,0 +1,24 @@
+{
+  "workbench": "bhr_workbench",
+  "expert": true,
+  "level": 2,
+  "time": 80,
+  "ingredients": [
+    {
+      "tag": "minecraft:planks",
+      "count": 2
+    },
+    {
+      "item": "minecraft:iron_ingot",
+      "count": 6
+    },
+    {
+      "item": "minecraft:string",
+      "count": 1
+    }
+  ],
+  "result": {
+    "item": "minecraft:iron_shovel",
+    "count": 1
+  }
+}

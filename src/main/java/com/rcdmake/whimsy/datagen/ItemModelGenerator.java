@@ -100,6 +100,41 @@ public final class ItemModelGenerator {
 			"rdt_spectre_sapling", "item/rdt_spectre_sapling");
 
 	/**
+	 * <b>按组件值选模型</b>的例外表：物品 id → （组件路径、模型路径前缀、取值上下限）。
+	 *
+	 * <h2>26.2 的可选项：{@code select} + {@code property: "minecraft:component"}</h2>
+	 * <p>{@code minecraft:select} 的原版 property 里有一个 {@code minecraft:component}：
+	 * 它按<b>指定组件类型自己的 codec</b> 解码每个 case 的 {@code when}，
+	 * 再用物品上该组件的值去匹配。所以要「图标跟着等级变」，只需要：
+	 * <ol>
+	 *   <li>组件的持久化 codec 是一个<b>离散可比的裸值</b>（制作台是 {@code Codec.INT}）；</li>
+	 *   <li>{@code items/<id>.json} 写成 select，每个等级一个 case —— 纯数据，<b>不需要客户端代码</b>。</li>
+	 * </ol>
+	 * 反例备忘：{@code range_dispatch} 也能按数值分档，但它的固定 property 表里没有
+	 * 「读任意组件」的项（只有 {@code custom_model_data}、{@code damage}、{@code count} 这些），
+	 * 想加自定义 property 就得访问 widened 私有字段 {@code RangeSelectItemModelProperties.ID_MAPPER}，
+	 * 反而更脏。select + component 是官方留的口子，优先用它。
+	 *
+	 * <h2>{@code items/<id>.json} 是本生成器独占的产出</h2>
+	 * <p>所以这条规则必须写在这里 —— 手写进 {@code items/} 的版本下一次 datagen 就被抹掉了。
+	 */
+	private static final Map<String, ComponentSelectSpec> COMPONENT_SELECT_ITEMS = Map.of(
+			// 制作台：29 个等级各一个 case，模型就是方块的那 29 份 block/bhr_workbench_N
+			"bhr_workbench", new ComponentSelectSpec("workbench_level", "block/bhr_workbench_", 1, 29));
+
+	/**
+	 * 「按组件值选模型」的规格。
+	 *
+	 * @param componentPath 组件注册路径（命名空间固定为本模组）
+	 * @param modelPrefix   模型路径前缀，实际模型是「前缀 + 取值」，如 {@code block/bhr_workbench_} + {@code 9}
+	 * @param minValue      取值下限（含）
+	 * @param maxValue      取值上限（含）
+	 */
+	private record ComponentSelectSpec(String componentPath, String modelPrefix, int minValue, int maxValue) {
+	}
+
+
+	/**
 	 * <b>常量着色表</b>：物品 id → 打包的水色，写进 {@code items/<id>.json} 的 {@code tints} 数组。
 	 *
 	 * <h2>用途：原版纹理 + 后期上色（不需要新贴图）</h2>
@@ -182,6 +217,16 @@ public final class ItemModelGenerator {
 		for (Item item : BuiltInRegistries.ITEM) {
 			Identifier itemId = BuiltInRegistries.ITEM.getKey(item);
 			if (!namespace.equals(itemId.getNamespace())) {
+				continue;
+			}
+
+			// 「按组件值选模型」的物品先走自己的路（见 COMPONENT_SELECT_ITEMS），
+			// 它们的 items/<id>.json 不是「一个模型引用」，而是 select 的 29 个 case。
+			ComponentSelectSpec selectSpec = COMPONENT_SELECT_ITEMS.get(itemId.getPath());
+			if (selectSpec != null) {
+				if (writeComponentSelectModel(modRoot, namespace, itemId.getPath(), selectSpec)) {
+					written++;
+				}
 				continue;
 			}
 
@@ -348,6 +393,53 @@ public final class ItemModelGenerator {
 		Path target = modRoot.resolve("assets").resolve(namespace)
 				.resolve("models").resolve("item").resolve(itemPath + ".json");
 		writeIfChanged(target, content);
+	}
+
+	/**
+	 * 写「按组件值选模型」的物品模型定义（{@code select} + {@code property: "minecraft:component"}）。
+	 *
+	 * <p>结构（与原版 {@code items/crossbow.json} 的 select 同形）：
+	 * <pre>{@code
+	 * { "model": { "type": "minecraft:select",
+	 *              "property": "minecraft:component",
+	 *              "component": "<ns>:<组件路径>",
+	 *              "cases": [ { "when": 1, "model": {...} }, ... ],   // when 用组件自己的 codec 解码
+	 *              "fallback": {...} } }
+	 * }</pre>
+	 *
+	 * @return 是否真的写了（内容没变不写，保持时间戳稳定）
+	 */
+	private static boolean writeComponentSelectModel(Path modRoot, String namespace, String itemPath,
+			ComponentSelectSpec spec) throws IOException {
+		JsonArray cases = new JsonArray();
+		for (int value = spec.minValue(); value <= spec.maxValue(); value++) {
+			JsonObject oneCase = new JsonObject();
+			oneCase.addProperty("when", value);
+			oneCase.add("model", plainModel(namespace + ":" + spec.modelPrefix() + value));
+			cases.add(oneCase);
+		}
+
+		JsonObject select = new JsonObject();
+		select.addProperty("type", "minecraft:select");
+		select.addProperty("property", "minecraft:component");
+		select.addProperty("component", namespace + ":" + spec.componentPath());
+		select.add("cases", cases);
+		// 兜底：组件缺失或取值越界时退回下限那套模型，绝不出现「无模型 → 紫黑块」
+		select.add("fallback", plainModel(namespace + ":" + spec.modelPrefix() + spec.minValue()));
+
+		JsonObject root = new JsonObject();
+		root.add("model", select);
+
+		Path target = modRoot.resolve("assets").resolve(namespace).resolve("items").resolve(itemPath + ".json");
+		return writeIfChanged(target, GSON.toJson(root).getBytes(StandardCharsets.UTF_8));
+	}
+
+	/** {@code {"type":"minecraft:model","model":<id>}} —— 物品模型定义里「指向某个模型」的那一段。 */
+	private static JsonObject plainModel(String modelId) {
+		JsonObject model = new JsonObject();
+		model.addProperty("type", "minecraft:model");
+		model.addProperty("model", modelId);
+		return model;
 	}
 
 	/** 内容不变就不写（保持时间戳稳定）。返回是否真的写了。 */
