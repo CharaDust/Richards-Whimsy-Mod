@@ -1,6 +1,7 @@
 package com.rcdmake.whimsy;
 
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_BeachSand;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Campfire;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Compost;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_GemAmethyst;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_GemDiamond;
@@ -204,6 +205,12 @@ public class RichardsWhimsyMod implements ModInitializer {
 		// 它内部按「升物品组件 → 注册方块 → 注册方块物品 → 注册方块实体类型」的顺序做，
 		// 所以这里只要一条；放在 BHR 方块区的最前面是因为它的组件要在任何物品被造出来之前就位。
 		BHR_WorkBench.OnInit();
+
+		// 简易篝火（2026-11 新增）：BHR 的第二台制作台，也是第一台**带燃料**的机器。
+		// 它自带方块实体（燃料值 + 逐 tick 进度）与自己的菜单/界面（底图 fuel_workbench.png），
+		// 配方走 data/richards-whimsy-mod/bhr_recipe/bhr_campfire/（目前是从制作台移过来的火把）。
+		// 顺序：它不依赖制作台，但放在其后更好读（同类机器排在一起）。
+		BHR_Campfire.OnInit();
 
 		// 第二批：5 个 #deprecated 集合类拆分成 25 个独立类（注册名对照表见 doc/agent/deepseek/06）
 		// 顺序约定：家族父类必须先就位（BHR_Soil 在前，BHR_OreSoilFlint / Clay 继承它），

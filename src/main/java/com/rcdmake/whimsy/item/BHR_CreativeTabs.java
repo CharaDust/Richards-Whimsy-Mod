@@ -2,6 +2,7 @@ package com.rcdmake.whimsy.item;
 
 import com.rcdmake.whimsy.ModCreativeTabs;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_BeachSand;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Campfire;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Compost;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_GemAmethyst;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_GemDiamond;
@@ -132,6 +133,8 @@ public final class BHR_CreativeTabs {
 					// 制作台（29 个等级）：物品栏里只放 1 级那一件 ——
 					// 2 级以上只能靠「合成 / 升级后再挖下来」得到，不占物品栏条目。
 					output.accept(BHR_WorkBench.BHR_WORK_BENCH_ITEM);          // 制作台（1 级）
+					// 简易篝火：带燃料的制作台（固定 1 级），与制作台相邻摆放
+					output.accept(BHR_Campfire.BHR_CAMPFIRE_ITEM);             // 简易篝火
 					// —— 宝石 ——
 					output.accept(BHR_GemAmethyst.BHR_GEM_AMETHYST);           // 紫锂辉
 					output.accept(BHR_GemSapphire.BHR_GEM_SAPPHIRE);           // 蓝宝石

@@ -74,6 +74,11 @@ public class RichardsWhimsyModClient implements ClientModInitializer {
 				com.rcdmake.whimsy.menu.ClassBlockHeadsRebon.BHR_WorkBenchMenu.BHR_WORK_BENCH_MENU,
 				com.rcdmake.whimsy.client.ClassBlockHeadsRebon.BHR_WorkBenchScreen::new);
 
+		// 简易篝火界面：同一套接线，底图换成 fuel_workbench.png（槽位整体右移 18 像素）。
+		net.minecraft.client.gui.screens.MenuScreens.register(
+				com.rcdmake.whimsy.menu.ClassBlockHeadsRebon.BHR_CampfireMenu.BHR_CAMPFIRE_MENU,
+				com.rcdmake.whimsy.client.ClassBlockHeadsRebon.BHR_CampfireScreen::new);
+
 		// 濒死 BGM：每 tick 推进淡出/播放状态机（见 BHR_DownedMusic）
 		net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents.END_CLIENT_TICK
 				.register(com.rcdmake.whimsy.client.BHR_DownedMusic::tick);

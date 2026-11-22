@@ -2,6 +2,7 @@ package com.rcdmake.whimsy.block.ClassBlockHeadsRebon;
 
 import com.rcdmake.whimsy.ModRegister;
 import com.rcdmake.whimsy.misc.ClassBlockHeadsRebon.BHR_GameRules;
+import com.rcdmake.whimsy.recipe.ClassBlockHeadsRebon.BHR_FoolIngredient;
 import com.rcdmake.whimsy.recipe.ClassBlockHeadsRebon.BHR_FoolRecipe;
 import com.rcdmake.whimsy.recipe.ClassBlockHeadsRebon.BHR_FoolRecipes;
 import net.minecraft.core.BlockPos;
@@ -85,8 +86,8 @@ public class BHR_WorkBenchEntity extends BlockEntity implements Container, Conta
 	private int selected = -1;
 	/** 一次制作几份。 */
 	private int batches = 1;
-	/** 已走过的 tick。 */
-	private int progress;
+	/** 当前这一份的「开始游戏刻」。进度 = 当前游戏刻 - 它（不再逐 tick 累加）。 */
+	private long craftStart;
 	/** 本次制作总 tick（0 = 没在制作）。 */
 	private int total;
 	/** 配方栏的滚动偏移（0 起，最多 all().size() - RECIPE_SLOTS）。 */
@@ -95,6 +96,8 @@ public class BHR_WorkBenchEntity extends BlockEntity implements Container, Conta
 	private int remaining;
 	/** 9 个需求格的首选物品（注册表数字 id，0 = 用默认的第一候选）。 */
 	private final int[] preferred = new int[DATA_PREF_COUNT];
+	/** 已投入但还没被某一份消耗掉的原料（暂存在方块里；打破方块会原样退还）。 */
+	private final java.util.List<ItemStack> pending = new java.util.ArrayList<>();
 
 	public BHR_WorkBenchEntity(BlockPos pos, BlockState state) {
 		super(BHR_WORK_BENCH_ENTITY, pos, state);
@@ -179,8 +182,56 @@ public class BHR_WorkBenchEntity extends BlockEntity implements Container, Conta
 		return this.batches;
 	}
 
+	/** 当前进度（tick）：现算，不是累加值。 */
 	public int getProgress() {
-		return this.progress;
+		return this.craftProgress(this.currentGameTime());
+	}
+
+	private long currentGameTime() {
+		Level level = this.getLevel();
+		return level == null ? 0L : level.getGameTime();
+	}
+
+	/**
+	 * 按「当前游戏刻 - 本份开始刻」算出进度，并把已经走完的份数一次性结算掉。
+	 *
+	 * <p>调用点：打开界面时、界面打开期间每 tick（菜单 broadcastChanges）、方块被破坏时。
+	 * 没有调用者时方块什么都不做 —— 但仍能算出正确进度，因为时间在流逝。
+	 */
+	public void refresh(long now) {
+		if (this.total <= 0) {
+			return;
+		}
+		if (now < this.craftStart) {
+			// /time set 把游戏刻调回去了：视为重新开始这一份（进度归零）
+			this.craftStart = now;
+			this.setChanged();
+			return;
+		}
+		long elapsed = now - this.craftStart;
+		int guard = 0;
+		while (this.total > 0 && elapsed >= this.total && guard++ < 512) {
+			elapsed -= this.total;
+			boolean continues = this.emitOneBatch();
+			if (continues) {
+				this.craftStart += this.total;
+			} else {
+				this.craftStart = now;
+				break;
+			}
+		}
+		this.setChanged();
+	}
+
+	/** 只算进度，不结算（给同步/绘制用）。 */
+	private int craftProgress(long now) {
+		if (this.total <= 0) {
+			return 0;
+		}
+		if (now < this.craftStart) {
+			return 0;
+		}
+		return (int) Math.min(this.total, now - this.craftStart);
 	}
 
 	public int getTotal() {
@@ -236,6 +287,24 @@ public class BHR_WorkBenchEntity extends BlockEntity implements Container, Conta
 		return item == null || item == Items.AIR ? ItemStack.EMPTY : new ItemStack(item);
 	}
 
+	/**
+	 * 取消选中的配方（关界面时 / 升级完成后调用）。
+	 *
+	 * <p>⚠️ 正在制作时不清：进度条需要一个对应的配方才能继续结算。
+	 * <p>滚动位置（{@code scroll}）与倍率（{@code batches}）刻意保留 —— 重新打开时列表还停在原处。
+	 */
+	public void clearSelection() {
+		if (this.isCrafting()) {
+			return;
+		}
+		if (this.selected == -1 && java.util.Arrays.stream(this.preferred).allMatch(id -> id == 0)) {
+			return;
+		}
+		this.selected = -1;
+		java.util.Arrays.fill(this.preferred, 0);
+		this.setChanged();
+	}
+
 	/** 右键需求格：在该需求的可替换物品之间循环切换首选。 */
 	public void cyclePreferred(int ingredientIndex) {
 		BHR_FoolRecipe recipe = this.selectedRecipe();
@@ -284,13 +353,18 @@ public class BHR_WorkBenchEntity extends BlockEntity implements Container, Conta
 			ItemStack chosen = this.preferredItem(i);
 			preferredItems.add(chosen.isEmpty() ? null : chosen.getItem());
 		}
-		if (!BHR_FoolRecipes.consume(player, recipe, this.batches, preferredItems)) {
+		java.util.List<ItemStack> taken = BHR_FoolRecipes.takeForCraft(player, recipe, this.batches, preferredItems);
+		if (taken.isEmpty()) {
 			return false;
 		}
-		// 一份一份走：total 永远是「一份」的时长，remaining 记还要做几份
+		// 原料不直接消失，而是先「放进制作台」，由每一份完成后逐份扣掉
+		this.pending.clear();
+		this.pending.addAll(taken);
+		// 一份一份走：total 永远是「一份」的时长，remaining 记还要做几份。
+		// 进度不再逐 tick 累加，改为记录这一份的开始游戏刻。
 		this.remaining = this.batches;
 		this.total = Math.max(1, recipe.timeTicks());
-		this.progress = 0;
+		this.craftStart = this.currentGameTime();
 		this.setChanged();
 		return true;
 	}
@@ -308,41 +382,29 @@ public class BHR_WorkBenchEntity extends BlockEntity implements Container, Conta
 		if (crystals.isEmpty() || !crystals.is(com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_TimeCrystal.BHR_TIME_CRYSTAL)) {
 			return 0;
 		}
-		int remaining = this.total - this.progress;
 		int ticksPerCrystal = com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_TimeCrystal.SECONDS_PER_CRYSTAL * 20;
-		int needed = (remaining + ticksPerCrystal - 1) / ticksPerCrystal;
+		int left = this.total - this.getProgress();
+		int needed = (left + ticksPerCrystal - 1) / ticksPerCrystal;
 		int used = Math.min(needed, crystals.getCount());
 		crystals.shrink(used);
-		this.progress = Math.min(this.total, this.progress + used * ticksPerCrystal);
+		// 跳时间 = 把「本份开始刻」往前挪
+		this.craftStart -= (long) used * ticksPerCrystal;
 		this.setChanged();
 		return used;
-	}
-
-	/** 每 tick 推进（由方块的 ticker 调）。 */
-	public static void tick(Level level, BlockPos pos, BlockState state, BHR_WorkBenchEntity entity) {
-		if (level.isClientSide() || !entity.isCrafting()) {
-			return;
-		}
-		entity.progress++;
-		if (entity.progress >= entity.total) {
-			entity.finishOneBatch(level);
-		}
-		entity.setChanged();
 	}
 
 	/**
 	 * 结算<b>一份</b>：普通配方把「一份」的产物塞进结果栏，剩余份数 -1；
 	 * 升级配方改方块状态的等级，做完就收工（升级永远只做一次）。
 	 */
-	private void finishOneBatch(Level level) {
+	private boolean emitOneBatch() {
+		Level level = this.getLevel();
 		BHR_FoolRecipe recipe = this.selectedRecipe();
-		if (recipe == null) {
-			this.progress = 0;
+		if (level == null || recipe == null) {
 			this.total = 0;
 			this.remaining = 0;
-			return;
+			return false;
 		}
-		this.progress = 0;
 
 		if (recipe.isUpgrade()) {
 			int target = Math.min(recipe.upgradeTo().orElse(this.getWorkBenchLevel()), BHR_WorkBench.LEVEL_MAX);
@@ -350,7 +412,10 @@ public class BHR_WorkBenchEntity extends BlockEntity implements Container, Conta
 					this.getBlockState().setValue(BHR_WorkBench.LEVEL, target));
 			this.total = 0;
 			this.remaining = 0;
-			return;
+			// 升级完成就取消选中，避免同一台机器被重复升级
+			this.selected = -1;
+			java.util.Arrays.fill(this.preferred, 0);
+			return false;
 		}
 
 		// 一份 = resultCount 个（如梯子一份 10 个）
@@ -366,6 +431,8 @@ public class BHR_WorkBenchEntity extends BlockEntity implements Container, Conta
 			Block.popResource(level, this.worldPosition, result);
 		}
 
+		this.consumeOneBatch(recipe);
+
 		this.remaining--;
 		// 界面上显示的就是「还剩几份」，所以倍率数字跟着一起减；
 		// 收工时回到 1，下次制作从 1 份开始。
@@ -374,7 +441,55 @@ public class BHR_WorkBenchEntity extends BlockEntity implements Container, Conta
 			this.remaining = 0;
 			this.batches = 1;
 			this.total = 0;
+			return false;
 		}
+		return true;
+	}
+
+	/** 从暂存原料里扣掉「一份」的量。 */
+	private void consumeOneBatch(BHR_FoolRecipe recipe) {
+		for (BHR_FoolIngredient ingredient : recipe.ingredients()) {
+			int need = ingredient.count();
+			for (java.util.Iterator<ItemStack> iterator = this.pending.iterator(); iterator.hasNext() && need > 0; ) {
+				ItemStack stack = iterator.next();
+				if (!ingredient.accepts(stack)) {
+					continue;
+				}
+				int amount = Math.min(need, stack.getCount());
+				stack.shrink(amount);
+				need -= amount;
+				if (stack.isEmpty()) {
+					iterator.remove();
+				}
+			}
+		}
+		this.setChanged();
+	}
+
+	/**
+	 * 方块被移除时把东西吐出来：结果栏里的产物 + 暂存但没消耗掉的原料。
+	 * <p>时间水晶由菜单的 {@code removed(...)} 负责退回，这里不重复处理。
+	 */
+	@Override
+	public void preRemoveSideEffects(BlockPos pos, BlockState state) {
+		super.preRemoveSideEffects(pos, state);
+		Level level = this.getLevel();
+		if (level == null || level.isClientSide()) {
+			return;
+		}
+		// 先把「按游戏刻该走完的进度」补算掉，再吐东西
+		this.refresh(level.getGameTime());
+		ItemStack result = this.getItem(RESULT_SLOT);
+		if (!result.isEmpty()) {
+			Block.popResource(level, pos, result);
+			this.setItem(RESULT_SLOT, ItemStack.EMPTY);
+		}
+		for (ItemStack stack : this.pending) {
+			if (!stack.isEmpty()) {
+				Block.popResource(level, pos, stack.copy());
+			}
+		}
+		this.pending.clear();
 	}
 
 	// ── Container ──
@@ -447,7 +562,7 @@ public class BHR_WorkBenchEntity extends BlockEntity implements Container, Conta
 		return switch (index) {
 			case DATA_SELECTED -> this.selected;
 			case DATA_BATCHES -> this.batches;
-			case DATA_PROGRESS -> this.progress;
+			case DATA_PROGRESS -> this.getProgress();
 			case DATA_TOTAL -> this.total;
 			case DATA_LEVEL -> this.getWorkBenchLevel();
 			case DATA_EXPERT -> this.isExpertRecipes() ? 1 : 0;
@@ -462,7 +577,6 @@ public class BHR_WorkBenchEntity extends BlockEntity implements Container, Conta
 		switch (index) {
 			case DATA_SELECTED -> this.selected = value;
 			case DATA_BATCHES -> this.batches = value;
-			case DATA_PROGRESS -> this.progress = value;
 			case DATA_TOTAL -> this.total = value;
 			case DATA_SCROLL -> this.scroll = value;
 			case DATA_REMAINING -> this.remaining = value;
@@ -487,11 +601,15 @@ public class BHR_WorkBenchEntity extends BlockEntity implements Container, Conta
 				? BHR_FoolRecipes.all().get(this.selected).id().toString()
 				: "");
 		output.putInt("batches", this.batches);
-		output.putInt("progress", this.progress);
+		output.putLong("craft_start", this.craftStart);
 		output.putInt("total", this.total);
 		output.putInt("scroll", this.scroll);
 		output.putInt("remaining", this.remaining);
 		output.putIntArray("preferred", this.preferred);
+		var pendingList = output.list("pending", ItemStack.CODEC);
+		for (ItemStack stack : this.pending) {
+			pendingList.add(stack);
+		}
 	}
 
 	@Override
@@ -499,10 +617,12 @@ public class BHR_WorkBenchEntity extends BlockEntity implements Container, Conta
 		super.loadAdditional(input);
 		ContainerHelper.loadAllItems(input, this.items);
 		this.batches = Math.max(1, input.getIntOr("batches", 1));
-		this.progress = input.getIntOr("progress", 0);
+		this.craftStart = input.getLongOr("craft_start", 0L);
 		this.total = input.getIntOr("total", 0);
 		this.scroll = Math.max(0, input.getIntOr("scroll", 0));
 		this.remaining = Math.max(0, input.getIntOr("remaining", 0));
+		this.pending.clear();
+		input.listOrEmpty("pending", ItemStack.CODEC).forEach(this.pending::add);
 		int[] savedPreferred = input.getIntArray("preferred").orElse(new int[DATA_PREF_COUNT]);
 		for (int i = 0; i < Math.min(savedPreferred.length, this.preferred.length); i++) {
 			this.preferred[i] = savedPreferred[i];

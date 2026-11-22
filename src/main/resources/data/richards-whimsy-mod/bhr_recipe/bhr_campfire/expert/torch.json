@@ -1,8 +1,8 @@
 {
-  "workbench": "bhr_workbench",
-  "expert": false,
+  "workbench": "bhr_campfire",
+  "expert": true,
   "level": 1,
-  "time": 5,
+  "time": 10,
   "ingredients": [
     {
       "item": "minecraft:stick",

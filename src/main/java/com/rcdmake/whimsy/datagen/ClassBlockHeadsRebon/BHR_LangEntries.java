@@ -1,6 +1,7 @@
 package com.rcdmake.whimsy.datagen.ClassBlockHeadsRebon;
 
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_BeachSand;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Campfire;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Compost;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_GemAmethyst;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_GemDiamond;
@@ -156,6 +157,12 @@ public final class BHR_LangEntries {
 		builder.add("tooltip.richards-whimsy-mod.workbench.batches.plus", "单击 +1；按住 Shift 可倍增数量");
 		builder.add("tooltip.richards-whimsy-mod.workbench.batches.minus", "单击 -1；按住 Shift 可减半数量");
 		builder.add("tooltip.richards-whimsy-mod.workbench.alt", "右键切换消耗物品");
+		// —— 简易篝火（带燃料的制作台）——
+		LangEntrySupport.addBlockAndItem(builder, BHR_Campfire.BHR_CAMPFIRE, "简易篝火");
+		builder.add(BHR_Campfire.TITLE_KEY, "简易篝火");
+		builder.add("tooltip.richards-whimsy-mod.campfire.fuel_value", "燃料值：%s 单位燃烧时间（%s 秒）");
+		builder.add("gui.richards-whimsy-mod.campfire.fuel", "燃料 %s / %s 单位");
+		builder.add("gui.richards-whimsy-mod.campfire.fuel.empty", "燃料：无");
 		// —— 宝石 ——
 		LangEntrySupport.addBlockAndItem(builder, BHR_GemAmethyst.BHR_GEM_AMETHYST, "紫锂辉");
 		LangEntrySupport.addBlockAndItem(builder, BHR_GemSapphire.BHR_GEM_SAPPHIRE, "蓝宝石");
@@ -258,6 +265,12 @@ public final class BHR_LangEntries {
 		builder.add("tooltip.richards-whimsy-mod.workbench.batches.plus", "Click for +1; hold Shift to double");
 		builder.add("tooltip.richards-whimsy-mod.workbench.batches.minus", "Click for -1; hold Shift to halve");
 		builder.add("tooltip.richards-whimsy-mod.workbench.alt", "Right-click to switch the consumed item");
+		// —— 简易篝火（Simple Campfire）——
+		LangEntrySupport.addBlockAndItem(builder, BHR_Campfire.BHR_CAMPFIRE, "Simple Campfire");
+		builder.add(BHR_Campfire.TITLE_KEY, "Simple Campfire");
+		builder.add("tooltip.richards-whimsy-mod.campfire.fuel_value", "Fuel value: %s unit(s) of burn time (%s s)");
+		builder.add("gui.richards-whimsy-mod.campfire.fuel", "Fuel %s / %s units");
+		builder.add("gui.richards-whimsy-mod.campfire.fuel.empty", "Fuel: none");
 		// —— 宝石 ——
 		LangEntrySupport.addBlockAndItem(builder, BHR_GemAmethyst.BHR_GEM_AMETHYST, "Kunzite");
 		LangEntrySupport.addBlockAndItem(builder, BHR_GemSapphire.BHR_GEM_SAPPHIRE, "Sapphire");

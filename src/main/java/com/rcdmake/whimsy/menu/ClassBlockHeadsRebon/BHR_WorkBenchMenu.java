@@ -140,6 +140,19 @@ public class BHR_WorkBenchMenu extends AbstractContainerMenu {
 		};
 	}
 
+	/**
+	 * 界面打开期间每 tick 刷新一次：进度按「当前游戏刻 - 本份开始刻」补算并同步给客户端。
+	 * 没有界面打开时方块完全不 tick（进度靠时间差在下次访问时补齐）。
+	 */
+	@Override
+	public void broadcastChanges() {
+		BHR_WorkBenchEntity workBench = this.entity();
+		if (workBench != null && workBench.getLevel() != null) {
+			workBench.refresh(workBench.getLevel().getGameTime());
+		}
+		super.broadcastChanges();
+	}
+
 	@Override
 	public boolean stillValid(Player player) {
 		return stillValid(this.access, player, BHR_WorkBench.BHR_WORK_BENCH);
@@ -292,6 +305,8 @@ public class BHR_WorkBenchMenu extends AbstractContainerMenu {
 		if (!crystal.isEmpty() && !player.getInventory().add(crystal)) {
 			player.drop(crystal, false);
 		}
+		// 关界面不保留选中的配方（滚动位置保留，下次打开还停在原处）；制作中则不清
+		entity.clearSelection();
 	}
 
 	/** 注册菜单类型（由 {@code BHR_WorkBench.OnInit()} 调用）。 */

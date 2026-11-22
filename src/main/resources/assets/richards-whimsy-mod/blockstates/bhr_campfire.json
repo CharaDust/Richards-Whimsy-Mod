@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "richards-whimsy-mod:block/bhr_campfire_unlit"
+    },
+    "lit=true": {
+      "model": "richards-whimsy-mod:block/bhr_campfire_lit"
+    }
+  }
+}

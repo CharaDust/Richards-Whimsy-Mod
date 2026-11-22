@@ -162,6 +162,56 @@ public final class BHR_FoolRecipes {
 		return true;
 	}
 
+	/**
+	 * 取料并<b>返回实际取出的物品堆</b>（不直接消失）—— 这些堆会暂存在制作台方块实体里，
+	 * 每完成一份扣掉一份的量；方块中途被打破时原样退还。
+	 *
+	 * @return 取出的物品堆列表；原料不够时返回空列表（并把已取出的还回背包）
+	 */
+	public static java.util.List<ItemStack> takeForCraft(net.minecraft.world.entity.player.Player player,
+			BHR_FoolRecipe recipe, int batches, java.util.List<Item> preferred) {
+		var inventory = player.getInventory();
+		java.util.List<ItemStack> taken = new java.util.ArrayList<>();
+		for (int index = 0; index < recipe.ingredients().size(); index++) {
+			BHR_FoolIngredient ingredient = recipe.ingredients().get(index);
+			int remaining = requiredCount(ingredient, batches);
+			Item first = index < preferred.size() ? preferred.get(index) : null;
+			if (first != null) {
+				remaining = takeMatching(inventory, remaining, taken, stack -> stack.is(first));
+			}
+			if (remaining > 0) {
+				remaining = takeMatching(inventory, remaining, taken, ingredient::accepts);
+			}
+			if (remaining > 0) {
+				// 取不够 → 把已取的还回去，别吞材料
+				for (ItemStack stack : taken) {
+					if (!inventory.add(stack)) {
+						player.drop(stack, false);
+					}
+				}
+				return java.util.List.of();
+			}
+		}
+		return taken;
+	}
+
+	private static int takeMatching(net.minecraft.world.entity.player.Inventory inventory, int remaining,
+			java.util.List<ItemStack> taken, java.util.function.Predicate<ItemStack> filter) {
+		for (int slot = 0; slot < inventory.getContainerSize() && remaining > 0; slot++) {
+			ItemStack stack = inventory.getItem(slot);
+			if (stack.isEmpty() || !filter.test(stack)) {
+				continue;
+			}
+			int amount = Math.min(remaining, stack.getCount());
+			taken.add(stack.split(amount));
+			if (stack.isEmpty()) {
+				inventory.setItem(slot, ItemStack.EMPTY);
+			}
+			remaining -= amount;
+		}
+		return remaining;
+	}
+
 	/** 只扣某一种具体物品。 */
 	private static int drain(net.minecraft.world.entity.player.Player player,
 			net.minecraft.world.entity.player.Inventory inventory, BHR_FoolIngredient ingredient,

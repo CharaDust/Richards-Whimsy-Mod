@@ -198,25 +198,10 @@ public class BHR_WorkBench extends Block implements EntityBlock {
 		return InteractionResult.SUCCESS;
 	}
 
-	/**
-	 * 方块实体 tick（层 8）：制作进度每 tick 推进一次。
-	 *
-	 * <p>只服务端要 tick；客户端的进度靠菜单数据槽同步，所以客户端直接返回 null。
-	 * <p>签名必须保留 {@code <T extends BlockEntity>} 的泛型（父接口就是这么声明的），
-	 * 所以这里转型到本方块实体 —— 方块实体类型注册时已经保证只有本类。
-	 */
-	@Override
-	@SuppressWarnings("unchecked")
-	public <T extends net.minecraft.world.level.block.entity.BlockEntity>
-			net.minecraft.world.level.block.entity.BlockEntityTicker<T> getTicker(
-					Level level, BlockState state,
-					net.minecraft.world.level.block.entity.BlockEntityType<T> type) {
-		if (level.isClientSide()) {
-			return null;
-		}
-		return (net.minecraft.world.level.block.entity.BlockEntityTicker<T>)
-				(net.minecraft.world.level.block.entity.BlockEntityTicker<BHR_WorkBenchEntity>) BHR_WorkBenchEntity::tick;
-	}
+	// ── 层 8 说明：这里刻意**不**提供 getTicker ──
+	// 制作进度不是「每 tick 加一」，而是「用当前游戏刻减去本份开始的游戏刻」现算（见
+	// BHR_WorkBenchEntity#refresh）：没有界面在看的时候方块完全不参与 tick，
+	// 区块卸载也不会让进度丢失或变慢，重新打开时按差额一次补上。
 
 	/**
 	 * 掉落（层 9）：<b>一个</b>带等级的方块物品。
