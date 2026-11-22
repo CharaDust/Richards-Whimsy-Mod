@@ -44,6 +44,7 @@
 		"client.ClassBlockHeadsRebon.BHR_FoolHudHealthMixin",
 		"client.ClassBlockHeadsRebon.BHR_InBedSleepButtonsMixin",
 		"client.ClassBlockHeadsRebon.BHR_MinecraftHotbarMixin",
+		"client.ClassBlockHeadsRebon.BHR_SpectatorMenuMixin",
 		"client.ClassBlockHeadsRebon.BHR_GuiBedScreenMixin",
 		"client.ClassBlockHeadsRebon.BHR_HudSleepOverlayMixin",
 		"client.ClassBlockHeadsRebon.BHR_ChatScreenClickMixin",
@@ -59,4 +60,5 @@
 		"requireAnnotations": true
 	}
 }
+
 

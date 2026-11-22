@@ -6,6 +6,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.Hud;
 import net.minecraft.world.entity.player.Player;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -45,6 +46,11 @@ public abstract class BHR_HudSleepOverlayMixin {
 	/** 出窍期间临时接管 isHidden 之前的值。 */
 	@Unique
 	private boolean whimsy$savedHidden;
+
+	/** 原版旁观者菜单：出窍时用它来画命令栏（复用原版 UI，不自己画）。 */
+	@Shadow
+	@Final
+	private net.minecraft.client.gui.components.spectator.SpectatorGui spectatorGui;
 
 	@Inject(method = "extractSleepOverlay", at = @At("HEAD"), cancellable = true)
 	private void whimsy$skipSleepOverlayWhileObserving(CallbackInfo ci) {
@@ -89,4 +95,15 @@ public abstract class BHR_HudSleepOverlayMixin {
 			cir.setReturnValue(Minecraft.getInstance().player);
 		}
 	}
+
+	/** 出窍时用<b>原版旁观者菜单</b>画命令栏（快捷栏已在上面被跳过）。 */
+	@Inject(method = "extractHotbarAndDecorations", at = @At("TAIL"))
+	private void whimsy$drawSpectatorMenu(GuiGraphicsExtractor graphics, DeltaTracker deltaTracker, CallbackInfo ci) {
+		if (BHR_FoolSleepCamera.isActive()) {
+			this.spectatorGui.extractHotbar(graphics);
+			this.spectatorGui.extractAction(graphics);
+		}
+	}
 }
+
+
