@@ -127,6 +127,11 @@ public final class BHR_FoolSleepCamera {
 
 		camera = marker;
 		minecraft.setCameraEntity(marker);
+
+		// 动作栏提示：告诉玩家命令栏怎么开
+		minecraft.gui.hud.setOverlayMessage(
+				net.minecraft.network.chat.Component.translatable("gui.bhr.fool.press_number"), false);
+
 		LOGGER.info("[出窍] 进入观察：相机实体 id={}，起点 ({}, {}, {})",
 				marker.getId(), String.format("%.1f", marker.getX()),
 				String.format("%.1f", marker.getY()), String.format("%.1f", marker.getZ()));
@@ -148,6 +153,21 @@ public final class BHR_FoolSleepCamera {
 		boolean value = suppressWakeOnce;
 		suppressWakeOnce = false;
 		return value;
+	}
+
+	/**
+	 * 把相机瞬移到目标实体处（1/2 号键的传送）。
+	 *
+	 * <p>只移动相机，<b>本体留在床上</b>；同时把「上一 tick 位置」一起对齐，
+	 * 否则渲染插值会拖出一条长长的位移轨迹。
+	 */
+	public static void snapTo(net.minecraft.world.entity.Entity target) {
+		if (camera == null || target == null) {
+			return;
+		}
+		camera.setPos(target.getX(), target.getY() + target.getEyeHeight(), target.getZ());
+		captureOld(camera);
+		velocity = Vec3.ZERO;
 	}
 
 	/** 回到身体。 */
@@ -283,5 +303,6 @@ public final class BHR_FoolSleepCamera {
 		return player.getAttachedOrElse(BHR_Energy.SUPER, 0.0F);
 	}
 }
+
 
 
