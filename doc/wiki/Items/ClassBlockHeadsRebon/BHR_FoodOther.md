@@ -35,3 +35,22 @@
   大饼 `flatbread.png`、彩虹蛋糕 `rainbow_cake.png`、什锦披萨 `pizza.png`、
   炖山珍 `dodo_stew.png`、咖喱鱼 `fish_curry.png`
 - 各页「备注」里的**种植类 `#todo` 本轮全部跳过**：对应的树叶/仙人掌方块尚未添加
+
+## 实现进度（2026-11，篝火线）
+本页表格里 **5 件**已随「篝火配方补齐」落地，数值按需求方新给的口径重定（**以新口径为准**）：
+
+| 物品 | 注册名 | 饥饿值 / 饱和度（点数） | 旧表 | 类 |
+| --- | --- | --- | --- | --- |
+| 生鱼片 | `bhr_raw_fish` | 2 / 0.4（原版生鳕鱼） | Raw 3 / 0.4 | `BHR_RawFish` |
+| 熟鱼片 | `bhr_cooked_fish` | 5 / 6.0（原版熟鳕鱼） | High 7 / 3 | `BHR_CookedFish` |
+| 生渡渡鸟肉 | `bhr_raw_dodo_meat` | 2 / 1.2（原版生鸡肉） | Raw 3 / 0.4 | `BHR_RawDodoMeat` |
+| 熟渡渡鸟肉 | `bhr_cooked_dodo_meat` | 6 / 7.2（原版熟鸡肉） | High 7 / 3 | `BHR_CookedDodoMeat` |
+| 煎饼 | `bhr_flatbread` | 8 / 3.0（需求原文） | High 7 / 3 | `BHR_Flatbread` |
+
+- ⚠️ **26.2 的 `saturation` 是实际饱和度点数**（`FoodData#eat(FoodProperties)` 直接累加，无倍率）。
+  「倍率」写法只在 `FoodProperties.Builder#saturationModifier` 里存在，换算 `n × m × 2`。
+- 组件装配收在 `BHR_SimpleFood#apply(properties, nutrition, saturationPoints)` 一处；明细见 [篝火线物品](BHR_CampfireLine.md)
+- 仍未落地：气泡海带、咖啡、辣椒、细长胡萝卜、番茄、白列巴、彩虹蛋糕、什锦披萨、炖山珍、咖喱鱼
+- ⚠️ 本页上表的旧号（`1 / 0.1`、`3 / 0.4`、`4 / 1`、`7 / 3`、`15 / 9`）是「倍率时代」的写法；
+  早期落地的 10 件食物（`bhr_lime` 等）代码里也还写着倍率值（`SATURATION = 1.0F` 之类），
+  在新口径下等于「1 点」，实际几乎不补饱和度 —— 待统一换算（`点数 = n × m × 2`）。

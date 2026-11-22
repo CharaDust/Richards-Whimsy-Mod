@@ -1,0 +1,17 @@
+{
+  "workbench": "bhr_campfire",
+  "expert": true,
+  "level": 2,
+  "order": 0,
+  "time": 20,
+  "ingredients": [
+    {
+      "item": "richards-whimsy-mod:bhr_raw_dodo_meat",
+      "count": 1
+    }
+  ],
+  "result": {
+    "item": "richards-whimsy-mod:bhr_cooked_dodo_meat",
+    "count": 1
+  }
+}

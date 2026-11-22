@@ -27,9 +27,18 @@ import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_OreSoilUnknown;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Slate;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_SlateCobble;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Soil;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_TreeDoorFruit;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_TreeFenceFruit;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_TreeFenceGateFruit;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_TreeLeavesPine;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_TreeLogPine;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_TreePlanksFruit;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_TreeSignFruit;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_TreeSlabFruit;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_TreeStairsFruit;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_TreeTrapdoorFruit;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_WorkBench;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_WoodenBed;
 import com.rcdmake.whimsy.component.ClassBlockHeadsRebon.BHR_GemBlessing;
 import com.rcdmake.whimsy.datagen.LangEntrySupport;
 import com.rcdmake.whimsy.item.BHR_CreativeTabs;
@@ -38,6 +47,17 @@ import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Cherry;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Coconut;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_CoffeeCherry;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_DodoApple;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Ember;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_CookedDodoMeat;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_CookedFish;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Flatbread;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Flour;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_MineralSalt;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_RawDodoMeat;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_RawFish;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_TinBucket;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_TinFoil;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_WaterTinBucket;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_GemBlessTest;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Lime;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Mango;
@@ -113,6 +133,11 @@ public final class BHR_LangEntries {
 		builder.add("gui.bhr.fool.observe", "观察世界");
 		builder.add("gui.bhr.fool.return_body", "返回身体");
 		builder.add("gui.bhr.fool.wake_up", "起床");
+		builder.add("gui.bhr.fool.menu_prompt", "愚者 · 观察世界");
+		builder.add("gui.bhr.fool.press_number", "按数字键打开菜单");
+		builder.add("gui.bhr.fool.teleport_player", "传送到玩家");
+		builder.add("gui.bhr.fool.teleport_team", "传送到队伍成员");
+		
 
 		// —— 方块与矿物：切面板岩系 ——
 		LangEntrySupport.addBlockAndItem(builder, BHR_Slate.BHR_SLATE, "切面板岩");
@@ -139,6 +164,19 @@ public final class BHR_LangEntries {
 		LangEntrySupport.addBlockAndItem(builder, BHR_BeachSand.BHR_BEACH_SAND, "海滩沙");
 		// —— 树木 ——
 		LangEntrySupport.addBlockAndItem(builder, BHR_TreeLogPine.BHR_PINE_LOG, "松木原木");
+		LangEntrySupport.addBlockAndItem(builder, BHR_TreePlanksFruit.BHR_FRUIT_PLANKS, "果木木板");
+		// —— 果木木料家族（2026-11，七块）——
+		LangEntrySupport.addBlockAndItem(builder, BHR_TreeSlabFruit.BHR_FRUIT_SLAB, "果木台阶");
+		LangEntrySupport.addBlockAndItem(builder, BHR_TreeStairsFruit.BHR_FRUIT_STAIRS, "果木楼梯");
+		LangEntrySupport.addBlockAndItem(builder, BHR_TreeFenceFruit.BHR_FRUIT_FENCE, "果木栅栏");
+		LangEntrySupport.addBlockAndItem(builder, BHR_TreeFenceGateFruit.BHR_FRUIT_FENCE_GATE, "果木栅栏门");
+		LangEntrySupport.addBlockAndItem(builder, BHR_TreeDoorFruit.BHR_FRUIT_DOOR, "果木门");
+		LangEntrySupport.addBlockAndItem(builder, BHR_TreeTrapdoorFruit.BHR_FRUIT_TRAPDOOR, "果木活板门");
+		// 告示牌：立牌（方块 + 物品）+ 墙牌（只有方块，没有物品形式）
+		LangEntrySupport.addBlockAndItem(builder, BHR_TreeSignFruit.BHR_FRUIT_SIGN, "果木告示牌");
+		builder.add(BHR_TreeSignFruit.BHR_FRUIT_WALL_SIGN, "果木墙牌");
+		// 木床（2026-11）：与床同形，差别只在愚者模式的睡觉档位（见 BHR_WoodenBed 类注释 / wiki 页）
+		LangEntrySupport.addBlockAndItem(builder, BHR_WoodenBed.BHR_WOODEN_BED, "木床");
 		LangEntrySupport.addBlockAndItem(builder, BHR_TreeLeavesPine.BHR_PINE_LEAVES, "松木树叶");
 		// —— 物品：松果（普通物品，只有 item.… 一条键）——
 		builder.add(BHR_PineCone.BHR_PINE_CONE, "松果");
@@ -187,6 +225,19 @@ public final class BHR_LangEntries {
 		builder.add(BHR_BlockHeadsIcon.BHR_BLOCKHEADS_ICON, "方块愚者徽标");
 		// —— 时间水晶（制作台加速消耗品）——
 		builder.add(BHR_TimeCrystal.BHR_TIME_CRYSTAL, "时间水晶");
+		// —— 余烬（一次性点火消耗品；不是燃料，见 BHR_Ember 类注释）——
+		builder.add(BHR_Ember.BHR_EMBER, "余烬");
+		// —— 篝火线（2026-11）：配方材料与食物 ——
+		builder.add(BHR_TinFoil.BHR_TIN_FOIL, "锡箔");
+		builder.add(BHR_TinBucket.BHR_TIN_BUCKET, "锡桶");
+		builder.add(BHR_WaterTinBucket.BHR_WATER_TIN_BUCKET, "锡水桶");
+		builder.add(BHR_Flour.BHR_FLOUR, "面粉");
+		builder.add(BHR_MineralSalt.BHR_MINERAL_SALT, "无机盐");
+		builder.add(BHR_RawFish.BHR_RAW_FISH, "生鱼片");
+		builder.add(BHR_CookedFish.BHR_COOKED_FISH, "熟鱼片");
+		builder.add(BHR_RawDodoMeat.BHR_RAW_DODO_MEAT, "生渡渡鸟肉");
+		builder.add(BHR_CookedDodoMeat.BHR_COOKED_DODO_MEAT, "熟渡渡鸟肉");
+		builder.add(BHR_Flatbread.BHR_FLATBREAD, "煎饼");
 		builder.add(BHR_GemBlessing.Gem.AMETHYST.tooltipKey(), "宝石祝福：紫锂辉");
 		builder.add(BHR_GemBlessing.Gem.SAPPHIRE.tooltipKey(), "宝石祝福：蓝宝石");
 		builder.add(BHR_GemBlessing.Gem.EMERALD.tooltipKey(), "宝石祝福：祖母绿");
@@ -224,6 +275,11 @@ public final class BHR_LangEntries {
 		builder.add("gui.bhr.fool.observe", "Observe the World");
 		builder.add("gui.bhr.fool.return_body", "Return to Body");
 		builder.add("gui.bhr.fool.wake_up", "Get Up");
+		builder.add("gui.bhr.fool.menu_prompt", "Fool - Observing");
+		builder.add("gui.bhr.fool.press_number", "Press a number key to open the menu");
+		builder.add("gui.bhr.fool.teleport_player", "Teleport to Player");
+		builder.add("gui.bhr.fool.teleport_team", "Teleport to Team Member");
+		
 
 		// —— 方块与矿物：切面板岩系 ——
 		LangEntrySupport.addBlockAndItem(builder, BHR_Slate.BHR_SLATE, "Faceted Slate");
@@ -250,6 +306,17 @@ public final class BHR_LangEntries {
 		LangEntrySupport.addBlockAndItem(builder, BHR_BeachSand.BHR_BEACH_SAND, "Beach Sand");
 		// —— 树木 ——
 		LangEntrySupport.addBlockAndItem(builder, BHR_TreeLogPine.BHR_PINE_LOG, "Pine Log");
+		LangEntrySupport.addBlockAndItem(builder, BHR_TreePlanksFruit.BHR_FRUIT_PLANKS, "Fruit Wood Planks");
+		// —— 果木木料家族（2026-11，七块）——
+		LangEntrySupport.addBlockAndItem(builder, BHR_TreeSlabFruit.BHR_FRUIT_SLAB, "Fruit Wood Slab");
+		LangEntrySupport.addBlockAndItem(builder, BHR_TreeStairsFruit.BHR_FRUIT_STAIRS, "Fruit Wood Stairs");
+		LangEntrySupport.addBlockAndItem(builder, BHR_TreeFenceFruit.BHR_FRUIT_FENCE, "Fruit Wood Fence");
+		LangEntrySupport.addBlockAndItem(builder, BHR_TreeFenceGateFruit.BHR_FRUIT_FENCE_GATE, "Fruit Wood Fence Gate");
+		LangEntrySupport.addBlockAndItem(builder, BHR_TreeDoorFruit.BHR_FRUIT_DOOR, "Fruit Wood Door");
+		LangEntrySupport.addBlockAndItem(builder, BHR_TreeTrapdoorFruit.BHR_FRUIT_TRAPDOOR, "Fruit Wood Trapdoor");
+		LangEntrySupport.addBlockAndItem(builder, BHR_TreeSignFruit.BHR_FRUIT_SIGN, "Fruit Wood Sign");
+		builder.add(BHR_TreeSignFruit.BHR_FRUIT_WALL_SIGN, "Fruit Wood Wall Sign");
+		LangEntrySupport.addBlockAndItem(builder, BHR_WoodenBed.BHR_WOODEN_BED, "Wooden Bed");
 		LangEntrySupport.addBlockAndItem(builder, BHR_TreeLeavesPine.BHR_PINE_LEAVES, "Pine Leaves");
 		// —— 物品：松果 ——
 		builder.add(BHR_PineCone.BHR_PINE_CONE, "Pine Cone");
@@ -298,6 +365,19 @@ public final class BHR_LangEntries {
 		builder.add(BHR_BlockHeadsIcon.BHR_BLOCKHEADS_ICON, "Blockheads Emblem");
 		// —— 时间水晶 ——
 		builder.add(BHR_TimeCrystal.BHR_TIME_CRYSTAL, "Time Crystal");
+		// —— 余烬（一次性点火消耗品；不是燃料）——
+		builder.add(BHR_Ember.BHR_EMBER, "Ember");
+		// —— 篝火线（2026-11）——
+		builder.add(BHR_TinFoil.BHR_TIN_FOIL, "Tin Foil");
+		builder.add(BHR_TinBucket.BHR_TIN_BUCKET, "Tin Bucket");
+		builder.add(BHR_WaterTinBucket.BHR_WATER_TIN_BUCKET, "Tin Bucket of Water");
+		builder.add(BHR_Flour.BHR_FLOUR, "Flour");
+		builder.add(BHR_MineralSalt.BHR_MINERAL_SALT, "Mineral Salt");
+		builder.add(BHR_RawFish.BHR_RAW_FISH, "Raw Fish");
+		builder.add(BHR_CookedFish.BHR_COOKED_FISH, "Cooked Fish");
+		builder.add(BHR_RawDodoMeat.BHR_RAW_DODO_MEAT, "Raw Dodo Meat");
+		builder.add(BHR_CookedDodoMeat.BHR_COOKED_DODO_MEAT, "Cooked Dodo Meat");
+		builder.add(BHR_Flatbread.BHR_FLATBREAD, "Flatbread");
 		builder.add(BHR_GemBlessing.Gem.AMETHYST.tooltipKey(), "Gem Blessing: Kunzite");
 		builder.add(BHR_GemBlessing.Gem.SAPPHIRE.tooltipKey(), "Gem Blessing: Sapphire");
 		builder.add(BHR_GemBlessing.Gem.EMERALD.tooltipKey(), "Gem Blessing: Canutillos");
@@ -309,3 +389,7 @@ public final class BHR_LangEntries {
 		builder.add("message.richards-whimsy-mod.gem_bless_test.cleared", "Gem blessings cleared");
 	}
 }
+
+
+
+

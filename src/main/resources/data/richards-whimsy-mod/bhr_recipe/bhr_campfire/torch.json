@@ -2,6 +2,7 @@
   "workbench": "bhr_campfire",
   "expert": false,
   "level": 1,
+  "order": 0,
   "time": 5,
   "ingredients": [
     {

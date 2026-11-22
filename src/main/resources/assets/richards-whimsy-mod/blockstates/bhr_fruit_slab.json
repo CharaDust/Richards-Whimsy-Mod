@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "richards-whimsy-mod:block/bhr_fruit_slab"
+    },
+    "type=double": {
+      "model": "richards-whimsy-mod:block/bhr_fruit_planks"
+    },
+    "type=top": {
+      "model": "richards-whimsy-mod:block/bhr_fruit_slab_top"
+    }
+  }
+}

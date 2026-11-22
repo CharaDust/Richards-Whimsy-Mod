@@ -83,6 +83,14 @@ public class RichardsWhimsyModClient implements ClientModInitializer {
 		net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents.END_CLIENT_TICK
 				.register(com.rcdmake.whimsy.client.BHR_DownedMusic::tick);
 
+		// 果木告示牌：给**自定义**的方块实体类型接上原版的告示牌渲染器。
+		// 牌面木头由方块模型画（那部分自动生效），牌上的**文字**由区块实体渲染器画；
+		// 原版只把 StandingSignRenderer 注册给了 BlockEntityTypes.SIGN，
+		// 我们的类型没有渲染器 → 能放、能写、字看不见。立牌与墙牌共用这一个渲染器（原版同款）。
+		net.minecraft.client.renderer.blockentity.BlockEntityRenderers.register(
+				com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_TreeSignFruit.BHR_FRUIT_SIGN_ENTITY,
+				net.minecraft.client.renderer.blockentity.StandingSignRenderer::new);
+
 		// AppleSkin 软兼容：愚者模式下屏蔽它的全部 HUD 叠加层
 		// （自定义 barR 已经接管那块区域；生存模式仍然保持 AppleSkin 的原生表现）。
 		if (net.fabricmc.loader.api.FabricLoader.getInstance().isModLoaded("appleskin")) {
@@ -90,3 +98,5 @@ public class RichardsWhimsyModClient implements ClientModInitializer {
 		}
 	}
 }
+
+

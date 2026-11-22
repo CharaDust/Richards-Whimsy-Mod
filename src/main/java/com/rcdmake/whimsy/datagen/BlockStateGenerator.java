@@ -183,6 +183,11 @@ public final class BlockStateGenerator {
 		//     （block/bhr_workbench_1 ~ _29），blockstate 手写。
 		// 下面全是单状态方块（模型与方块同名 → block/<id>），交给生成器。
 		all.put(com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Compost.BHR_COMPOST, "");
+		// —— 松木木料：原木是多状态（AXIS，手写），木板是单状态 ——
+		// 果木木板（bhr_fruit_planks，2026-11 新增）：全木料共用的一块木板（The Blockheads 口径），
+		// 单状态 → blockstates/bhr_fruit_planks.json 由本生成器产出，
+		// 指向手写的 models/block/bhr_fruit_planks.json（cube_all + bhr/fruit_planks 贴图）。
+		all.put(com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_TreePlanksFruit.BHR_FRUIT_PLANKS, "");
 		// —— 切面板岩系 ——
 		all.put(com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Slate.BHR_SLATE, "");
 		all.put(com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_SlateCobble.BHR_COBBLESLATE, "");

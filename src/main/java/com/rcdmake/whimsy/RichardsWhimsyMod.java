@@ -27,9 +27,18 @@ import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_OreSoilUnknown;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Slate;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_SlateCobble;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Soil;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_TreeDoorFruit;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_TreeFenceFruit;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_TreeFenceGateFruit;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_TreeLeavesPine;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_TreeLogPine;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_TreePlanksFruit;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_TreeSignFruit;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_TreeSlabFruit;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_TreeStairsFruit;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_TreeTrapdoorFruit;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_WorkBench;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_WoodenBed;
 import com.rcdmake.whimsy.block.ClassDEV.DEV_BlocksOther;
 import com.rcdmake.whimsy.block.ClassDEV.DEV_GhostBlock;
 import com.rcdmake.whimsy.block.ClassDEV.DEV_StateBoolean;
@@ -66,6 +75,17 @@ import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Cherry;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Coconut;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_CoffeeCherry;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_DodoApple;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Ember;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_CookedDodoMeat;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_CookedFish;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Flatbread;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Flour;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_MineralSalt;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_RawDodoMeat;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_RawFish;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_TinBucket;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_TinFoil;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_WaterTinBucket;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Lime;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Mango;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_MapleSeed;
@@ -199,6 +219,27 @@ public class RichardsWhimsyMod implements ModInitializer {
 		// --- 方块（方块愚者 BHR，由 1.20.4 迁移而来） ---
 		// 第一批：2 个 #wait4move 方块
 		BHR_TreeLogPine.OnInit();
+		// 果木木板（2026-11 新增）：照搬原版橡木木板的构造属性与标签，单状态方块。
+		// 名字取自原游戏 The Blockheads —— 所有木料共用同一种木板，所以它不冠树种名。
+		// 顺序紧挨松木原木，与物品栏「树木」组的排列一致（原木 → 木板 → 树叶）。
+		BHR_TreePlanksFruit.OnInit();
+		// 果木木料家族（2026-11）：台阶 / 楼梯 / 栅栏 / 栅栏门 / 门 / 活板门 / 告示牌。
+		// 七块全部继承原版家族类（SlabBlock / StairBlock / FenceBlock / FenceGateBlock /
+		// DoorBlock / TrapDoorBlock / StandingSignBlock+WallSignBlock），一行业务覆写都没有；
+		// 顺序 = 物品栏「树木」组的排列（木板 → 台阶 → 楼梯 → 栅栏 → 栅栏门 → 门 → 活板门 → 告示牌），
+		// 注意楼梯要读木板的状态，所以必须在 BHR_TreePlanksFruit 之后。
+		BHR_TreeSlabFruit.OnInit();
+		BHR_TreeStairsFruit.OnInit();
+		BHR_TreeFenceFruit.OnInit();
+		BHR_TreeFenceGateFruit.OnInit();
+		BHR_TreeDoorFruit.OnInit();
+		BHR_TreeTrapdoorFruit.OnInit();
+		// 告示牌自带方块实体类型（两个方块共用一个），内部顺序：方块 → 实体类型 → 物品
+		BHR_TreeSignFruit.OnInit();
+		// 木床（2026-11）：表现与原版床一致（父类 BedBlock + BedItem），
+		// 差异只在愚者模式的睡觉档位（方块标签 richards-whimsy-mod:fool_bed_wooden → BHR_BedTier.WOODEN）。
+		// 它自带自定义模型（床头 / 床脚），blockstate 与物品复合模型都不由 datagen 猜。
+		BHR_WoodenBed.OnInit();
 		BHR_Compost.OnInit();
 
 		// 制作台（2026-10 新增）：29 个等级的合成方块 + 它自己的方块实体。
@@ -275,6 +316,26 @@ public class RichardsWhimsyMod implements ModInitializer {
 		BHR_BlockHeadsIcon.OnInit();
 		// 时间水晶（制作台的加速消耗品，最大堆叠 99）
 		BHR_TimeCrystal.OnInit();
+		// 余烬（2026-11 新增）：烈焰弹式的一次性点火消耗品 —— 手持右键点火（点亮营火/蜡烛，
+		// 或在点击面外侧生成火方块），成功即扣 1 个；差别只在发射器：不发射射弹，直接投出物品。
+		// 点火语义全部继承自 FireChargeItem，本类只多登记了一条「发射器直接投出」的行为。
+		BHR_Ember.OnInit();
+
+		// 篝火线（2026-11 新增）：简易篝火配方要用到的 10 件物品。
+		// 顺序 = 创造栏里的显示顺序（材料在前、食物在后），且**必须早于 `BHR_FoolRecipes.OnInit()`**
+		// —— 配方按 id 查物品，物品没注册的那一条会被静默跳过（见 doc/wiki/Misc/配方.md「后续规划」第 4 条）。
+		// —— 材料 ——
+		BHR_TinFoil.OnInit();        // 锡箔（烤鱼裹一层；专家模式升级篝火也要）
+		BHR_TinBucket.OnInit();      // 锡桶（空桶；配方 container 返还物）
+		BHR_WaterTinBucket.OnInit(); // 锡水桶（只能倒水，倒完变空锡桶）
+		BHR_Flour.OnInit();          // 面粉（煎饼原料）
+		BHR_MineralSalt.OnInit();    // 无机盐（煮水所得，煎饼原料）
+		// —— 食物 ——
+		BHR_RawFish.OnInit();         // 生鱼片（2 / 0.1，参考原版生鳕鱼）
+		BHR_CookedFish.OnInit();      // 熟鱼片（5 / 0.6，参考原版熟鳕鱼）
+		BHR_RawDodoMeat.OnInit();     // 生渡渡鸟肉（2 / 0.3，参考原版生鸡肉）
+		BHR_CookedDodoMeat.OnInit();  // 熟渡渡鸟肉（6 / 0.6，参考原版熟鸡肉）
+		BHR_Flatbread.OnInit();       // 煎饼（8 / 3）
 
 		// --- 状态效果 ---
 		// 随意物件（RDT）的两种「灌注」：正面效果，本身不逐刻做事，

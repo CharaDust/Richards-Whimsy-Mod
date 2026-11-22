@@ -1,0 +1,55 @@
+{
+	"parent": "minecraft:block/template_bed",
+	"textures": {
+		"particle": "richards-whimsy-mod:block/bhr/wooden_bed_head_end",
+		"end": "richards-whimsy-mod:block/bhr/wooden_bed_head_end",
+		"side": "richards-whimsy-mod:block/bhr/wooden_bed_head_side",
+		"up": "richards-whimsy-mod:block/bhr/wooden_bed_head_up"
+	},
+	"elements": [
+		{
+			"from": [0, 0, 0],
+			"to": [2, 4, 2],
+			"faces": {
+				"north": { "uv": [14, 12, 16, 16], "texture": "#end", "cullface": "north" },
+				"east": { "uv": [0, 12, 2, 16], "texture": "#end" },
+				"south": { "uv": [14, 12, 16, 16], "texture": "#end" },
+				"west": { "uv": [0, 12, 2, 16], "texture": "#side", "cullface": "west" },
+				"down": { "uv": [0, 14, 2, 16], "texture": "#end", "cullface": "down" }
+			}
+		},
+		{
+			"from": [14, 0, 0],
+			"to": [16, 4, 2],
+			"faces": {
+				"north": { "uv": [0, 12, 2, 16], "texture": "#end", "cullface": "north" },
+				"east": { "uv": [2, 12, 0, 16], "texture": "#side", "cullface": "east" },
+				"south": { "uv": [0, 12, 2, 16], "texture": "#end" },
+				"west": { "uv": [14, 12, 16, 16], "texture": "#end" },
+				"down": { "uv": [14, 14, 16, 16], "texture": "#end", "cullface": "down" }
+			}
+		},
+		{
+			"from": [0, 4, 0],
+			"to": [16, 8, 16],
+			"faces": {
+				"north": { "uv": [0, 8, 16, 12], "texture": "#end", "cullface": "north" },
+				"east": { "uv": [16, 8, 0, 12], "texture": "#side", "cullface": "east" },
+				"west": { "uv": [0, 8, 16, 12], "texture": "#side", "cullface": "west" },
+				"up": { "uv": [0, 0, 16, 16], "texture": "#up" },
+				"down": { "uv": [0, 0, 16, 16], "texture": "#up" }
+			}
+		},
+		{
+			"from": [0, 8, 0],
+			"to": [16, 16, 2],
+			"faces": {
+				"north": { "uv": [0, 0, 16, 8], "texture": "#end", "cullface": "north" },
+				"east": { "uv": [2, 0, 0, 8], "texture": "#side", "cullface": "east" },
+				"south": { "uv": [0, 0, 16, 8], "texture": "#end" },
+				"west": { "uv": [0, 0, 2, 8], "texture": "#side", "cullface": "west" },
+				"up": { "uv": [0, 0, 16, 1], "texture": "#end" }
+			}
+		}
+	]
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/door_top_left_open",
+  "textures": {
+    "bottom": "richards-whimsy-mod:block/bhr/fruit_door_bottom",
+    "top": "richards-whimsy-mod:block/bhr/fruit_door_top"
+  }
+}

@@ -224,7 +224,7 @@
 | 1 | **工具 / 武器 / 护甲整套零落地**：`Properties.tool(ToolMaterial, TagKey<Block>, F, F, F)` / `pickaxe/axe/hoe/shovel/sword/spear` / `durability` / `repairable` / `enchantable` / `equippable` / `humanoidArmor` 全部**只核过存在性，没写过一行实现** | 开工具/武器线时先做最小样本（含 `ToolMaterial` 自定义、挖掘标签、`incorrect_blocks_for_drops`） |
 | 2 | **自定义 `ToolMaterial`**：26.2 是 record（`incorrectBlocksForDrops, durability, speed, attackDamageBonus, enchantmentValue, repairItems`），**没有注册表**——直接 `new` 是否就够用（原版材质是静态常量） | 待核实；做材质时先看原版 `ToolMaterial.DIAMOND` 怎么被 `Items` 使用 |
 | 3 | **`Properties.tool(...)` 三个 float 的语义**、`spear(...)` 的九个 float | 待核实（写长矛/自定义工具时逐个验证） |
-| 4 | **燃料**（wiki `BHR_FuelEmber`）：26.2 的 `FuelValues` 只有原版构造入口（`vanillaBurnTimes`），自定义燃料的注册点未核实；Fabric 侧的原生支持也未核实 | 待核实；落地前不要按 1.20.4 的 `FuelRegistry` 经验写 |
+| 4 | ~~**燃料**（wiki `BHR_FuelEmber`）~~ **已关闭（2026-11）**：定稿「余烬不是燃料」，wiki 页的 `cooking_fuel` 一栏与 1.20.4 的 `FuelRegistry` 写法一并废弃；该物品改为一次性点火消耗品 `BHR_Ember`（`extends FireChargeItem`，发射器登记 `DefaultDispenseItemBehavior`）。**26.2 自定义燃料仍未落地**（`FuelValues` 只有 `vanillaBurnTimes`；Fabric 侧入口是 `FuelValueEvents.BUILD`，未实测） | 将来真要做燃料时再核 `FuelValueEvents` |
 | 5 | **`delayedComponent` / `delayedHolderComponent`**（26.2 新入口，用于「注册表就绪后才能解析」的组件；`Properties.jukeboxPlayable(...)` / `fireResistant()` 的实现里能看到同样形状的延迟解析） | 本项目未使用，待核实 |
 | 6 | **物品 tints 的其余类型**：`ItemTintSources` 还注册了 `dye` / `grass` / `map_color` / `potion` / `team_color` / `custom_model_data` / `firework`，本项目只用了 `constant` | 待核实（做可染色/药水注册表路线时再看） |
 | 7 | **`DataComponents` 里 26.2 新增项**：`swing_animation` / `minimum_attack_charge` / `piercing_weapon` / `kinetic_weapon` / `additional_trade_cost` 等 | 未落地；做战斗/饰品时查 |
@@ -256,7 +256,7 @@
 > 本节是 V2 的入口：V1 定稿时已有 **17 个物品类 / 31 件物品**（另有 3 个共享支撑类）按本范式对齐或部分对齐，
 > 下表是它们的现状清单 —— **V2 要动哪一条，先在这里补一行**，再开讨论。
 
-### 10.1 V1 落地的类（17 类 / 31 件）
+### 10.1 V1 落地的类（17 类 / 31 件；2026-11 增补 `BHR_Ember` → 18 类 / 32 件）
 
 | 模块 | 类 | 物品数 | 用到的可选层 | 阶梯最高级 | 现状偏差 / V2 可议之处 |
 | --- | --- | --- | --- | --- | --- |
@@ -277,6 +277,7 @@
 | RDT | [RDT_PoisonHormonePotion](../../../src/main/java/com/rcdmake/whimsy/item/ClassRandomThings/RDT_PoisonHormonePotion.java) | 3 | 1, 2, 3, 12 | 3 | 同上；与火焰族互为互斥 |
 | WI | [WI_PlaguePotion](../../../src/main/java/com/rcdmake/whimsy/item/ClassWhimsyIdea/potion/WI_PlaguePotion.java) | 6 | 1, 2, 3, 12 | 3 | 饮用/喷溅/滞留 × 2 级 |
 | WI | [WI_RadiationPotion](../../../src/main/java/com/rcdmake/whimsy/item/ClassWhimsyIdea/potion/WI_RadiationPotion.java) | 6 | 1, 2, 3, 12 | 3 | 同上 |
+| BHR | [BHR_Ember](../../../src/main/java/com/rcdmake/whimsy/item/ClassBlockHeadsRebon/BHR_Ember.java) | 1 | 2, 6, 12 | **0**（继承） | 全项目唯一「点火语义整体继承烈焰弹」的物品：`useOn` 不覆写；层 12 多一条 `DispenserBlock.registerBehavior(…, DefaultDispenseItemBehavior)` 把「发射器直接投出」写死（不登记它也会落回默认行为，登记是为了把意图写进代码） |
 
 ### 10.1.1 共享支撑类（不是物品类，但物品范式管辖）
 

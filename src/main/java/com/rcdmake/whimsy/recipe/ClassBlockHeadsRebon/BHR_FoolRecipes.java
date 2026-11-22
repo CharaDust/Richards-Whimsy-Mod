@@ -271,8 +271,13 @@ public final class BHR_FoolRecipes {
 			RichardsWhimsyMod.LOGGER.error("[recipe] 遍历配方目录失败", e);
 		}
 
+		// 排序：等级 → 内定顺序 → id。
+		// 内定配方（JSON 里显式写了 "order"）排在前、按 order 升序；没写 order 的（将来的数据包配方）
+		// 排在后面、按 id 字母序 —— doc/wiki/Misc/配方.md「配方排序：内定顺序 + 数据包配方补后面」。
 		entries.sort(Comparator
 				.comparingInt((Entry e) -> e.recipe().level())
+				.thenComparingInt(e -> e.recipe().hasOrder() ? 0 : 1)
+				.thenComparingInt(e -> e.recipe().hasOrder() ? e.recipe().order() : 0)
 				.thenComparing(e -> e.id().toString()));
 		entries.forEach(entry -> BY_ID.put(entry.id(), entry.recipe()));
 		sorted = List.copyOf(entries);

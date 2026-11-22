@@ -28,14 +28,34 @@ import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_OreSoilUnknown;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Slate;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_SlateCobble;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Soil;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_TreeDoorFruit;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_TreeFenceFruit;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_TreeFenceGateFruit;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_TreeLeavesPine;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_TreeLogPine;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_TreePlanksFruit;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_TreeSignFruit;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_TreeSlabFruit;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_TreeStairsFruit;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_TreeTrapdoorFruit;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_WorkBench;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_WoodenBed;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_BlockHeadsIcon;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Cherry;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Coconut;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_CoffeeCherry;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_DodoApple;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_CookedDodoMeat;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_CookedFish;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Flatbread;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Flour;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_MineralSalt;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_RawDodoMeat;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_RawFish;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_TinBucket;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_TinFoil;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_WaterTinBucket;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Ember;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_GemBlessTest;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Lime;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Mango;
@@ -54,7 +74,11 @@ import net.minecraft.world.item.ItemStack;
  * 注册名 {@code bhr_general}、标题语言键 {@code itemGroup.bhr_general}、图标「方块愚者徽标」，
  * 排序按该页「包含物品」的添加顺序 —— 分组依次是：
  * 方块与矿物（切面板岩与矿石、红壤系、石灰石系、大理石系、海滩沙）→ 树木（松木原木）→
- * 其他方块（堆肥块）→ 宝石 → 燃料（余烬）→ 食物。
+ * 其他方块（堆肥块）→ 宝石 → 食物 → 消耗品（余烬、时间水晶）。
+ *
+ * <p>⚠️ 2026-11 起<b>没有「燃料」组</b>：wiki 曾把余烬列为燃料，现已确认「余烬不是燃料」，
+ * 它是一件一次性点火消耗品（{@link com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Ember}），
+ * 因此与本类里的时间水晶一起排在消耗品位置。
  *
  * <h2>当前进度（第二批：5 个 {@code #deprecated} 集合类已拆分，共 28 个方块入栏）</h2>
  * 已重制并入栏的是「方块与矿物 / 树木 / 其他方块 / 宝石」四组，共 <b>28</b> 个方块：
@@ -68,7 +92,7 @@ import net.minecraft.world.item.ItemStack;
  *   堆肥块      1
  *   宝石        5（紫锂辉 / 蓝宝石 / 祖母绿 / 红刚玉 / 宝石钻石）
  * </pre>
- * 还差「燃料（余烬）」一组 —— 它属于物品目录（不是方块）。<b>食物组已完成</b>：
+ * 还差「燃料（余烬）」一组 —— 见上：这一组已取消（余烬不是燃料，改为消耗品入栏）。<b>食物组已完成</b>：
  * 第一批的石灰酸橙 + 2026-10 第二批的 9 件（渡渡苹果、樱桃、椰子、咖啡樱桃、芒果、枫实、橙子、
  * 梨果仙人掌、愚人蠕虫），共 <b>10</b> 件食物全部入栏。
  * <p><b>图标 = 方块愚者徽标</b>（{@code bhr_blockheads_icon}）：
@@ -126,6 +150,18 @@ public final class BHR_CreativeTabs {
 					output.accept(BHR_BeachSand.BHR_BEACH_SAND);               // 海滩沙
 					// —— 树木 ——
 					output.accept(BHR_TreeLogPine.BHR_PINE_LOG);               // 松木原木
+					output.accept(BHR_TreePlanksFruit.BHR_FRUIT_PLANKS);       // 果木木板（2026-11 新增）
+					// —— 果木木料家族（2026-11）：台阶 → 楼梯 → 栅栏 → 栅栏门 → 门 → 活板门 → 告示牌 ——
+					output.accept(BHR_TreeSlabFruit.BHR_FRUIT_SLAB);           // 果木台阶
+					output.accept(BHR_TreeStairsFruit.BHR_FRUIT_STAIRS);       // 果木楼梯
+					output.accept(BHR_TreeFenceFruit.BHR_FRUIT_FENCE);         // 果木栅栏
+					output.accept(BHR_TreeFenceGateFruit.BHR_FRUIT_FENCE_GATE); // 果木栅栏门
+					output.accept(BHR_TreeDoorFruit.BHR_FRUIT_DOOR);           // 果木门
+					output.accept(BHR_TreeTrapdoorFruit.BHR_FRUIT_TRAPDOOR);   // 果木活板门
+					// 告示牌只有一件物品（墙牌无物品形式，物品由 SignItem 负责两种放法）
+					output.accept(BHR_TreeSignFruit.BHR_FRUIT_SIGN_ITEM);      // 果木告示牌
+					// 木床（2026-11）：与床同形的双格方块，愚者模式下是「WOODEN」档（见 BHR_BedTier）
+					output.accept(BHR_WoodenBed.BHR_WOODEN_BED);               // 木床
 					output.accept(BHR_TreeLeavesPine.BHR_PINE_LEAVES);         // 松木树叶
 					output.accept(BHR_PineCone.BHR_PINE_CONE);                 // 松果（物品）
 					// —— 其他方块 ——
@@ -155,11 +191,26 @@ public final class BHR_CreativeTabs {
 					output.accept(BHR_MapleSeed.BHR_MAPLE_SEED);               // 枫实
 					output.accept(BHR_PricklyPear.BHR_PRICKLY_PEAR);           // 梨果仙人掌（旧语言文件叫「赤果」）
 					output.accept(BHR_Worm.BHR_WORM);                          // 愚人蠕虫
+					// 篝火线（2026-11）的 5 件食物：熟食都是简易篝火的产物，生食是它的原料
+					output.accept(BHR_RawFish.BHR_RAW_FISH);                   // 生鱼片（2 / 0.1）
+					output.accept(BHR_CookedFish.BHR_COOKED_FISH);             // 熟鱼片（5 / 0.6）
+					output.accept(BHR_RawDodoMeat.BHR_RAW_DODO_MEAT);          // 生渡渡鸟肉（2 / 0.3）
+					output.accept(BHR_CookedDodoMeat.BHR_COOKED_DODO_MEAT);    // 熟渡渡鸟肉（6 / 0.6）
+					output.accept(BHR_Flatbread.BHR_FLATBREAD);                // 煎饼（8 / 3）
+					// —— 材料（篝火线）——
+					// 简易篝火配方的原料与容器：锡箔（裹鱼）、锡桶 / 锡水桶、面粉、无机盐
+					output.accept(BHR_TinFoil.BHR_TIN_FOIL);                   // 锡箔
+					output.accept(BHR_TinBucket.BHR_TIN_BUCKET);               // 锡桶（空）
+					output.accept(BHR_WaterTinBucket.BHR_WATER_TIN_BUCKET);    // 锡水桶
+					output.accept(BHR_Flour.BHR_FLOUR);                        // 面粉
+					output.accept(BHR_MineralSalt.BHR_MINERAL_SALT);           // 无机盐
 					// —— 开发期测试物品（wiki 有独立页，但内容不是玩法内容） ——
 					// 宝石祝福测试棒：右键给副手物品加一种祝福、潜行右键清空。
 					// 排在最后，避免把测试用品混进宝石 / 食物的分组里。
 					output.accept(BHR_GemBlessTest.BHR_GEM_BLESS_TEST);        // 宝石祝福测试棒
 					// —— 制作台相关的消耗品 ——
+					// 余烬：烈焰弹式的一次性点火消耗品（发射器里直接投出，不发射射弹）
+					output.accept(BHR_Ember.BHR_EMBER);                        // 余烬
 					output.accept(BHR_TimeCrystal.BHR_TIME_CRYSTAL);           // 时间水晶（堆叠 99）
 					// —— 徽标：同时是本标签页的图标（放在最后，不打断玩法内容的顺序） ——
 					output.accept(BHR_BlockHeadsIcon.BHR_BLOCKHEADS_ICON);     // 方块愚者徽标

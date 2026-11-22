@@ -236,7 +236,16 @@ public class BHR_CampfireMenu extends AbstractContainerMenu {
 			return;
 		}
 		if (slotId == UPGRADE_SLOT) {
-			return;               // 简易篝火固定 1 级，没有可升级的目标
+			// 升级栏：把「下一条升级配方」选进配方栏（制作台同一套）。
+			// 普通模式没有升级配方 → nextUpgrade() 返回 null，点了什么都不发生（栏位也不显示图标）。
+			var next = entity.nextUpgrade();
+			if (next != null) {
+				int global = BHR_FoolRecipes.all().indexOf(next);
+				if (global >= 0) {
+					entity.select(global);
+				}
+			}
+			return;
 		}
 		if (slotId >= FUEL_START && slotId < FUEL_END) {
 			// 燃料示意：右键在候选之间切换首选消耗；左键投 1 件。

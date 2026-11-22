@@ -1,0 +1,17 @@
+{
+  "workbench": "bhr_campfire",
+  "expert": false,
+  "level": 1,
+  "order": 1,
+  "time": 5,
+  "ingredients": [
+    {
+      "item": "minecraft:stick",
+      "count": 1
+    }
+  ],
+  "result": {
+    "item": "richards-whimsy-mod:bhr_ember",
+    "count": 1
+  }
+}

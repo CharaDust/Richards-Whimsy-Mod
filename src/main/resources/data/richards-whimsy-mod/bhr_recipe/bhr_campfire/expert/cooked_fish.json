@@ -1,0 +1,21 @@
+{
+  "workbench": "bhr_campfire",
+  "expert": true,
+  "level": 2,
+  "order": 1,
+  "time": 20,
+  "ingredients": [
+    {
+      "item": "richards-whimsy-mod:bhr_raw_fish",
+      "count": 1
+    },
+    {
+      "item": "richards-whimsy-mod:bhr_tin_foil",
+      "count": 1
+    }
+  ],
+  "result": {
+    "item": "richards-whimsy-mod:bhr_cooked_fish",
+    "count": 1
+  }
+}

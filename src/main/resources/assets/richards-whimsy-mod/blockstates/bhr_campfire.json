@@ -1,9 +1,15 @@
 {
   "variants": {
-    "lit=false": {
+    "level=1,lit=false": {
       "model": "richards-whimsy-mod:block/bhr_campfire_unlit"
     },
-    "lit=true": {
+    "level=1,lit=true": {
+      "model": "richards-whimsy-mod:block/bhr_campfire_lit"
+    },
+    "level=2,lit=false": {
+      "model": "richards-whimsy-mod:block/bhr_campfire_unlit"
+    },
+    "level=2,lit=true": {
       "model": "richards-whimsy-mod:block/bhr_campfire_lit"
     }
   }

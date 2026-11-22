@@ -31,6 +31,15 @@ import java.util.Optional;
  * <p>升级配方把 {@code result} 换成 {@code "upgrade_to": 2}：不给物品，而是把制作台升到该等级。
  * {@code result} 与 {@code upgrade_to} <b>二选一</b>。
  *
+ * <h2>两个可选字段</h2>
+ * <ul>
+ *   <li><b>{@code "order"}</b>（整数）：内定顺序。写了就按它排，没写（{@link #NO_ORDER}）就排在内定配方之后、
+ *       再按 id 字母序 —— 与 doc/wiki/Misc/配方.md §3「配方排序：内定顺序 + 数据包配方补后面」一致。
+ *       排序键 = {@code (level, 有无 order, order, id)}，见 {@code BHR_FoolRecipes#loadFromModResources}；</li>
+ *   <li><b>{@code "container"}</b>（物品 id）：<b>容器返还</b>。每结算一份，除了产物再额外返还一个该物品
+ *       —— 用于「锡水桶煮盐 / 和面」这类要被喝掉（水倒进配方）却还得把桶留下的原料。</li>
+ * </ul>
+ *
  * <h2>为什么 time 用「秒」</h2>
  * <p>需求里所有时间都是秒（5 秒 / 60 秒 / 180 秒）；JSON 保持人类可读的秒，
  * 代码里用 {@link #timeTicks()} 换成 tick（×20）。游戏内的进度条按 tick 跑。
@@ -48,11 +57,31 @@ public record BHR_FoolRecipe(
 		List<BHR_FoolIngredient> ingredients,
 		Optional<Item> resultItem,
 		int resultCount,
-		Optional<Integer> upgradeTo) {
+		Optional<Integer> upgradeTo,
+		int order,
+		Optional<Item> container) {
+
+	/** {@code order} 未写时的取值：表示「没有内定位置」，排在所有内定配方之后。 */
+	public static final int NO_ORDER = -1;
 
 	/** 是否升级配方（不给物品，直接升制作台等级）。 */
 	public boolean isUpgrade() {
 		return this.upgradeTo.isPresent();
+	}
+
+	/** 是否有内定顺序（写了 {@code order}）。 */
+	public boolean hasOrder() {
+		return this.order >= 0;
+	}
+
+	/**
+	 * 是否有「容器返还」：{@code container} 写了物品才会返还。
+	 *
+	 * <p>典型是水桶类原料（锡水桶 → 空锡桶）：每结算<b>一份</b>返还一个容器。
+	 * 一条配方只支持<b>一种</b>容器 —— 需求里目前也只出现「桶装水」这一种，够用就先不抽象。
+	 */
+	public boolean hasContainer() {
+		return this.container.isPresent();
 	}
 
 	/** 制作耗时（tick）—— JSON 里写的是秒。 */
@@ -122,8 +151,25 @@ public record BHR_FoolRecipe(
 			throw new IllegalArgumentException("upgrade_to 必须 >= 1");
 		}
 
+		// 内定顺序：显式写才生效（负数一律当「没写」，免得数据里手滑写成 -5 造成排序黑洞）
+		int order = json.has("order") ? json.get("order").getAsInt() : NO_ORDER;
+		if (order < 0) {
+			order = NO_ORDER;
+		}
+
+		// 容器返还（可选）：写一个物品 id，每结算一份返还一个
+		Optional<Item> container = Optional.empty();
+		if (json.has("container")) {
+			String containerId = json.get("container").getAsString();
+			Item containerItem = BuiltInRegistries.ITEM.getValue(Identifier.parse(containerId));
+			if (containerItem == null || containerItem == Items.AIR) {
+				throw new IllegalArgumentException("未知容器 id：" + containerId);
+			}
+			container = Optional.of(containerItem);
+		}
+
 		return new BHR_FoolRecipe(workbench, expert, level, time, List.copyOf(ingredients),
-				resultItem, resultCount, upgradeTo);
+				resultItem, resultCount, upgradeTo, order, container);
 	}
 
 	/** 日志/自检用的可读形式。 */
@@ -132,7 +178,11 @@ public record BHR_FoolRecipe(
 		String target = this.isUpgrade()
 				? "升级到 Lv." + this.upgradeTo.get()
 				: String.valueOf(BuiltInRegistries.ITEM.getKey(this.resultItem.get())) + " x" + this.resultCount;
-		return "%s%s Lv.%d %ds %s → %s".formatted(
-				this.expert ? "[专家] " : "", this.workbench, this.level, this.timeSeconds, this.ingredients, target);
+		String containerNote = this.container
+				.map(item -> " +" + BuiltInRegistries.ITEM.getKey(item))
+				.orElse("");
+		return "%s%s Lv.%d %ds %s → %s%s".formatted(
+				this.expert ? "[专家] " : "", this.workbench, this.level, this.timeSeconds, this.ingredients,
+				target, containerNote);
 	}
 }

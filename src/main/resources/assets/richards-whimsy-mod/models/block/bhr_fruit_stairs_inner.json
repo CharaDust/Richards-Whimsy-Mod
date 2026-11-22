@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/inner_stairs",
+  "textures": {
+    "bottom": "richards-whimsy-mod:block/bhr/fruit_planks",
+    "side": "richards-whimsy-mod:block/bhr/fruit_planks",
+    "top": "richards-whimsy-mod:block/bhr/fruit_planks"
+  }
+}

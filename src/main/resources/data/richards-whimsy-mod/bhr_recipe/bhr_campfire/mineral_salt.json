@@ -1,0 +1,18 @@
+{
+  "workbench": "bhr_campfire",
+  "expert": false,
+  "level": 1,
+  "order": 4,
+  "time": 80,
+  "ingredients": [
+    {
+      "item": "richards-whimsy-mod:bhr_water_tin_bucket",
+      "count": 1
+    }
+  ],
+  "container": "richards-whimsy-mod:bhr_tin_bucket",
+  "result": {
+    "item": "richards-whimsy-mod:bhr_mineral_salt",
+    "count": 10
+  }
+}

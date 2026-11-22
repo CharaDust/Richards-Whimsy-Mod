@@ -16,8 +16,9 @@ import org.jspecify.annotations.Nullable;
  * <p>放在这里而不是 {@code BHR_Sleep} 里，是因为<b>客户端也要读</b>
  * （睡觉时那 2~5 个箭头按床档画）。所以它只依赖 {@link BlockGetter}，不碰 {@code ServerLevel}。
  *
- * <p>木板床 / 金床还没做：给方块打上
- * {@code richards-whimsy-mod:fool_bed_wooden} / {@code ...:fool_bed_gold} 标签即可自动进档。
+ * <p>木床（{@code bhr_wooden_bed}，见 {@code BHR_WoodenBed}）已落地，方块标签在
+ * {@code data/richards-whimsy-mod/tags/block/fool_bed_wooden.json}；金床还没做，做了同样给它打上
+ * {@code richards-whimsy-mod:fool_bed_gold} 标签即可自动进档。
  */
 public enum BHR_BedTier {
 

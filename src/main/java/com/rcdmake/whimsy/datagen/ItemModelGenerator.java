@@ -17,6 +17,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.security.MessageDigest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -88,16 +89,71 @@ public final class ItemModelGenerator {
 	 * </ul>
 	 * 例外只写在这里，不动默认规则 —— {@code DEV} 分支那些「物品模型只是转指方块模型」的
 	 * 文件因此完全不受影响。
+	 *
+	 * <p><b>为什么用 {@code Map.ofEntries} 而不是 {@code Map.of}</b>：
+	 * {@code Map.of} 最多只收 10 对键值，2026-11 果木木料家族加进来之后超过上限，编译期直接报
+	 * 「找不到合适的方法」。{@code Map.ofEntries} 没有对数上限。
 	 */
-	private static final Map<String, String> ITEM_MODEL_OVERRIDES = Map.of(
-			"wi_aerogel", "item/wi_aerogel",
-			"wi_static_liquid_water", "item/wi_static_liquid_water",
-			"bhr_gem_amethyst", "item/bhr_gem_amethyst",
-			"bhr_gem_sapphire", "item/bhr_gem_sapphire",
-			"bhr_gem_emerald", "item/bhr_gem_emerald",
-			"bhr_gem_ruby", "item/bhr_gem_ruby",
-			"bhr_gem_diamond", "item/bhr_gem_diamond",
-			"rdt_spectre_sapling", "item/rdt_spectre_sapling");
+	private static final Map<String, String> ITEM_MODEL_OVERRIDES = Map.ofEntries(
+			Map.entry("wi_aerogel", "item/wi_aerogel"),
+			Map.entry("wi_static_liquid_water", "item/wi_static_liquid_water"),
+			Map.entry("bhr_gem_amethyst", "item/bhr_gem_amethyst"),
+			Map.entry("bhr_gem_sapphire", "item/bhr_gem_sapphire"),
+			Map.entry("bhr_gem_emerald", "item/bhr_gem_emerald"),
+			Map.entry("bhr_gem_ruby", "item/bhr_gem_ruby"),
+			Map.entry("bhr_gem_diamond", "item/bhr_gem_diamond"),
+			Map.entry("rdt_spectre_sapling", "item/rdt_spectre_sapling"),
+			// 简易篝火：方块是「点燃/未点燃」两套模型（block/bhr_campfire_lit / _unlit），
+			// **没有** block/bhr_campfire.json 这个通用模型；物品图标是手写的
+			// models/item/bhr_campfire.json（item/generated + layer0 = 一张平铺的篝火图）。
+			// 不进例外表的话，默认规则会给方块物品写 block/bhr_campfire → 物品栏里是缺失模型（紫黑）。
+			// 2026-11 补：此前是手工把生成结果改回 item/ 的，一跑 datagen 就被覆盖，故写进表里。
+			Map.entry("bhr_campfire", "item/bhr_campfire"),
+			// —— 果木木料家族（2026-11）：四处「默认规则给错模型」的地方，全部照原版 oak_* 的 items/*.json 抄 ——
+			// 门：物品栏里是**一张 2D 平面图**（原版 items/oak_door.json → minecraft:item/oak_door），
+			// 不是门方块的三维模型；贴图是手绘的 textures/item/bhr/fruit_door.png。
+			Map.entry("bhr_fruit_door", "item/bhr_fruit_door"),
+			// 告示牌：同上（原版 items/oak_sign.json → minecraft:item/oak_sign）。
+			Map.entry("bhr_fruit_sign", "item/bhr_fruit_sign"),
+			// 栅栏：方块模型是 multipart 拼的，**没有** block/bhr_fruit_fence.json 这个模型；
+			// 原版 items/oak_fence.json 指向 block/oak_fence_inventory（带两根柱子的物品图标）。
+			Map.entry("bhr_fruit_fence", "block/bhr_fruit_fence_inventory"),
+			// 活板门：原版 items/oak_trapdoor.json 指向 block/oak_trapdoor_bottom（三套朝向模型之一），
+			// 也没有 block/bhr_fruit_trapdoor.json。
+			Map.entry("bhr_fruit_trapdoor", "block/bhr_fruit_trapdoor_bottom"));
+
+	/**
+	 * <b>复合模型</b>表：物品 id → 若干「模型 + z 平移」的拼装件，
+	 * 产出 {@code items/<id>.json} 里的 {@code minecraft:composite}。
+	 *
+	 * <h2>什么时候需要它</h2>
+	 * <p>床是<b>两格方块</b>：{@code block/<id>_head}（床头）与 {@code block/<id>_foot}（床脚）
+	 * 各占一格、各自十六分之一格的模型。物品栏里要把两半拼成一张完整的床，
+	 * 就必须一次引用两个模型 —— {@code minecraft:model} 只能指一个，写法就是
+	 * {@code minecraft:composite}（26.2 的模型定义类型，原版 {@code items/white_bed.json} 就这么写）。
+	 *
+	 * <h2>平移量与旋转</h2>
+	 * <p>逐字照抄原版 {@code items/white_bed.json}：床头不平移，床脚
+	 * {@code translation: [0, 0, 1]}（模型空间的 1 = 一格，把床脚接到床头后面），
+	 * 四元数左右旋转都写单位元、缩放 1。
+	 *
+	 * <p><b>为什么必须写在这里而不是手写 json</b>：同 {@link #ITEM_TINT_PREFIXES} —— 
+	 * {@code items/} 是本生成器独占的产出，手写的版本下一次 datagen 就被抹掉。
+	 */
+	private static final Map<String, List<CompositePart>> ITEM_COMPOSITE_MODELS = Map.of(
+			// 木床（2026-11）：床头 + 床脚，两半拼一张床（原版 white_bed 同构）
+			"bhr_wooden_bed", List.of(
+					new CompositePart("block/bhr_wooden_bed_head", 0.0F),
+					new CompositePart("block/bhr_wooden_bed_foot", 1.0F)));
+
+	/**
+	 * 复合模型的一个拼装件。
+	 *
+	 * @param modelPath  模型路径（本模组命名空间内，如 {@code block/bhr_wooden_bed_head}）
+	 * @param translateZ 沿 z 轴的平移（模型空间，1 = 一格）；0 表示不写 transformation
+	 */
+	private record CompositePart(String modelPath, float translateZ) {
+	}
 
 	/**
 	 * <b>按组件值选模型</b>的例外表：物品 id → （组件路径、模型路径前缀、取值上下限）。
@@ -225,6 +281,16 @@ public final class ItemModelGenerator {
 			ComponentSelectSpec selectSpec = COMPONENT_SELECT_ITEMS.get(itemId.getPath());
 			if (selectSpec != null) {
 				if (writeComponentSelectModel(modRoot, namespace, itemId.getPath(), selectSpec)) {
+					written++;
+				}
+				continue;
+			}
+
+			// 「复合模型」的物品先走自己的路（见 ITEM_COMPOSITE_MODELS）：
+			// 它们的 items/<id>.json 是一次引用多个模型的 composite，不是单个模型引用。
+			List<CompositePart> composite = ITEM_COMPOSITE_MODELS.get(itemId.getPath());
+			if (composite != null) {
+				if (writeCompositeModel(modRoot, namespace, itemId.getPath(), composite)) {
 					written++;
 				}
 				continue;
@@ -432,6 +498,69 @@ public final class ItemModelGenerator {
 
 		Path target = modRoot.resolve("assets").resolve(namespace).resolve("items").resolve(itemPath + ".json");
 		return writeIfChanged(target, GSON.toJson(root).getBytes(StandardCharsets.UTF_8));
+	}
+
+	/**
+	 * 写「复合模型」的物品模型定义（{@code minecraft:composite}）。
+	 *
+	 * <p>结构（原版 {@code items/white_bed.json} 同形）：
+	 * <pre>{@code
+	 * { "model": { "type": "minecraft:composite",
+	 *              "models": [
+	 *                { "type": "minecraft:model", "model": "<ns>:block/<id>_head" },
+	 *                { "type": "minecraft:model", "model": "<ns>:block/<id>_foot",
+	 *                  "transformation": { "left_rotation": [0,0,0,1], "right_rotation": [0,0,0,1],
+	 *                                      "scale": [1,1,1], "translation": [0,0,1] } } ] } }
+	 * }</pre>
+	 *
+	 * @return 是否真的写了（内容没变不写，保持时间戳稳定）
+	 */
+	private static boolean writeCompositeModel(Path modRoot, String namespace, String itemPath,
+			List<CompositePart> parts) throws IOException {
+		JsonArray models = new JsonArray();
+		for (CompositePart part : parts) {
+			JsonObject entry = plainModel(namespace + ":" + part.modelPath());
+			if (part.translateZ() != 0.0F) {
+				entry.add("transformation", transformation(part.translateZ()));
+			}
+			models.add(entry);
+		}
+
+		JsonObject composite = new JsonObject();
+		composite.addProperty("type", "minecraft:composite");
+		composite.add("models", models);
+
+		JsonObject root = new JsonObject();
+		root.add("model", composite);
+
+		Path target = modRoot.resolve("assets").resolve(namespace).resolve("items").resolve(itemPath + ".json");
+		return writeIfChanged(target, GSON.toJson(root).getBytes(StandardCharsets.UTF_8));
+	}
+
+	/** 物品模型的「局部变换」：单位四元数 + 不缩放，只沿 z 平移（照抄原版床）。 */
+	private static JsonObject transformation(float translateZ) {
+		JsonArray identity = new JsonArray();
+		identity.add(0);
+		identity.add(0);
+		identity.add(0);
+		identity.add(1);
+
+		JsonArray scale = new JsonArray();
+		scale.add(1);
+		scale.add(1);
+		scale.add(1);
+
+		JsonArray translation = new JsonArray();
+		translation.add(0);
+		translation.add(0);
+		translation.add(translateZ);
+
+		JsonObject transformation = new JsonObject();
+		transformation.add("left_rotation", identity);
+		transformation.add("right_rotation", identity);
+		transformation.add("scale", scale);
+		transformation.add("translation", translation);
+		return transformation;
 	}
 
 	/** {@code {"type":"minecraft:model","model":<id>}} —— 物品模型定义里「指向某个模型」的那一段。 */

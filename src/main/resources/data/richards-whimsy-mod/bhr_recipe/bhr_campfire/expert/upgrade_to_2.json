@@ -1,0 +1,22 @@
+{
+  "workbench": "bhr_campfire",
+  "expert": true,
+  "level": 1,
+  "order": 2,
+  "time": 180,
+  "ingredients": [
+    {
+      "item": "minecraft:clay_ball",
+      "count": 10
+    },
+    {
+      "item": "minecraft:iron_ingot",
+      "count": 3
+    },
+    {
+      "item": "richards-whimsy-mod:bhr_tin_foil",
+      "count": 5
+    }
+  ],
+  "upgrade_to": 2
+}

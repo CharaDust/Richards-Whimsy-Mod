@@ -52,6 +52,8 @@ public class BHR_CampfireScreen extends AbstractContainerScreen<BHR_CampfireMenu
 	private static final Identifier SPRITE_COUNT_ADD = RichardsWhimsyMod.id("container/workbench/count_add");
 	private static final Identifier SPRITE_COUNT_MINUS = RichardsWhimsyMod.id("container/workbench/count_minus");
 	private static final Identifier SPRITE_SLOT_ALT = RichardsWhimsyMod.id("container/workbench/slot_alt");
+	/** 升级栏的专用遮罩（与制作台同一张图）。 */
+	private static final Identifier SPRITE_SLOT_UPGRADE = RichardsWhimsyMod.id("container/workbench/slot_upgrade");
 	/** 燃料指示条的遮罩（14×14，与底图那格同尺寸）。 */
 	private static final Identifier SPRITE_LIT_PROGRESS =
 			RichardsWhimsyMod.id("container/fuel_workbench/lit_progress");
@@ -96,6 +98,10 @@ public class BHR_CampfireScreen extends AbstractContainerScreen<BHR_CampfireMenu
 	private static final int FUEL_BAR_LEFT = 27;
 	private static final int FUEL_BAR_TOP = 74;
 	private static final int FUEL_BAR_SIZE = 14;
+
+	/** 升级栏：与制作台同位（配方栏 8 格之后的第 9 格）。 */
+	private static final int UPGRADE_X = 152;
+	private static final int UPGRADE_Y = 18;
 
 	public BHR_CampfireScreen(BHR_CampfireMenu menu, Inventory inventory, Component title) {
 		super(menu, inventory, title, 176, 114 + BHR_CampfireMenu.ROWS * 18);
@@ -148,6 +154,16 @@ public class BHR_CampfireScreen extends AbstractContainerScreen<BHR_CampfireMenu
 			if (recipe.resultCount() > 1) {
 				this.drawCountText(graphics, String.valueOf(recipe.resultCount()), x, y, 0xFFFFFFFF);
 			}
+		}
+
+		// 升级栏：下一级的篝火图标（普通模式没有升级配方 → 这里什么都不画）
+		BHR_FoolRecipes.Entry upgrade = this.nextUpgrade(data, level);
+		if (upgrade != null) {
+			int target = upgrade.recipe().upgradeTo().orElse(level);
+			this.drawGhost(graphics, BHR_Campfire.createStack(target),
+					gx + UPGRADE_X, gy + UPGRADE_Y, false, false);
+			graphics.blitSprite(RenderPipelines.GUI_TEXTURED, SPRITE_SLOT_UPGRADE,
+					gx + UPGRADE_X, gy + UPGRADE_Y, 16, 16);
 		}
 
 		// 燃料示意：三个凹槽各画一档燃料的图标（右键切换过的首选优先）+「背包里还有几件」
@@ -224,7 +240,7 @@ public class BHR_CampfireScreen extends AbstractContainerScreen<BHR_CampfireMenu
 		this.drawTextButton(graphics, mouseX, mouseY, gx + FAST_X, gy + BUTTON_Y, "加速制作");
 		this.drawTextButton(graphics, mouseX, mouseY, gx + CRAFT_X, gy + BUTTON_Y, "开始制作");
 
-		this.drawTooltips(graphics, mouseX, mouseY, data, visible, scroll, selectedRecipe);
+		this.drawTooltips(graphics, mouseX, mouseY, data, visible, scroll, selectedRecipe, upgrade);
 	}
 
 	/**
@@ -281,9 +297,10 @@ public class BHR_CampfireScreen extends AbstractContainerScreen<BHR_CampfireMenu
 		return fuel.icon();
 	}
 
-	/** 悬浮提示：燃料指示条 / 燃料格 / 需求格 / 加减键 / 配方格。 */
+	/** 悬浮提示：燃料指示条 / 燃料格 / 需求格 / 加减键 / 配方格 / 升级栏。 */
 	private void drawTooltips(GuiGraphicsExtractor graphics, int mouseX, int mouseY, ContainerData data,
-			List<BHR_FoolRecipes.Entry> visible, int scroll, BHR_FoolRecipe selectedRecipe) {
+			List<BHR_FoolRecipes.Entry> visible, int scroll, BHR_FoolRecipe selectedRecipe,
+			BHR_FoolRecipes.Entry upgrade) {
 		// 燃料指示条不是槽位，单独先判（否则下面的早退会把它吃掉）
 		if (this.isOverFuelBar(mouseX, mouseY)) {
 			graphics.setTooltipForNextFrame(this.font,
@@ -353,25 +370,57 @@ public class BHR_CampfireScreen extends AbstractContainerScreen<BHR_CampfireMenu
 		}
 
 		// 配方栏 / 升级栏
-		BHR_FoolRecipe hovered = this.hoveredRecipe(index, visible, scroll);
+		BHR_FoolRecipe hovered = this.hoveredRecipe(index, visible, scroll, upgrade);
 		if (hovered != null) {
 			this.drawRecipeTooltip(graphics, hovered, mouseX, mouseY);
 		}
 	}
 
-	/** 鼠标下的槽 → 对应配方（配方栏那 8 格）。 */
-	private BHR_FoolRecipe hoveredRecipe(int slotIndex, List<BHR_FoolRecipes.Entry> visible, int scroll) {
+	/** 鼠标下的槽 → 对应配方（配方栏那 8 格 + 升级栏）。 */
+	private BHR_FoolRecipe hoveredRecipe(int slotIndex, List<BHR_FoolRecipes.Entry> visible, int scroll,
+			BHR_FoolRecipes.Entry upgrade) {
 		if (slotIndex >= BHR_CampfireMenu.RECIPE_START && slotIndex < BHR_CampfireMenu.RECIPE_END) {
 			int index = scroll + (slotIndex - BHR_CampfireMenu.RECIPE_START);
 			return index >= 0 && index < visible.size() ? visible.get(index).recipe() : null;
 		}
+		if (slotIndex == BHR_CampfireMenu.UPGRADE_SLOT) {
+			return upgrade != null ? upgrade.recipe() : null;
+		}
 		return null;
 	}
 
-	/** 配方提示框：产物名 + 需要等级 + 耗时 + 每格需求。 */
+	/**
+	 * 当前等级在升级栏里能用的下一条升级配方（客户端自己算一份：配方数据两端相同，见 {@code BHR_FoolRecipes}）。
+	 */
+	private BHR_FoolRecipes.Entry nextUpgrade(ContainerData data, int level) {
+		boolean expert = data.get(BHR_CampfireEntity.DATA_EXPERT) == 1;
+		BHR_FoolRecipes.Entry best = null;
+		for (BHR_FoolRecipes.Entry entry : BHR_FoolRecipes.forWorkbench(BHR_Campfire.REGISTRY_NAME)) {
+			BHR_FoolRecipe recipe = entry.recipe();
+			if (recipe.expert() != expert) {
+				continue;
+			}
+			if (!recipe.isUpgrade() || recipe.upgradeTo().isEmpty()) {
+				continue;
+			}
+			int target = recipe.upgradeTo().get();
+			if (target <= level) {
+				continue;
+			}
+			if (best == null || target < best.recipe().upgradeTo().get()) {
+				best = entry;
+			}
+		}
+		return best;
+	}
+
+	/** 配方提示框：产物名（升级配方则是「升级 → Lv.N」）+ 需要等级 + 耗时 + 每格需求。 */
 	private void drawRecipeTooltip(GuiGraphicsExtractor graphics, BHR_FoolRecipe recipe, int mouseX, int mouseY) {
 		List<Component> lines = new java.util.ArrayList<>();
-		lines.add(recipe.resultStack().getHoverName());
+		lines.add(recipe.isUpgrade()
+				? Component.translatable("tooltip.richards-whimsy-mod.workbench.upgrade",
+						recipe.upgradeTo().orElse(1))
+				: recipe.resultStack().getHoverName());
 		lines.add(Component.translatable("tooltip.richards-whimsy-mod.workbench.level", recipe.level())
 				.withStyle(ChatFormatting.GRAY));
 		lines.add(Component.translatable("tooltip.richards-whimsy-mod.workbench.time", recipe.timeSeconds())
