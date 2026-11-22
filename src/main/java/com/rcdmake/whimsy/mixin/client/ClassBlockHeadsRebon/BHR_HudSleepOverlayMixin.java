@@ -53,6 +53,20 @@ public abstract class BHR_HudSleepOverlayMixin {
 		}
 	}
 
+	/**
+	 * 出窍时隐藏普通快捷栏。
+	 *
+	 * <p>旁观者模式的快捷栏本来就是被命令栏取代的；出窍时手里那排物品既不能用手也不能切，
+	 * 留在屏幕上只会让 3/4 号键的提示对不上，所以直接不画。
+	 */
+	@Inject(method = "extractItemHotbar", at = @At("HEAD"), cancellable = true)
+	private void whimsy$hideHotbarWhileObserving(GuiGraphicsExtractor graphics, DeltaTracker deltaTracker,
+			CallbackInfo ci) {
+		if (BHR_FoolSleepCamera.isActive()) {
+			ci.cancel();
+		}
+	}
+
 	@Inject(method = "extractRenderState", at = @At("HEAD"))
 	private void whimsy$prepareHud(GuiGraphicsExtractor graphics, DeltaTracker deltaTracker, CallbackInfo ci) {
 		this.whimsy$savedHidden = this.isHidden;
