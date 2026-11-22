@@ -5,8 +5,11 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.spectator.SpectatorMenu;
 import net.minecraft.client.gui.spectator.SpectatorMenuCategory;
 import net.minecraft.client.gui.spectator.SpectatorMenuItem;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
+import net.minecraft.util.ARGB;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -28,20 +31,28 @@ import java.util.function.Supplier;
  * 我们只替换菜单里的<b>条目</b>。
  *
  * <p>布局（沿用原版）：第 1~7 格来自 {@link SpectatorMenuCategory#getItems()}，
- * 第 8 格是原版「关闭菜单」，第 9 格翻页。
+ * 第 8 格是原版「关闭菜单」、第 9 格翻页 —— 后两格完全交给原版，不动它们。
  *
- * <table>
- *   <tr><td>1</td><td>传送到玩家（子菜单）</td></tr>
- *   <tr><td>2</td><td>传送到队伍成员（子菜单）</td></tr>
- *   <tr><td>3</td><td>返回身体（图标 = 当前那张床，席地而睡给石头）</td></tr>
- *   <tr><td>4</td><td>起床（时钟）</td></tr>
- * </table>
+ * <ul>
+ *   <li>1 号：传送到玩家（原版 {@code spectator/teleport_to_player} 图标）</li>
+ *   <li>2 号：传送到队伍成员（原版 {@code spectator/teleport_to_team} 图标）</li>
+ *   <li>3 号：返回身体（图标 = 当前那张床；席地而睡给石头）</li>
+ *   <li>4 号：起床（时钟）</li>
+ * </ul>
  *
  * <p>注意：1/2 的传送只移动<b>相机</b>，本体仍然躺在床上 —— 这是和原版旁观者传送最大的区别。
  */
 public final class BHR_FoolSpectatorCategory implements SpectatorMenuCategory {
 
-	/** 单页最多几个玩家条目（原版每页 6 个 + 翻页/关闭）。 */
+	/** 原版「传送到玩家」图标。 */
+	private static final Identifier TELEPORT_TO_PLAYER_SPRITE =
+			Identifier.withDefaultNamespace("spectator/teleport_to_player");
+
+	/** 原版「传送到队伍」图标。 */
+	private static final Identifier TELEPORT_TO_TEAM_SPRITE =
+			Identifier.withDefaultNamespace("spectator/teleport_to_team");
+
+	/** 单页最多几个玩家条目（原版每页 6 个 + 翻页 / 关闭）。 */
 	private static final int MAX_ENTRIES = 6;
 
 	/** 1 号键：传送到玩家。 */
@@ -113,7 +124,7 @@ public final class BHR_FoolSpectatorCategory implements SpectatorMenuCategory {
 
 		@Override
 		public void extractIcon(GuiGraphicsExtractor graphics, float brightness, float alpha) {
-			graphics.item(icon.get(), 0, 1);
+			graphics.item(icon.get(), 0, 0);
 		}
 
 		@Override
@@ -123,7 +134,7 @@ public final class BHR_FoolSpectatorCategory implements SpectatorMenuCategory {
 	}
 
 	/**
-	 * 「传送到玩家 / 队伍成员」——它本身既是一个条目（选中后展开子菜单），
+	 * 「传送到玩家 / 队伍成员」——它本身既是根页面上的一个条目（选中后展开子菜单），
 	 * 也是一个分类（子菜单的内容）。选中某个玩家只把<b>相机</b>挪过去。
 	 */
 	public static final class PlayersCategory implements SpectatorMenuCategory, SpectatorMenuItem {
@@ -187,9 +198,13 @@ public final class BHR_FoolSpectatorCategory implements SpectatorMenuCategory {
 			return getPrompt();
 		}
 
+		/** 直接用原版那两张专用图标（带亮度 / 透明度着色），不自己造。 */
 		@Override
 		public void extractIcon(GuiGraphicsExtractor graphics, float brightness, float alpha) {
-			graphics.item(new ItemStack(teamOnly ? Items.COMPASS : Items.PLAYER_HEAD), 0, 1);
+			graphics.blitSprite(RenderPipelines.GUI_TEXTURED,
+					teamOnly ? TELEPORT_TO_TEAM_SPRITE : TELEPORT_TO_PLAYER_SPRITE,
+					0, 0, 16, 16,
+					ARGB.colorFromFloat(alpha, brightness, brightness, brightness));
 		}
 
 		@Override
@@ -198,6 +213,3 @@ public final class BHR_FoolSpectatorCategory implements SpectatorMenuCategory {
 		}
 	}
 }
-
-
-
