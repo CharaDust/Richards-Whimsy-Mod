@@ -1,0 +1,12 @@
+{
+  "workbench": "bhr_woodwork_bench",
+  "expert": true,
+  "level": 1,
+  "order": 1,
+  "time": 20,
+  "ingredients": [
+    { "tag": "minecraft:planks", "count": 5 },
+    { "item": "minecraft:leather", "count": 1 }
+  ],
+  "result": { "item": "minecraft:chest", "count": 1 }
+}

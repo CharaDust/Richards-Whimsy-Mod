@@ -67,17 +67,24 @@ public class RichardsWhimsyModClient implements ClientModInitializer {
 		net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents.END_CLIENT_TICK
 				.register(com.rcdmake.whimsy.client.ClassBlockHeadsRebon.BHR_FoolSleepCamera::tick);
 
-		// 制作台界面：把「菜单类型 → 屏幕类」接起来。
+		// 工作面界面：把「菜单类型 → 屏幕类」接起来 —— 三台机器共用同一个屏幕类，
+		// 差异（底图 / 面板偏移 / 燃料列）全部由各自的 WorkingSurfaceSpec 驱动。
 		// ⚠️ 26.2 的 MenuScreens#register 是私有的（Fabric API 没有替代入口），
 		// 已在 richards-whimsy-mod.classtweaker 里放开；这条只在客户端执行，专用服务端不受影响。
-		net.minecraft.client.gui.screens.MenuScreens.register(
-				com.rcdmake.whimsy.menu.ClassBlockHeadsRebon.BHR_WorkBenchMenu.BHR_WORK_BENCH_MENU,
-				com.rcdmake.whimsy.client.ClassBlockHeadsRebon.BHR_WorkBenchScreen::new);
+		for (com.rcdmake.whimsy.surface.WorkingSurfaceSpec surfaceSpec : new com.rcdmake.whimsy.surface.WorkingSurfaceSpec[]{
+				com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_WorkBench.SPEC,
+				com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_WoodworkBench.SPEC,
+				com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Campfire.SPEC}) {
+			net.minecraft.client.gui.screens.MenuScreens.register(
+					com.rcdmake.whimsy.surface.WorkingSurfaceMenu.typeFor(surfaceSpec.id()),
+					com.rcdmake.whimsy.client.surface.WorkingSurfaceScreen::new);
+		}
 
-		// 简易篝火界面：同一套接线，底图换成 fuel_workbench.png（槽位整体右移 18 像素）。
-		net.minecraft.client.gui.screens.MenuScreens.register(
-				com.rcdmake.whimsy.menu.ClassBlockHeadsRebon.BHR_CampfireMenu.BHR_CAMPFIRE_MENU,
-				com.rcdmake.whimsy.client.ClassBlockHeadsRebon.BHR_CampfireScreen::new);
+		// 原版配方投影（服务端 → 客户端）：收到就注入配方表，界面下次打开即可看到。
+		net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking.registerGlobalReceiver(
+				com.rcdmake.whimsy.surface.SurfaceRecipesPayload.TYPE,
+				(payload, context) -> com.rcdmake.whimsy.surface.VanillaRecipeIndex.accept(
+						payload.surface(), com.rcdmake.whimsy.surface.SurfaceRecipesPayload.split(payload.recipes())));
 
 		// 濒死 BGM：每 tick 推进淡出/播放状态机（见 BHR_DownedMusic）
 		net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents.END_CLIENT_TICK

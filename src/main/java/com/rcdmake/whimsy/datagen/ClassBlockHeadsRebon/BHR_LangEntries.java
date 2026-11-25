@@ -3,6 +3,7 @@ package com.rcdmake.whimsy.datagen.ClassBlockHeadsRebon;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_BeachSand;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Campfire;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Compost;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_FeederChest;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_GemAmethyst;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_GemDiamond;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_GemEmerald;
@@ -38,6 +39,8 @@ import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_TreeSlabFruit;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_TreeStairsFruit;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_TreeTrapdoorFruit;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_WorkBench;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_WoodworkBench;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_ReinforcedPlatform;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_WoodenBed;
 import com.rcdmake.whimsy.component.ClassBlockHeadsRebon.BHR_GemBlessing;
 import com.rcdmake.whimsy.datagen.LangEntrySupport;
@@ -53,6 +56,10 @@ import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_CookedFish;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Flatbread;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Flour;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_MineralSalt;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_BronzeIngot;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_CopperIngot;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Linen;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_TinIngot;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_RawDodoMeat;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_RawFish;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_TinBucket;
@@ -195,12 +202,19 @@ public final class BHR_LangEntries {
 		builder.add("tooltip.richards-whimsy-mod.workbench.batches.plus", "单击 +1；按住 Shift 可倍增数量");
 		builder.add("tooltip.richards-whimsy-mod.workbench.batches.minus", "单击 -1；按住 Shift 可减半数量");
 		builder.add("tooltip.richards-whimsy-mod.workbench.alt", "右键切换消耗物品");
-		// —— 简易篝火（带燃料的制作台）——
+		// —— 木工台（工作面之一，等级 1~3）——
+		LangEntrySupport.addBlockAndItem(builder, BHR_WoodworkBench.BHR_WOODWORK_BENCH, "木工台");
+		builder.add(BHR_WoodworkBench.SPEC.titleKey(), "木工台 - 等级 %s");
+		// —— 加固平台（木工台产物，整方块）——
+		LangEntrySupport.addBlockAndItem(builder, BHR_ReinforcedPlatform.BHR_REINFORCED_PLATFORM, "加固平台");
+		// —— 简易篝火（带燃料的制作台；标题自 2026-12 起也带等级）——
 		LangEntrySupport.addBlockAndItem(builder, BHR_Campfire.BHR_CAMPFIRE, "简易篝火");
-		builder.add(BHR_Campfire.TITLE_KEY, "简易篝火");
+		builder.add(BHR_Campfire.SPEC.titleKey(), "简易篝火 - 等级 %s");
 		builder.add("tooltip.richards-whimsy-mod.campfire.fuel_value", "燃料值：%s 单位燃烧时间（%s 秒）");
 		builder.add("gui.richards-whimsy-mod.campfire.fuel", "燃料 %s / %s 单位");
 		builder.add("gui.richards-whimsy-mod.campfire.fuel.empty", "燃料：无");
+		// —— 喂食箱子（动物自助取食的容器方块）——
+		LangEntrySupport.addBlockAndItem(builder, BHR_FeederChest.BHR_FEEDER_CHEST, "喂食箱子");
 		// —— 宝石 ——
 		LangEntrySupport.addBlockAndItem(builder, BHR_GemAmethyst.BHR_GEM_AMETHYST, "紫锂辉");
 		LangEntrySupport.addBlockAndItem(builder, BHR_GemSapphire.BHR_GEM_SAPPHIRE, "蓝宝石");
@@ -233,6 +247,11 @@ public final class BHR_LangEntries {
 		builder.add(BHR_WaterTinBucket.BHR_WATER_TIN_BUCKET, "锡水桶");
 		builder.add(BHR_Flour.BHR_FLOUR, "面粉");
 		builder.add(BHR_MineralSalt.BHR_MINERAL_SALT, "无机盐");
+		// —— 工作面线材料（2026-12）——
+		builder.add(BHR_Linen.BHR_LINEN, "亚麻布");
+		builder.add(BHR_BronzeIngot.BHR_BRONZE_INGOT, "青铜锭");
+		builder.add(BHR_CopperIngot.BHR_COPPER_INGOT, "铜锭");
+		builder.add(BHR_TinIngot.BHR_TIN_INGOT, "锡锭");
 		builder.add(BHR_RawFish.BHR_RAW_FISH, "生鱼片");
 		builder.add(BHR_CookedFish.BHR_COOKED_FISH, "熟鱼片");
 		builder.add(BHR_RawDodoMeat.BHR_RAW_DODO_MEAT, "生渡渡鸟肉");
@@ -332,12 +351,19 @@ public final class BHR_LangEntries {
 		builder.add("tooltip.richards-whimsy-mod.workbench.batches.plus", "Click for +1; hold Shift to double");
 		builder.add("tooltip.richards-whimsy-mod.workbench.batches.minus", "Click for -1; hold Shift to halve");
 		builder.add("tooltip.richards-whimsy-mod.workbench.alt", "Right-click to switch the consumed item");
+		// —— 木工台（Woodwork Bench）——
+		LangEntrySupport.addBlockAndItem(builder, BHR_WoodworkBench.BHR_WOODWORK_BENCH, "Woodwork Bench");
+		builder.add(BHR_WoodworkBench.SPEC.titleKey(), "Woodwork Bench - Level %s");
+		// —— 加固平台（Reinforced Platform）——
+		LangEntrySupport.addBlockAndItem(builder, BHR_ReinforcedPlatform.BHR_REINFORCED_PLATFORM, "Reinforced Platform");
 		// —— 简易篝火（Simple Campfire）——
 		LangEntrySupport.addBlockAndItem(builder, BHR_Campfire.BHR_CAMPFIRE, "Simple Campfire");
-		builder.add(BHR_Campfire.TITLE_KEY, "Simple Campfire");
+		builder.add(BHR_Campfire.SPEC.titleKey(), "Simple Campfire - Level %s");
 		builder.add("tooltip.richards-whimsy-mod.campfire.fuel_value", "Fuel value: %s unit(s) of burn time (%s s)");
 		builder.add("gui.richards-whimsy-mod.campfire.fuel", "Fuel %s / %s units");
 		builder.add("gui.richards-whimsy-mod.campfire.fuel.empty", "Fuel: none");
+		// —— 喂食箱子（Feeder Chest）——
+		LangEntrySupport.addBlockAndItem(builder, BHR_FeederChest.BHR_FEEDER_CHEST, "Feeder Chest");
 		// —— 宝石 ——
 		LangEntrySupport.addBlockAndItem(builder, BHR_GemAmethyst.BHR_GEM_AMETHYST, "Kunzite");
 		LangEntrySupport.addBlockAndItem(builder, BHR_GemSapphire.BHR_GEM_SAPPHIRE, "Sapphire");
@@ -373,6 +399,11 @@ public final class BHR_LangEntries {
 		builder.add(BHR_WaterTinBucket.BHR_WATER_TIN_BUCKET, "Tin Bucket of Water");
 		builder.add(BHR_Flour.BHR_FLOUR, "Flour");
 		builder.add(BHR_MineralSalt.BHR_MINERAL_SALT, "Mineral Salt");
+		// —— 工作面线材料（Working Surface materials, 2026-12）——
+		builder.add(BHR_Linen.BHR_LINEN, "Linen");
+		builder.add(BHR_BronzeIngot.BHR_BRONZE_INGOT, "Bronze Ingot");
+		builder.add(BHR_CopperIngot.BHR_COPPER_INGOT, "Copper Ingot");
+		builder.add(BHR_TinIngot.BHR_TIN_INGOT, "Tin Ingot");
 		builder.add(BHR_RawFish.BHR_RAW_FISH, "Raw Fish");
 		builder.add(BHR_CookedFish.BHR_COOKED_FISH, "Cooked Fish");
 		builder.add(BHR_RawDodoMeat.BHR_RAW_DODO_MEAT, "Raw Dodo Meat");

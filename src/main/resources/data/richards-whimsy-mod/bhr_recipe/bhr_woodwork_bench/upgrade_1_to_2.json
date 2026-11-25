@@ -1,0 +1,10 @@
+{
+  "workbench": "bhr_woodwork_bench",
+  "expert": false,
+  "level": 1,
+  "time": 180,
+  "ingredients": [
+    { "tag": "minecraft:logs", "count": 5 }
+  ],
+  "upgrade_to": 2
+}

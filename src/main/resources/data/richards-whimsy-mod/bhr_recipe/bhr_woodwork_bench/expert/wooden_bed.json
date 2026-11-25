@@ -1,0 +1,12 @@
+{
+  "workbench": "bhr_woodwork_bench",
+  "expert": true,
+  "level": 1,
+  "order": 0,
+  "time": 20,
+  "ingredients": [
+    { "tag": "minecraft:planks", "count": 5 },
+    { "item": "minecraft:string", "count": 4 }
+  ],
+  "result": { "item": "richards-whimsy-mod:bhr_wooden_bed", "count": 1 }
+}

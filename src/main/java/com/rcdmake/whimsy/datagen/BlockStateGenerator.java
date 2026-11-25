@@ -208,6 +208,10 @@ public final class BlockStateGenerator {
 		all.put(com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Marble.BHR_MARBLE, "");
 		all.put(com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_MarblePolished.BHR_POLISHED_MARBLE, "");
 		all.put(com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_BeachSand.BHR_BEACH_SAND, "");
+		// 加固平台（bhr_reinforced_platform，2026-12）：普通整方块，单状态 →
+		// blockstates/bhr_reinforced_platform.json 由本生成器产出，指向手写的
+		// models/block/bhr_reinforced_platform.json（cube_all + bhr/reinforced_platform 贴图）。
+		all.put(com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_ReinforcedPlatform.BHR_REINFORCED_PLATFORM, "");
 		return all;
 	}
 }

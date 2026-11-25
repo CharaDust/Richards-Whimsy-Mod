@@ -57,6 +57,8 @@ public record BHR_FoolRecipe(
 		List<BHR_FoolIngredient> ingredients,
 		Optional<Item> resultItem,
 		int resultCount,
+		Optional<String> resultFamily,
+		int familyFrom,
 		Optional<Integer> upgradeTo,
 		int order,
 		Optional<Item> container) {
@@ -67,6 +69,16 @@ public record BHR_FoolRecipe(
 	/** 是否升级配方（不给物品，直接升制作台等级）。 */
 	public boolean isUpgrade() {
 		return this.upgradeTo.isPresent();
+	}
+
+	/**
+	 * 是否为<b>产物族</b>配方：产物不是一个写死的物品，而是按「实际消耗掉的那个变种」查族决定。
+	 *
+	 * <p>用于原版「按树种拆开的一堆配方」——一条「木门」覆盖全部树种，
+	 * 见 {@link BHR_FoolFamilies}。
+	 */
+	public boolean isFamily() {
+		return this.resultFamily.isPresent();
 	}
 
 	/** 是否有内定顺序（写了 {@code order}）。 */
@@ -89,8 +101,11 @@ public record BHR_FoolRecipe(
 		return this.timeSeconds * 20;
 	}
 
-	/** 产物预览（升级配方返回空）。 */
+	/** 产物预览（升级配方与产物族配方都返回空 —— 族配方要用 {@code previewResult} 解析）。 */
 	public ItemStack resultStack() {
+		if (this.isFamily()) {
+			return ItemStack.EMPTY;
+		}
 		return this.resultItem.map(item -> new ItemStack(item, this.resultCount)).orElse(ItemStack.EMPTY);
 	}
 
@@ -129,15 +144,29 @@ public record BHR_FoolRecipe(
 		}
 
 		Optional<Item> resultItem = Optional.empty();
+		Optional<String> resultFamily = Optional.empty();
+		int familyFrom = 0;
 		int resultCount = 1;
 		if (hasResult) {
 			JsonObject result = json.getAsJsonObject("result");
-			String itemId = result.get("item").getAsString();
-			Item item = BuiltInRegistries.ITEM.getValue(Identifier.parse(itemId));
-			if (item == null || item == Items.AIR) {
-				throw new IllegalArgumentException("未知产物 id：" + itemId);
+			if (result.has("family")) {
+				// 产物族：产物由「实际消耗的变种」决定，见 BHR_FoolFamilies
+				resultFamily = Optional.of(result.get("family").getAsString());
+				familyFrom = result.has("from") ? result.get("from").getAsInt() : 0;
+				if (familyFrom < 0 || familyFrom >= ingredients.size()) {
+					throw new IllegalArgumentException("result.from 超出 ingredients 范围：" + familyFrom);
+				}
+			} else {
+				String itemId = result.has("item") ? result.get("item").getAsString() : null;
+				if (itemId == null) {
+					throw new IllegalArgumentException("result 里既没有 item 也没有 family");
+				}
+				Item item = BuiltInRegistries.ITEM.getValue(Identifier.parse(itemId));
+				if (item == null || item == Items.AIR) {
+					throw new IllegalArgumentException("未知产物 id：" + itemId);
+				}
+				resultItem = Optional.of(item);
 			}
-			resultItem = Optional.of(item);
 			resultCount = result.has("count") ? result.get("count").getAsInt() : 1;
 			if (resultCount < 1) {
 				throw new IllegalArgumentException("产物数量必须 >= 1");
@@ -169,7 +198,7 @@ public record BHR_FoolRecipe(
 		}
 
 		return new BHR_FoolRecipe(workbench, expert, level, time, List.copyOf(ingredients),
-				resultItem, resultCount, upgradeTo, order, container);
+				resultItem, resultCount, resultFamily, familyFrom, upgradeTo, order, container);
 	}
 
 	/** 日志/自检用的可读形式。 */
@@ -177,7 +206,9 @@ public record BHR_FoolRecipe(
 	public String toString() {
 		String target = this.isUpgrade()
 				? "升级到 Lv." + this.upgradeTo.get()
-				: String.valueOf(BuiltInRegistries.ITEM.getKey(this.resultItem.get())) + " x" + this.resultCount;
+				: this.isFamily()
+						? "族:" + this.resultFamily.get() + " x" + this.resultCount
+						: BuiltInRegistries.ITEM.getKey(this.resultItem.get()) + " x" + this.resultCount;
 		String containerNote = this.container
 				.map(item -> " +" + BuiltInRegistries.ITEM.getKey(item))
 				.orElse("");

@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": {
+    "top": "richards-whimsy-mod:block/bhr/feeder_chest_top",
+    "front": "richards-whimsy-mod:block/bhr/feeder_chest_front",
+    "side": "richards-whimsy-mod:block/bhr/feeder_chest_side"
+  }
+}

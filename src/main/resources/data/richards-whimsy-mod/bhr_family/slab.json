@@ -1,0 +1,5 @@
+{
+  "source_suffix": "_planks",
+  "target_suffix": "_slab",
+  "default": "minecraft:oak_slab"
+}

@@ -1,0 +1,11 @@
+{
+  "workbench": "bhr_woodwork_bench",
+  "expert": true,
+  "level": 1,
+  "time": 180,
+  "ingredients": [
+    { "tag": "minecraft:logs", "count": 10 },
+    { "item": "minecraft:iron_ingot", "count": 1 }
+  ],
+  "upgrade_to": 2
+}

@@ -54,7 +54,13 @@ public final class BHR_FoolRecipes {
 	/** 按 id 索引（保持插入顺序，方便排查）。 */
 	private static final Map<Identifier, BHR_FoolRecipe> BY_ID = new LinkedHashMap<>();
 
-	/** 全部配方，已按「等级 → id」排好序（界面滚动列表直接用这个顺序）。 */
+	/** 模组自带的配方（jar 内），已排序。 */
+	private static List<Entry> localSorted = List.of();
+
+	/** 服务端投影下发的原版配方（工作面 id → 列表），追加在本地配方之后。 */
+	private static final Map<String, List<Entry>> REMOTE = new LinkedHashMap<>();
+
+	/** 全部配方：本地在前、远端在后（界面滚动列表直接用这个顺序）。 */
 	private static List<Entry> sorted = List.of();
 
 	private static boolean loaded;
@@ -68,12 +74,130 @@ public final class BHR_FoolRecipes {
 			return;
 		}
 		loaded = true;
+		// 产物族必须先于配方：配方解析时就要校验结果里的 family 名字
+		BHR_FoolFamilies.OnInit();
 		loadFromModResources();
 	}
 
 	/** 全部配方（已排序）。 */
 	public static List<Entry> all() {
 		return sorted;
+	}
+
+	/**
+	 * 某台工作面<b>当前模式</b>要显示的配方：专家版优先，缺了退回普通版。
+	 *
+	 * <p>这条回退规则是 2026-12 加的，解决「专家模式下没写 expert 版的配方直接消失」：
+	 * 同一产物（同 item 或同族）若有专家版就用专家版，否则普通版照常出现。
+	 * 真正的「专家专属配方」（只有专家版、普通模式没有）依然只在专家模式出现。
+	 *
+	 * <p>结果按 {@code (等级, 有无 order, order, id)} 排序，与配方栏的阅读顺序一致。
+	 */
+	public static List<Entry> visibleFor(String benchId, boolean expert) {
+		Map<String, Entry[]> byOutput = new LinkedHashMap<>();
+		for (Entry entry : forWorkbench(benchId)) {
+			BHR_FoolRecipe recipe = entry.recipe();
+			if (recipe.isUpgrade()) {
+				continue;
+			}
+			Entry[] pair = byOutput.computeIfAbsent(outputKey(recipe), key -> new Entry[2]);
+			if (recipe.expert()) {
+				pair[1] = entry;
+			} else {
+				pair[0] = entry;
+			}
+		}
+		List<Entry> result = new ArrayList<>();
+		for (Entry[] pair : byOutput.values()) {
+			Entry chosen = expert ? (pair[1] != null ? pair[1] : pair[0]) : pair[0];
+			if (chosen != null) {
+				result.add(chosen);
+			}
+		}
+		result.sort(BHR_FoolRecipes::compare);
+		return result;
+	}
+
+	/**
+	 * 当前等级在升级栏里能用的下一条升级配方（升级目标最小的那一档，专家版优先 / 缺则退回普通版）。
+	 *
+	 * <p>与 {@link #forWorkbench} 分开：配方栏不显示升级配方，而升级栏恰恰只要它们。
+	 */
+	public static Entry nextUpgradeFor(String benchId, boolean expert, int level) {
+		Map<Integer, Entry[]> byTarget = new LinkedHashMap<>();
+		for (Entry entry : forWorkbench(benchId)) {
+			BHR_FoolRecipe recipe = entry.recipe();
+			if (!recipe.isUpgrade() || recipe.upgradeTo().isEmpty()) {
+				continue;
+			}
+			int target = recipe.upgradeTo().get();
+			if (target <= level) {
+				continue;
+			}
+			Entry[] pair = byTarget.computeIfAbsent(target, key -> new Entry[2]);
+			if (recipe.expert()) {
+				pair[1] = entry;
+			} else {
+				pair[0] = entry;
+			}
+		}
+		Entry best = null;
+		int bestTarget = Integer.MAX_VALUE;
+		for (Map.Entry<Integer, Entry[]> candidate : byTarget.entrySet()) {
+			Entry[] pair = candidate.getValue();
+			Entry chosen = expert ? (pair[1] != null ? pair[1] : pair[0]) : pair[0];
+			if (chosen != null && candidate.getKey() < bestTarget) {
+				bestTarget = candidate.getKey();
+				best = chosen;
+			}
+		}
+		return best;
+	}
+
+	/**
+	 * 产物预览：普通配方直接给产物，<b>族配方</b>按 {@code source}（消耗掉的那个变种）查族。
+	 *
+	 * @param source 用来决定族产物的物品（一般是「第 {@code familyFrom} 格当前选中的首选物品」）
+	 */
+	public static ItemStack previewResult(BHR_FoolRecipe recipe, Item source) {
+		if (!recipe.isFamily()) {
+			return recipe.resultStack();
+		}
+		Item target = BHR_FoolFamilies.resolve(recipe.resultFamily().orElse(""), source);
+		if (target == null || target == net.minecraft.world.item.Items.AIR) {
+			return ItemStack.EMPTY;
+		}
+		return new ItemStack(target, recipe.resultCount());
+	}
+
+	/** 排序键：等级 → 有无 order → order → id（与加载时的排序规则一致）。 */
+	public static int compare(Entry a, Entry b) {
+		int result = Integer.compare(a.recipe().level(), b.recipe().level());
+		if (result != 0) {
+			return result;
+		}
+		int aOrdered = a.recipe().hasOrder() ? 0 : 1;
+		int bOrdered = b.recipe().hasOrder() ? 0 : 1;
+		result = Integer.compare(aOrdered, bOrdered);
+		if (result != 0) {
+			return result;
+		}
+		if (aOrdered == 0) {
+			result = Integer.compare(a.recipe().order(), b.recipe().order());
+			if (result != 0) {
+				return result;
+			}
+		}
+		return a.id().toString().compareTo(b.id().toString());
+	}
+
+	/** 「同一产物」的判定键：普通配方按成品物品，族配方按族名。 */
+	private static String outputKey(BHR_FoolRecipe recipe) {
+		if (recipe.isFamily()) {
+			return "family:" + recipe.resultFamily().orElse("");
+		}
+		return "item:" + net.minecraft.core.registries.BuiltInRegistries.ITEM
+				.getKey(recipe.resultItem().orElse(net.minecraft.world.item.Items.AIR));
 	}
 
 	/** 某台制作台支持的全部配方（已排序；不含「当前等级 / 专家模式」过滤，那两个是界面的事）。 */
@@ -279,10 +403,46 @@ public final class BHR_FoolRecipes {
 				.thenComparingInt(e -> e.recipe().hasOrder() ? 0 : 1)
 				.thenComparingInt(e -> e.recipe().hasOrder() ? e.recipe().order() : 0)
 				.thenComparing(e -> e.id().toString()));
-		entries.forEach(entry -> BY_ID.put(entry.id(), entry.recipe()));
-		sorted = List.copyOf(entries);
+		localSorted = List.copyOf(entries);
+		rebuild();
 
-		RichardsWhimsyMod.LOGGER.info("[recipe] 已加载 {} 条愚者配方", sorted.size());
+		RichardsWhimsyMod.LOGGER.info("[recipe] 已加载 {} 条愚者配方", localSorted.size());
+	}
+
+	/**
+	 * 注入「服务端投影下发的原版配方」。
+	 *
+	 * <p>入口来自 {@code VanillaRecipeIndex}：服务端投影完、客户端收到 payload 后各调一次。
+	 * 注入后这些配方会出现在 {@link #all()} 与 {@link #forWorkbench} 里，
+	 * 于是「选配方 / 看成本 / 开始制作」完全复用现成代码。
+	 *
+	 * @param bySurface 工作面 id → 配方列表（顺序即界面里的显示顺序，投影器已按 id 排好）
+	 */
+	public static void setRemote(Map<String, List<BHR_FoolRecipe>> bySurface) {
+		REMOTE.clear();
+		bySurface.forEach((surface, recipes) -> {
+			List<Entry> entries = new ArrayList<>(recipes.size());
+			int index = 0;
+			for (BHR_FoolRecipe recipe : recipes) {
+				// 远端配方的 id 由「工作面 + 序号」构成：它只在本机列表里当 key 用，
+				// 保证与本地配方的 id 绝不冲突
+				entries.add(new Entry(Identifier.fromNamespaceAndPath(RichardsWhimsyMod.MOD_ID,
+						"vanilla/" + surface + "/" + index++), recipe));
+			}
+			REMOTE.put(surface, List.copyOf(entries));
+		});
+		rebuild();
+	}
+
+	/** 重算「本地 + 远端」的合并列表与 id 索引。 */
+	private static void rebuild() {
+		List<Entry> combined = new ArrayList<>(localSorted);
+		REMOTE.values().forEach(combined::addAll);
+		BY_ID.clear();
+		for (Entry entry : combined) {
+			BY_ID.put(entry.id(), entry.recipe());
+		}
+		sorted = List.copyOf(combined);
 	}
 
 	private static Entry readOne(Path root, Path file) {

@@ -1,0 +1,21 @@
+{
+  "workbench": "bhr_woodwork_bench",
+  "expert": false,
+  "level": 1,
+  "order": 11,
+  "time": 20,
+  "ingredients": [
+    {
+      "item": "minecraft:chest",
+      "count": 1
+    },
+    {
+      "item": "richards-whimsy-mod:bhr_tin_bucket",
+      "count": 1
+    }
+  ],
+  "result": {
+    "item": "richards-whimsy-mod:bhr_feeder_chest",
+    "count": 1
+  }
+}

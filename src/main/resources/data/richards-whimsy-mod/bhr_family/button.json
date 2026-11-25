@@ -1,0 +1,5 @@
+{
+  "source_suffix": "_planks",
+  "target_suffix": "_button",
+  "default": "minecraft:oak_button"
+}

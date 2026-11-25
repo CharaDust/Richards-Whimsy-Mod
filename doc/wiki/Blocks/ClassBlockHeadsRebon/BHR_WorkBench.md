@@ -143,3 +143,24 @@
   「移除」会在补丁里留下「显式没有」的记号，物品堆与新建的不再相同、堆叠会分裂（26.2 实测踩过）。
 - 26.2 的 `BlockEntityType` 已经没有 `Builder`，直接 `new BlockEntityType<>(工厂, 合法方块集合)` 构造。
 - 方块的 `codec()` 由父类 `Block` 提供，不需要另写。
+
+---
+
+## 2026-12 重构：并入工作面内核
+
+制作台不再自带实体 / 菜单 / 界面，改为 `extends WorkingSurfaceBlock`，只声明自己的规格：
+
+```java
+public static final WorkingSurfaceSpec SPEC = new WorkingSurfaceSpec(
+        "bhr_workbench", "textures/gui/container/workbench.png",
+        29, 0, 0, 0, 0, null);   // 29 级、无燃料、面板不右移
+```
+
+- **实体 / 菜单 / 界面**：换成 `WorkingSurfaceEntity` / `WorkingSurfaceMenu` / `WorkingSurfaceScreen`，三台工作面共用（详见 [工作面](../Misc/工作面.md)）；
+- **保留在本类**：29 级音效分档（`soundFor`）、`SPEC`、注册链（方块 → 带组件物品 → 方块实体类型 → 菜单类型）；
+- **本类不再有**：`BHR_WorkBenchEntity` / `BHR_WorkBenchMenu` / `BHR_WorkBenchScreen`
+  —— 三个类已并入内核，旧文件保留为一行注释的空壳，可随时删除；
+- **行为变化**：等级闸门从「只盖红纱」改为**真的拦开始制作**（`startCraft` 校验 `recipe.level()`）；
+- **新增**：专家模式「专家版优先、缺了退回普通版」；配方栏支持鼠标滚轮逐条翻页；
+  `container`（容器返还）字段以前是死字段，现在每结算一份真的会吐出容器。
+

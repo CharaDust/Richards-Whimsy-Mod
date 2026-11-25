@@ -41,3 +41,16 @@ accessible class net/minecraft/world/inventory/MenuType$MenuSupplier
 accessible method net/minecraft/world/inventory/MenuType <init> (Lnet/minecraft/world/inventory/MenuType$MenuSupplier;Lnet/minecraft/world/flag/FeatureFlagSet;)V
 accessible class net/minecraft/client/gui/screens/MenuScreens$ScreenConstructor
 accessible method net/minecraft/client/gui/screens/MenuScreens register (Lnet/minecraft/world/inventory/MenuType;Lnet/minecraft/client/gui/screens/MenuScreens$ScreenConstructor;)V
+
+# ---------------------------------------------------------------------------
+# 喂食箱子（bhr_feeder_chest）的「动物自己走过来吃饭」需要挂一条 Goal：
+#
+#   Mob.goalSelector 是 protected final —— 原版动物各自在自己的 registerGoals() 里
+#   装配目标，外部没有任何「再挂一个」的入口。两条路：
+#     1) Mixin Mob#registerGoals（阶梯 5，三处登记 + require = 0）；
+#     2) 本项目的选择：ServerEntityEvents.ENTITY_LOAD 里对每个动物 addGoal（阶梯 4），
+#        只需要把下面这个字段放开成 public。
+#   凡是「不改行为、只放开可见性」都用这一类条目，不要为它写 Mixin。
+#   消费方：block/ClassBlockHeadsRebon/BHR_FeederChestGoal#register()
+# ---------------------------------------------------------------------------
+accessible field net/minecraft/world/entity/Mob goalSelector Lnet/minecraft/world/entity/ai/goal/GoalSelector;

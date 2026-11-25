@@ -1,0 +1,5 @@
+{
+  "source_suffix": "_planks",
+  "target_suffix": "_fence_gate",
+  "default": "minecraft:oak_fence_gate"
+}

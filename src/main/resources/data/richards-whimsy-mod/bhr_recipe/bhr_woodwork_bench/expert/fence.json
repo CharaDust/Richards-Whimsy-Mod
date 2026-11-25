@@ -1,0 +1,11 @@
+{
+  "workbench": "bhr_woodwork_bench",
+  "expert": true,
+  "level": 1,
+  "order": 9,
+  "time": 20,
+  "ingredients": [
+    { "tag": "minecraft:planks", "count": 2 }
+  ],
+  "result": { "item": "richards-whimsy-mod:bhr_fruit_fence", "count": 2 }
+}

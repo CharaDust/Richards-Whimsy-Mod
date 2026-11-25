@@ -1,0 +1,5 @@
+{
+  "source_suffix": "_planks",
+  "target_suffix": "_pressure_plate",
+  "default": "minecraft:oak_pressure_plate"
+}

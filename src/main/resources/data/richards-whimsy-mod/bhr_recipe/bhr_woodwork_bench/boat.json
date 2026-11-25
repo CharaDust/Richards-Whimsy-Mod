@@ -1,0 +1,21 @@
+{
+  "workbench": "bhr_woodwork_bench",
+  "expert": false,
+  "level": 1,
+  "order": 2,
+  "time": 20,
+  "ingredients": [
+    {
+      "tag": "minecraft:planks",
+      "count": 2
+    },
+    {
+      "item": "richards-whimsy-mod:bhr_linen",
+      "count": 2
+    }
+  ],
+  "result": {
+    "item": "minecraft:oak_boat",
+    "count": 1
+  }
+}

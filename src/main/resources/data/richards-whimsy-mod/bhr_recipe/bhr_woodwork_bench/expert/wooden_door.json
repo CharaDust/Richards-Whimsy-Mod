@@ -1,0 +1,12 @@
+{
+  "workbench": "bhr_woodwork_bench",
+  "expert": true,
+  "level": 1,
+  "order": 4,
+  "time": 20,
+  "ingredients": [
+    { "tag": "minecraft:planks", "count": 10 },
+    { "item": "richards-whimsy-mod:bhr_bronze_ingot", "count": 1 }
+  ],
+  "result": { "item": "richards-whimsy-mod:bhr_fruit_door", "count": 1 }
+}

@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "richards-whimsy-mod:block/bhr/woodwork_bench_top",
+    "bottom": "richards-whimsy-mod:block/bhr/woodwork_bench_top",
+    "side": "richards-whimsy-mod:block/bhr/woodwork_bench_side",
+    "particle": "richards-whimsy-mod:block/bhr/woodwork_bench_top"
+  }
+}

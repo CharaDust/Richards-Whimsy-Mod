@@ -4,6 +4,7 @@ import com.rcdmake.whimsy.ModCreativeTabs;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_BeachSand;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Campfire;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Compost;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_FeederChest;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_GemAmethyst;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_GemDiamond;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_GemEmerald;
@@ -25,6 +26,8 @@ import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_OreSlateUnknown;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_OreSoilClay;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_OreSoilFlint;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_OreSoilUnknown;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_ReinforcedPlatform;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_WoodworkBench;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Slate;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_SlateCobble;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Soil;
@@ -65,6 +68,10 @@ import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_PineCone;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_PricklyPear;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_TimeCrystal;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Worm;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_BronzeIngot;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_CopperIngot;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Linen;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_TinIngot;
 import net.minecraft.world.item.ItemStack;
 
 /**
@@ -171,6 +178,12 @@ public final class BHR_CreativeTabs {
 					output.accept(BHR_WorkBench.BHR_WORK_BENCH_ITEM);          // 制作台（1 级）
 					// 简易篝火：带燃料的制作台（固定 1 级），与制作台相邻摆放
 					output.accept(BHR_Campfire.BHR_CAMPFIRE_ITEM);             // 简易篝火
+					// 木工台（2026-12）：制作台的木工版（等级 1~3，目前只有 L1 配方）
+					output.accept(BHR_WoodworkBench.BHR_WOODWORK_BENCH_ITEM);  // 木工台
+					// 加固平台：木工台产物（木 + 铁），普通整方块
+					output.accept(BHR_ReinforcedPlatform.BHR_REINFORCED_PLATFORM); // 加固平台
+					// 喂食箱子：27 格容器，动物会自己走过来吃（紧挨两台机器，同属「BHR 的机器类方块」）
+					output.accept(BHR_FeederChest.BHR_FEEDER_CHEST_ITEM);      // 喂食箱子
 					// —— 宝石 ——
 					output.accept(BHR_GemAmethyst.BHR_GEM_AMETHYST);           // 紫锂辉
 					output.accept(BHR_GemSapphire.BHR_GEM_SAPPHIRE);           // 蓝宝石
@@ -204,6 +217,12 @@ public final class BHR_CreativeTabs {
 					output.accept(BHR_WaterTinBucket.BHR_WATER_TIN_BUCKET);    // 锡水桶
 					output.accept(BHR_Flour.BHR_FLOUR);                        // 面粉
 					output.accept(BHR_MineralSalt.BHR_MINERAL_SALT);           // 无机盐
+					// —— 材料（工作面线，2026-12）——
+					// 木工台配方用到的四件材料：亚麻布 / 青铜锭（美术已就位）、铜锭 / 锡锭（贴图待补，暂借原版）
+					output.accept(BHR_Linen.BHR_LINEN);                        // 亚麻布
+					output.accept(BHR_BronzeIngot.BHR_BRONZE_INGOT);           // 青铜锭
+					output.accept(BHR_CopperIngot.BHR_COPPER_INGOT);           // 铜锭
+					output.accept(BHR_TinIngot.BHR_TIN_INGOT);                 // 锡锭
 					// —— 开发期测试物品（wiki 有独立页，但内容不是玩法内容） ——
 					// 宝石祝福测试棒：右键给副手物品加一种祝福、潜行右键清空。
 					// 排在最后，避免把测试用品混进宝石 / 食物的分组里。

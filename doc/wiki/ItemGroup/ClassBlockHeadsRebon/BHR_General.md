@@ -29,6 +29,11 @@
   差别只在愚者模式的睡觉档位 `WOODEN`）
 ### 其他方块
 - 堆肥块
+- 制作台（2026-10；2026-12 并入工作面内核）
+- 简易篝火（2026-11；2026-12 并入工作面内核，标题开始显示等级）
+- 木工台（2026-12 新增，见 [BHR_WoodworkBench](../../Blocks/ClassBlockHeadsRebon/BHR_WoodworkBench.md)）
+- 加固平台（2026-12 新增，见 [BHR_ReinforcedPlatform](../../Blocks/ClassBlockHeadsRebon/BHR_ReinforcedPlatform.md)）
+- 喂食箱子（见 [BHR_FeederChest](../../Blocks/ClassBlockHeadsRebon/BHR_FeederChest.md)）
 ### 宝石
 - 紫锂辉、蓝宝石、祖母绿、红刚玉、宝石钻石
 ### 消耗品
@@ -40,6 +45,8 @@
 - 生鱼片、熟鱼片、生渡渡鸟肉、熟渡渡鸟肉、煎饼（篝火线，2026-11）
 ### 材料
 - 锡箔、锡桶、锡水桶、面粉、无机盐（篝火线，2026-11）
+- 亚麻布、青铜锭、铜锭、锡锭（工作面线，2026-12，见 [工作面线材料](../../Items/ClassBlockHeadsRebon/BHR_工作面线材料.md)；
+  亚麻布 / 青铜锭有贴图，铜锭 / 锡锭暂时借用原版贴图占位）
 ### 测试物品（非玩法内容）
 - 宝石祝福测试棒（见 [BHR_GemBlessTest](../Items/ClassBlockHeadsRebon/BHR_GemBlessTest.md)）
 

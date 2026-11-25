@@ -183,4 +183,22 @@ new Fuel(List.of(11 种原版木板…), 5, ItemTags.PLANKS)
 - 10 件新材料 / 食物物品见 [篝火线物品](../Items/ClassBlockHeadsRebon/BHR_CampfireLine.md)。
 
 ## 客户端
-`RichardsWhimsyModClient` 里 `MenuScreens.register(BHR_CampfireMenu.BHR_CAMPFIRE_MENU, BHR_CampfireScreen::new)`。
+`RichardsWhimsyModClient` 里把 `WorkingSurfaceScreen` 接到本台的菜单类型
+（2026-12 起三台共用同一个屏幕类，旧的 `BHR_CampfireMenu` / `BHR_CampfireScreen` 已并入工作面内核）。
+
+---
+
+## 2026-12 变更：并入工作面内核
+
+- **实体 / 菜单 / 界面**：换成 `WorkingSurfaceEntity` / `WorkingSurfaceMenu` / `WorkingSurfaceScreen`；
+  本类只保留 `SPEC`（2 级 / 3 档燃料 / `fuel_workbench` 底图 / 面板右移 18）、燃料表 `fuelList()`、
+  `LIT` 状态、0.25 格碰撞箱与注册链。
+- **进度模型改回时间差**：原来是「逐 tick `progress++ / fuel--`」，现在与制作台统一成
+  「虚拟时间 − 本份开始刻」的现算模型；「缺燃料暂停」用**区间**表达（记下这批燃料烧到哪一刻，
+  补燃料时把那段区间一次性累加进累计暂停）。于是本台**不再注册 ticker**。
+- **心跳只剩随机刻**（`randomTicks()`）：结算区间 + 把 `lit` 状态跟上，一次只做几次整数比较；
+  打开界面时由菜单 `broadcastChanges` 立即结算，不依赖随机刻。
+- **标题带上等级**：`简易篝火 - 等级 %s`（此前漏写等级参数，本次补上）。
+- **等级闸门**：燃料台原先就有，现由内核统一提供（制作台也一并获得）。
+- 燃料档位类型从 `BHR_Campfire.Fuel` 提到公共包 `FuelOption`，行为不变（含 `#minecraft:planks` 标签兜底）。
+- ⚠️ 上文凡是描述「逐 tick 累加 / ticker / `progress++`」的句子，均已按本节作废。

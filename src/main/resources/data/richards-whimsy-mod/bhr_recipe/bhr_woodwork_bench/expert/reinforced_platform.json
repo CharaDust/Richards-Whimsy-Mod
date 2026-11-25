@@ -1,0 +1,12 @@
+{
+  "workbench": "bhr_woodwork_bench",
+  "expert": true,
+  "level": 1,
+  "order": 7,
+  "time": 20,
+  "ingredients": [
+    { "tag": "minecraft:planks", "count": 5 },
+    { "item": "minecraft:iron_ingot", "count": 1 }
+  ],
+  "result": { "item": "richards-whimsy-mod:bhr_reinforced_platform", "count": 5 }
+}

@@ -3,6 +3,9 @@ package com.rcdmake.whimsy;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_BeachSand;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Campfire;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_Compost;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_FeederChest;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_WoodworkBench;
+import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_ReinforcedPlatform;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_GemAmethyst;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_GemDiamond;
 import com.rcdmake.whimsy.block.ClassBlockHeadsRebon.BHR_GemEmerald;
@@ -94,6 +97,10 @@ import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_PineCone;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_PricklyPear;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_TimeCrystal;
 import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Worm;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_BronzeIngot;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_CopperIngot;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_Linen;
+import com.rcdmake.whimsy.item.ClassBlockHeadsRebon.BHR_TinIngot;
 import com.rcdmake.whimsy.item.ClassRandomThings.RDT_FireHormonePotion;
 import com.rcdmake.whimsy.item.ClassRandomThings.RDT_PoisonHormonePotion;
 import com.rcdmake.whimsy.item.ClassWhimsyIdea.potion.WI_PlaguePotion;
@@ -253,6 +260,20 @@ public class RichardsWhimsyMod implements ModInitializer {
 		// 顺序：它不依赖制作台，但放在其后更好读（同类机器排在一起）。
 		BHR_Campfire.OnInit();
 
+		// 木工台（2026-12 新增）：制作台的「木工版」——同一套工作面内核，只是配方表不同。
+		// 等级 1~3（目前只有 L1 配方），无燃料，底图复用 workbench.png。
+		BHR_WoodworkBench.OnInit();
+
+		// 加固平台（2026-12 新增）：木工台的产物，普通整方块（木 + 铁）。
+		BHR_ReinforcedPlatform.OnInit();
+
+		// 喂食箱子（2026-11 新增）：27 格容器，按熔炉规则面朝玩家放置。
+		// 它内部按「注册方块 → 方块物品 → 方块实体类型 → 实体加载事件」的顺序做，所以这里只要一条。
+		// ⚠️ 那条 ENTITY_LOAD 事件必须早于任何动物被加载 —— 放在方块区里也满足
+		//    （方块注册都发生在服务器启动之前），但不要把它挪到任何「进服之后才跑」的位置。
+		// 界面复用原版三行箱子壳（ChestMenu.threeRows），没有自定义 MenuType / Screen。
+		BHR_FeederChest.OnInit();
+
 		// 第二批：5 个 #deprecated 集合类拆分成 25 个独立类（注册名对照表见 doc/agent/deepseek/06）
 		// 顺序约定：家族父类必须先就位（BHR_Soil 在前，BHR_OreSoilFlint / Clay 继承它），
 		// 其余按 wiki 物品栏页「包含物品」的分组顺序排列，读起来与游戏里看到的顺序一致。
@@ -330,6 +351,13 @@ public class RichardsWhimsyMod implements ModInitializer {
 		BHR_WaterTinBucket.OnInit(); // 锡水桶（只能倒水，倒完变空锡桶）
 		BHR_Flour.OnInit();          // 面粉（煎饼原料）
 		BHR_MineralSalt.OnInit();    // 无机盐（煮水所得，煎饼原料）
+		// —— 工作面线材料（2026-12）：木工台配方要用的四件 ——
+		// 亚麻布 / 青铜锭有美术资源；铜锭 / 锡锭只有白板物品（贴图待补，模型暂借原版占位）。
+		// 这四件必须早于 BHR_FoolRecipes.OnInit()：配方按 id 查物品，晚了那一条会被跳过。
+		BHR_Linen.OnInit();           // 亚麻布（Linen）
+		BHR_BronzeIngot.OnInit();     // 青铜锭
+		BHR_CopperIngot.OnInit();     // 铜锭
+		BHR_TinIngot.OnInit();        // 锡锭
 		// —— 食物 ——
 		BHR_RawFish.OnInit();         // 生鱼片（2 / 0.1，参考原版生鳕鱼）
 		BHR_CookedFish.OnInit();      // 熟鱼片（5 / 0.6，参考原版熟鳕鱼）
@@ -385,6 +413,11 @@ public class RichardsWhimsyMod implements ModInitializer {
 		// --- 愚者配方（制作台用）---
 		// ⚠️ 必须放在所有方块/物品注册之后：配方文件里按 id 查物品，早于注册会解析失败。
 		com.rcdmake.whimsy.recipe.ClassBlockHeadsRebon.BHR_FoolRecipes.OnInit();
+
+		// --- 原版配方投影的传输层 ---
+		// 注册 payload 类型 + 数据包重载钩子。必须在任何玩家打开工作面界面之前完成注册，
+		// 所以放在初始化链的末尾就够（主类在服务器启动前执行完）。
+		com.rcdmake.whimsy.surface.SurfaceNetwork.OnInit();
 
 		LOGGER.info("[{}] 初始化完成", MOD_ID);
 	}
